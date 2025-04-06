@@ -11,8 +11,7 @@ namespace PTS.API.Models.Domain
 
         [MaxLength(50)]
         public string version { get; set; }
-
-        [Required]        
+  
         public int product_id { get; set; }
     }
 }
