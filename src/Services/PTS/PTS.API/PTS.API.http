@@ -1,0 +1,6 @@
+@PTS.API_HostAddress = http://localhost:5184
+
+GET {{PTS.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
