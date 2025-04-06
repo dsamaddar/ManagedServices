@@ -29,5 +29,7 @@ namespace PTS.API.Models.Domain
 
         [ForeignKey("Company")]
         public int PrintingCompanyId { get; set; }
+
+        public ICollection<Images> Images { get; set; } = new List<Images>();
     }
 }

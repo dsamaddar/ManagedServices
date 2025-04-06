@@ -1,17 +1,24 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PTS.API.Models.Domain
 {
     public class Images
     {
-        public int id { get; set; }
+        [Key]
+        [Column(Order = 0)]
+        public int Id { get; set; }
 
         [MaxLength(50)]
-        public string code { get; set; }
+        [Column(Order = 1)]
+        public string Code { get; set; }
 
         [MaxLength(50)]
-        public string version { get; set; }
-  
-        public int product_id { get; set; }
+        [Column(Order = 2)]
+        public string Version { get; set; }
+
+        [Column(Order = 3)]
+        [ForeignKey("Product")]
+        public int ProductId { get; set; }
     }
 }
