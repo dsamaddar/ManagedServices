@@ -11,12 +11,13 @@ namespace PTS.API.Data
 
         public DbSet<Category> Categories { get; set; }
 
-        public DbSet<Company> Companies { get; set; }
         public DbSet<Project> Projects { get; set; }
 
-        public DbSet<Images> Images { get; set; }
         public DbSet<Attachment> Attachments { get; set; }
         public DbSet<Product> Products { get; set; }
+
+        public DbSet<CylinderCompany> CylinderCompanies { get; set; }
+        public DbSet<PrintingCompany> PrintingCompanies { get; set; }
 
 
 

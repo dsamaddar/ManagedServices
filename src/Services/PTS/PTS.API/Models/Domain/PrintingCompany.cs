@@ -1,9 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
 
 namespace PTS.API.Models.Domain
 {
-    public class Company
+    public class PrintingCompany
     {
         [Key]
         [Column(Order = 0)]
@@ -14,14 +14,10 @@ namespace PTS.API.Models.Domain
         [Column(Order = 1)]
         public string Name { get; set; }
 
-        [Required]
-        [MaxLength(50)]
-        [Column(Order = 2)]
-        public string CompanyType { get; set; }
-
         [MaxLength(500)]
-        [Column(Order = 3)]
+        [Column(Order = 2)]
         public string Description { get; set; }
 
+        public ICollection<Product> Products { get; set; } = new List<Product>();
     }
 }

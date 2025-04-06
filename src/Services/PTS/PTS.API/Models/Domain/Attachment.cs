@@ -20,5 +20,9 @@ namespace PTS.API.Models.Domain
         [MaxLength(500)]
         [Column(Order = 3)]
         public string Tag { get; set; }
+
+        [ForeignKey("Product")]
+        [Column(Order = 4)]
+        public int ProductId { get; set; }
     }
 }

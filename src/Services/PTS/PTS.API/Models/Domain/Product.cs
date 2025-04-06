@@ -33,30 +33,26 @@ namespace PTS.API.Models.Domain
         [MaxLength(100)]
         public string PackType { get; set; }
 
-        [Required]
         [Column(Order = 7)]
-        [ForeignKey("Project")]
-        public string ProjectId { get; set; }
-
-        [Column(Order = 8)]
         [MaxLength(100)]
         public string Version { get; set; }
 
-        [Column(Order = 9)]
+        [Column(Order = 8)]
         public DateTime ProjectDate { get; set; }
 
-        [Column(Order = 10)]
+        [Column(Order = 9)]
         [MaxLength(50)]
         public string Barcode { get; set; }
 
-        [ForeignKey("Company")]
-        [Column(Order = 11)]
+        [ForeignKey("CylinderCompany")]
+        [Column(Order = 10)]
         public int CylinderCompanyId { get; set; }
 
-        [Column(Order = 12)]
-        [ForeignKey("Company")]
+        [Column(Order = 11)]
+        [ForeignKey("PrintingCompany")]
         public int PrintingCompanyId { get; set; }
 
-        public ICollection<Images> Images { get; set; } = new List<Images>();
+        public ICollection<Attachment> Attachments { get; set; } = new List<Attachment>();
+
     }
 }

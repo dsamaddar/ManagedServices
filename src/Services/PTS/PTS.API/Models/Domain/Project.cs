@@ -21,5 +21,7 @@ namespace PTS.API.Models.Domain
         [Column(Order = 3)]
         [MaxLength(500)]
         public string Description { get; set; }
+
+        public ICollection<Product> Products { get; set; } = new List<Product>();
     }
 }

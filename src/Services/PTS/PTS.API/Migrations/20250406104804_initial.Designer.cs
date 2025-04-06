@@ -12,7 +12,7 @@ using PTS.API.Data;
 namespace PTS.API.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250406100537_initial")]
+    [Migration("20250406104804_initial")]
     partial class initial
     {
         /// <inheritdoc />
@@ -46,6 +46,10 @@ namespace PTS.API.Migrations
                         .HasColumnType("nvarchar(100)")
                         .HasColumnOrder(1);
 
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int")
+                        .HasColumnOrder(4);
+
                     b.Property<string>("Tag")
                         .IsRequired()
                         .HasMaxLength(500)
@@ -53,6 +57,8 @@ namespace PTS.API.Migrations
                         .HasColumnOrder(3);
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
 
                     b.ToTable("Attachments");
                 });
@@ -83,7 +89,7 @@ namespace PTS.API.Migrations
                     b.ToTable("Categories");
                 });
 
-            modelBuilder.Entity("PTS.API.Models.Domain.Company", b =>
+            modelBuilder.Entity("PTS.API.Models.Domain.CylinderCompany", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -92,17 +98,11 @@ namespace PTS.API.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("CompanyType")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)")
-                        .HasColumnOrder(2);
-
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)")
-                        .HasColumnOrder(3);
+                        .HasColumnOrder(2);
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -112,10 +112,10 @@ namespace PTS.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Companies");
+                    b.ToTable("CylinderCompanies");
                 });
 
-            modelBuilder.Entity("PTS.API.Models.Domain.Images", b =>
+            modelBuilder.Entity("PTS.API.Models.Domain.PrintingCompany", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -124,27 +124,21 @@ namespace PTS.API.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Code")
+                    b.Property<string>("Description")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)")
-                        .HasColumnOrder(1);
-
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int")
-                        .HasColumnOrder(3);
-
-                    b.Property<string>("Version")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)")
                         .HasColumnOrder(2);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
+                        .HasColumnOrder(1);
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("Images");
+                    b.ToTable("PrintingCompanies");
                 });
 
             modelBuilder.Entity("PTS.API.Models.Domain.Product", b =>
@@ -160,7 +154,7 @@ namespace PTS.API.Migrations
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)")
-                        .HasColumnOrder(10);
+                        .HasColumnOrder(9);
 
                     b.Property<string>("Brand")
                         .IsRequired()
@@ -174,7 +168,7 @@ namespace PTS.API.Migrations
 
                     b.Property<int>("CylinderCompanyId")
                         .HasColumnType("int")
-                        .HasColumnOrder(11);
+                        .HasColumnOrder(10);
 
                     b.Property<string>("FlavourType")
                         .IsRequired()
@@ -196,16 +190,14 @@ namespace PTS.API.Migrations
 
                     b.Property<int>("PrintingCompanyId")
                         .HasColumnType("int")
-                        .HasColumnOrder(12);
+                        .HasColumnOrder(11);
 
                     b.Property<DateTime>("ProjectDate")
                         .HasColumnType("datetime2")
-                        .HasColumnOrder(9);
+                        .HasColumnOrder(8);
 
-                    b.Property<string>("ProjectId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnOrder(7);
+                    b.Property<int?>("ProjectId")
+                        .HasColumnType("int");
 
                     b.Property<string>("SKU")
                         .IsRequired()
@@ -217,9 +209,17 @@ namespace PTS.API.Migrations
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)")
-                        .HasColumnOrder(8);
+                        .HasColumnOrder(7);
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
+
+                    b.HasIndex("CylinderCompanyId");
+
+                    b.HasIndex("PrintingCompanyId");
+
+                    b.HasIndex("ProjectId");
 
                     b.ToTable("Products");
                 });
@@ -256,10 +256,10 @@ namespace PTS.API.Migrations
                     b.ToTable("Projects");
                 });
 
-            modelBuilder.Entity("PTS.API.Models.Domain.Images", b =>
+            modelBuilder.Entity("PTS.API.Models.Domain.Attachment", b =>
                 {
                     b.HasOne("PTS.API.Models.Domain.Product", null)
-                        .WithMany("Images")
+                        .WithMany("Attachments")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -267,7 +267,52 @@ namespace PTS.API.Migrations
 
             modelBuilder.Entity("PTS.API.Models.Domain.Product", b =>
                 {
-                    b.Navigation("Images");
+                    b.HasOne("PTS.API.Models.Domain.Category", null)
+                        .WithMany("Products")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("PTS.API.Models.Domain.CylinderCompany", null)
+                        .WithMany("Products")
+                        .HasForeignKey("CylinderCompanyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("PTS.API.Models.Domain.PrintingCompany", null)
+                        .WithMany("Products")
+                        .HasForeignKey("PrintingCompanyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("PTS.API.Models.Domain.Project", null)
+                        .WithMany("Products")
+                        .HasForeignKey("ProjectId");
+                });
+
+            modelBuilder.Entity("PTS.API.Models.Domain.Category", b =>
+                {
+                    b.Navigation("Products");
+                });
+
+            modelBuilder.Entity("PTS.API.Models.Domain.CylinderCompany", b =>
+                {
+                    b.Navigation("Products");
+                });
+
+            modelBuilder.Entity("PTS.API.Models.Domain.PrintingCompany", b =>
+                {
+                    b.Navigation("Products");
+                });
+
+            modelBuilder.Entity("PTS.API.Models.Domain.Product", b =>
+                {
+                    b.Navigation("Attachments");
+                });
+
+            modelBuilder.Entity("PTS.API.Models.Domain.Project", b =>
+                {
+                    b.Navigation("Products");
                 });
 #pragma warning restore 612, 618
         }
