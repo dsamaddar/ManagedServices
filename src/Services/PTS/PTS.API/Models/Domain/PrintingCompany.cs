@@ -12,11 +12,11 @@ namespace PTS.API.Models.Domain
         [Required]
         [MaxLength(100)]
         [Column(Order = 1)]
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         [MaxLength(500)]
         [Column(Order = 2)]
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
         public ICollection<Product> Products { get; set; } = new List<Product>();
     }

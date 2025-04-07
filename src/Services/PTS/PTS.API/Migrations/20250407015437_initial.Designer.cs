@@ -12,7 +12,7 @@ using PTS.API.Data;
 namespace PTS.API.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250406104804_initial")]
+    [Migration("20250407015437_initial")]
     partial class initial
     {
         /// <inheritdoc />
@@ -35,13 +35,11 @@ namespace PTS.API.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)")
                         .HasColumnOrder(2);
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)")
                         .HasColumnOrder(1);
@@ -51,7 +49,6 @@ namespace PTS.API.Migrations
                         .HasColumnOrder(4);
 
                     b.Property<string>("Tag")
-                        .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)")
                         .HasColumnOrder(3);
@@ -73,13 +70,11 @@ namespace PTS.API.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)")
                         .HasColumnOrder(2);
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)")
                         .HasColumnOrder(1);
@@ -99,7 +94,6 @@ namespace PTS.API.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)")
                         .HasColumnOrder(2);
@@ -125,7 +119,6 @@ namespace PTS.API.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)")
                         .HasColumnOrder(2);
@@ -151,13 +144,11 @@ namespace PTS.API.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Barcode")
-                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)")
                         .HasColumnOrder(9);
 
                     b.Property<string>("Brand")
-                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)")
                         .HasColumnOrder(2);
@@ -171,19 +162,16 @@ namespace PTS.API.Migrations
                         .HasColumnOrder(10);
 
                     b.Property<string>("FlavourType")
-                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)")
                         .HasColumnOrder(3);
 
                     b.Property<string>("Origin")
-                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)")
                         .HasColumnOrder(4);
 
                     b.Property<string>("PackType")
-                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)")
                         .HasColumnOrder(6);
@@ -200,13 +188,11 @@ namespace PTS.API.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("SKU")
-                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)")
                         .HasColumnOrder(5);
 
                     b.Property<string>("Version")
-                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)")
                         .HasColumnOrder(7);
@@ -234,19 +220,16 @@ namespace PTS.API.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Code")
-                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)")
                         .HasColumnOrder(2);
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)")
                         .HasColumnOrder(3);
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)")
                         .HasColumnOrder(1);

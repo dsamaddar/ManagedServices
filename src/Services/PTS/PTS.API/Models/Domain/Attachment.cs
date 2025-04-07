@@ -11,15 +11,15 @@ namespace PTS.API.Models.Domain
 
         [MaxLength(100)]
         [Column(Order = 1)]
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         [MaxLength(500)]
         [Column(Order = 2)]
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
         [MaxLength(500)]
         [Column(Order = 3)]
-        public string Tag { get; set; }
+        public string? Tag { get; set; }
 
         [ForeignKey("Product")]
         [Column(Order = 4)]

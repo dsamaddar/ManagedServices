@@ -17,8 +17,8 @@ namespace PTS.API.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -32,7 +32,7 @@ namespace PTS.API.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false)
+                    Description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -46,7 +46,7 @@ namespace PTS.API.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false)
+                    Description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -59,9 +59,9 @@ namespace PTS.API.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Code = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    Code = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -75,14 +75,14 @@ namespace PTS.API.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     CategoryId = table.Column<int>(type: "int", nullable: false),
-                    Brand = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    FlavourType = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Origin = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    SKU = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    PackType = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Version = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Brand = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    FlavourType = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    Origin = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    SKU = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    PackType = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    Version = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     ProjectDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Barcode = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Barcode = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     CylinderCompanyId = table.Column<int>(type: "int", nullable: false),
                     PrintingCompanyId = table.Column<int>(type: "int", nullable: false),
                     ProjectId = table.Column<int>(type: "int", nullable: true)
@@ -121,9 +121,9 @@ namespace PTS.API.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
-                    Tag = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
+                    Tag = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
                     ProductId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
