@@ -19,7 +19,24 @@ namespace PTS.API.Data
         public DbSet<CylinderCompany> CylinderCompanies { get; set; }
         public DbSet<PrintingCompany> PrintingCompanies { get; set; }
 
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            builder.Entity<Category>()
+                .HasIndex(u => u.Name)
+                .IsUnique(true);
 
+            builder.Entity<Project>()
+                .HasIndex(u => u.Name)
+                .IsUnique(true);
+
+            builder.Entity<CylinderCompany>()
+                .HasIndex(u => u.Name)
+                .IsUnique(true);
+
+            builder.Entity<PrintingCompany>()
+                .HasIndex(u => u.Name)
+                .IsUnique(true);
+        }
 
     }
 }

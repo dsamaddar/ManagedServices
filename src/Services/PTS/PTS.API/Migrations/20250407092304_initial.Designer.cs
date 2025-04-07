@@ -12,7 +12,7 @@ using PTS.API.Data;
 namespace PTS.API.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250407015437_initial")]
+    [Migration("20250407092304_initial")]
     partial class initial
     {
         /// <inheritdoc />
@@ -81,6 +81,10 @@ namespace PTS.API.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Name")
+                        .IsUnique()
+                        .HasFilter("[Name] IS NOT NULL");
+
                     b.ToTable("Categories");
                 });
 
@@ -106,6 +110,9 @@ namespace PTS.API.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Name")
+                        .IsUnique();
+
                     b.ToTable("CylinderCompanies");
                 });
 
@@ -130,6 +137,9 @@ namespace PTS.API.Migrations
                         .HasColumnOrder(1);
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
 
                     b.ToTable("PrintingCompanies");
                 });
@@ -235,6 +245,10 @@ namespace PTS.API.Migrations
                         .HasColumnOrder(1);
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique()
+                        .HasFilter("[Name] IS NOT NULL");
 
                     b.ToTable("Projects");
                 });

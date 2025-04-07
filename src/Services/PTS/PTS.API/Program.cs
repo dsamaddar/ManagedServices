@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using PTS.API.Data;
+using PTS.API.Repositories.Implementation;
+using PTS.API.Repositories.Interface;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +16,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("PTSConnectionString"));
 });
+
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 
 var app = builder.Build();
 
