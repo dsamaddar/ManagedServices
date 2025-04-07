@@ -18,7 +18,14 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("PTSConnectionString_MOAR"));
 });
 
+builder.Services.AddScoped<IAttachmentRepository, AttachmentRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<ICylinderCompanyRepository, CylinderCompanyRepository>();
+builder.Services.AddScoped<IPrintingCompanyRepository, PrintingCompanyRepository>();
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
+
+
 
 var app = builder.Build();
 
