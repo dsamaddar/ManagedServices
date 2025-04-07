@@ -17,6 +17,7 @@ namespace PTS.API.Controllers
             this.cylinderCompanyRepository = cylinderCompanyRepository;
         }
 
+        // https://localhost:xxxx/api/categories
         [HttpPost]
         public async Task<IActionResult> CreateCylinderCompany(CreateCylinderCompanyRequestDto request)
         {
@@ -38,5 +39,29 @@ namespace PTS.API.Controllers
             return Ok(response);
 
         }
+
+        // GET: api/cylindercompany
+        [HttpGet]
+        public async Task<IActionResult> GetAllCylinderCompanies()
+        {
+            var cylinderCompanies = await cylinderCompanyRepository.GetAllAsync();
+
+            // Map Domain model to DTO
+            var response = new List<CylinderCompanyDto>();
+
+            foreach(var company in cylinderCompanies)
+            {
+                response.Add(new CylinderCompanyDto
+                {
+                    Id= company.Id,
+                    Name = company.Name,
+                    Description = company.Description,
+                });
+            }
+
+            return Ok(response);
+        }
+
+
     }
 }
