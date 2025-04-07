@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using PTS.API.Data;
+using PTS.API.Middleware;
 using PTS.API.Repositories.Implementation;
 using PTS.API.Repositories.Interface;
 
@@ -21,11 +22,14 @@ builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 
 var app = builder.Build();
 
+app.UseMiddleware<GlobalExceptionMiddleware>();
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.UseDeveloperExceptionPage(); // detailed error page
 }
 
 app.UseHttpsRedirection();

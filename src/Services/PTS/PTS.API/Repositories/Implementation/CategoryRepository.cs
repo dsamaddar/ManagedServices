@@ -1,6 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using PTS.API.Data;
 using PTS.API.Models.Domain;
+using PTS.API.Repositories.Exceptions;
 using PTS.API.Repositories.Interface;
 
 namespace PTS.API.Repositories.Implementation
@@ -16,10 +18,23 @@ namespace PTS.API.Repositories.Implementation
 
         public async Task<Category> CreateAsync(Category category)
         {
-            await dbContext.Categories.AddAsync(category);
-            await dbContext.SaveChangesAsync();
+            try
+            {
+                await dbContext.Categories.AddAsync(category);
+                await dbContext.SaveChangesAsync();
 
-            return category;
+                return category;
+            }
+            catch (DbUpdateException dbEx)
+            {
+                // Handle specific EF Core exceptions like unique constraint violation
+                throw new RepositoryException("Database update failed. Possibly a duplicate entry.", dbEx);
+            }
+            catch (Exception ex)
+            {
+                throw new RepositoryException("An unexpected error occurred while adding the user.", ex);
+            }
+
         }
     }
 }
