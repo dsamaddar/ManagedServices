@@ -15,7 +15,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<ApplicationDbContext>(options => 
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("PTSConnectionString"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("PTSConnectionString_MOAR"));
 });
 
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
