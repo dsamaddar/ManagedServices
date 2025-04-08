@@ -34,9 +34,24 @@ namespace PTS.API.Repositories.Implementation
             }
         }
 
+        public Task<Attachment?> DeleteAsync(int id)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<IEnumerable<Attachment>> GetAllAsync()
         {
             return await dbContext.Attachments.ToListAsync();
+        }
+
+        public Task<Attachment?> GetById(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Attachment?> UpdateAsync(Attachment attachment)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using PTS.API.Models.Domain;
+﻿using Microsoft.EntityFrameworkCore;
+using PTS.API.Models.Domain;
 
 namespace PTS.API.Repositories.Interface
 {
@@ -6,5 +7,10 @@ namespace PTS.API.Repositories.Interface
     {
         Task<CylinderCompany> CreateAsync(CylinderCompany company);
         Task<IEnumerable<CylinderCompany>> GetAllAsync();
+
+        Task<CylinderCompany?> GetById(int id);
+
+        Task<CylinderCompany?>UpdateAsync(CylinderCompany cylinderCompany);
+        Task<CylinderCompany?> DeleteAsync(int id);
     }
 }

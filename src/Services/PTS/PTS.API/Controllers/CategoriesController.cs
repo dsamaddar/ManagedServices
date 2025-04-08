@@ -14,7 +14,7 @@ namespace PTS.API.Controllers
     {
         private readonly ICategoryRepository categoryRepository;
 
-        // Inject DbContext Class to get an Instance of DbContext Class
+        // Inject Repository Class
 
         public CategoriesController(ICategoryRepository categoryRepository)
         {

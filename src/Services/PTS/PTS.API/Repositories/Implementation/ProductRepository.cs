@@ -33,9 +33,24 @@ namespace PTS.API.Repositories.Implementation
             }
         }
 
+        public Task<Product?> DeleteAsync(int id)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<IEnumerable<Product>> GetAllAsync()
         {
             return await dbContext.Products.ToListAsync();
+        }
+
+        public Task<Product?> GetById(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Product?> UpdateAsync(Product product)
+        {
+            throw new NotImplementedException();
         }
     }
 }

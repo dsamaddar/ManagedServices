@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.EntityFrameworkCore;
 using PTS.API.Data;
 using PTS.API.Models.Domain;
 using PTS.API.Repositories.Exceptions;
@@ -34,9 +35,45 @@ namespace PTS.API.Repositories.Implementation
             }
         }
 
+        public async Task<CylinderCompany?> DeleteAsync(int id)
+        {
+            var existingCylinderCompany = await dbContext.CylinderCompanies.FirstOrDefaultAsync(x => x.Id == id);
+
+            if (existingCylinderCompany == null)
+            {
+                return null;
+            }
+
+            dbContext.CylinderCompanies.Remove(existingCylinderCompany);
+            await dbContext.SaveChangesAsync();
+
+            return existingCylinderCompany;
+        }
+
         public async Task<IEnumerable<CylinderCompany>> GetAllAsync()
         {
             return await dbContext.CylinderCompanies.ToListAsync();
+        }
+
+        public async Task<CylinderCompany?> GetById(int id)
+        {
+            return await dbContext.CylinderCompanies.FirstOrDefaultAsync(x => x.Id == id);
+        }
+
+        public async Task<CylinderCompany?> UpdateAsync(CylinderCompany cylinderCompany)
+        {
+            var existingCylinderCompany = await dbContext.CylinderCompanies.FirstOrDefaultAsync(x => x.Id == cylinderCompany.Id);
+
+            if(existingCylinderCompany != null)
+            {
+                dbContext.Entry(existingCylinderCompany).CurrentValues.SetValues(cylinderCompany);
+                await dbContext.SaveChangesAsync();
+
+                return cylinderCompany;
+            }
+
+            return null;
+
         }
     }
 }

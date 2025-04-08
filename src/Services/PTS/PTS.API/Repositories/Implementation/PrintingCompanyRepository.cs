@@ -35,9 +35,24 @@ namespace PTS.API.Repositories.Implementation
             }
         }
 
+        public Task<PrintingCompany?> DeleteAsync(int id)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<IEnumerable<PrintingCompany>> GetAllAsync()
         {
             return await dbContext.PrintingCompanies.ToListAsync();
+        }
+
+        public Task<PrintingCompany?> GetById(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<PrintingCompany?> UpdateAsync(PrintingCompany printingCompany)
+        {
+            throw new NotImplementedException();
         }
     }
 }
