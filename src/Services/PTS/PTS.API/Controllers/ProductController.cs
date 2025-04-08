@@ -7,5 +7,6 @@ namespace PTS.API.Controllers
     [ApiController]
     public class ProductController : ControllerBase
     {
+
     }
 }
