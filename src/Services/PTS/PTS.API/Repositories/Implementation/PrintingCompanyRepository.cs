@@ -35,9 +35,19 @@ namespace PTS.API.Repositories.Implementation
             }
         }
 
-        public Task<PrintingCompany?> DeleteAsync(int id)
+        public async Task<PrintingCompany?> DeleteAsync(int id)
         {
-            throw new NotImplementedException();
+            var existingPrintingCompany = await dbContext.PrintingCompanies.FirstOrDefaultAsync(x => x.Id == id);
+
+            if(existingPrintingCompany == null)
+            {
+                return null;
+            }
+
+            dbContext.PrintingCompanies.Remove(existingPrintingCompany);
+            await dbContext.SaveChangesAsync();
+
+            return existingPrintingCompany;
         }
 
         public async Task<IEnumerable<PrintingCompany>> GetAllAsync()
@@ -45,14 +55,24 @@ namespace PTS.API.Repositories.Implementation
             return await dbContext.PrintingCompanies.ToListAsync();
         }
 
-        public Task<PrintingCompany?> GetById(int id)
+        public async Task<PrintingCompany?> GetById(int id)
         {
-            throw new NotImplementedException();
+            return await dbContext.PrintingCompanies.FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public Task<PrintingCompany?> UpdateAsync(PrintingCompany printingCompany)
+        public async Task<PrintingCompany?> UpdateAsync(PrintingCompany printingCompany)
         {
-            throw new NotImplementedException();
+            var existingPrintingCompany = await dbContext.PrintingCompanies.FirstOrDefaultAsync(x => x.Id == printingCompany.Id);
+
+            if (existingPrintingCompany != null)
+            {
+                dbContext.Entry(existingPrintingCompany).CurrentValues.SetValues(printingCompany);
+                await dbContext.SaveChangesAsync();
+
+                return printingCompany;
+            }
+
+            return null;
         }
     }
 }

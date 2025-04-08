@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure.Internal;
 using PTS.API.Data;
 using PTS.API.Models.Domain;
 using PTS.API.Repositories.Exceptions;
@@ -33,9 +34,19 @@ namespace PTS.API.Repositories.Implementation
             }
         }
 
-        public Task<Project?> DeleteAsync(int id)
+        public async Task<Project?> DeleteAsync(int id)
         {
-            throw new NotImplementedException();
+            var existingProject = await dbContext.Projects.FirstOrDefaultAsync(x => x.Id == id);
+
+            if (existingProject == null)
+            {
+                return null;
+            }
+
+            dbContext.Projects.Remove(existingProject);
+            await dbContext.SaveChangesAsync();
+
+            return existingProject;
         }
 
         public async Task<IEnumerable<Project>> GetAllAsync()
@@ -43,14 +54,24 @@ namespace PTS.API.Repositories.Implementation
             return await dbContext.Projects.ToListAsync();
         }
 
-        public Task<Project?> GetById(int id)
+        public async Task<Project?> GetById(int id)
         {
-            throw new NotImplementedException();
+            return await dbContext.Projects.FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public Task<Project?> UpdateAsync(Project project)
+        public async Task<Project?> UpdateAsync(Project project)
         {
-            throw new NotImplementedException();
+            var existingProject = await dbContext.Projects.FirstOrDefaultAsync(x => x.Id == project.Id);
+
+            if (existingProject != null)
+            {
+                dbContext.Projects.Entry(existingProject).CurrentValues.SetValues(project);
+                await dbContext.SaveChangesAsync();
+
+                return project;
+            }
+
+            return null;
         }
     }
 }

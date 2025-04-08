@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure.Internal;
 using PTS.API.Data;
 using PTS.API.Models.Domain;
 using PTS.API.Repositories.Exceptions;
@@ -33,9 +34,19 @@ namespace PTS.API.Repositories.Implementation
             }
         }
 
-        public Task<Product?> DeleteAsync(int id)
+        public async Task<Product?> DeleteAsync(int id)
         {
-            throw new NotImplementedException();
+            var existingProduct = await dbContext.Products.FirstOrDefaultAsync(x => x.Id == id);
+
+            if(existingProduct == null)
+            {
+                return null;
+            }
+
+            dbContext.Products.Remove(existingProduct);
+            await dbContext.SaveChangesAsync();
+
+            return existingProduct;
         }
 
         public async Task<IEnumerable<Product>> GetAllAsync()
@@ -43,14 +54,24 @@ namespace PTS.API.Repositories.Implementation
             return await dbContext.Products.ToListAsync();
         }
 
-        public Task<Product?> GetById(int id)
+        public async Task<Product?> GetById(int id)
         {
-            throw new NotImplementedException();
+            return await dbContext.Products.FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public Task<Product?> UpdateAsync(Product product)
+        public async Task<Product?> UpdateAsync(Product product)
         {
-            throw new NotImplementedException();
+            var existingProduct = await dbContext.Products.FirstOrDefaultAsync(x => x.Id == product.Id);
+
+            if (existingProduct != null)
+            {
+                dbContext.Products.Entry(existingProduct).CurrentValues.SetValues(product);
+                await dbContext.SaveChangesAsync();
+
+                return product;
+            }
+
+            return null;
         }
     }
 }

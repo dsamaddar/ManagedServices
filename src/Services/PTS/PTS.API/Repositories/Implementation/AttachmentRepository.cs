@@ -34,9 +34,19 @@ namespace PTS.API.Repositories.Implementation
             }
         }
 
-        public Task<Attachment?> DeleteAsync(int id)
+        public async Task<Attachment?> DeleteAsync(int id)
         {
-            throw new NotImplementedException();
+            var existingAttachment = await dbContext.Attachments.FirstOrDefaultAsync(x => x.Id == id);
+
+            if(existingAttachment == null)
+            {
+                return null;
+            }
+
+            dbContext.Attachments.Remove(existingAttachment);
+            await dbContext.SaveChangesAsync();
+
+            return existingAttachment;
         }
 
         public async Task<IEnumerable<Attachment>> GetAllAsync()
@@ -44,14 +54,24 @@ namespace PTS.API.Repositories.Implementation
             return await dbContext.Attachments.ToListAsync();
         }
 
-        public Task<Attachment?> GetById(int id)
+        public async Task<Attachment?> GetById(int id)
         {
-            throw new NotImplementedException();
+            return await dbContext.Attachments.FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public Task<Attachment?> UpdateAsync(Attachment attachment)
+        public async Task<Attachment?> UpdateAsync(Attachment attachment)
         {
-            throw new NotImplementedException();
+            var existingAttachment = await dbContext.Attachments.FirstOrDefaultAsync(x => x.Id == attachment.Id);
+
+            if (existingAttachment != null)
+            {
+                dbContext.Attachments.Entry(existingAttachment).CurrentValues.SetValues(attachment);
+                await dbContext.SaveChangesAsync();
+
+                return attachment;
+            }
+
+            return null;
         }
     }
 }
