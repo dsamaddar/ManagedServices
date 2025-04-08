@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using PTS.API.Models.Domain;
 using PTS.API.Models.DTO;
+using PTS.API.Repositories.Implementation;
 using PTS.API.Repositories.Interface;
 
 namespace PTS.API.Controllers
@@ -19,7 +20,7 @@ namespace PTS.API.Controllers
 
         // https://localhost:xxxx/api/categories
         [HttpPost]
-        public async Task<IActionResult> CreateCylinderCompany(CreateCylinderCompanyRequestDto request)
+        public async Task<IActionResult> CreateCylinderCompany([FromBody] CreateCylinderCompanyRequestDto request)
         {
             var cylinderCompany = new CylinderCompany
             {
@@ -62,6 +63,83 @@ namespace PTS.API.Controllers
             return Ok(response);
         }
 
+        // GET: api/cylindercompany/{id}
+        [HttpGet]
+        [Route("{id:int}")]
+        public async Task<IActionResult> GetCylinderCompanyById([FromRoute] int id)
+        {
+            var existingCylinderCompany = await cylinderCompanyRepository.GetById(id);
 
+            if(existingCylinderCompany is null)
+            {
+                return NotFound();
+            }
+
+            var response = new CylinderCompanyDto { 
+                Id = existingCylinderCompany.Id,
+                Name=existingCylinderCompany.Name,
+                Description = existingCylinderCompany.Description,
+            };
+
+            return Ok(response);
+        }
+
+
+        // PUT: /api/cylindercompany/{id}
+        [HttpPut]
+        [Route("{id:int}")]
+        public async Task<IActionResult> EditCylinderCompany([FromRoute] int id, UpdateCylinderCompanyRequestDto request)
+        {
+            // Convert DTO to Domain Model
+            var cylinderCompany = new CylinderCompany
+            {
+                Id = id,
+                Name = request.Name,
+                Description = request.Description,
+            };
+
+            cylinderCompany = await cylinderCompanyRepository.UpdateAsync(cylinderCompany);
+
+            if (cylinderCompany == null)
+            {
+                return NotFound();
+            }
+
+            // Convert Domain Model to DTO
+            var response = new CylinderCompanyDto
+            {
+                Id = cylinderCompany.Id,
+                Name = cylinderCompany.Name,
+                Description = cylinderCompany.Description
+            };
+
+            return Ok(response);
+        }
+
+        // DELETE: /api/cylindercompany/{id}
+
+        [HttpDelete]
+        [Route("{id:int}")]
+        public async Task<IActionResult> DeleteCylinderCompany([FromRoute] int id)
+        {
+            var cylinderCompany = await cylinderCompanyRepository.DeleteAsync(id);
+
+            if (cylinderCompany is null)
+            {
+                return NotFound();
+            }
+
+            // Convert Domain Model to DTO
+
+            var response = new CylinderCompanyDto
+            {
+
+                Id = cylinderCompany.Id,
+                Name = cylinderCompany.Name,
+                Description = cylinderCompany.Description,
+            };
+
+            return Ok(response);
+        }
     }
 }
