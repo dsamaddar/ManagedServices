@@ -23,7 +23,7 @@ namespace PTS.API.Controllers
 
         // https://localhost:xxxx/api/categories
         [HttpPost]
-        public async Task<IActionResult> CreateCategory(CreateCategoryRequestDto request)
+        public async Task<IActionResult> CreateCategory([FromBody] CreateCategoryRequestDto request)
         {
             // Map DTO to Domain Model
             var category = new Category
@@ -62,6 +62,84 @@ namespace PTS.API.Controllers
                     Description = category.Description
                 });
             }
+
+            return Ok(response);
+        }
+
+        //  GET: /api/categories/{id}
+        [HttpGet]
+        [Route("{id:int}")]
+        public async Task<IActionResult> GetCategoryById([FromRoute] int id)
+        {
+            var existingCategory = await categoryRepository.GetById(id);
+
+            if (existingCategory is null)
+            {
+                return NotFound();
+            }
+
+            var response = new CategoryDto
+            {
+                Id = existingCategory.Id,
+                Name = existingCategory.Name,
+                Description = existingCategory.Description,
+            };
+
+            return Ok(response);
+        }
+
+        // PUT: /api/categories/{id}
+        [HttpPut]
+        [Route("{id:int}")]
+        public async Task<IActionResult> EditCategory([FromRoute] int id, UpdateCategoryRequestDto request)
+        {
+            // Convert DTO to Domain Model
+            var category = new Category
+            {
+                Id = id,
+                Name = request.Name,
+                Description = request.Description,
+            };
+
+            category = await categoryRepository.UpdateAsync(category);
+
+            if (category == null)
+            {
+                return NotFound();
+            }
+
+            // Convert Domain Model to DTO
+            var response = new CategoryDto { 
+                Id = category.Id,
+                Name = category.Name,
+                Description = category.Description
+            };
+
+            return Ok(response);
+        }
+
+
+        // DELETE: /api/categories/{id}
+
+        [HttpDelete]
+        [Route("{id:int}")]
+        public async Task<IActionResult> DeleteCategory([FromRoute] int id)
+        {
+            var category = await categoryRepository.DeleteAsync(id);
+
+            if(category is null)
+            {
+                return NotFound();
+            }
+
+            // Convert Domain Model to DTO
+
+            var response = new CategoryDto { 
+            
+                    Id = category.Id,
+                    Name = category.Name,
+                    Description = category.Description,
+            };
 
             return Ok(response);
         }
