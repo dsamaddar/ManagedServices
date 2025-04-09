@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { CategoryService } from '../services/category.service';
 import { Category } from '../models/category.model';
@@ -9,7 +9,7 @@ import { UpdateCategoryRequest } from '../models/update-category-request.model';
 
 @Component({
   selector: 'app-edit-category',
-  imports: [FormsModule,CommonModule],
+  imports: [FormsModule,CommonModule, RouterModule],
   templateUrl: './edit-category.component.html',
   styleUrl: './edit-category.component.css'
 })
