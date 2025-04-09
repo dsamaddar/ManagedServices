@@ -4,6 +4,7 @@ import { AddCategoryComponent } from './features/category/add-category/add-categ
 import { EditCategoryComponent } from './features/category/edit-category/edit-category.component';
 import { CylindercompanyListComponent } from './features/cylinderCompany/cylindercompany-list/cylindercompany-list.component';
 import { PrintingcompanyListComponent } from './features/printingCompany/printingcompany-list/printingcompany-list.component';
+import { AddCylindercompanyComponent } from './features/cylinderCompany/add-cylindercompany/add-cylindercompany.component';
 
 export const routes: Routes = [
     {
@@ -21,6 +22,10 @@ export const routes: Routes = [
     {
         path: 'admin/cylindercompany',
         component: CylindercompanyListComponent
+    },
+    {
+        path: 'admin/cylindercompany/add',
+        component: AddCylindercompanyComponent
     },
     {
         path: 'admin/printingcompany',
