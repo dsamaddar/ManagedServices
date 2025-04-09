@@ -4,6 +4,7 @@ import { AddCylinderCompanyRequest } from '../models/add-cylindercompany-request
 import { Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import { CylinderCompany } from '../models/CylinderCompany.model';
+import { UpdateCylinderCompanyRequest } from '../models/update-cylindercompany-request.model';
 
 @Injectable({
   providedIn: 'root'
@@ -27,5 +28,19 @@ export class CylindercompanyService {
       `${environment.apiBaseUrl}/api/cylindercompany/${id}`
     );
   }
+
+    updateCylinderCompany(
+      id: number,
+      updateCylinderCompanyRequest: UpdateCylinderCompanyRequest
+    ): Observable<CylinderCompany> {
+      return this.http.put<CylinderCompany>(
+        `${environment.apiBaseUrl}/api/cylindercompany/${id}`,
+        updateCylinderCompanyRequest
+      );
+    }
+
+  deleteCylinderCompany(id: number): Observable<CylinderCompany>{
+      return this.http.delete<CylinderCompany>(`${environment.apiBaseUrl}/api/cylindercompany/${id}`);
+    }
 
 }
