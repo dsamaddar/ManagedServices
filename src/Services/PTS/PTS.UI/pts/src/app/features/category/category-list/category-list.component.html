@@ -1,31 +1,39 @@
 <div class="container">
-    <h1 class="mt-3">Category List</h1>
-    <div class="d-flex justify-content-end mt-3">
-        <a [routerLink]="['/admin/categories/add']" routerLinkActive="router-link-active"  class="btn btn-primary">Add Category</a>
-    </div>
+  <h1 class="mt-3">Category List</h1>
+  <div class="d-flex justify-content-end mt-3">
+    <a
+      [routerLink]="['/admin/categories/add']"
+      routerLinkActive="router-link-active"
+      class="btn btn-primary"
+      >Add Category</a
+    >
+  </div>
 
-    <ng-container *ngIf="categories$ | async as categories">
-        <table class="table table-bordered mt-3">
-            <thead>
-                <tr>
-                    <th>
-                        Id
-                    </th>
-                    <th>
-                        Name
-                    </th>
-                    <th>
-                        Description
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let category of categories">
-                    <td>{{category.id}}</td>
-                    <td>{{category.name}}</td>
-                    <td>{{category.description}}</td>
-                </tr>
-            </tbody>
-        </table>
-    </ng-container>
+  <ng-container *ngIf="categories$ | async as categories">
+    <table class="table table-bordered mt-3">
+      <thead>
+        <tr>
+          <th>Id</th>
+          <th>Name</th>
+          <th>Description</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let category of categories">
+          <td>{{ category.id }}</td>
+          <td>{{ category.name }}</td>
+          <td>{{ category.description }}</td>
+          <td>
+            <a
+              class="btn btn-light"
+              [routerLink]="['/admin/categories', category.id]"
+              >
+              <i class="bi bi-pencil-square"></i>
+            </a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </ng-container>
 </div>
