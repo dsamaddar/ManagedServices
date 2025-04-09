@@ -2,7 +2,8 @@
 footer{
     position:fixed;
     bottom:0px;
-    background-color: orange;
+    background-color: orangered;
+    background-image: linear-gradient(to right, orangered , #e75480);
     width: 100%;
 }
 

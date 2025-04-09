@@ -1,1 +1,40 @@
-<p>project-list works!</p>
+<div class="container">
+    <h5 class="mt-3">Project List</h5>
+    <div class="d-flex justify-content-end mt-3">
+      <a
+        [routerLink]="['/admin/projects/add']"
+        routerLinkActive="router-link-active"
+        class="btn btn-primary"
+        >Add Project</a
+      >
+    </div>
+  
+    <ng-container *ngIf="projects$ | async as projects">
+      <table class="table table-bordered mt-3">
+        <thead>
+          <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let project of projects">
+            <td>{{ project.id }}</td>
+            <td>{{ project.name }}</td>
+            <td>{{ project.description }}</td>
+            <td>
+              <a
+                class="btn btn-light"
+                [routerLink]="['/admin/projects', project.id]"
+                >
+                <i class="bi bi-pencil-square"></i>
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </ng-container>
+  </div>
+  

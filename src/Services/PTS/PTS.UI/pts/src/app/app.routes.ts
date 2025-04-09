@@ -7,6 +7,8 @@ import { PrintingcompanyListComponent } from './features/printingCompany/printin
 import { AddCylindercompanyComponent } from './features/cylinderCompany/add-cylindercompany/add-cylindercompany.component';
 import { EditCylindercompanyComponent } from './features/cylinderCompany/edit-cylindercompany/edit-cylindercompany.component';
 import { ProjectListComponent } from './features/project/project-list/project-list.component';
+import { EditProjectComponent } from './features/project/edit-project/edit-project.component';
+import { AddProjectComponent } from './features/project/add-project/add-project.component';
 
 export const routes: Routes = [
     {
@@ -38,7 +40,15 @@ export const routes: Routes = [
         component: PrintingcompanyListComponent
     },
     {
-        path: 'admin/project',
+        path: 'admin/projects',
         component: ProjectListComponent
+    },
+    {
+        path: 'admin/projects/add',
+        component: AddProjectComponent
+    },
+    {
+        path: 'admin/projects/:id',
+        component: EditProjectComponent
     }
 ];
