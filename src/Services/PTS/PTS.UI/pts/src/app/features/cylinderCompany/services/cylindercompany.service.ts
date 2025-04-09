@@ -22,4 +22,10 @@ export class CylindercompanyService {
     return this.http.post<void>(`${environment.apiBaseUrl}/api/cylindercompany`,model);
   }
 
+  getCylinderCompanyById(id: number): Observable<CylinderCompany> {
+    return this.http.get<CylinderCompany>(
+      `${environment.apiBaseUrl}/api/cylindercompany/${id}`
+    );
+  }
+
 }
