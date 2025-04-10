@@ -1,6 +1,6 @@
 
 footer{
-    position:sticky;
+    position:fixed;
     bottom:0px;
     background-color: orangered;
     background-image: linear-gradient(to right, orangered , #e75480);
