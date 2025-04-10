@@ -7,6 +7,15 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { CategoryService } from '../../category/services/category.service';
+import { Category } from '../../category/models/category.model';
+import { Observable } from 'rxjs';
+import { AddCategoryRequest } from '../../category/models/add-category-request.model';
+import { CylinderCompany } from '../../cylinderCompany/models/CylinderCompany.model';
+import { PrintingCompany } from '../../printingCompany/models/printingcompany.model';
+import { CylindercompanyService } from '../../cylinderCompany/services/cylindercompany.service';
+import { PrintingcompanyService } from '../../printingCompany/services/printingcompany.service';
+import { NumericLiteral } from 'typescript';
 
 @Component({
   selector: 'app-add-product',
@@ -19,16 +28,27 @@ import { NgSelectModule } from '@ng-select/ng-select';
 })
 export class AddProductComponent implements OnInit {
   
-  items = [
-    { id: 1, name: 'Apple' },
-    { id: 2, name: 'Banana' },
-    { id: 3, name: 'Orange' }
-  ];
-  
-  selectedItem?: number;
+    // observable array
+    categories$?: Observable<Category[]>;
+    cylinderCompanies$?: Observable<CylinderCompany[]>;
+    printingCompanies$?: Observable<PrintingCompany[]>;
 
-  ngOnInit(): void {
-  }
+    constructor(private categoryService: CategoryService,
+      private cylinderCompanyService: CylindercompanyService,
+      private printingCompanyService: PrintingcompanyService
+    ){
+
+    }
+  
+    categoryid?: number;
+    cylindercompanyid?: number;
+    printingcompanyid?: number;
+
+    ngOnInit(): void {
+      this.categories$ = this.categoryService.getAllCategories();
+      this.cylinderCompanies$ = this.cylinderCompanyService.getAllCylinderCompanies();
+      this.printingCompanies$ = this.printingCompanyService.getAllPrintingCompanies();
+    }
 
 
 }
