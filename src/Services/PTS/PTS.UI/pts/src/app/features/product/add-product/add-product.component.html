@@ -3,51 +3,73 @@
 
   <form>
     <div class="mt-2">
-        <div class="mt-3">
-            <label for="categoryid" class="form-label">Category</label>
-            <select name="categoryid" id="categoryid"></select>
-          </div>
+      <div class="mt-3">
+        <label for="categoryid" class="form-label">Category</label>
+        <ng-select
+          name="categoryid"
+          [items]="items"
+          bindLabel="name"
+          bindValue="id"
+          placeholder="Select Category"
+          [(ngModel)]="selectedItem"
+          [searchable]="true"
+        >
+        </ng-select>
+      </div>
       <div class="mt-3">
         <label for="brand" class="form-label">Brand</label>
-        <input type="text" id="brand" name="brand" class="form-control"/>
+        <input type="text" id="brand" name="brand" class="form-control" />
       </div>
       <div class="mt-3">
         <label for="flavourtype" class="form-label">Flavour</label>
-        <input type="text" id="flavourtype" name="flavourtype" class="form-control"/>
+        <input
+          type="text"
+          id="flavourtype"
+          name="flavourtype"
+          class="form-control"
+        />
       </div>
       <div class="mt-3">
         <label for="origin" class="form-label">Origin</label>
-        <input type="text" id="origin" name="origin" class="form-control"/>
+        <input type="text" id="origin" name="origin" class="form-control" />
       </div>
       <div class="mt-3">
         <label for="sku" class="form-label">SKU</label>
-        <input type="text" id="sku" name="sku" class="form-control"/>
+        <input type="text" id="sku" name="sku" class="form-control" />
       </div>
       <div class="mt-3">
         <label for="packtype" class="form-label">Pack Type</label>
-        <input type="text" id="packtype" name="packtype" class="form-control"/>
+        <input type="text" id="packtype" name="packtype" class="form-control" />
       </div>
       <div class="mt-3">
         <label for="version" class="form-label">Version</label>
-        <input type="text" id="version" name="version" class="form-control"/>
+        <input type="text" id="version" name="version" class="form-control" />
       </div>
       <div class="mt-3">
         <label for="projectdate" class="form-label">Project Date</label>
-        <input type="date" id="projectdate" name="projectdate" class="form-control"/>
+        <input
+          type="date"
+          id="projectdate"
+          name="projectdate"
+          class="form-control"
+        />
       </div>
       <div class="mt-3">
         <label for="barcode" class="form-label">Barcode</label>
-        <input type="text" id="barcode" name="barcode" class="form-control"/>
+        <input type="text" id="barcode" name="barcode" class="form-control" />
       </div>
       <div class="mt-3">
-        <label for="printingcompanyid" class="form-label">Printing Company</label>
+        <label for="printingcompanyid" class="form-label"
+          >Printing Company</label
+        >
         <select name="printingcompanyid" id="printingcompanyid"></select>
       </div>
       <div class="mt-3">
-        <label for="cylindercompanyid" class="form-label">Cylinder Company</label>
+        <label for="cylindercompanyid" class="form-label"
+          >Cylinder Company</label
+        >
         <select name="cylindercompanyid" id="cylindercompanyid"></select>
       </div>
-      
     </div>
   </form>
 </div>
