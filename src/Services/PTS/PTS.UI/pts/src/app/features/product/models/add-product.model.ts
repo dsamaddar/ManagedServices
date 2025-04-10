@@ -6,7 +6,7 @@ export interface AddProductRequest{
     sku: string,
     packtype:string,
     version: string,
-    projectdate: Date,
+    projectdate: string,
     barcode: string,
     cylindercompanyid: number,
     printingcompanyid: number

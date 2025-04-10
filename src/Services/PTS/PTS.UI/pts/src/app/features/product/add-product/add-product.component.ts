@@ -1,6 +1,5 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   MatDatepicker,
   MatDatepickerModule,
@@ -21,6 +20,7 @@ import { PrintingcompanyService } from '../../printingCompany/services/printingc
 import { NumericLiteral } from 'typescript';
 import { Product } from '../models/product.model';
 import { AddProductRequest } from '../models/add-product.model';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-add-product',
@@ -29,12 +29,12 @@ import { AddProductRequest } from '../models/add-product.model';
     MatSelectModule,
     MatFormFieldModule,
     MatInputModule,
-    ReactiveFormsModule,
     CommonModule,
-    FormsModule,
     RouterModule,
     MatDatepickerModule,
     NgSelectModule,
+    FormsModule,
+    DatePipe
   ],
   templateUrl: './add-product.component.html',
   styleUrl: './add-product.component.css',
@@ -42,6 +42,7 @@ import { AddProductRequest } from '../models/add-product.model';
 export class AddProductComponent implements OnInit, OnDestroy {
   
   product: AddProductRequest;
+  
 
   // observable array
   categories$?: Observable<Category[]>;
@@ -52,8 +53,12 @@ export class AddProductComponent implements OnInit, OnDestroy {
     private categoryService: CategoryService,
     private cylinderCompanyService: CylindercompanyService,
     private printingCompanyService: PrintingcompanyService,
-    private router: Router
+    private router: Router,
+    private datepipe: DatePipe
   ) {
+    const myDate = new Date();
+    const formatted = this.datepipe.transform(myDate, 'yyyy-MM-dd');
+    
       this.product = {
         categoryid: 0,
         brand: '',
@@ -62,7 +67,7 @@ export class AddProductComponent implements OnInit, OnDestroy {
         sku: '',
         packtype: '',
         version: '',
-        projectdate: new Date(),
+        projectdate: formatted || '',
         barcode: '',
         cylindercompanyid: 0,
         printingcompanyid: 0,
@@ -85,6 +90,10 @@ export class AddProductComponent implements OnInit, OnDestroy {
   }
 
   onFormSubmit() {
+    this.product.categoryid = this.categoryid || 0;
+    this.product.cylindercompanyid = this.cylindercompanyid || 0;
+    this.product.printingcompanyid = this.printingcompanyid || 0;
+    
     console.log(this.product);
   }
 }
