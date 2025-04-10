@@ -1,7 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatDatepicker, MatDatepickerModule } from '@angular/material/datepicker';
+import {
+  MatDatepicker,
+  MatDatepickerModule,
+} from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
@@ -16,39 +19,67 @@ import { PrintingCompany } from '../../printingCompany/models/printingcompany.mo
 import { CylindercompanyService } from '../../cylinderCompany/services/cylindercompany.service';
 import { PrintingcompanyService } from '../../printingCompany/services/printingcompany.service';
 import { NumericLiteral } from 'typescript';
+import { Product } from '../models/product.model';
+import { AddProductRequest } from '../models/add-product.model';
 
 @Component({
   selector: 'app-add-product',
-  standalone:true,
-  imports: [MatSelectModule, MatFormFieldModule, MatInputModule, ReactiveFormsModule,
-    CommonModule, FormsModule, RouterModule, MatDatepickerModule, NgSelectModule
+  standalone: true,
+  imports: [
+    MatSelectModule,
+    MatFormFieldModule,
+    MatInputModule,
+    ReactiveFormsModule,
+    CommonModule,
+    FormsModule,
+    RouterModule,
+    MatDatepickerModule,
+    NgSelectModule,
   ],
   templateUrl: './add-product.component.html',
-  styleUrl: './add-product.component.css'
+  styleUrl: './add-product.component.css',
 })
 export class AddProductComponent implements OnInit {
-  
-    // observable array
-    categories$?: Observable<Category[]>;
-    cylinderCompanies$?: Observable<CylinderCompany[]>;
-    printingCompanies$?: Observable<PrintingCompany[]>;
+  product?: AddProductRequest;
 
-    constructor(private categoryService: CategoryService,
-      private cylinderCompanyService: CylindercompanyService,
-      private printingCompanyService: PrintingcompanyService
-    ){
+  // observable array
+  categories$?: Observable<Category[]>;
+  cylinderCompanies$?: Observable<CylinderCompany[]>;
+  printingCompanies$?: Observable<PrintingCompany[]>;
 
-    }
-  
-    categoryid?: number;
-    cylindercompanyid?: number;
-    printingcompanyid?: number;
+  constructor(
+    private categoryService: CategoryService,
+    private cylinderCompanyService: CylindercompanyService,
+    private printingCompanyService: PrintingcompanyService
+  ) {
+    this.product = {
+      categoryid: 0,
+      brand: '',
+      flavourtype: '',
+      origin: '',
+      sku: '',
+      packtype: '',
+      version: '',
+      projectdate: new Date(),
+      barcode: '',
+      cylindercompanyid: 0,
+      printingcompanyid: 0,
+    };
+  }
 
-    ngOnInit(): void {
-      this.categories$ = this.categoryService.getAllCategories();
-      this.cylinderCompanies$ = this.cylinderCompanyService.getAllCylinderCompanies();
-      this.printingCompanies$ = this.printingCompanyService.getAllPrintingCompanies();
-    }
+  categoryid?: number;
+  cylindercompanyid?: number;
+  printingcompanyid?: number;
 
+  ngOnInit(): void {
+    this.categories$ = this.categoryService.getAllCategories();
+    this.cylinderCompanies$ =
+      this.cylinderCompanyService.getAllCylinderCompanies();
+    this.printingCompanies$ =
+      this.printingCompanyService.getAllPrintingCompanies();
+  }
 
+  onFormSubmit() {
+    console.log(this.product);
+  }
 }
