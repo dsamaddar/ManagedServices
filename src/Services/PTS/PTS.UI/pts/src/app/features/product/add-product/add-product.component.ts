@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   MatDatepicker,
@@ -8,7 +8,7 @@ import {
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { CategoryService } from '../../category/services/category.service';
 import { Category } from '../../category/models/category.model';
@@ -39,8 +39,9 @@ import { AddProductRequest } from '../models/add-product.model';
   templateUrl: './add-product.component.html',
   styleUrl: './add-product.component.css',
 })
-export class AddProductComponent implements OnInit {
-  product?: AddProductRequest;
+export class AddProductComponent implements OnInit, OnDestroy {
+  
+  product: AddProductRequest;
 
   // observable array
   categories$?: Observable<Category[]>;
@@ -50,21 +51,25 @@ export class AddProductComponent implements OnInit {
   constructor(
     private categoryService: CategoryService,
     private cylinderCompanyService: CylindercompanyService,
-    private printingCompanyService: PrintingcompanyService
+    private printingCompanyService: PrintingcompanyService,
+    private router: Router
   ) {
-    this.product = {
-      categoryid: 0,
-      brand: '',
-      flavourtype: '',
-      origin: '',
-      sku: '',
-      packtype: '',
-      version: '',
-      projectdate: new Date(),
-      barcode: '',
-      cylindercompanyid: 0,
-      printingcompanyid: 0,
-    };
+      this.product = {
+        categoryid: 0,
+        brand: '',
+        flavourtype: '',
+        origin: '',
+        sku: '',
+        packtype: '',
+        version: '',
+        projectdate: new Date(),
+        barcode: '',
+        cylindercompanyid: 0,
+        printingcompanyid: 0,
+      }
+  }
+  ngOnDestroy(): void {
+    throw new Error('Method not implemented.');
   }
 
   categoryid?: number;
