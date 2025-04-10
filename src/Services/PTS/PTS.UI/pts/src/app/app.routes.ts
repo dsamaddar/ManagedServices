@@ -11,6 +11,8 @@ import { EditProjectComponent } from './features/project/edit-project/edit-proje
 import { AddProjectComponent } from './features/project/add-project/add-project.component';
 import { AddPrintingcompanyComponent } from './features/printingCompany/add-printingcompany/add-printingcompany.component';
 import { EditPrintingcompanyComponent } from './features/printingCompany/edit-printingcompany/edit-printingcompany.component';
+import { ProductListComponent } from './features/product/product-list/product-list.component';
+import { AddProductComponent } from './features/product/add-product/add-product.component';
 
 export const routes: Routes = [
     {
@@ -59,6 +61,18 @@ export const routes: Routes = [
     },
     {
         path: 'admin/projects/:id',
+        component: EditProjectComponent
+    },
+    {
+        path: 'admin/products',
+        component: ProductListComponent
+    },
+    {
+        path: 'admin/products/add',
+        component: AddProductComponent
+    },
+    {
+        path: 'admin/products/:id',
         component: EditProjectComponent
     }
 ];
