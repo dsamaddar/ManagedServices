@@ -3,6 +3,7 @@ import { RouterModule } from '@angular/router';
 import { CategoryService } from '../services/category.service';
 import { Category } from '../models/category.model';
 import { CommonModule } from '@angular/common';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-category-list',
@@ -12,17 +13,14 @@ import { CommonModule } from '@angular/common';
 })
 export class CategoryListComponent implements OnInit {
 
-  categories?: Category[];
+  // observable array
+  categories$?: Observable<Category[]>;
 
   constructor(private categorySerivce: CategoryService){}
   
   ngOnInit(): void {
-    this.categorySerivce.getAllCategories()
-    .subscribe({
-      next: (response) => {
-        this.categories = response;
-      }
-    });
+    this.categories$ = this.categorySerivce.getAllCategories();
+    
   }
 
 }
