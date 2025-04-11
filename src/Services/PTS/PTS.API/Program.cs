@@ -15,7 +15,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<ApplicationDbContext>(options => 
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("PTSConnectionString_MOAR"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("PTSConnectionString_HOME"));
 });
 
 builder.Services.AddScoped<IAttachmentRepository, AttachmentRepository>();
