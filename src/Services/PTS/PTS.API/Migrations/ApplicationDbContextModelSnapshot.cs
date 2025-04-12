@@ -31,6 +31,10 @@ namespace PTS.API.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2")
+                        .HasColumnOrder(4);
+
                     b.Property<string>("Description")
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)")
@@ -43,7 +47,7 @@ namespace PTS.API.Migrations
 
                     b.Property<int>("ProductId")
                         .HasColumnType("int")
-                        .HasColumnOrder(4);
+                        .HasColumnOrder(5);
 
                     b.Property<string>("Tag")
                         .HasMaxLength(500)

@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 
 namespace PTS.API.Models.Domain
 {
@@ -21,8 +23,11 @@ namespace PTS.API.Models.Domain
         [Column(Order = 3)]
         public string? Tag { get; set; }
 
-        [ForeignKey("Product")]
         [Column(Order = 4)]
+        public DateTime DateCreated { get; set; } = DateTime.Now;
+
+        [ForeignKey("Product")]
+        [Column(Order = 5)]
         public int ProductId { get; set; }
     }
 }

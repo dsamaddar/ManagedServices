@@ -124,6 +124,7 @@ namespace PTS.API.Migrations
                     Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     Description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
                     Tag = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
+                    DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ProductId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
