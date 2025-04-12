@@ -23,6 +23,7 @@ import { AddProductRequest } from '../models/add-product.model';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { MatIcon } from '@angular/material/icon';
+import { FileSelectorComponent } from '../../../shared/components/file-selector/file-selector.component';
 
 @Component({
   selector: 'app-add-product',
@@ -36,6 +37,7 @@ import { MatIcon } from '@angular/material/icon';
     MatDatepickerModule,
     NgSelectModule,
     FormsModule,
+    FileSelectorComponent
   ],
   templateUrl: './add-product.component.html',
   styleUrl: './add-product.component.css',
@@ -149,4 +151,15 @@ export class AddProductComponent implements OnInit, OnDestroy {
     });
 
   }
+
+  isFileSelectorVisible: boolean = false;
+
+  openFileSelector(): void{
+    this.isFileSelectorVisible = true;
+  }
+
+  closeFileSelector(): void{
+    this.isFileSelectorVisible = false;
+  }
+
 }

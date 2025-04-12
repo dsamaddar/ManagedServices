@@ -1,38 +1,21 @@
 <div class="container">
   <h5 class="mt-3">Add Product</h5>
 
-  <form
-    #form="ngForm"
-    (ngSubmit)="onFormSubmit()"
-    enctype="multipart/form-data"
-  >
+  <form #form="ngForm" (ngSubmit)="onFormSubmit()" enctype="multipart/form-data">
     <div class="mt-2">
       <div class="row">
         <div class="col-md-4">
           <div class="mt-3 form-group">
             <label for="categoryid" class="form-label">Category</label>
-            <ng-select
-              name="categoryid"
-              [items]="categories$ | async"
-              bindLabel="name"
-              bindValue="id"
-              placeholder="Select Category"
-              [(ngModel)]="categoryid"
-              [searchable]="true"
-            >
+            <ng-select name="categoryid" [items]="categories$ | async" bindLabel="name" bindValue="id"
+              placeholder="Select Category" [(ngModel)]="categoryid" [searchable]="true">
             </ng-select>
           </div>
         </div>
         <div class="col-md-4">
           <div class="mt-3 form-group">
             <label for="brand" class="form-label">Brand</label>
-            <input
-              type="text"
-              id="brand"
-              name="brand"
-              class="form-control"
-              [(ngModel)]="product.brand"
-            />
+            <input type="text" id="brand" name="brand" class="form-control" [(ngModel)]="product.brand" />
           </div>
         </div>
       </div>
@@ -40,37 +23,20 @@
         <div class="col-md-4">
           <div class="mt-3 form-group">
             <label for="flavourtype" class="form-label">Flavour</label>
-            <input
-              type="text"
-              id="flavourtype"
-              name="flavourtype"
-              class="form-control"
-              [(ngModel)]="product.flavourtype"
-            />
+            <input type="text" id="flavourtype" name="flavourtype" class="form-control"
+              [(ngModel)]="product.flavourtype" />
           </div>
         </div>
         <div class="col-md-4">
           <div class="mt-2 form-group">
             <label for="origin" class="form-label">Origin</label>
-            <input
-              type="text"
-              id="origin"
-              name="origin"
-              class="form-control"
-              [(ngModel)]="product.origin"
-            />
+            <input type="text" id="origin" name="origin" class="form-control" [(ngModel)]="product.origin" />
           </div>
         </div>
         <div class="col-md-4">
           <div class="mt-2">
             <label for="sku" class="form-label">SKU</label>
-            <input
-              type="text"
-              id="sku"
-              name="sku"
-              class="form-control"
-              [(ngModel)]="product.sku"
-            />
+            <input type="text" id="sku" name="sku" class="form-control" [(ngModel)]="product.sku" />
           </div>
         </div>
       </div>
@@ -79,37 +45,20 @@
         <div class="col-md-4">
           <div class="mt-2">
             <label for="packtype" class="form-label">Pack Type</label>
-            <input
-              type="text"
-              id="packtype"
-              name="packtype"
-              class="form-control"
-              [(ngModel)]="product.packtype"
-            />
+            <input type="text" id="packtype" name="packtype" class="form-control" [(ngModel)]="product.packtype" />
           </div>
         </div>
         <div class="col-md-4">
           <div class="mt-2">
             <label for="version" class="form-label">Version</label>
-            <input
-              type="text"
-              id="version"
-              name="version"
-              class="form-control"
-              [(ngModel)]="product.version"
-            />
+            <input type="text" id="version" name="version" class="form-control" [(ngModel)]="product.version" />
           </div>
         </div>
         <div class="col-md-4">
           <div class="mt-2">
             <label for="projectdate" class="form-label">Project Date</label>
-            <input
-              type="date"
-              id="projectdate"
-              name="projectdate"
-              class="form-control"
-              [(ngModel)]="product.projectdate"
-            />
+            <input type="date" id="projectdate" name="projectdate" class="form-control"
+              [(ngModel)]="product.projectdate" />
           </div>
         </div>
       </div>
@@ -118,46 +67,22 @@
         <div class="col-md-4">
           <div class="mt-2">
             <label for="barcode" class="form-label">Barcode</label>
-            <input
-              type="text"
-              id="barcode"
-              name="barcode"
-              class="form-control"
-              [(ngModel)]="product.barcode"
-            />
+            <input type="text" id="barcode" name="barcode" class="form-control" [(ngModel)]="product.barcode" />
           </div>
         </div>
         <div class="col-md-4">
           <div class="mt-2">
-            <label for="printingcompanyid" class="form-label"
-              >Printing Company</label
-            >
-            <ng-select
-              name="printingcompanyid"
-              [items]="printingCompanies$ | async"
-              bindLabel="name"
-              bindValue="id"
-              placeholder="Select Printing Company"
-              [(ngModel)]="printingcompanyid"
-              [searchable]="true"
-            >
+            <label for="printingcompanyid" class="form-label">Printing Company</label>
+            <ng-select name="printingcompanyid" [items]="printingCompanies$ | async" bindLabel="name" bindValue="id"
+              placeholder="Select Printing Company" [(ngModel)]="printingcompanyid" [searchable]="true">
             </ng-select>
           </div>
         </div>
         <div class="col-md-4">
           <div class="mt-2">
-            <label for="cylindercompanyid" class="form-label"
-              >Cylinder Company</label
-            >
-            <ng-select
-              name="cylindercompanyid"
-              [items]="cylinderCompanies$ | async"
-              bindLabel="name"
-              bindValue="id"
-              placeholder="Select Cylinder Company"
-              [(ngModel)]="cylindercompanyid"
-              [searchable]="true"
-            >
+            <label for="cylindercompanyid" class="form-label">Cylinder Company</label>
+            <ng-select name="cylindercompanyid" [items]="cylinderCompanies$ | async" bindLabel="name" bindValue="id"
+              placeholder="Select Cylinder Company" [(ngModel)]="cylindercompanyid" [searchable]="true">
             </ng-select>
           </div>
         </div>
@@ -166,15 +91,9 @@
       <div class="row">
         <div class="col-md-12">
           <div class="mt-2">
-            <label for="cylindercompanyid" class="form-label"
-              >File Upload</label
-            >
-            <input
-              type="file"
-              class="form-control"
-              (change)="onFilesSelected($event)"
-              multiple
-            />
+            <label for="cylindercompanyid" class="form-label">File Upload</label>
+            <button type="button" class="btn btn-light" (click)="openFileSelector()">Select Files to Upload</button>
+            <input type="file" class="form-control" (change)="onFilesSelected($event)" multiple />
 
             <!--
             <div *ngIf="selectedFiles.length">
@@ -183,11 +102,7 @@
             </div>
           -->
             <div *ngFor="let file of selectedFiles">
-              <i
-                class="{{ getFileExtension(file.name) }}"
-                style="color: #5cb85c"
-                aria-hidden="true"
-              ></i>
+              <i class="{{ getFileExtension(file.name) }}" style="color: #5cb85c" aria-hidden="true"></i>
               {{ file.name }}
             </div>
           </div>
@@ -203,4 +118,9 @@
       </div>
     </div>
   </form>
+</div>
+<div class="images-container-modal" [ngClass]="{'d-block': isFileSelectorVisible, 'd-none': !isFileSelectorVisible}">
+  <button type="button" class="btn btn-dark" style="position: fixed;top: 60px; right: 10px;"
+    (click)="closeFileSelector()">X</button>
+  <app-file-selector></app-file-selector>
 </div>
