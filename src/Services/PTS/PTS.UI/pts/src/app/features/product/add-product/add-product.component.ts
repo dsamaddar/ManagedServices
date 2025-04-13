@@ -24,6 +24,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { MatIcon } from '@angular/material/icon';
 import { FileSelectorComponent } from '../../../shared/components/file-selector/file-selector.component';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-add-product',
@@ -134,7 +135,6 @@ export class AddProductComponent implements OnInit, OnDestroy {
 
   getFileExtension(filename : string) : string { 
     let ext = filename.split(".").pop();
-    console.log(ext);
     let obj = this.iconList.filter(row =>
       {
         if (row.type === ext) {
@@ -143,7 +143,6 @@ export class AddProductComponent implements OnInit, OnDestroy {
 
         return "";
       });
-    //console.log(obj);
 
     if (obj.length > 0) {
       let icon = obj[0].icon;
@@ -152,7 +151,7 @@ export class AddProductComponent implements OnInit, OnDestroy {
     } 
     else {
       console.log('not found');
-      return "";
+      return "bi bi-paperclip";
     }
   }
 
@@ -163,16 +162,19 @@ export class AddProductComponent implements OnInit, OnDestroy {
 
     console.log(this.product);
 
-    if (this.selectedFiles.length === 0) return;
+    if (this.selectedFiles.length === 0) {
+      console.log('No File Selected')
+      return;
+    }
 
     const formData = new FormData();
     this.selectedFiles.forEach(file => {
       formData.append('files', file); // Use 'files[]' if backend expects array
     });
 
-    this.http.post('https://your-api.com/upload', formData).subscribe({
-      next: (res) => console.log('Files uploaded!', res),
-      error: (err) => console.error('Upload failed:', err),
+    this.http.post(`${environment.apiBaseUrl}/api/attachment/upload`, formData).subscribe({
+      next: (res) => console.log('Upload successful', res),
+      error: (err) => console.error('Upload error', err)
     });
 
   }

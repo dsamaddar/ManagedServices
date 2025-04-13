@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PTS.API.Models.Domain;
+using System.Diagnostics.CodeAnalysis;
 
 namespace PTS.API.Controllers
 {
@@ -8,6 +9,23 @@ namespace PTS.API.Controllers
     [ApiController]
     public class AttachmentController : ControllerBase
     {
+        [HttpPost("upload")]
+        public async Task<IActionResult> Upload(List<IFormFile> files)
+        {
+            foreach (var file in files)
+            {
+                var fileUploadName = $"{DateTime.Now.Ticks.ToString()}. {file.FileName}";
+                var filePath = Path.Combine("attachments", fileUploadName);
+
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await file.CopyToAsync(stream);
+                }
+            }
+
+            return Ok(new { Message = "Files uploaded successfully" });
+        }
+
         // POST: {apibaseurl}/api/attachments
         //[HttpPost]
         //public async Task<IActionResult> UploadAttachment([FromForm] IFormFile file, [FromForm] string fileName, [FromForm] string title, [FromForm] int productid)
@@ -23,7 +41,7 @@ namespace PTS.API.Controllers
         //            Description = "",
         //            ProductId = productid,
         //            DateCreated = DateTime.Now, 
-                   
+
         //        };
         //    }
 
