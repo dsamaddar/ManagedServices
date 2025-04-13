@@ -61,3 +61,76 @@ For more information on using the Angular CLI, including detailed command refere
 ## Navigation To work
 Add RouterModule in your component.ts file
 use dynamic format: [routerLink]="['admin/categories']"
+
+### Dockerize the angular app
+## To use Docker for an Angular app, you need to:
+
+    Create a production build of your Angular app.
+
+    Use a Dockerfile to define how your app should be built and run.
+
+    Build a Docker image from that Dockerfile.
+
+    Run the container from the image.
+
+## 1. Create Angular Production Build First, generate a production build:
+ng build --configuration production
+This will output files into the dist/<your-app-name> folder.
+
+### 2. Create a Dockerfile : In the root of your Angular project, create a file named Dockerfile with the following content:
+
+# Stage 1: Build Angular App
+FROM node:18 AS builder
+
+WORKDIR /app
+
+COPY package.json package-lock.json ./
+RUN npm install
+
+COPY . .
+RUN npm run build --configuration production
+
+# Stage 2: Serve Angular App with Nginx
+FROM nginx:alpine
+
+# Copy custom nginx config (optional, for Angular routing support)
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+# Copy built Angular app to Nginx
+COPY --from=builder /app/dist/<your-app-name> /usr/share/nginx/html
+
+# Expose port
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]
+
+Replace <your-app-name> with your actual app name as shown in angular.json.
+
+### 3. Optional: nginx.conf : Create an nginx.conf file in the root directory (optional but recommended for Angular routing):
+
+server {
+  listen 80;
+
+  server_name localhost;
+
+  root /usr/share/nginx/html;
+  index index.html;
+
+  location / {
+    try_files $uri $uri/ /index.html;
+  }
+}
+
+### 4. Check your existing docker images
+docker images
+
+### 5. Build Docker Image
+docker build -t ptsui .
+
+### 5. Run Docker Container
+docker run -d -p 8080:80 ptsui
+
+### Now you can visit your Angular app at:
+👉 http://localhost:8080
+
+
