@@ -72,7 +72,7 @@ use dynamic format: [routerLink]="['admin/categories']"
     Build a Docker image from that Dockerfile.
 
     Run the container from the image.
-
+### #####################################################################
 ## 1. Create Angular Production Build First, generate a production build:
 ng build --configuration production
 This will output files into the dist/<your-app-name> folder.
@@ -125,10 +125,10 @@ server {
 docker images
 
 ### 5. Build Docker Image
-docker build -t ptsui .
+docker build -t pts .
 
 ### 5. Run Docker Container
-docker run -d -p 8080:80 ptsui
+docker run -d -p 8080:80 pts
 
 ### Now you can visit your Angular app at:
 👉 http://localhost:8080

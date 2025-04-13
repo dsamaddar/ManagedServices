@@ -3,10 +3,10 @@ version: '3.5'
 services:
   angular-app:
     build: .
-    container_name: angular-app
+    container_name: ptsui
     ports:
-      - '4200:4200'
+      - '8080:80'
     volumes:
-      - ./:/angular-app
+      - ./:/ptsui
     environment:
       - STYLE=css
