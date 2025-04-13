@@ -53,10 +53,25 @@ export class AddProductComponent implements OnInit, OnDestroy {
   printingCompanies$?: Observable<PrintingCompany[]>;
 
   iconList = [ // array of icon class list based on type
-    { type: "docx", icon: "fas fa-file-word" },
-    { type: "xlsx", icon: "fas fa-file-excel" },
-    { type: "pdf", icon: "fas fa-file-pdf" },
-    { type: "jpg", icon: "fas fa-file-image" }
+    { type: "docx", icon: "fas fa-file-word"},
+    { type: "doc", icon: "fas fa-file-word"},
+    { type: "xlsx", icon: "fas fa-file-excel"},
+    { type: "pdf", icon: "bi bi-filetype-pdf"},
+    { type: "jpg", icon: "fas fa-file-image"},
+    { type: "png", icon: "bi bi-filetype-png"},
+    { type: "bmp", icon: "bi bi-filetype-bmp"},
+    { type: "gif", icon: "bi bi-filetype-gif"},    
+    { type: "ppt", icon: "fas fa-file-ppt"},
+    { type: "jpeg", icon: "fas fa-file-image"},
+    { type: "mp4", icon: "bi bi-filetype-mp4"},
+    { type: "exe", icon: "bi bi-filetype-exe"},
+    { type: "msi", icon: "bi bi-filetype-exe"},
+    { type: "txt", icon: "fas fa-text"},
+    { type: "csv", icon: "bi bi-filetype-csv"},
+    { type: "ai", icon: "bi bi-filetype-ai"},
+    { type: "zip", icon: "bi bi-file-zip-fill"},
+    { type: "rar", icon: "bi bi-file-zip-fill"},
+    { type: "7z", icon: "bi bi-file-zip-fill"},
   ];
 
   constructor(
