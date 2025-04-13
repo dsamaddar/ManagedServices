@@ -134,3 +134,8 @@ docker run -d -p 8080:80 pts
 👉 http://localhost:8080
 
 
+### ######################## for rapid build and deply ####################################
+
+ng build --configuration production
+docker build -t my-angular-app .
+docker run -d -p 8080:80 my-angular-app
