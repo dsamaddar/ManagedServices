@@ -3,21 +3,24 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PTS.API.Data;
 
 #nullable disable
 
-namespace PTS.API.Migrations.AuthDb
+namespace PTS.API.Migrations
 {
     [DbContext(typeof(AuthDbContext))]
-    partial class AuthDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250415125344_initial-authdbcontext")]
+    partial class initialauthdbcontext
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "9.0.3")
+                .HasAnnotation("ProductVersion", "8.0.15")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -52,21 +55,21 @@ namespace PTS.API.Migrations.AuthDb
                         new
                         {
                             Id = "637255cb-f655-4537-956a-075130dd9ac9",
-                            ConcurrencyStamp = "8dc722aa-b923-4da8-8322-e2fe6267eeda",
+                            ConcurrencyStamp = "cbd4d134-aba9-461a-8c23-a31d777a8798",
                             Name = "READER",
                             NormalizedName = "READER"
                         },
                         new
                         {
                             Id = "15e6e97c-401d-4ba1-b124-4ffdcb577f6a",
-                            ConcurrencyStamp = "8dc722aa-b923-4da8-8322-e2fe6267eeda",
+                            ConcurrencyStamp = "cfc6c121-cb1b-48a6-942a-fb8cbb1a3b63",
                             Name = "MANAGER",
                             NormalizedName = "MANAGER"
                         },
                         new
                         {
                             Id = "1b9f33f8-0ff3-4669-9f87-89a5743efedb",
-                            ConcurrencyStamp = "8dc722aa-b923-4da8-8322-e2fe6267eeda",
+                            ConcurrencyStamp = "d4bd8428-bf22-4d8b-b0b3-6acc2fb4142c",
                             Name = "ADMIN",
                             NormalizedName = "ADMIN"
                         });
@@ -174,7 +177,7 @@ namespace PTS.API.Migrations.AuthDb
                             NormalizedUserName = "DEBAYAN.SAMADDAR@NEOSCODER.COM",
                             PasswordHash = "AQAAAAIAAYagAAAAEBZYK2AcpnXFPESoUdcPjsppX7q80XnHNd5x5mBHfvYDB0/qzdtBkpvb98FfscgIig==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "3004091a-7e60-47d0-a0c3-c06b1bbd05f3",
+                            SecurityStamp = "3ff92d45-9b0f-44ea-a2ef-c0393e119790",
                             TwoFactorEnabled = false,
                             UserName = "debayan.samaddar@neoscoder.com"
                         });

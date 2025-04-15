@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
 
-namespace PTS.API.Migrations.AuthDb
+namespace PTS.API.Migrations
 {
     /// <inheritdoc />
     public partial class initialauthdbcontext : Migration
@@ -163,15 +163,15 @@ namespace PTS.API.Migrations.AuthDb
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "15e6e97c-401d-4ba1-b124-4ffdcb577f6a", "8dc722aa-b923-4da8-8322-e2fe6267eeda", "MANAGER", "MANAGER" },
-                    { "1b9f33f8-0ff3-4669-9f87-89a5743efedb", "8dc722aa-b923-4da8-8322-e2fe6267eeda", "ADMIN", "ADMIN" },
-                    { "637255cb-f655-4537-956a-075130dd9ac9", "8dc722aa-b923-4da8-8322-e2fe6267eeda", "READER", "READER" }
+                    { "15e6e97c-401d-4ba1-b124-4ffdcb577f6a", "cfc6c121-cb1b-48a6-942a-fb8cbb1a3b63", "MANAGER", "MANAGER" },
+                    { "1b9f33f8-0ff3-4669-9f87-89a5743efedb", "d4bd8428-bf22-4d8b-b0b3-6acc2fb4142c", "ADMIN", "ADMIN" },
+                    { "637255cb-f655-4537-956a-075130dd9ac9", "cbd4d134-aba9-461a-8c23-a31d777a8798", "READER", "READER" }
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "e07b4029-5a27-491d-9fc5-7043e22ae5eb", 0, "8dc722aa-b923-4da8-8322-e2fe6267eeda", "debayan.samaddar@neoscoder.com", true, false, null, "DEBAYAN.SAMADDAR@NEOSCODER.COM", "DEBAYAN.SAMADDAR@NEOSCODER.COM", "AQAAAAIAAYagAAAAEBZYK2AcpnXFPESoUdcPjsppX7q80XnHNd5x5mBHfvYDB0/qzdtBkpvb98FfscgIig==", null, false, "3004091a-7e60-47d0-a0c3-c06b1bbd05f3", false, "debayan.samaddar@neoscoder.com" });
+                values: new object[] { "e07b4029-5a27-491d-9fc5-7043e22ae5eb", 0, "8dc722aa-b923-4da8-8322-e2fe6267eeda", "debayan.samaddar@neoscoder.com", true, false, null, "DEBAYAN.SAMADDAR@NEOSCODER.COM", "DEBAYAN.SAMADDAR@NEOSCODER.COM", "AQAAAAIAAYagAAAAEBZYK2AcpnXFPESoUdcPjsppX7q80XnHNd5x5mBHfvYDB0/qzdtBkpvb98FfscgIig==", null, false, "3ff92d45-9b0f-44ea-a2ef-c0393e119790", false, "debayan.samaddar@neoscoder.com" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
