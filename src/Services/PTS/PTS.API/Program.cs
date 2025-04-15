@@ -20,14 +20,12 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<ApplicationDbContext>(options => 
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("PTSConnectionString_OFFICE"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("PTSConnectionString_MOAR"));
 });
 
 builder.Services.AddDbContext<AuthDbContext>(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("PTSConnectionString_OFFICE"))
-    .EnableSensitiveDataLogging()
-    .LogTo(Console.WriteLine,LogLevel.Information);
+    options.UseSqlServer(builder.Configuration.GetConnectionString("PTSConnectionString_MOAR"));
 });
 
 builder.Services.AddScoped<IAttachmentRepository, AttachmentRepository>();
