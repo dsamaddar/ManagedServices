@@ -34,6 +34,7 @@ builder.Services.AddScoped<ICylinderCompanyRepository, CylinderCompanyRepository
 builder.Services.AddScoped<IPrintingCompanyRepository, PrintingCompanyRepository>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
+builder.Services.AddScoped<ITokenRepository, TokenRepository>();
 
 builder.Services.Configure<FormOptions>(options =>
 {

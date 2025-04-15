@@ -7,8 +7,6 @@ namespace PTS.API.Data
 {
     public class AuthDbContext : IdentityDbContext<IdentityUser>
     {
-        public DbSet<IdentityUserRole<string>> UserRoles { get; set; }
-
         public AuthDbContext(DbContextOptions<AuthDbContext> options) : base(options)
         {
 
@@ -17,6 +15,8 @@ namespace PTS.API.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+
+            // Admin user credentials: {debayan.samaddar@neoscoder.com} {Farc1lgh#}
 
             // Create Reader, Manager, and Writer Role
 
@@ -63,17 +63,17 @@ namespace PTS.API.Data
             // Give Roles to Admin
             
             builder.Entity<IdentityUserRole<string>>().HasData(
-                new IdentityUserRole<string>
+                new IdentityUserRole<string> // Reader
                 {
                     UserId = "e07b4029-5a27-491d-9fc5-7043e22ae5eb",
                     RoleId = "637255cb-f655-4537-956a-075130dd9ac9",
                 },
-                new IdentityUserRole<string>
+                new IdentityUserRole<string> // Manager
                 {
                     UserId = "e07b4029-5a27-491d-9fc5-7043e22ae5eb",
                     RoleId = "15e6e97c-401d-4ba1-b124-4ffdcb577f6a",
                 },
-                new IdentityUserRole<string>
+                new IdentityUserRole<string> // Admin
                 {
                     UserId = "e07b4029-5a27-491d-9fc5-7043e22ae5eb",
                     RoleId = "1b9f33f8-0ff3-4669-9f87-89a5743efedb",

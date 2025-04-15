@@ -210,10 +210,6 @@ export class AddProductComponent implements OnInit, OnDestroy {
       }
     });
 
-    if(this.product.id == 0){
-      alert('Product Not Created.')
-      return;
-    }
     this.router.navigateByUrl('/admin/products');
     
   }
