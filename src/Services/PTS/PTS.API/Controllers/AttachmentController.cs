@@ -10,6 +10,7 @@ namespace PTS.API.Controllers
     public class AttachmentController : ControllerBase
     {
         [HttpPost("upload")]
+        [RequestSizeLimit(1073741824)] // 1 GB
         public async Task<IActionResult> Upload(List<IFormFile> files)
         {
             foreach (var file in files)

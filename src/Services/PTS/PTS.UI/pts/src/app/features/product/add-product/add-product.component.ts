@@ -146,7 +146,6 @@ export class AddProductComponent implements OnInit, OnDestroy {
 
     if (obj.length > 0) {
       let icon = obj[0].icon;
-      console.log(icon);
       return icon;
     } 
     else {

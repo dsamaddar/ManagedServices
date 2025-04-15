@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.EntityFrameworkCore;
 using PTS.API.Data;
 using PTS.API.Middleware;
@@ -25,6 +26,10 @@ builder.Services.AddScoped<IPrintingCompanyRepository, PrintingCompanyRepository
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
 
+builder.Services.Configure<FormOptions>(options =>
+{
+    options.MultipartBodyLengthLimit = 1073741824; // 1 GB in bytes
+});
 
 
 var app = builder.Build();
