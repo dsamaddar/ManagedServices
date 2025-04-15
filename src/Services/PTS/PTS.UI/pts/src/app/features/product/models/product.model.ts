@@ -1,6 +1,7 @@
 export interface Product{
     id: number,
     categoryid: number,
+    projectid: number,
     brand: string,
     flavourtype: string,
     origin: string,

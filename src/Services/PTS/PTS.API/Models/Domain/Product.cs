@@ -52,6 +52,10 @@ namespace PTS.API.Models.Domain
         [ForeignKey("PrintingCompany")]
         public int PrintingCompanyId { get; set; }
 
+        [Column(Order = 12)]
+        [ForeignKey("Project")]
+        public int ProjectId { get; set; }
+
         public ICollection<Attachment> Attachments { get; set; } = new List<Attachment>();
 
     }

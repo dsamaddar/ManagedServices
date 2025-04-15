@@ -1,5 +1,6 @@
 export interface AddProductRequest{
     categoryid: number,
+    projectid: number,
     brand: string,
     flavourtype: string,
     origin: string,

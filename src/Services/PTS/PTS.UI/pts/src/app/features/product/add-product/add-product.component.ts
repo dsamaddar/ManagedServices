@@ -11,7 +11,7 @@ import { Router, RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { CategoryService } from '../../category/services/category.service';
 import { Category } from '../../category/models/category.model';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { AddCategoryRequest } from '../../category/models/add-category-request.model';
 import { CylinderCompany } from '../../cylinderCompany/models/CylinderCompany.model';
 import { PrintingCompany } from '../../printingCompany/models/printingcompany.model';
@@ -21,10 +21,13 @@ import { NumericLiteral } from 'typescript';
 import { Product } from '../models/product.model';
 import { AddProductRequest } from '../models/add-product.model';
 import { FormsModule } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpEvent, HttpEventType } from '@angular/common/http';
 import { MatIcon } from '@angular/material/icon';
 import { FileSelectorComponent } from '../../../shared/components/file-selector/file-selector.component';
 import { environment } from '../../../../environments/environment';
+import { ProductService } from '../services/product.service';
+import { Project } from '../../project/models/project.model';
+import { ProjectService } from '../../project/services/project.service';
 
 @Component({
   selector: 'app-add-product',
@@ -45,13 +48,18 @@ import { environment } from '../../../../environments/environment';
 })
 export class AddProductComponent implements OnInit, OnDestroy {
   
+  progress = 0;
   product: AddProductRequest;
   selectedFiles: File[] = [];
 
   // observable array
   categories$?: Observable<Category[]>;
+  projects$?: Observable<Project[]>;
   cylinderCompanies$?: Observable<CylinderCompany[]>;
   printingCompanies$?: Observable<PrintingCompany[]>;
+
+  private addProductSubscription?: Subscription;
+  private uploadAttachmentSubscription?: Subscription;
 
   iconList = [ // array of icon class list based on type
     { type: "docx", icon: "fas fa-file-word"},
@@ -86,8 +94,10 @@ export class AddProductComponent implements OnInit, OnDestroy {
 
   constructor(
     private categoryService: CategoryService,
+    private projectService: ProjectService,
     private cylinderCompanyService: CylindercompanyService,
     private printingCompanyService: PrintingcompanyService,
+    private productService: ProductService,
     private router: Router,
     private datepipe: DatePipe,
     private http: HttpClient
@@ -97,6 +107,7 @@ export class AddProductComponent implements OnInit, OnDestroy {
     
       this.product = {
         categoryid: 0,
+        projectid: 0,
         brand: '',
         flavourtype: '',
         origin: '',
@@ -110,16 +121,16 @@ export class AddProductComponent implements OnInit, OnDestroy {
       }
   }
   
-  ngOnDestroy(): void {
-    throw new Error('Method not implemented.');
-  }
+
 
   categoryid?: number;
+  projectid?: number;
   cylindercompanyid?: number;
   printingcompanyid?: number;
 
   ngOnInit(): void {
     this.categories$ = this.categoryService.getAllCategories();
+    this.projects$ = this.projectService.getAllProjects();
     this.cylinderCompanies$ =
       this.cylinderCompanyService.getAllCylinderCompanies();
     this.printingCompanies$ =
@@ -156,16 +167,50 @@ export class AddProductComponent implements OnInit, OnDestroy {
 
   onFormSubmit() {
     this.product.categoryid = this.categoryid || 0;
+    this.product.projectid  = this.projectid || 0;
     this.product.cylindercompanyid = this.cylindercompanyid || 0;
     this.product.printingcompanyid = this.printingcompanyid || 0;
+    
+
+    if(this.product.categoryid == 0 || this.product.projectid == 0 || this.product.cylindercompanyid == 0 || this.product.printingcompanyid == 0){
+      alert('Missing: Category/Project/Cylinder Company/Printing Company');
+      return;
+    }
+
+    // Call Service to insert product data
+    this.addProductSubscription = this.productService.AddProduct(this.product)
+    .subscribe({
+      next: (response) => {
+
+        console.log('this was successful');
+        this.router.navigateByUrl('/admin/products');
+      },
+      error: (error) => {
+
+      }
+    });
 
     console.log(this.product);
 
     if (this.selectedFiles.length === 0) {
-      console.log('No File Selected')
+      alert('No File Selected')
       return;
     }
 
+    this.uploadAttachmentSubscription = this.productService.uploadAttachment(this.selectedFiles).subscribe((event: HttpEvent<any>) => {
+      switch (event.type) {
+        case HttpEventType.UploadProgress:
+          if (event.total) {
+            this.progress = Math.round(100 * event.loaded / event.total);
+          }
+          break;
+        case HttpEventType.Response:
+          alert('All files uploaded successfully');
+          this.progress = 0;
+          break;
+      }
+    });
+    /*
     const formData = new FormData();
     this.selectedFiles.forEach(file => {
       formData.append('files', file); // Use 'files[]' if backend expects array
@@ -175,6 +220,7 @@ export class AddProductComponent implements OnInit, OnDestroy {
       next: (res) => console.log('Upload successful', res),
       error: (err) => console.error('Upload error', err)
     });
+    */
 
   }
 
@@ -186,6 +232,11 @@ export class AddProductComponent implements OnInit, OnDestroy {
 
   closeFileSelector(): void{
     this.isFileSelectorVisible = false;
+  }
+
+  ngOnDestroy(): void {
+    this.addProductSubscription?.unsubscribe();
+    this.uploadAttachmentSubscription?.unsubscribe();
   }
 
 }
