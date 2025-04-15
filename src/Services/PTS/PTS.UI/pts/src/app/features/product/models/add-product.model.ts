@@ -1,4 +1,5 @@
 export interface AddProductRequest{
+    id: number,
     categoryid: number,
     projectid: number,
     brand: string,

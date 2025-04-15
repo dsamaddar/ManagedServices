@@ -106,6 +106,7 @@ export class AddProductComponent implements OnInit, OnDestroy {
     const formatted = this.datepipe.transform(myDate, 'yyyy-MM-dd');
     
       this.product = {
+        id: 0,
         categoryid: 0,
         projectid: 0,
         brand: '',
@@ -180,48 +181,41 @@ export class AddProductComponent implements OnInit, OnDestroy {
     // Call Service to insert product data
     this.addProductSubscription = this.productService.AddProduct(this.product)
     .subscribe({
-      next: (response) => {
+      next: (response) => {        
+        this.product.id = response.id;
+        console.log('Product created successfully : id->' + this.product.id.toString());
 
-        console.log('this was successful');
-        this.router.navigateByUrl('/admin/products');
+        if (this.selectedFiles.length === 0) {
+          alert('No File Selected')
+          return;
+        }
+
+        this.uploadAttachmentSubscription = this.productService.uploadAttachment(this.selectedFiles, this.product.id.toString()).subscribe((event: HttpEvent<any>) => {
+          switch (event.type) {
+            case HttpEventType.UploadProgress:
+              if (event.total) {
+                this.progress = Math.round(100 * event.loaded / event.total);
+              }
+              break;
+            case HttpEventType.Response:
+              alert('All files uploaded successfully');
+              this.progress = 0;
+              break;
+          }
+        });
+
       },
       error: (error) => {
-
+        console.log(error);
       }
     });
 
-    console.log(this.product);
-
-    if (this.selectedFiles.length === 0) {
-      alert('No File Selected')
+    if(this.product.id == 0){
+      alert('Product Not Created.')
       return;
     }
-
-    this.uploadAttachmentSubscription = this.productService.uploadAttachment(this.selectedFiles).subscribe((event: HttpEvent<any>) => {
-      switch (event.type) {
-        case HttpEventType.UploadProgress:
-          if (event.total) {
-            this.progress = Math.round(100 * event.loaded / event.total);
-          }
-          break;
-        case HttpEventType.Response:
-          alert('All files uploaded successfully');
-          this.progress = 0;
-          break;
-      }
-    });
-    /*
-    const formData = new FormData();
-    this.selectedFiles.forEach(file => {
-      formData.append('files', file); // Use 'files[]' if backend expects array
-    });
-
-    this.http.post(`${environment.apiBaseUrl}/api/attachment/upload`, formData).subscribe({
-      next: (res) => console.log('Upload successful', res),
-      error: (err) => console.error('Upload error', err)
-    });
-    */
-
+    this.router.navigateByUrl('/admin/products');
+    
   }
 
   isFileSelectorVisible: boolean = false;

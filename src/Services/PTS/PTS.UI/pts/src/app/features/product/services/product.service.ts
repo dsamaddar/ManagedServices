@@ -12,8 +12,8 @@ export class ProductService {
 
   constructor(private http: HttpClient) { }
 
-  AddProduct(model: AddProductRequest): Observable<void> {
-    return this.http.post<void>(
+  AddProduct(model: AddProductRequest): Observable<Product> {
+    return this.http.post<Product>(
       `${environment.apiBaseUrl}/api/product`,
       model
     );
@@ -25,11 +25,13 @@ export class ProductService {
     );
   }
 
-  uploadAttachment(files: File[]): Observable<HttpEvent<any>> {
+  uploadAttachment(files: File[], productid: string): Observable<HttpEvent<any>> {
     const formData = new FormData();
     files.forEach(file => formData.append('files', file)); // 'files' should match the backend parameter name
-  
-    return this.http.post<any>(`${environment.apiBaseUrl}/api/attachment/upload`, formData, {
+    
+    formData.append('productid',productid);
+
+    return this.http.post<Product>(`${environment.apiBaseUrl}/api/attachment/upload`, formData, {
       reportProgress: true,
       observe: 'events'
     });

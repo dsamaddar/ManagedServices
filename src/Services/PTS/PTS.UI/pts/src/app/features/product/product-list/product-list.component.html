@@ -9,4 +9,31 @@
       >Add Product</a
     >
   </div>
+  <ng-container *ngIf="products$ | async as products">
+    <table class="table table-bordered mt-3">
+      <thead>
+        <tr>
+          <th>Id</th>
+          <th>SKU</th>
+          <th>Version</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let product of products">
+          <td>{{ product.id }}</td>
+          <td>{{ product.sku }}</td>
+          <td>{{ product.version }}</td>
+          <td>
+            <a
+              class="btn btn-light"
+              [routerLink]="['/admin/products', product.id]"
+              >
+              <i class="bi bi-pencil-square"></i>
+            </a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </ng-container>
 </div>

@@ -74,7 +74,7 @@ namespace PTS.API.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CategoryId = table.Column<int>(type: "int", nullable: false),
+                    CategoryId = table.Column<int>(type: "int", nullable: true),
                     Brand = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     FlavourType = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     Origin = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
@@ -83,8 +83,8 @@ namespace PTS.API.Migrations
                     Version = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     ProjectDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Barcode = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    CylinderCompanyId = table.Column<int>(type: "int", nullable: false),
-                    PrintingCompanyId = table.Column<int>(type: "int", nullable: false),
+                    CylinderCompanyId = table.Column<int>(type: "int", nullable: true),
+                    PrintingCompanyId = table.Column<int>(type: "int", nullable: true),
                     ProjectId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
@@ -94,20 +94,17 @@ namespace PTS.API.Migrations
                         name: "FK_Products_Categories_CategoryId",
                         column: x => x.CategoryId,
                         principalTable: "Categories",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Products_CylinderCompanies_CylinderCompanyId",
                         column: x => x.CylinderCompanyId,
                         principalTable: "CylinderCompanies",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Products_PrintingCompanies_PrintingCompanyId",
                         column: x => x.PrintingCompanyId,
                         principalTable: "PrintingCompanies",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Products_Projects_ProjectId",
                         column: x => x.ProjectId,

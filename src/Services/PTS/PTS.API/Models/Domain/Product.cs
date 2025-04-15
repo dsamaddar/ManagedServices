@@ -11,7 +11,7 @@ namespace PTS.API.Models.Domain
 
         [ForeignKey("Category")]
         [Column(Order = 1)]
-        public int CategoryId { get; set; }
+        public int? CategoryId { get; set; }
 
         [Column(Order = 2)]
         [MaxLength(100)]
@@ -46,15 +46,15 @@ namespace PTS.API.Models.Domain
 
         [ForeignKey("CylinderCompany")]
         [Column(Order = 10)]
-        public int CylinderCompanyId { get; set; }
+        public int? CylinderCompanyId { get; set; }
 
         [Column(Order = 11)]
         [ForeignKey("PrintingCompany")]
-        public int PrintingCompanyId { get; set; }
+        public int? PrintingCompanyId { get; set; }
 
         [Column(Order = 12)]
         [ForeignKey("Project")]
-        public int ProjectId { get; set; }
+        public int? ProjectId { get; set; }
 
         public ICollection<Attachment> Attachments { get; set; } = new List<Attachment>();
 

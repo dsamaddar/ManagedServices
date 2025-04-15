@@ -164,11 +164,11 @@ namespace PTS.API.Migrations
                         .HasColumnType("nvarchar(100)")
                         .HasColumnOrder(2);
 
-                    b.Property<int>("CategoryId")
+                    b.Property<int?>("CategoryId")
                         .HasColumnType("int")
                         .HasColumnOrder(1);
 
-                    b.Property<int>("CylinderCompanyId")
+                    b.Property<int?>("CylinderCompanyId")
                         .HasColumnType("int")
                         .HasColumnOrder(10);
 
@@ -187,7 +187,7 @@ namespace PTS.API.Migrations
                         .HasColumnType("nvarchar(100)")
                         .HasColumnOrder(6);
 
-                    b.Property<int>("PrintingCompanyId")
+                    b.Property<int?>("PrintingCompanyId")
                         .HasColumnType("int")
                         .HasColumnOrder(11);
 
@@ -196,7 +196,8 @@ namespace PTS.API.Migrations
                         .HasColumnOrder(8);
 
                     b.Property<int?>("ProjectId")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnOrder(12);
 
                     b.Property<string>("SKU")
                         .HasMaxLength(100)
@@ -267,21 +268,15 @@ namespace PTS.API.Migrations
                 {
                     b.HasOne("PTS.API.Models.Domain.Category", null)
                         .WithMany("Products")
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CategoryId");
 
                     b.HasOne("PTS.API.Models.Domain.CylinderCompany", null)
                         .WithMany("Products")
-                        .HasForeignKey("CylinderCompanyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CylinderCompanyId");
 
                     b.HasOne("PTS.API.Models.Domain.PrintingCompany", null)
                         .WithMany("Products")
-                        .HasForeignKey("PrintingCompanyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("PrintingCompanyId");
 
                     b.HasOne("PTS.API.Models.Domain.Project", null)
                         .WithMany("Products")

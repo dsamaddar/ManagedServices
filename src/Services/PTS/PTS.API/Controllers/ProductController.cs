@@ -44,6 +44,7 @@ namespace PTS.API.Controllers
             // Domain model to DTO
             var response = new ProductDto
             {
+                Id = product.Id,
                 CategoryId = product.CategoryId,
                 ProjectId = product.ProjectId,
                 Brand = product.Brand,
