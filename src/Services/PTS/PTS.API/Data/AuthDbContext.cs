@@ -1,12 +1,13 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 
 namespace PTS.API.Data
 {
-    public class AuthDbContext : IdentityDbContext
+    public class AuthDbContext : IdentityDbContext<IdentityUser>
     {
-        public AuthDbContext(DbContextOptions options) : base(options)
+        public AuthDbContext(DbContextOptions<AuthDbContext> options) : base(options)
         {
 
         }
@@ -15,74 +16,64 @@ namespace PTS.API.Data
         {
             base.OnModelCreating(builder);
 
-            var readerRoleId = "637255cb-f655-4537-956a-075130dd9ac9";
-            var managerRoleId = "15e6e97c-401d-4ba1-b124-4ffdcb577f6a";
-            var adminRoleId = "1b9f33f8-0ff3-4669-9f87-89a5743efedb";
-
             // Create Reader, Manager, and Writer Role
-            var roles = new List<IdentityRole>
-            {
-                new IdentityRole()
-                {
-                    Id = readerRoleId,
-                    Name = "Reader",
-                    NormalizedName = "Reader".ToUpper(),
-                    ConcurrencyStamp = readerRoleId
-                },
-                new IdentityRole()
-                {
-                    Id = managerRoleId,
-                    Name = "Manager",
-                    NormalizedName = "Manager".ToUpper(),
-                    ConcurrencyStamp = managerRoleId
-                },
-                new IdentityRole()
-                {
-                    Id = adminRoleId,
-                    Name = "Admin",
-                    NormalizedName = "Admin".ToUpper(),
-                    ConcurrencyStamp = adminRoleId
-                }
-            };
 
             // Seed the roles
-            builder.Entity<IdentityRole>().HasData(roles);
+            builder.Entity<IdentityRole>().HasData(
+                new IdentityRole() // Reader
+                {
+                    Id = "637255cb-f655-4537-956a-075130dd9ac9",
+                    Name = "READER",
+                    NormalizedName = "READER",
+                },
+                new IdentityRole() // Manager
+                {
+                    Id = "15e6e97c-401d-4ba1-b124-4ffdcb577f6a",
+                    Name = "MANAGER",
+                    NormalizedName = "MANAGER",
+                },
+                new IdentityRole() // Admin
+                {
+                    Id = "1b9f33f8-0ff3-4669-9f87-89a5743efedb",
+                    Name = "ADMIN",
+                    NormalizedName = "ADMIN",
+                }
+            );
 
             // create a default Admin User
-            var adminUserId = "e07b4029-5a27-491d-9fc5-7043e22ae5eb";
-            var admin = new IdentityUser()
-            {
-                Id = adminUserId,
-                UserName = "debayan.samaddar@neoscoder.com",
-                Email = "debayan.samaddar@neoscoder.com",
-                NormalizedEmail = "debayan.samaddar@neoscoder.com".ToUpper(),
-                NormalizedUserName = "dsamaddar".ToUpper()
-            };
 
-            admin.PasswordHash = new PasswordHasher<IdentityUser>().HashPassword(admin, "Farc1lgh#");
-            builder.Entity<IdentityUser>().HasData(adminUserId);
+            //admin.PasswordHash = new PasswordHasher<IdentityUser>().HashPassword(admin, "Farc1lgh#");
+            builder.Entity<IdentityUser>().HasData(new IdentityUser
+            {
+                Id = "e07b4029-5a27-491d-9fc5-7043e22ae5eb",
+                UserName = "debayan.samaddar@neoscoder.com",
+                NormalizedUserName = "DEBAYAN.SAMADDAR@NEOSCODER.COM",
+                Email = "debayan.samaddar@neoscoder.com",
+                NormalizedEmail = "DEBAYAN.SAMADDAR@NEOSCODER.COM",
+                EmailConfirmed = true,
+                PasswordHash = "AQAAAAIAAYagAAAAEBZYK2AcpnXFPESoUdcPjsppX7q80XnHNd5x5mBHfvYDB0/qzdtBkpvb98FfscgIig==",
+                SecurityStamp = "STATIC_SECURITY_STAMP" // ✅ Use a fixed string
+            });
 
             // Give Roles to Admin
-            var adminRoles = new List<IdentityUserRole<string>>()
-            {
-                new()
+            
+            builder.Entity<IdentityUserRole<string>>().HasData(
+                new IdentityUserRole<string>
                 {
-                    UserId = adminUserId,
-                    RoleId = readerRoleId,
+                    UserId = "e07b4029-5a27-491d-9fc5-7043e22ae5eb",
+                    RoleId = "637255cb-f655-4537-956a-075130dd9ac9",
                 },
-                new()
+                new IdentityUserRole<string>
                 {
-                    UserId = adminUserId,
-                    RoleId = managerRoleId,
+                    UserId = "e07b4029-5a27-491d-9fc5-7043e22ae5eb",
+                    RoleId = "15e6e97c-401d-4ba1-b124-4ffdcb577f6a",
                 },
-                new()
+                new IdentityUserRole<string>
                 {
-                    UserId = adminUserId,
-                    RoleId = adminRoleId,
+                    UserId = "e07b4029-5a27-491d-9fc5-7043e22ae5eb",
+                    RoleId = "1b9f33f8-0ff3-4669-9f87-89a5743efedb",
                 }
-            };
-
-            builder.Entity<IdentityUserRole<string>>().HasData(adminRoles);
+            );
         }
 
     }

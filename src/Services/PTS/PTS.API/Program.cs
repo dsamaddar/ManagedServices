@@ -25,7 +25,9 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 builder.Services.AddDbContext<AuthDbContext>(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("PTSConnectionString_OFFICE"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("PTSConnectionString_OFFICE"))
+    .EnableSensitiveDataLogging()
+    .LogTo(Console.WriteLine,LogLevel.Information);
 });
 
 builder.Services.AddScoped<IAttachmentRepository, AttachmentRepository>();
