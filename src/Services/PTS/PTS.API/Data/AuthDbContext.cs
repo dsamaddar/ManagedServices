@@ -17,6 +17,7 @@ namespace PTS.API.Data
             base.OnModelCreating(builder);
 
             // Admin user credentials: {debayan.samaddar@neoscoder.com} {Farc1lgh#}
+            // Test User Credentials: {test@neoscoder.com} {Asdf@1234}
 
             // Create Reader, Manager, and Writer Role
 

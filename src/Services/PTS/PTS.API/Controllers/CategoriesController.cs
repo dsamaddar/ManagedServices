@@ -24,6 +24,7 @@ namespace PTS.API.Controllers
 
         // https://localhost:xxxx/api/categories
         [HttpPost]
+        [Authorize(Roles ="MANAGER,ADMIN")]
         public async Task<IActionResult> CreateCategory([FromBody] CreateCategoryRequestDto request)
         {
             // Map DTO to Domain Model
@@ -48,7 +49,7 @@ namespace PTS.API.Controllers
 
         // GET: /api/categories
         [HttpGet]
-        [Authorize]
+        [Authorize(Roles = "READER,MANAGER,ADMIN")]
         public async Task<IActionResult> GetAllCategories()
         {
             var categories = await categoryRepository.GetAllAsync();
@@ -71,6 +72,7 @@ namespace PTS.API.Controllers
         //  GET: /api/categories/{id}
         [HttpGet]
         [Route("{id:int}")]
+        [Authorize(Roles = "READER,MANAGER,ADMIN")]
         public async Task<IActionResult> GetCategoryById([FromRoute] int id)
         {
             var existingCategory = await categoryRepository.GetById(id);
@@ -93,6 +95,7 @@ namespace PTS.API.Controllers
         // PUT: /api/categories/{id}
         [HttpPut]
         [Route("{id:int}")]
+        [Authorize(Roles = "MANAGER,ADMIN")]
         public async Task<IActionResult> EditCategory([FromRoute] int id, UpdateCategoryRequestDto request)
         {
             // Convert DTO to Domain Model
@@ -125,6 +128,7 @@ namespace PTS.API.Controllers
 
         [HttpDelete]
         [Route("{id:int}")]
+        [Authorize(Roles = "MANAGER,ADMIN")]
         public async Task<IActionResult> DeleteCategory([FromRoute] int id)
         {
             var category = await categoryRepository.DeleteAsync(id);
