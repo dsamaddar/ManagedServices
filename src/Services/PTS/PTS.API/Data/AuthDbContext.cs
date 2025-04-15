@@ -25,18 +25,21 @@ namespace PTS.API.Data
                     Id = "637255cb-f655-4537-956a-075130dd9ac9",
                     Name = "READER",
                     NormalizedName = "READER",
+                    ConcurrencyStamp = "8dc722aa-b923-4da8-8322-e2fe6267eeda",
                 },
                 new IdentityRole() // Manager
                 {
                     Id = "15e6e97c-401d-4ba1-b124-4ffdcb577f6a",
                     Name = "MANAGER",
                     NormalizedName = "MANAGER",
+                    ConcurrencyStamp = "8dc722aa-b923-4da8-8322-e2fe6267eeda",
                 },
                 new IdentityRole() // Admin
                 {
                     Id = "1b9f33f8-0ff3-4669-9f87-89a5743efedb",
                     Name = "ADMIN",
                     NormalizedName = "ADMIN",
+                    ConcurrencyStamp = "8dc722aa-b923-4da8-8322-e2fe6267eeda",
                 }
             );
 
@@ -52,7 +55,7 @@ namespace PTS.API.Data
                 NormalizedEmail = "DEBAYAN.SAMADDAR@NEOSCODER.COM",
                 EmailConfirmed = true,
                 PasswordHash = "AQAAAAIAAYagAAAAEBZYK2AcpnXFPESoUdcPjsppX7q80XnHNd5x5mBHfvYDB0/qzdtBkpvb98FfscgIig==",
-                SecurityStamp = "STATIC_SECURITY_STAMP" // ✅ Use a fixed string
+                ConcurrencyStamp = "8dc722aa-b923-4da8-8322-e2fe6267eeda"
             });
 
             // Give Roles to Admin
