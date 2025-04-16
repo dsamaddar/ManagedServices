@@ -79,8 +79,8 @@ export class CategoryListComponent implements OnInit {
         });
         */
         //this.showErrorMessage('Failed to load categories');
-        this.showToast('Failed to load categories');
-        
+        this.showErrorToast('Failed to load categories');
+
         // return empty array so UI doesn't break
         return of([]);
       })
