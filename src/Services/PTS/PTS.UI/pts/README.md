@@ -139,3 +139,7 @@ docker run -d -p 8080:80 pts
 ng build --configuration production
 docker build -t my-angular-app .
 docker run -d -p 8080:80 my-angular-app
+
+### toaster packages
+npm install ngx-toastr --save
+npm install @angular/animations --save

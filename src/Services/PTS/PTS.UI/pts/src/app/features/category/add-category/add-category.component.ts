@@ -8,7 +8,7 @@ import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-add-category',
-  imports: [FormsModule, CommonModule, RouterModule],
+  imports: [FormsModule,CommonModule, RouterModule],
   templateUrl: './add-category.component.html',
   styleUrl: './add-category.component.css'
 })
