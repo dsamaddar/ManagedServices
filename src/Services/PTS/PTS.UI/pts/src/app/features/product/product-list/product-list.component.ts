@@ -10,15 +10,12 @@ import { Observable } from 'rxjs';
   selector: 'app-product-list',
   imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './product-list.component.html',
-  styleUrl: './product-list.component.css'
+  styleUrl: './product-list.component.css',
 })
 export class ProductListComponent implements OnInit {
-
   products$?: Observable<Product[]>;
 
-  constructor(private productService: ProductService){
-
-  }
+  constructor(private productService: ProductService) {}
 
   ngOnInit(): void {
     this.products$ = this.productService.getAllProducts();
