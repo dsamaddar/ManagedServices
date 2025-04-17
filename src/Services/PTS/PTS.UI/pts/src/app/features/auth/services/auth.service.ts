@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { LoginRequest } from './models/login-request.model';
+import { LoginRequest } from '../models/login-request.model';
 import { Observable } from 'rxjs';
-import { LoginResponse } from './models/login-response.model';
+import { LoginResponse } from '../models/login-response.model';
 import { HttpClient } from '@angular/common/http';
-import { environment } from '../../../environments/environment';
+import { environment } from '../../../../environments/environment';
 import { parseJsonSourceFileConfigFileContent } from 'typescript';
 
 @Injectable({
