@@ -1,7 +1,9 @@
 ﻿using Azure.Core;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PTS.API.Models.Domain;
+using PTS.API.Models.DTO;
 using PTS.API.Repositories.Implementation;
 using PTS.API.Repositories.Interface;
 using System.Diagnostics.CodeAnalysis;
@@ -27,7 +29,8 @@ namespace PTS.API.Controllers
 
             foreach (var file in files)
             {
-                var fileUploadName = $"{DateTime.Now.Ticks.ToString()}. {file.FileName}";
+                string sanitizedFileName = file.FileName.Replace(" ", "_").Replace("'", "_");
+                var fileUploadName = $"{DateTime.Now.Ticks.ToString()}.{sanitizedFileName}";
                 var filePath = Path.Combine("attachments", fileUploadName);
 
                 using (var stream = new FileStream(filePath, FileMode.Create))
@@ -48,6 +51,58 @@ namespace PTS.API.Controllers
             }
 
             return Ok(new { Message = "Files uploaded successfully" });
+        }
+
+        // DELETE: /api/categories/{id}
+
+        [HttpDelete]
+        [Route("{id:int}")]
+        [Authorize(Roles = "READER,MANAGER,ADMIN")]
+        public async Task<IActionResult> DeleteAttachment([FromRoute] int id)
+        {
+            var attachment = await attachmentRepository.DeleteAsync(id);
+
+            if (attachment is null)
+            {
+                return NotFound();
+            }
+
+            // Convert Domain Model to DTO
+
+            var response = new AttachmentDto
+            {
+
+                Id = attachment.Id,
+                Name = attachment.Name,
+                Description = attachment.Description,
+                Tag = attachment.Tag,
+            };
+
+            return Ok(response);
+        }
+
+        //  GET: /api/categories/{id}
+        [HttpGet]
+        [Route("{productId:int}")]
+        //[Authorize(Roles = "READER,MANAGER,ADMIN")]
+        public async Task<IActionResult> GetAttachmentsByProductId([FromRoute] int productId)
+        {
+            var attachments = await attachmentRepository.GetAllByProductIdAsync(productId);
+
+            // Map Domain model to DTO
+            var response = new List<AttachmentDto>();
+            foreach (var attachment in attachments)
+            {
+                response.Add(new AttachmentDto
+                {
+                    Id = attachment.Id,
+                    Name = attachment.Name,
+                    Description = attachment.Description,
+                    Tag = attachment.Tag,
+                });
+            }
+
+            return Ok(response);
         }
 
 

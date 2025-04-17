@@ -1,10 +1,17 @@
 <div class="container">
-  <h5 class="mt-3">Add Product</h5>
-  <div class="d-flex justify-content-end mt-3">
-    <a [routerLink]="['/admin/products']" class="btn btn-success"
-      ><i class="bi bi-house-gear-fill"></i
-    ></a>
+  <div class="row">
+    <div class="col-md-6">
+      <h5 class="mt-3">Add Product</h5>
+    </div>
+    <div class="col-md-6">
+      <div class="d-flex justify-content-end mt-3">
+        <a [routerLink]="['/admin/products']" class="btn btn-success"
+          ><i class="bi bi-house-gear-fill"></i
+        ></a>
+      </div>
+    </div>
   </div>
+
   <form
     #form="ngForm"
     (ngSubmit)="onFormSubmit()"
@@ -15,7 +22,8 @@
         <div class="col-md-4">
           <div class="mt-3 form-group">
             <label for="categoryid" class="form-label">Category</label>
-            <ng-select *ngIf="product"
+            <ng-select
+              *ngIf="product"
               name="categoryid"
               [items]="categories$ | async"
               bindLabel="name"
@@ -35,14 +43,15 @@
               id="brand"
               name="brand"
               class="form-control"
-              value="{{product?.brand}}"
+              value="{{ product?.brand }}"
             />
           </div>
         </div>
         <div class="col-md-4">
           <div class="mt-3 form-group">
             <label for="projectid" class="form-label">Project</label>
-            <ng-select *ngIf="product"
+            <ng-select
+              *ngIf="product"
               name="projectid"
               [items]="projects$ | async"
               bindLabel="name"
@@ -64,7 +73,7 @@
               id="flavourtype"
               name="flavourtype"
               class="form-control"
-              value="{{product?.flavourType}}"
+              value="{{ product?.flavourType }}"
             />
           </div>
         </div>
@@ -76,7 +85,7 @@
               id="origin"
               name="origin"
               class="form-control"
-              value="{{product?.origin}}"
+              value="{{ product?.origin }}"
             />
           </div>
         </div>
@@ -88,7 +97,7 @@
               id="sku"
               name="sku"
               class="form-control"
-              value="{{product?.sku}}"
+              value="{{ product?.sku }}"
             />
           </div>
         </div>
@@ -103,7 +112,7 @@
               id="packtype"
               name="packtype"
               class="form-control"
-              value="{{product?.packType}}"
+              value="{{ product?.packType }}"
             />
           </div>
         </div>
@@ -115,19 +124,20 @@
               id="version"
               name="version"
               class="form-control"
-              value="{{product?.version}}"
+              value="{{ product?.version }}"
             />
           </div>
         </div>
         <div class="col-md-4">
           <div class="mt-2">
             <label for="projectdate" class="form-label">Project Date</label>
-            <input *ngIf="product"
+            <input
+              *ngIf="product"
               type="date"
               id="projectdate"
               name="projectdate"
               class="form-control"
-              value="{{product.projectDate | date:'yyyy-MM-dd'}}"
+              value="{{ product.projectDate | date : 'yyyy-MM-dd' }}"
             />
           </div>
         </div>
@@ -142,7 +152,7 @@
               id="barcode"
               name="barcode"
               class="form-control"
-              value="{{product?.barcode}}"
+              value="{{ product?.barcode }}"
             />
           </div>
         </div>
@@ -151,7 +161,8 @@
             <label for="printingcompanyid" class="form-label"
               >Printing Company</label
             >
-            <ng-select *ngIf="product"
+            <ng-select
+              *ngIf="product"
               name="printingcompanyid"
               [items]="printingCompanies$ | async"
               bindLabel="name"
@@ -168,7 +179,8 @@
             <label for="cylindercompanyid" class="form-label"
               >Cylinder Company</label
             >
-            <ng-select *ngIf="product"
+            <ng-select
+              *ngIf="product"
               name="cylindercompanyid"
               [items]="cylinderCompanies$ | async"
               bindLabel="name"
@@ -182,17 +194,33 @@
         </div>
       </div>
 
-      <div class="row mt-3">
-        <div class="col-md-12">
-          <ul>
-            <li *ngFor="let attachment of product?.attachments">
-              <a href="">{{ attachment.name }}</a>
-            </li>
-          </ul>
-        </div>
-      </div>
+      <div class="row mt-3"></div>
       <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-4">
+          <ng-container *ngIf="attachment_list as attachments">
+            <table class="table">
+              <thead>
+                <th>File</th>
+                <th></th>
+              </thead>
+              <tr *ngFor="let attachment of attachments">
+                <td>
+                  <a
+                    href="{{ attachmentBaseUrl }}{{ attachment.name }}"
+                    target="_blank"
+                    >{{ attachment.name }}</a
+                  >
+                </td>
+                <td>
+                  <button type="button" class="btn btn-danger ms-3" (click)="onDeleteAttachment(attachment.id)">
+                    <i class="bi bi-trash-fill"></i>
+                  </button>
+                </td>
+              </tr>
+            </table>
+          </ng-container>
+        </div>
+        <div class="col-md-4">
           <div class="mt-2">
             <label for="cylindercompanyid" class="form-label"
               >File Upload</label
@@ -204,12 +232,7 @@
               multiple
             />
           </div>
-        </div>
-      </div>
-
-      <div class="row mt-3">
-        <div class="col-md-6">
-          <div class="card border-info mb-3" style="max-width: 100%">
+          <div class="card border-info mt-3 mb-3" style="max-width: 100%">
             <div class="card-header">Selected Files</div>
             <div class="card-body text-info">
               <div *ngFor="let file of selectedFiles">
@@ -223,15 +246,17 @@
             </div>
           </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-4">
           <div *ngIf="progress > 0">
             Upload Progress: {{ progress }}%
             <progress [value]="progress" max="100"></progress>
           </div>
-        </div>
-        <div class="col-md-3">
           <button type="submit" class="btn btn-primary">Save Product</button>
         </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12 mt-6"></div>
       </div>
     </div>
   </form>

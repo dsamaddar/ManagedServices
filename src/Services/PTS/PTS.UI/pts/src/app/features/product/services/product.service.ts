@@ -10,6 +10,7 @@ import { environment } from '../../../../environments/environment';
 import { AddProductRequest } from '../models/add-product.model';
 import { Product } from '../models/product.model';
 import { AllProduct } from '../models/all-product.model';
+import { Attachment } from '../models/attachment.model';
 
 @Injectable({
   providedIn: 'root',
@@ -29,7 +30,15 @@ export class ProductService {
   }
 
   getProductById(id: number): Observable<AllProduct> {
-    return this.http.get<AllProduct>(`${environment.apiBaseUrl}/api/product/${id}`);
+    return this.http.get<AllProduct>(
+      `${environment.apiBaseUrl}/api/product/${id}`
+    );
+  }
+
+  getAttachmentsByProductId(productId: number): Observable<Attachment[]> {
+    return this.http.get<Attachment[]>(
+      `${environment.apiBaseUrl}/api/attachment/${productId}`
+    );
   }
 
   uploadAttachment(
@@ -48,6 +57,12 @@ export class ProductService {
         reportProgress: true,
         observe: 'events',
       }
+    );
+  }
+
+  deleteAttachment(id: number): Observable<Attachment> {
+    return this.http.delete<Attachment>(
+      `${environment.apiBaseUrl}/api/attachment/${id}`
     );
   }
 }

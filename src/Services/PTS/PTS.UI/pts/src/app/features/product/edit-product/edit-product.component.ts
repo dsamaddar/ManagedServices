@@ -17,23 +17,35 @@ import { PrintingcompanyService } from '../../printingCompany/services/printingc
 import { HttpClient } from '@angular/common/http';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FileSelectorComponent } from '../../../shared/components/file-selector/file-selector.component';
+import { environment } from '../../../../environments/environment';
+import { ToastrUtils } from '../../../utils/toastr-utils';
+import Swal from 'sweetalert2';
+import { Attachment } from '../models/attachment.model';
 
 @Component({
   selector: 'app-edit-product',
-  imports: [CommonModule, FormsModule, RouterModule, NgSelectModule, FileSelectorComponent],
+  imports: [
+    CommonModule,
+    FormsModule,
+    RouterModule,
+    NgSelectModule,
+    FileSelectorComponent,
+  ],
   templateUrl: './edit-product.component.html',
-  styleUrl: './edit-product.component.css'
+  styleUrl: './edit-product.component.css',
 })
 export class EditProductComponent implements OnInit, OnDestroy {
-  
-  id?: number = 0;
+  productId: number = 0;
   paramsSubscription?: Subscription;
   editProductSubscription?: Subscription;
   deleteProductSubscription?: Subscription;
+  deleteAttachmentSubscription?: Subscription;
   product?: AllProduct;
+  attachmentBaseUrl?: string;
+  attachment_list: Attachment[] = [];
 
   progress = 0;
-    //product: AddProductRequest;
+  //product: AddProductRequest;
   selectedFiles: File[] = [];
 
   // observable array
@@ -42,7 +54,6 @@ export class EditProductComponent implements OnInit, OnDestroy {
   cylinderCompanies$?: Observable<CylinderCompany[]>;
   printingCompanies$?: Observable<PrintingCompany[]>;
 
-  
   private addProductSubscription?: Subscription;
   private uploadAttachmentSubscription?: Subscription;
 
@@ -88,8 +99,7 @@ export class EditProductComponent implements OnInit, OnDestroy {
     private printingCompanyService: PrintingcompanyService,
     private datepipe: DatePipe,
     private http: HttpClient
-  )
-  {}
+  ) {}
 
   onFilesSelected(event: Event) {
     const fileInput = event.target as HTMLInputElement;
@@ -121,22 +131,24 @@ export class EditProductComponent implements OnInit, OnDestroy {
   projectid?: number;
   cylindercompanyid?: number;
   printingcompanyid?: number;
-  
+
   ngOnInit(): void {
+    this.attachmentBaseUrl = `${environment.attachmentBaseUrl}`;
+
     this.paramsSubscription = this.route.paramMap.subscribe({
       next: (params) => {
-        this.id = Number(params.get('id'));
+        this.productId = Number(params.get('id'));
+        this.loadAttachments();
 
-        if(this.id){
+        if (this.productId) {
           // get the data from the api for this category id
-          this.productService.getProductById(this.id)
-          .subscribe({
+          this.productService.getProductById(this.productId).subscribe({
             next: (response) => {
               this.product = response;
-            }
+            },
           });
         }
-      }
+      },
     });
 
     this.categories$ = this.categoryService.getAllCategories();
@@ -145,8 +157,6 @@ export class EditProductComponent implements OnInit, OnDestroy {
       this.cylinderCompanyService.getAllCylinderCompanies();
     this.printingCompanies$ =
       this.printingCompanyService.getAllPrintingCompanies();
-
-    
   }
 
   isFileSelectorVisible: boolean = false;
@@ -162,8 +172,49 @@ export class EditProductComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.addProductSubscription?.unsubscribe();
     this.uploadAttachmentSubscription?.unsubscribe();
+    this.deleteAttachmentSubscription?.unsubscribe();
   }
 
   onFormSubmit() {}
 
+  loadAttachments() {
+    this.productService.getAttachmentsByProductId(this.productId).subscribe(data => {
+      this.attachment_list = data;
+    });
+  }
+
+  onDeleteAttachment(id: number) {
+    console.log(id);
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to undo this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'Cancel',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // ✅ Call your delete logic here
+        if (id) {
+          this.deleteAttachmentSubscription = this.productService
+            .deleteAttachment(id)
+            .subscribe({
+              next: (response) => {
+                this.loadAttachments();
+                console.log('Item deleted!');
+                Swal.fire('Deleted!', 'Your item has been deleted.', 'success');
+              },
+              error: (error) => {
+                ToastrUtils.showErrorToast(error);
+              },
+            });
+        }
+        
+      }else{
+        console.log('Delete operation cancelled.');
+      }
+    });
+  }
 }
