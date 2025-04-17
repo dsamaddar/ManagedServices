@@ -13,26 +13,26 @@ import Swal from 'sweetalert2';
   selector: 'app-category-list',
   imports: [RouterModule, CommonModule, MatSnackBarModule, SweetAlert2Module],
   templateUrl: './category-list.component.html',
-  styleUrl: './category-list.component.css'
+  styleUrl: './category-list.component.css',
 })
 export class CategoryListComponent implements OnInit {
-
   // observable array
   categories$?: Observable<Category[]>;
   private listCategorySubscription?: Subscription;
 
-  constructor(private categorySerivce: CategoryService,
+  constructor(
+    private categorySerivce: CategoryService,
     private toastr: ToastrService,
     private router: Router,
     private snackBar: MatSnackBar
-  ){}
+  ) {}
 
   showSuccessMessage(message: string) {
     this.snackBar.open(message, 'Close', {
-      duration: 3000,  // duration in ms
+      duration: 3000, // duration in ms
       horizontalPosition: 'center', // Horizontal position
-      verticalPosition: 'bottom',   // Vertical position
-      panelClass: ['snackbar-success']  // Custom CSS classes
+      verticalPosition: 'bottom', // Vertical position
+      panelClass: ['snackbar-success'], // Custom CSS classes
     });
   }
 
@@ -41,8 +41,7 @@ export class CategoryListComponent implements OnInit {
       duration: 3000,
       horizontalPosition: 'center',
       verticalPosition: 'bottom',
-      panelClass: ['snackbar-error']
-
+      panelClass: ['snackbar-error'],
     });
   }
 
@@ -52,7 +51,7 @@ export class CategoryListComponent implements OnInit {
       icon: 'success',
       title: message,
       showConfirmButton: false,
-      timer: 1500
+      timer: 1500,
     });
   }
 
@@ -62,13 +61,13 @@ export class CategoryListComponent implements OnInit {
       icon: 'error',
       title: message,
       showConfirmButton: false,
-      timer: 1500
+      timer: 1500,
     });
   }
-  
+
   ngOnInit(): void {
     this.categories$ = this.categorySerivce.getAllCategories().pipe(
-      catchError(error => {
+      catchError((error) => {
         /*
         this.toastr.error('Failed to load categories', 'Oops!', {
           timeOut: 3000,
@@ -85,8 +84,5 @@ export class CategoryListComponent implements OnInit {
         return of([]);
       })
     );
-     
-    
   }
-
 }

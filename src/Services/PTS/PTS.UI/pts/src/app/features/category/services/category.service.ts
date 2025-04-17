@@ -16,34 +16,19 @@ export class CategoryService {
   AddCategory(model: AddCategoryRequest): Observable<void> {
     return this.http.post<void>(
       `${environment.apiBaseUrl}/api/Categories`,
-      model,
-      {
-        headers: {
-          Authorization: this.cookieService.get('Authorization'),
-        },
-      }
+      model
     );
   }
 
   getAllCategories(): Observable<Category[]> {
     return this.http.get<Category[]>(
-      `${environment.apiBaseUrl}/api/Categories`,
-      {
-        headers: {
-          Authorization: this.cookieService.get('Authorization'),
-        },
-      }
+      `${environment.apiBaseUrl}/api/Categories`
     );
   }
 
   getCategoryById(id: number): Observable<Category> {
     return this.http.get<Category>(
-      `${environment.apiBaseUrl}/api/Categories/${id}`,
-      {
-        headers: {
-          Authorization: this.cookieService.get('Authorization'),
-        },
-      }
+      `${environment.apiBaseUrl}/api/Categories/${id}`
     );
   }
 
@@ -53,23 +38,13 @@ export class CategoryService {
   ): Observable<Category> {
     return this.http.put<Category>(
       `${environment.apiBaseUrl}/api/Categories/${id}`,
-      updateCategoryRequest,
-      {
-        headers: {
-          Authorization: this.cookieService.get('Authorization'),
-        },
-      }
+      updateCategoryRequest
     );
   }
 
   deleteCategory(id: number): Observable<Category> {
     return this.http.delete<Category>(
-      `${environment.apiBaseUrl}/api/Categories/${id}`,
-      {
-        headers: {
-          Authorization: this.cookieService.get('Authorization'),
-        },
-      }
+      `${environment.apiBaseUrl}/api/Categories/${id}`
     );
   }
 }

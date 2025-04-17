@@ -2,7 +2,7 @@ import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
-import { provideHttpClient } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { DatePipe } from '@angular/common';
 
@@ -11,12 +11,13 @@ import {
   provideAnimations,
 } from '@angular/platform-browser/animations';
 import { provideToastr } from 'ngx-toastr';
+import { AuthInterceptor } from './core/interceptors/auth.interceptor';
+import { CookieService } from 'ngx-cookie-service';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
-    provideHttpClient(),
     provideNativeDateAdapter(),
     DatePipe,
     provideAnimations(),
@@ -27,5 +28,13 @@ export const appConfig: ApplicationConfig = {
       progressBar: true,
       preventDuplicates: true,
     }),
+    CookieService,
+    AuthInterceptor,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    },
+    provideHttpClient(withInterceptorsFromDi())
   ],
 };
