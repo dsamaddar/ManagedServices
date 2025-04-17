@@ -14,26 +14,46 @@
       <thead>
         <tr>
           <th>Id</th>
-          <th>SKU</th>
-          <th>Version</th>
-          <th></th>
+          <th>Category/Project/Brand</th>
+          <th>Flavour/Origin/SKU</th>
+          <th>Pack/Version/Barcode</th>
+          <th>Cylinder/Printing</th>
+          <th>Docs</th>
+          <th>Action</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let product of products">
           <td>{{ product.id }}</td>
           <td>
-            <span>SKU: {{ product.sku }}</span><br>
-            <span>VERSION: {{ product.version }}</span>
+            Category: {{ product.category.name }} <br />
+            Project: {{ product.project.name }} <br />
+            Brand: {{ product.brand }}
           </td>
           <td>
-            {{product.category.name}}
+            Flavour: {{ product.flavourtype }} <br />
+            Origin: {{ product.origin }} <br />
+            SKU: {{ product.sku }}
           </td>
           <td>
+            Pack: {{ product.packtype }} <br />
+            Version: {{ product.version }} <br />
+            BarCode: {{ product.barcode }}
+          </td>
+          <td>
+            Cylinder: {{ product.cylinderCompany.name }} <br>
+            Printing: {{ product.printingCompany.name }} <br>
+            Date: {{product.projectDate | date:'mediumDate'}}
+          </td>
+          <td>{{ product.attachments.length }}</td>
+          <td>
+            <a class="btn btn-light" [routerLink]="['/admin/products',product.id]"
+              ><i class="bi bi-card-checklist"></i
+            ></a>
             <a
               class="btn btn-light"
               [routerLink]="['/admin/products', product.id]"
-              >
+            >
               <i class="bi bi-pencil-square"></i>
             </a>
           </td>
