@@ -56,7 +56,7 @@ export class LoginComponent {
         // set auth cookie
         this.cookieService.set(
           'Authorization',
-          response.token,
+          `Bearer ${response.token}`,
           undefined,
           '/',
           undefined,

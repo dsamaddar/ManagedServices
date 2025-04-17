@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PTS.API.Models.Domain;
 using PTS.API.Models.DTO;
@@ -20,6 +21,7 @@ namespace PTS.API.Controllers
 
         // https://localhost:xxxx/api/categories
         [HttpPost]
+        [Authorize(Roles = "MANAGER,ADMIN")]
         public async Task<IActionResult> CreateCylinderCompany([FromBody] CreateCylinderCompanyRequestDto request)
         {
             var cylinderCompany = new CylinderCompany
@@ -43,6 +45,7 @@ namespace PTS.API.Controllers
 
         // GET: api/cylindercompany
         [HttpGet]
+        [Authorize(Roles = "READER,MANAGER,ADMIN")]
         public async Task<IActionResult> GetAllCylinderCompanies()
         {
             var cylinderCompanies = await cylinderCompanyRepository.GetAllAsync();
@@ -66,6 +69,7 @@ namespace PTS.API.Controllers
         // GET: api/cylindercompany/{id}
         [HttpGet]
         [Route("{id:int}")]
+        [Authorize(Roles = "READER,MANAGER,ADMIN")]
         public async Task<IActionResult> GetCylinderCompanyById([FromRoute] int id)
         {
             var existingCylinderCompany = await cylinderCompanyRepository.GetById(id);
@@ -88,6 +92,7 @@ namespace PTS.API.Controllers
         // PUT: /api/cylindercompany/{id}
         [HttpPut]
         [Route("{id:int}")]
+        [Authorize(Roles = "MANAGER,ADMIN")]
         public async Task<IActionResult> EditCylinderCompany([FromRoute] int id, UpdateCylinderCompanyRequestDto request)
         {
             // Convert DTO to Domain Model
@@ -120,6 +125,7 @@ namespace PTS.API.Controllers
 
         [HttpDelete]
         [Route("{id:int}")]
+        [Authorize(Roles = "MANAGER,ADMIN")]
         public async Task<IActionResult> DeleteCylinderCompany([FromRoute] int id)
         {
             var cylinderCompany = await cylinderCompanyRepository.DeleteAsync(id);

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PTS.API.Models.Domain;
 using PTS.API.Models.DTO;
@@ -20,6 +21,7 @@ namespace PTS.API.Controllers
 
         // https://localhost:xxxx/api/product
         [HttpPost]
+        [Authorize(Roles = "READER,MANAGER,ADMIN")]
         public async Task<IActionResult> CreateProduct([FromBody] CreateProductRequestDto request)
         {
             // Map DTO to Domain Model
@@ -64,6 +66,7 @@ namespace PTS.API.Controllers
 
         // GET: /api/product
         [HttpGet]
+        [Authorize(Roles = "READER,MANAGER,ADMIN")]
         public async Task<IActionResult> GetAllProducts()
         {
             var products = await productRepository.GetAllAsync();

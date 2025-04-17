@@ -49,7 +49,7 @@ namespace PTS.API.Controllers
 
         // GET: /api/categories
         [HttpGet]
-        [Authorize(Roles = "READER,MANAGER,ADMIN")]
+        [Authorize(Roles ="READER,MANAGER,ADMIN")]
         public async Task<IActionResult> GetAllCategories()
         {
             var categories = await categoryRepository.GetAllAsync();

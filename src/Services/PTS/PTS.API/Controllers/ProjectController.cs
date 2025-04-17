@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PTS.API.Models.Domain;
 using PTS.API.Models.DTO;
@@ -21,6 +22,7 @@ namespace PTS.API.Controllers
         // POST: api/projects
 
         [HttpPost]
+        [Authorize(Roles = "MANAGER,ADMIN")]
         public async Task<IActionResult> CreateProjects([FromBody] CreateProjectRequestDto request)
         {
             // Map DTO to Domain Model
@@ -45,6 +47,7 @@ namespace PTS.API.Controllers
 
         // GET: /api/projects
         [HttpGet]
+        [Authorize(Roles = "READER,MANAGER,ADMIN")]
         public async Task<IActionResult> GetAllProjects()
         {
             var projects = await projectRepository.GetAllAsync();
@@ -67,6 +70,7 @@ namespace PTS.API.Controllers
         //  GET: /api/projects/{id}
         [HttpGet]
         [Route("{id:int}")]
+        [Authorize(Roles = "READER,MANAGER,ADMIN")]
         public async Task<IActionResult> GetCategoryById([FromRoute] int id)
         {
             var existingProject = await projectRepository.GetById(id);
@@ -89,6 +93,7 @@ namespace PTS.API.Controllers
         // PUT: /api/projects/{id}
         [HttpPut]
         [Route("{id:int}")]
+        [Authorize(Roles = "MANAGER,ADMIN")]
         public async Task<IActionResult> EditCategory([FromRoute] int id, UpdateProjectRequestDto request)
         {
             // Convert DTO to Domain Model
@@ -122,6 +127,7 @@ namespace PTS.API.Controllers
 
         [HttpDelete]
         [Route("{id:int}")]
+        [Authorize(Roles = "MANAGER,ADMIN")]
         public async Task<IActionResult> DeleteCategory([FromRoute] int id)
         {
             var category = await projectRepository.DeleteAsync(id);

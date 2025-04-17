@@ -1,6 +1,11 @@
 <nav class="navbar sticky-top navbar-expand-lg bg-body-tertiary">
   <div class="container">
-    <img src="neoscoder_logo.png" class="mt-2" height="30px" alt="NeosCoder Logo">
+    <img
+      src="neoscoder_logo.png"
+      class="mt-2"
+      height="30px"
+      alt="NeosCoder Logo"
+    />
     <a class="navbar-brand ms-2" href="#">Project Tracking System</a>
     <button
       class="navbar-toggler"
@@ -19,55 +24,63 @@
           <a class="nav-link active" aria-current="page" href="#">Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" [routerLink]="['/admin/products']">Products</a>
-        </li>
-        <li class="nav-item dropdown">
           <a
-            class="nav-link dropdown-toggle"
-            href="#"
-            role="button"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
+            class="nav-link active"
+            aria-current="page"
+            [routerLink]="['/admin/products']"
+            >Products</a
           >
-            Admin
-          </a>
-          <ul class="dropdown-menu">
-            <li>
-              <a
-                class="dropdown-item"
-                [routerLink]="['admin/categories']"
-                routerLinkActive="active"
-                >Categories</a
-              >
-            </li>
-            <li>
-              <a
-                class="dropdown-item"
-                [routerLink]="['admin/cylindercompany']"
-                routerLinkActive="active"
-                >Cylinder Company</a
-              >
-            </li>
-            <li>
-              <a
-                class="dropdown-item"
-                [routerLink]="['admin/printingcompany']"
-                routerLinkActive="active"
-                >Printing Company</a
-              >
-            </li>
-            <li>
-              <a
-                class="dropdown-item"
-                [routerLink]="['admin/projects']"
-                routerLinkActive="active"
-                >Projects</a
-              >
-            </li>
-            <li><hr class="dropdown-divider" /></li>
-            <li><a class="dropdown-item" href="#">Something else here</a></li>
-          </ul>
         </li>
+
+        <ng-container *ngIf="user !== undefined && ( user?.roles?.includes('MANAGER') || user?.roles?.includes('ADMIN'))">
+          <li class="nav-item dropdown">
+            <a
+              class="nav-link dropdown-toggle"
+              href="#"
+              role="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              Admin
+            </a>
+            <ul class="dropdown-menu">
+              <li>
+                <a
+                  class="dropdown-item"
+                  [routerLink]="['admin/categories']"
+                  routerLinkActive="active"
+                  >Categories</a
+                >
+              </li>
+              <li>
+                <a
+                  class="dropdown-item"
+                  [routerLink]="['admin/cylindercompany']"
+                  routerLinkActive="active"
+                  >Cylinder Company</a
+                >
+              </li>
+              <li>
+                <a
+                  class="dropdown-item"
+                  [routerLink]="['admin/printingcompany']"
+                  routerLinkActive="active"
+                  >Printing Company</a
+                >
+              </li>
+              <li>
+                <a
+                  class="dropdown-item"
+                  [routerLink]="['admin/projects']"
+                  routerLinkActive="active"
+                  >Projects</a
+                >
+              </li>
+              <li><hr class="dropdown-divider" /></li>
+              <li><a class="dropdown-item" href="#">Something else here</a></li>
+            </ul>
+          </li>
+        </ng-container>
       </ul>
 
       <div class="d-flex">
@@ -77,13 +90,13 @@
 
         <ng-template #showLogout>
           <div class="d-flex align-items-center">
-            <span>{{user?.email}}</span>
-            <button class="btn btn-primary ms-3" (click)="onLogout()">Logout</button>
+            <span>{{ user?.email }}</span>
+            <button class="btn btn-primary ms-3" (click)="onLogout()">
+              Logout
+            </button>
           </div>
         </ng-template>
-      
       </div>
-
     </div>
   </div>
 </nav>

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PTS.API.Models.Domain;
 using PTS.API.Models.DTO;
@@ -20,6 +21,7 @@ namespace PTS.API.Controllers
 
         // POST: api/printingcompany
         [HttpPost]
+        [Authorize(Roles = "MANAGER,ADMIN")]
         public async Task<IActionResult> CreatePrintingCompany([FromBody] CreatePrintingCompanyRequestDto request)
         {
             // Map DTO to Domain Model
@@ -44,6 +46,7 @@ namespace PTS.API.Controllers
 
         // GET: /api/printingcompany
         [HttpGet]
+        [Authorize(Roles = "READER,MANAGER,ADMIN")]
         public async Task<IActionResult> GetAllPrintingCompany()
         {
             var printingCompanies = await printingCompanyRepository.GetAllAsync();
@@ -66,6 +69,7 @@ namespace PTS.API.Controllers
         //  GET: /api/printingcompany/{id}
         [HttpGet]
         [Route("{id:int}")]
+        [Authorize(Roles = "READER,MANAGER,ADMIN")]
         public async Task<IActionResult> GetPrintintCompanyById([FromRoute] int id)
         {
             var existingPrintingCompany = await printingCompanyRepository.GetById(id);
@@ -88,6 +92,7 @@ namespace PTS.API.Controllers
         // PUT: /api/printingcompany/{id}
         [HttpPut]
         [Route("{id:int}")]
+        [Authorize(Roles = "MANAGER,ADMIN")]
         public async Task<IActionResult> EditPrintingCompany([FromRoute] int id, UpdatePrintingCompanyRequestDto request)
         {
             // Convert DTO to Domain Model
@@ -121,6 +126,7 @@ namespace PTS.API.Controllers
 
         [HttpDelete]
         [Route("{id:int}")]
+        [Authorize(Roles = "MANAGER,ADMIN")]
         public async Task<IActionResult> DeletePrintingCompany([FromRoute] int id)
         {
             var printingCompany = await printingCompanyRepository.DeleteAsync(id);
