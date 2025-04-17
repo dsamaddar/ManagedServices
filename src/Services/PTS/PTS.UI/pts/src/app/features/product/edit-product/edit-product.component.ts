@@ -117,16 +117,12 @@ export class EditProductComponent implements OnInit, OnDestroy {
     }
   }
 
+  categoryid?: number;
+  projectid?: number;
+  cylindercompanyid?: number;
+  printingcompanyid?: number;
   
   ngOnInit(): void {
-
-    this.categories$ = this.categoryService.getAllCategories();
-    this.projects$ = this.projectService.getAllProjects();
-    this.cylinderCompanies$ =
-      this.cylinderCompanyService.getAllCylinderCompanies();
-    this.printingCompanies$ =
-      this.printingCompanyService.getAllPrintingCompanies();
-
     this.paramsSubscription = this.route.paramMap.subscribe({
       next: (params) => {
         this.id = Number(params.get('id'));
@@ -142,6 +138,15 @@ export class EditProductComponent implements OnInit, OnDestroy {
         }
       }
     });
+
+    this.categories$ = this.categoryService.getAllCategories();
+    this.projects$ = this.projectService.getAllProjects();
+    this.cylinderCompanies$ =
+      this.cylinderCompanyService.getAllCylinderCompanies();
+    this.printingCompanies$ =
+      this.printingCompanyService.getAllPrintingCompanies();
+
+    
   }
 
   isFileSelectorVisible: boolean = false;
