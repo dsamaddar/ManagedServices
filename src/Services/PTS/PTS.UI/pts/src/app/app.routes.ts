@@ -13,6 +13,7 @@ import { AddPrintingcompanyComponent } from './features/printingCompany/add-prin
 import { EditPrintingcompanyComponent } from './features/printingCompany/edit-printingcompany/edit-printingcompany.component';
 import { ProductListComponent } from './features/product/product-list/product-list.component';
 import { AddProductComponent } from './features/product/add-product/add-product.component';
+import { LoginComponent } from './features/auth/login/login.component';
 
 export const routes: Routes = [
     {
@@ -74,5 +75,9 @@ export const routes: Routes = [
     {
         path: 'admin/products/:id',
         component: EditProjectComponent
+    },
+    {
+        path: 'login',
+        component: LoginComponent
     }
 ];
