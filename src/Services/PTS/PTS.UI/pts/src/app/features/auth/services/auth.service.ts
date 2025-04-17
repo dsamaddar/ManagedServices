@@ -34,6 +34,23 @@ export class AuthService {
     return this.$user.asObservable();
   }
 
+  getUser(): User | undefined {
+    const email = localStorage.getItem('user-email');
+    const roles = localStorage.getItem('user-roles');
+
+    if(email && roles){
+      const user: User ={
+        email: email,
+        roles: roles?.split(',')
+      }
+
+      return user;
+    }
+
+    return undefined;
+
+  }
+
   logout(): void{
     localStorage.clear();
     this.cookieService.delete('Authorization','/');
