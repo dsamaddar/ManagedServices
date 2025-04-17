@@ -64,7 +64,7 @@
               id="flavourtype"
               name="flavourtype"
               class="form-control"
-              value="{{product?.flavourtype}}"
+              value="{{product?.flavourType}}"
             />
           </div>
         </div>
@@ -103,7 +103,7 @@
               id="packtype"
               name="packtype"
               class="form-control"
-              value="{{product?.packtype}}"
+              value="{{product?.packType}}"
             />
           </div>
         </div>
@@ -122,12 +122,12 @@
         <div class="col-md-4">
           <div class="mt-2">
             <label for="projectdate" class="form-label">Project Date</label>
-            <input
+            <input *ngIf="product"
               type="date"
               id="projectdate"
               name="projectdate"
               class="form-control"
-              value="{{product?.projectDate}}"
+              value="{{product.projectDate | date:'yyyy-MM-dd'}}"
             />
           </div>
         </div>
@@ -182,6 +182,15 @@
         </div>
       </div>
 
+      <div class="row mt-3">
+        <div class="col-md-12">
+          <ul>
+            <li *ngFor="let attachment of product?.attachments">
+              <a href="">{{ attachment.name }}</a>
+            </li>
+          </ul>
+        </div>
+      </div>
       <div class="row">
         <div class="col-md-12">
           <div class="mt-2">

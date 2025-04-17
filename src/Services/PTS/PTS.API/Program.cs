@@ -8,6 +8,7 @@ using PTS.API.Repositories.Implementation;
 using PTS.API.Repositories.Interface;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -75,6 +76,18 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     });
 
 var app = builder.Build();
+
+// Optional: if you're also using wwwroot
+app.UseStaticFiles();
+
+// Serve files from the "attachments" folder
+var attachmentsPath = Path.Combine(Directory.GetCurrentDirectory(), "attachments");
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(attachmentsPath),
+    RequestPath = "/attachments"
+});
+
 
 app.UseMiddleware<GlobalExceptionMiddleware>();
 
