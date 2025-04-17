@@ -9,6 +9,7 @@ import { Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import { AddProductRequest } from '../models/add-product.model';
 import { Product } from '../models/product.model';
+import { AllProduct } from '../models/all-product.model';
 
 @Injectable({
   providedIn: 'root',
@@ -23,8 +24,8 @@ export class ProductService {
     );
   }
 
-  getAllProducts(): Observable<Product[]> {
-    return this.http.get<Product[]>(`${environment.apiBaseUrl}/api/product`);
+  getAllProducts(): Observable<AllProduct[]> {
+    return this.http.get<AllProduct[]>(`${environment.apiBaseUrl}/api/product`);
   }
 
   uploadAttachment(

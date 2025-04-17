@@ -51,7 +51,13 @@ namespace PTS.API.Repositories.Implementation
 
         public async Task<IEnumerable<Product>> GetAllAsync()
         {
-            return await dbContext.Products.ToListAsync();
+            return await dbContext.Products
+                .Include(x => x.CylinderCompany)
+                .Include(x => x.PrintingCompany)
+                .Include(x => x.Project)
+                .Include(x => x.Category)
+                .Include(x => x.Attachments)
+                .ToListAsync();
         }
 
         public async Task<Product?> GetByIdAsync(int id)

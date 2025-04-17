@@ -89,7 +89,35 @@ namespace PTS.API.Controllers
                     ProjectDate = product.ProjectDate,
                     Barcode = product.Barcode,
                     CylinderCompanyId = product.CylinderCompanyId,
-                    PrintingCompanyId = product.PrintingCompanyId,                   
+                    PrintingCompanyId = product.PrintingCompanyId,
+                    Attachments = product.Attachments.Select(x => new AttachmentDto
+                    {
+                        Id = x.Id,
+                        Name = x.Name,
+                        Description = x.Description,
+                        DateCreated = x.DateCreated,
+
+                    }).ToList(),
+                    Category = new CategoryDto
+                    {
+                        Id = product.Category.Id,
+                        Name = product.Category?.Name,
+                    },
+                    Project = new ProjectDto
+                    {
+                        Id = product.Project.Id,
+                        Name = product.Project?.Name
+                    },
+                    CylinderCompany = new CylinderCompanyDto
+                    {
+                        Id = product.CylinderCompany.Id,
+                        Name = product.CylinderCompany?.Name
+                    },
+                    PrintingCompany = new PrintingCompanyDto
+                    {
+                        Id = product.PrintingCompany.Id,
+                        Name = product.PrintingCompany?.Name
+                    }
                 });
             }
 
@@ -132,7 +160,27 @@ namespace PTS.API.Controllers
                     Description = x.Description,
                     DateCreated = x.DateCreated,
 
-                }).ToList()
+                }).ToList(),
+                Category = new CategoryDto
+                {
+                    Id  = product.Category.Id,
+                    Name = product.Category?.Name,
+                },
+                Project = new ProjectDto
+                {
+                    Id = product.Project.Id,
+                    Name = product.Project?.Name
+                },
+                CylinderCompany = new CylinderCompanyDto
+                {
+                    Id = product.CylinderCompany.Id,
+                    Name = product.CylinderCompany?.Name
+                },
+                PrintingCompany = new PrintingCompanyDto
+                {
+                    Id = product.PrintingCompany.Id,
+                    Name = product.PrintingCompany?.Name
+                }
             };
 
             return Ok(response);

@@ -22,8 +22,13 @@
       <tbody>
         <tr *ngFor="let product of products">
           <td>{{ product.id }}</td>
-          <td>{{ product.sku }}</td>
-          <td>{{ product.version }}</td>
+          <td>
+            <span>SKU: {{ product.sku }}</span><br>
+            <span>VERSION: {{ product.version }}</span>
+          </td>
+          <td>
+            {{product.category.name}}
+          </td>
           <td>
             <a
               class="btn btn-light"

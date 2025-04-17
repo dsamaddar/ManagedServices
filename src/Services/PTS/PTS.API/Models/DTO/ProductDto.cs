@@ -1,4 +1,5 @@
-﻿using System.Net.Mail;
+﻿using PTS.API.Models.Domain;
+using System.Net.Mail;
 
 namespace PTS.API.Models.DTO
 {
@@ -6,7 +7,9 @@ namespace PTS.API.Models.DTO
     {
         public int Id { get; set; }
         public int? CategoryId { get; set; }
+        public CategoryDto Category { get; set; }
         public int? ProjectId { get; set; }
+        public ProjectDto Project { get; set; }
         public string? Brand { get; set; }
         public string? FlavourType { get; set; }
 
@@ -19,8 +22,10 @@ namespace PTS.API.Models.DTO
         public DateTime ProjectDate { get; set; }
         public string? Barcode { get; set; }
         public int? CylinderCompanyId { get; set; }
+        public CylinderCompanyDto CylinderCompany { get; set; }
 
         public int? PrintingCompanyId { get; set; }
+        public PrintingCompanyDto PrintingCompany { get; set; }
         public ICollection<AttachmentDto> Attachments { get; set; } = new List<AttachmentDto>();
 
     }
