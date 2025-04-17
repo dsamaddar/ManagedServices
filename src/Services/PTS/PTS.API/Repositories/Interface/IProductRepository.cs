@@ -7,7 +7,7 @@ namespace PTS.API.Repositories.Interface
         Task<Product> CreateAsync(Product product); 
         Task<IEnumerable<Product>> GetAllAsync();
 
-        Task<Product?> GetById(int id);
+        Task<Product?> GetByIdAsync(int id);
         Task<Product?> UpdateAsync(Product product);
         Task<Product?> DeleteAsync(int id);
     }

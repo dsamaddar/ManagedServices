@@ -29,5 +29,6 @@ namespace PTS.API.Models.Domain
         [ForeignKey("Product")]
         [Column(Order = 5)]
         public int ProductId { get; set; }
+        public Product Product { get; set; }
     }
 }

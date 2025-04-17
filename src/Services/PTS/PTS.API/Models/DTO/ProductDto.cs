@@ -1,4 +1,6 @@
-﻿namespace PTS.API.Models.DTO
+﻿using System.Net.Mail;
+
+namespace PTS.API.Models.DTO
 {
     public class ProductDto
     {
@@ -19,5 +21,7 @@
         public int? CylinderCompanyId { get; set; }
 
         public int? PrintingCompanyId { get; set; }
+        public ICollection<AttachmentDto> Attachments { get; set; } = new List<AttachmentDto>();
+
     }
 }

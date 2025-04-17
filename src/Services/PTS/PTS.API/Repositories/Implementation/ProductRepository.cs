@@ -54,9 +54,15 @@ namespace PTS.API.Repositories.Implementation
             return await dbContext.Products.ToListAsync();
         }
 
-        public async Task<Product?> GetById(int id)
+        public async Task<Product?> GetByIdAsync(int id)
         {
-            return await dbContext.Products.FirstOrDefaultAsync(x => x.Id == id);
+            return await dbContext.Products
+                .Include(x => x.CylinderCompany)
+                .Include(x => x.PrintingCompany)
+                .Include(x => x.Project)
+                .Include(x => x.Category)
+                .Include(x => x.Attachments)
+                .FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task<Product?> UpdateAsync(Product product)

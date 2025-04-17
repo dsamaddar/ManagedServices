@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using PTS.API.Models.DTO;
 
 namespace PTS.API.Models.Domain
 {
@@ -56,6 +57,10 @@ namespace PTS.API.Models.Domain
         [ForeignKey("Project")]
         public int? ProjectId { get; set; }
 
+        public CylinderCompany CylinderCompany { get; set; }  // Navigation property
+        public PrintingCompany PrintingCompany { get; set; } // Navigation property
+        public Category Category { get; set; } // Navigation property
+        public Project Project { get; set; } // Navigation property
         public ICollection<Attachment> Attachments { get; set; } = new List<Attachment>();
 
     }
