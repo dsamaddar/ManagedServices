@@ -1,17 +1,21 @@
 import { Component, OnInit } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../../features/auth/services/auth.service';
+import { User } from '../../../features/auth/models/user.model';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-navbar',
   standalone:true,
-  imports: [RouterModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'
 })
 export class NavbarComponent implements OnInit {
 
-  constructor(private authService: AuthService){
+  user?: User;
+
+  constructor(private authService: AuthService, private router: Router){
 
   }
 
@@ -20,8 +24,14 @@ export class NavbarComponent implements OnInit {
     .subscribe({
       next: (response) =>{
         console.log(response);
+        this.user = response;
       }
     });
+  }
+
+  onLogout(): void{
+    this.authService.logout();
+    this.router.navigateByUrl('login');
   }
 
 }
