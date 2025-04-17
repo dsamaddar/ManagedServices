@@ -28,6 +28,10 @@ export class ProductService {
     return this.http.get<AllProduct[]>(`${environment.apiBaseUrl}/api/product`);
   }
 
+  getProductById(id: number): Observable<AllProduct> {
+    return this.http.get<AllProduct>(`${environment.apiBaseUrl}/api/product/${id}`);
+  }
+
   uploadAttachment(
     files: File[],
     productid: string
