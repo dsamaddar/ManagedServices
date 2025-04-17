@@ -28,6 +28,7 @@ import { environment } from '../../../../environments/environment';
 import { ProductService } from '../services/product.service';
 import { Project } from '../../project/models/project.model';
 import { ProjectService } from '../../project/services/project.service';
+import { ToastrUtils } from '../../../utils/toastr-utils';
 
 @Component({
   selector: 'app-add-product',
@@ -174,7 +175,8 @@ export class AddProductComponent implements OnInit, OnDestroy {
       this.product.cylindercompanyid == 0 ||
       this.product.printingcompanyid == 0
     ) {
-      alert('Missing: Category/Project/Cylinder Company/Printing Company');
+      //alert('Missing: Category/Project/Cylinder Company/Printing Company');
+      ToastrUtils.showErrorToast('Missing: Category/Project/Cylinder Company/Printing Company');
       return;
     }
 
@@ -189,7 +191,7 @@ export class AddProductComponent implements OnInit, OnDestroy {
           );
 
           if (this.selectedFiles.length === 0) {
-            alert('No File Selected');
+            ToastrUtils.showErrorToast('No File Selected');
             return;
           }
 
@@ -205,7 +207,7 @@ export class AddProductComponent implements OnInit, OnDestroy {
                   }
                   break;
                 case HttpEventType.Response:
-                  //alert('All files uploaded successfully');
+                  ToastrUtils.showToast('Product Added Successfully.');
                   this.router.navigateByUrl('/admin/products');
                   this.progress = 0;
                   break;
