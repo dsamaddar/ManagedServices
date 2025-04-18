@@ -238,6 +238,42 @@ namespace PTS.API.Controllers
             return Ok(response);
         }
 
+        // DELETE: /api/projects/{id}
+
+        [HttpDelete]
+        [Route("{id:int}")]
+        [Authorize(Roles = "MANAGER,ADMIN")]
+        public async Task<IActionResult> DeleteProduct([FromRoute] int id)
+        {
+            var product = await productRepository.DeleteAsync(id);
+
+            if (product is null)
+            {
+                return NotFound();
+            }
+
+            // Convert Domain Model to DTO
+
+            var response = new ProductDto
+            {
+                Id = product.Id,
+                CategoryId = product.CategoryId,
+                ProjectId = product.ProjectId,
+                Brand = product.Brand,
+                FlavourType = product.FlavourType,
+                Origin = product.Origin,
+                SKU = product.SKU,
+                PackType = product.PackType,
+                Version = product.Version,
+                ProjectDate = product.ProjectDate,
+                Barcode = product.Barcode,
+                PrintingCompanyId = product.PrintingCompanyId,
+                CylinderCompanyId = product.CylinderCompanyId,
+            };
+
+            return Ok(response);
+        }
+
 
     }
 }

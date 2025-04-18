@@ -73,4 +73,10 @@ export class ProductService {
       `${environment.apiBaseUrl}/api/attachment/${id}`
     );
   }
+
+    deleteProduct(id: number): Observable<Product> {
+      return this.http.delete<Product>(
+        `${environment.apiBaseUrl}/api/product/${id}`
+      );
+    }
 }

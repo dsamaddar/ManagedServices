@@ -214,6 +214,8 @@ export class EditProductComponent implements OnInit, OnDestroy {
           next: (response) => {
             if (this.selectedFiles.length === 0) {
               //ToastrUtils.showErrorToast('No File Selected');
+              ToastrUtils.showToast('Product Updated Without Attachment.');
+              this.router.navigateByUrl('/admin/products');
               //return;
             } else {
               this.uploadAttachmentSubscription = this.productService
@@ -231,16 +233,16 @@ export class EditProductComponent implements OnInit, OnDestroy {
                       }
                       break;
                     case HttpEventType.Response:
-                      //ToastrUtils.showToast('Product Updated Successfully.');
-                      //this.router.navigateByUrl('/admin/products');
+                      ToastrUtils.showToast('Product Updated Successfully.');
+                      this.router.navigateByUrl('/admin/products');
                       this.progress = 0;
                       break;
                   }
                 });
             }
 
-            ToastrUtils.showToast('Product Updated Successfully.');
-            this.router.navigateByUrl('/admin/products');
+            
+            
           },
         });
     }
@@ -254,7 +256,37 @@ export class EditProductComponent implements OnInit, OnDestroy {
       });
   }
 
-  onDeleteProduct() {}
+  onDeleteProduct() {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to undo this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'Cancel',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // ✅ Call your delete logic here
+        if (this.product?.id) {
+          this.deleteProductSubscription = this.productService
+            .deleteProduct(this.product?.id)
+            .subscribe({
+              next: (response) => {
+                Swal.fire('Deleted!', 'Your item has been deleted.', 'success');
+                this.router.navigateByUrl('/admin/products');
+              },
+              error: (error) => {
+                ToastrUtils.showErrorToast('Not Authorized To Delete!');
+              },
+            });
+        }
+      } else {
+        console.log('Delete operation cancelled.');
+      }
+    });
+  }
 
   onDeleteAttachment(id: number) {
     Swal.fire({
