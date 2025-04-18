@@ -151,3 +151,4 @@ npm install @angular/animations --save
 4. Generic error handling
 5. Auth guard implementaiton
 6. Product view options
+7. filter/pagination/sorting options
