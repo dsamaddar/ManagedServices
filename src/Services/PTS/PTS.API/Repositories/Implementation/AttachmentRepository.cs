@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.EntityFrameworkCore;
 using PTS.API.Data;
 using PTS.API.Models.Domain;
 using PTS.API.Repositories.Exceptions;
@@ -47,6 +48,20 @@ namespace PTS.API.Repositories.Implementation
             await dbContext.SaveChangesAsync();
 
             return existingAttachment;
+        }
+
+        public async Task DeleteByProductIdAsync(int productId)
+        {
+            var product = await dbContext.Products
+                                .Include(p => p.Attachments)
+                                .FirstOrDefaultAsync(p => p.Id == productId);
+
+            if (product != null && product.Attachments.Any())
+            {
+                dbContext.Attachments.RemoveRange(product.Attachments);
+                await dbContext.SaveChangesAsync();
+            }
+
         }
 
         public async Task<IEnumerable<Attachment>> GetAllAsync()

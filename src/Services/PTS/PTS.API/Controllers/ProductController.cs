@@ -13,10 +13,12 @@ namespace PTS.API.Controllers
     public class ProductController : ControllerBase
     {
         private readonly IProductRepository productRepository;
+        private readonly IAttachmentRepository attachmentRepository;
 
-        public ProductController(IProductRepository productRepository)
+        public ProductController(IProductRepository productRepository, IAttachmentRepository attachmentRepository)
         {
             this.productRepository = productRepository;
+            this.attachmentRepository = attachmentRepository;
         }
 
         // https://localhost:xxxx/api/product
@@ -251,6 +253,9 @@ namespace PTS.API.Controllers
             {
                 return NotFound();
             }
+            
+            // delete related attachments
+            await attachmentRepository.DeleteByProductIdAsync(product.Id);
 
             // Convert Domain Model to DTO
 

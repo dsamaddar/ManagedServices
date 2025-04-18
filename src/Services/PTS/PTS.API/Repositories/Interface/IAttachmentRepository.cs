@@ -12,5 +12,6 @@ namespace PTS.API.Repositories.Interface
         Task<Attachment?> GetById(int id);
         Task<Attachment?> UpdateAsync(Attachment attachment);
         Task<Attachment?> DeleteAsync(int id);
+        Task DeleteByProductIdAsync(int productId);
     }
 }

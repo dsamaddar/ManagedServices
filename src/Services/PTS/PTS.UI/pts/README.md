@@ -143,3 +143,11 @@ docker run -d -p 8080:80 my-angular-app
 ### toaster packages
 npm install ngx-toastr --save
 npm install @angular/animations --save
+
+### Tasks yet to be implemented
+1. UI forms validation
+2. Apply toastr in every place
+3. logout if unauthorized
+4. Generic error handling
+5. Auth guard implementaiton
+6. Product view options
