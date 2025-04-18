@@ -66,6 +66,7 @@ export class LoginComponent {
 
         // set the user in local storage and emit user values
         this.authService.setUser({
+          id: String(response.id),
           email: response.email,
           roles: response.roles
         });

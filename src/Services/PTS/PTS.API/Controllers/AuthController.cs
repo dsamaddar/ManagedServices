@@ -45,6 +45,7 @@ namespace PTS.API.Controllers
 
                     var response = new LoginResponseDto()
                     {
+                        Id = identityUser.Id,
                         Email = request.Email,
                         Roles = roles.ToList(),
                         Token = jwtToken
