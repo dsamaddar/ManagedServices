@@ -152,3 +152,5 @@ npm install @angular/animations --save
 5. Auth guard implementaiton
 6. Product view options
 7. filter/pagination/sorting options
+8. Beautiful Dashboard
+9. User tracking in Data Insert
