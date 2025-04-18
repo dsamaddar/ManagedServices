@@ -19,6 +19,8 @@ namespace PTS.API.Models.Domain
         [MaxLength(500)]
         public string? Description { get; set; }
 
+        public string UserId { get; set; }
+
         public ICollection<Product> Products { get; set; } = new List<Product>();
     }
 }

@@ -18,6 +18,9 @@ namespace PTS.API.Models.Domain
         [Column(Order = 2)]
         public string? Description { get; set; }
 
+        [Column(Order = 3)]
+        public string UserId { get; set; }
+
         public ICollection<Product> Products { get; set; } = new List<Product>();
     }
 }

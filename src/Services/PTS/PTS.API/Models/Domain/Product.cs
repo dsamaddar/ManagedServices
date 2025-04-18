@@ -57,6 +57,8 @@ namespace PTS.API.Models.Domain
         [ForeignKey("Project")]
         public int? ProjectId { get; set; }
 
+        public string UserId { get; set; }
+
         public CylinderCompany CylinderCompany { get; set; }  // Navigation property
         public PrintingCompany PrintingCompany { get; set; } // Navigation property
         public Category Category { get; set; } // Navigation property

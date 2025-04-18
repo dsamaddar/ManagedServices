@@ -15,6 +15,7 @@ namespace PTS.API.Models.DTO
         public string? Tag { get; set; }
 
         public DateTime DateCreated { get; set; } = DateTime.Now;
+        public string? UserId { get; set; }
 
     }
 }

@@ -64,9 +64,11 @@ export class LoginComponent {
           'Strict'
         );
 
+        console.log(response);
+
         // set the user in local storage and emit user values
         this.authService.setUser({
-          id: String(response.id),
+          userid: response.userid,
           email: response.email,
           roles: response.roles
         });

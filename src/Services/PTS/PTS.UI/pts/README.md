@@ -151,7 +151,10 @@ remove-migration -context AuthDbContext
 remove-migration -context ApplicationDbContext
 
 ## Database Initialization
-
+add-migration initial -context ApplicationDbContext
+add-migration initial -context AuthDbContext
+update-database -context ApplicationDbContext
+update-database -context AuthDbContext
 
 ### Tasks yet to be implemented
 1. UI forms validation
