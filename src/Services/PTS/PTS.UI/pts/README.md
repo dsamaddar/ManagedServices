@@ -144,6 +144,15 @@ docker run -d -p 8080:80 my-angular-app
 npm install ngx-toastr --save
 npm install @angular/animations --save
 
+## Database Rollback
+update-database -migration 0 -context ApplicationDbContext
+update-database -migration 0 -context AuthDbContext
+remove-migration -context AuthDbContext
+remove-migration -context ApplicationDbContext
+
+## Database Initialization
+
+
 ### Tasks yet to be implemented
 1. UI forms validation
 2. Apply toastr in every place
