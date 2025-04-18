@@ -29,7 +29,7 @@
               bindLabel="name"
               bindValue="id"
               placeholder="Select Category"
-              [(ngModel)]="product.category.id"
+              [(ngModel)]="product.categoryId"
               [searchable]="true"
             >
             </ng-select>
@@ -39,11 +39,12 @@
           <div class="mt-3 form-group">
             <label for="brand" class="form-label">Brand</label>
             <input
+              *ngIf="product"
               type="text"
               id="brand"
               name="brand"
               class="form-control"
-              value="{{ product?.brand }}"
+              [(ngModel)]="product.brand"
             />
           </div>
         </div>
@@ -57,7 +58,7 @@
               bindLabel="name"
               bindValue="id"
               placeholder="Select Project"
-              [(ngModel)]="product.project.id"
+              [(ngModel)]="product.projectId"
               [searchable]="true"
             >
             </ng-select>
@@ -69,11 +70,12 @@
           <div class="mt-2 form-group">
             <label for="flavourtype" class="form-label">Flavour</label>
             <input
+              *ngIf="product"
               type="text"
               id="flavourtype"
               name="flavourtype"
               class="form-control"
-              value="{{ product?.flavourType }}"
+              [(ngModel)]="product.flavourType"
             />
           </div>
         </div>
@@ -81,11 +83,12 @@
           <div class="mt-2 form-group">
             <label for="origin" class="form-label">Origin</label>
             <input
+              *ngIf="product"
               type="text"
               id="origin"
               name="origin"
               class="form-control"
-              value="{{ product?.origin }}"
+              [(ngModel)]="product.origin"
             />
           </div>
         </div>
@@ -93,11 +96,12 @@
           <div class="mt-2">
             <label for="sku" class="form-label">SKU</label>
             <input
+              *ngIf="product"
               type="text"
               id="sku"
               name="sku"
               class="form-control"
-              value="{{ product?.sku }}"
+              [(ngModel)]="product.sku"
             />
           </div>
         </div>
@@ -108,11 +112,12 @@
           <div class="mt-2">
             <label for="packtype" class="form-label">Pack Type</label>
             <input
+              *ngIf="product"
               type="text"
               id="packtype"
               name="packtype"
               class="form-control"
-              value="{{ product?.packType }}"
+              [(ngModel)]="product.packType"
             />
           </div>
         </div>
@@ -120,11 +125,12 @@
           <div class="mt-2">
             <label for="version" class="form-label">Version</label>
             <input
+              *ngIf="product"
               type="text"
               id="version"
               name="version"
               class="form-control"
-              value="{{ product?.version }}"
+              [(ngModel)]="product.version"
             />
           </div>
         </div>
@@ -137,7 +143,7 @@
               id="projectdate"
               name="projectdate"
               class="form-control"
-              value="{{ product.projectDate | date : 'yyyy-MM-dd' }}"
+              [(ngModel)]="product.projectDate"
             />
           </div>
         </div>
@@ -148,11 +154,12 @@
           <div class="mt-2">
             <label for="barcode" class="form-label">Barcode</label>
             <input
+              *ngIf="product"
               type="text"
               id="barcode"
               name="barcode"
               class="form-control"
-              value="{{ product?.barcode }}"
+              [(ngModel)]="product.barcode"
             />
           </div>
         </div>
@@ -162,13 +169,13 @@
               >Printing Company</label
             >
             <ng-select
-              *ngIf="product"
+            *ngIf="product"
               name="printingcompanyid"
               [items]="printingCompanies$ | async"
               bindLabel="name"
               bindValue="id"
               placeholder="Select Printing Company"
-              [(ngModel)]="product.printingCompany.id"
+              [(ngModel)]="product.printingCompanyId"
               [searchable]="true"
             >
             </ng-select>
@@ -186,7 +193,7 @@
               bindLabel="name"
               bindValue="id"
               placeholder="Select Cylinder Company"
-              [(ngModel)]="product.cylinderCompany.id"
+              [(ngModel)]="product.cylinderCompanyId"
               [searchable]="true"
             >
             </ng-select>
@@ -212,7 +219,11 @@
                   >
                 </td>
                 <td>
-                  <button type="button" class="btn btn-danger ms-3" (click)="onDeleteAttachment(attachment.id)">
+                  <button
+                    type="button"
+                    class="btn btn-danger ms-3"
+                    (click)="onDeleteAttachment(attachment.id)"
+                  >
                     <i class="bi bi-trash-fill"></i>
                   </button>
                 </td>
@@ -252,6 +263,13 @@
             <progress [value]="progress" max="100"></progress>
           </div>
           <button type="submit" class="btn btn-primary">Save Product</button>
+          <button
+            type="button"
+            class="btn btn-danger ms-3"
+            (click)="onDeleteProduct()"
+          >
+            Delete
+          </button>
         </div>
       </div>
 

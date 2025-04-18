@@ -11,6 +11,7 @@ import { AddProductRequest } from '../models/add-product.model';
 import { Product } from '../models/product.model';
 import { AllProduct } from '../models/all-product.model';
 import { Attachment } from '../models/attachment.model';
+import { UpdateProductRequest } from '../models/edit-product.model';
 
 @Injectable({
   providedIn: 'root',
@@ -23,6 +24,13 @@ export class ProductService {
       `${environment.apiBaseUrl}/api/product`,
       model
     );
+  }
+
+  updateProduct(id: number, updateProductRequest: UpdateProductRequest): Observable<Product>{
+     return this.http.put<Product>(
+          `${environment.apiBaseUrl}/api/product/${id}`,
+          updateProductRequest
+        );
   }
 
   getAllProducts(): Observable<AllProduct[]> {

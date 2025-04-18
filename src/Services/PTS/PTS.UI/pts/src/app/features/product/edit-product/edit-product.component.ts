@@ -14,13 +14,14 @@ import { CategoryService } from '../../category/services/category.service';
 import { ProjectService } from '../../project/services/project.service';
 import { CylindercompanyService } from '../../cylinderCompany/services/cylindercompany.service';
 import { PrintingcompanyService } from '../../printingCompany/services/printingcompany.service';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpEvent, HttpEventType } from '@angular/common/http';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FileSelectorComponent } from '../../../shared/components/file-selector/file-selector.component';
 import { environment } from '../../../../environments/environment';
 import { ToastrUtils } from '../../../utils/toastr-utils';
 import Swal from 'sweetalert2';
 import { Attachment } from '../models/attachment.model';
+import { UpdateProductRequest } from '../models/edit-product.model';
 
 @Component({
   selector: 'app-edit-product',
@@ -175,16 +176,87 @@ export class EditProductComponent implements OnInit, OnDestroy {
     this.deleteAttachmentSubscription?.unsubscribe();
   }
 
-  onFormSubmit() {}
+  onFormSubmit() {
+    if (
+      this.product?.categoryId == 0 ||
+      this.product?.projectId == 0 ||
+      this.product?.cylinderCompanyId == 0 ||
+      this.product?.printingCompanyId == 0
+    ) {
+      //alert('Missing: Category/Project/Cylinder Company/Printing Company');
+      ToastrUtils.showErrorToast(
+        'Missing: Category/Project/Cylinder Company/Printing Company'
+      );
+      return;
+    }
 
-  loadAttachments() {
-    this.productService.getAttachmentsByProductId(this.productId).subscribe(data => {
-      this.attachment_list = data;
-    });
+    const updateProductRequest: UpdateProductRequest = {
+      categoryid: this.product?.categoryId,
+      projectid: this.product?.projectId,
+      brand: this.product?.brand,
+      flavourtype: this.product?.flavourType,
+      origin: this.product?.origin,
+      sku: this.product?.origin,
+      packtype: this.product?.packType,
+      version: this.product?.version,
+      projectdate: this.product?.projectDate,
+      barcode: this.product?.barcode,
+      cylindercompanyid: this.product?.cylinderCompanyId,
+      printingcompanyid: this.product?.printingCompanyId,
+    };
+
+    // pass this object to service
+    if (this.product?.id) {
+      console.log(updateProductRequest);
+      this.editProductSubscription = this.productService
+        .updateProduct(this.product?.id, updateProductRequest)
+        .subscribe({
+          next: (response) => {
+            if (this.selectedFiles.length === 0) {
+              //ToastrUtils.showErrorToast('No File Selected');
+              //return;
+            } else {
+              this.uploadAttachmentSubscription = this.productService
+                .uploadAttachment(
+                  this.selectedFiles,
+                  this.product?.id.toString() ?? '0'
+                )
+                .subscribe((event: HttpEvent<any>) => {
+                  switch (event.type) {
+                    case HttpEventType.UploadProgress:
+                      if (event.total) {
+                        this.progress = Math.round(
+                          (100 * event.loaded) / event.total
+                        );
+                      }
+                      break;
+                    case HttpEventType.Response:
+                      //ToastrUtils.showToast('Product Updated Successfully.');
+                      //this.router.navigateByUrl('/admin/products');
+                      this.progress = 0;
+                      break;
+                  }
+                });
+            }
+
+            ToastrUtils.showToast('Product Updated Successfully.');
+            this.router.navigateByUrl('/admin/products');
+          },
+        });
+    }
   }
 
+  loadAttachments() {
+    this.productService
+      .getAttachmentsByProductId(this.productId)
+      .subscribe((data) => {
+        this.attachment_list = data;
+      });
+  }
+
+  onDeleteProduct() {}
+
   onDeleteAttachment(id: number) {
-    console.log(id);
     Swal.fire({
       title: 'Are you sure?',
       text: "You won't be able to undo this!",
@@ -203,7 +275,6 @@ export class EditProductComponent implements OnInit, OnDestroy {
             .subscribe({
               next: (response) => {
                 this.loadAttachments();
-                console.log('Item deleted!');
                 Swal.fire('Deleted!', 'Your item has been deleted.', 'success');
               },
               error: (error) => {
@@ -211,8 +282,7 @@ export class EditProductComponent implements OnInit, OnDestroy {
               },
             });
         }
-        
-      }else{
+      } else {
         console.log('Delete operation cancelled.');
       }
     });

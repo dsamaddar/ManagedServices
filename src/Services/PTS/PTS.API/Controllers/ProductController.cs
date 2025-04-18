@@ -186,5 +186,58 @@ namespace PTS.API.Controllers
             return Ok(response);
         }
 
+        // PUT: /api/printingcompany/{id}
+        [HttpPut]
+        [Route("{id:int}")]
+        [Authorize(Roles = "READER,MANAGER,ADMIN")]
+        public async Task<IActionResult> EditProduct([FromRoute] int id, UpdateProductRequestDto request)
+        {
+            // Convert DTO to Domain Model
+            var product = new Product
+            {
+                Id = id,
+                CategoryId = request.CategoryId,
+                ProjectId = request.ProjectId,
+                Brand= request.Brand,
+                FlavourType = request.FlavourType,
+                Origin = request.Origin,
+                SKU = request.SKU,
+                PackType = request.PackType,
+                Version = request.Version,
+                ProjectDate = request.ProjectDate,
+                Barcode = request.Barcode,
+                PrintingCompanyId = request.PrintingCompanyId,
+                CylinderCompanyId = request.CylinderCompanyId,
+            };
+
+            product = await productRepository.UpdateAsync(product);
+
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+            // Convert Domain Model to DTO
+            var response = new ProductDto
+            {
+                Id = product.Id,
+                CategoryId = product.CategoryId,
+                ProjectId = product.ProjectId,
+                Brand = product.Brand,
+                FlavourType = product.FlavourType,
+                Origin = product.Origin,
+                SKU = product.SKU,
+                PackType = product.PackType,
+                Version = product.Version,
+                ProjectDate = product.ProjectDate,
+                Barcode = product.Barcode,
+                PrintingCompanyId = product.PrintingCompanyId,
+                CylinderCompanyId = product.CylinderCompanyId,
+            };
+
+            return Ok(response);
+        }
+
+
     }
 }

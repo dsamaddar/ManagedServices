@@ -6,8 +6,8 @@ import { Attachment } from "./attachment.model";
 
 export interface AllProduct{
     id: number,
-    categoryid: number,
-    projectid: number,
+    categoryId: number,
+    projectId: number,
     brand: string,
     flavourType: string,
     origin: string,
@@ -16,8 +16,8 @@ export interface AllProduct{
     version: string,
     projectDate: Date,
     barcode: string,
-    cylindercompanyid: number,
-    printingcompanyid: number,
+    cylinderCompanyId: number,
+    printingCompanyId: number,
     cylinderCompany: CylinderCompany,
     printingCompany: PrintingCompany,
     category: Category,
