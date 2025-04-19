@@ -6,7 +6,7 @@
       <input type="text" class="form-control" placeholder="search content" #queryText>
       <button type="button" class="btn btn-warning ms-1" (click)="onSearch(queryText.value)">Search</button>
       <label for="pageSize" class="ms-1">Page Size</label>
-      <select class="ms-1" name="pageSize" id="pageSize" #pageSize>
+      <select class="ms-1" name="pageSize" id="pageSize" #selectPageSize (change)="onPageSizeChange(selectPageSize.value)" >
         <option value="5">5</option>
         <option value="10">10</option>
         <option value="50">50</option>
