@@ -5,6 +5,8 @@ import { Router, RouterModule } from '@angular/router';
 import { AddPrintingCompanyRequest } from '../models/add-printingcompany.model';
 import { Subscription } from 'rxjs';
 import { PrintingcompanyService } from '../services/printingcompany.service';
+import { ToastrService } from 'ngx-toastr';
+import { ToastrUtils } from '../../../utils/toastr-utils';
 
 @Component({
   selector: 'app-add-printingcompany',
@@ -22,21 +24,23 @@ export class AddPrintingcompanyComponent implements OnDestroy {
   ){
     this.model = {
       name: '',
-      description: ''
+      description: '',
+      userId: ''
     }
   }
 ;
 
   onFormSubmit(){
+    this.model.userId = String( localStorage.getItem('user-id'));
     this.addPrintingCompanySubscription = this.printingCompanyService.AddPrintingCompany(this.model)
     .subscribe({
       next: (response) => {
 
-        console.log('this was successful');
+        ToastrUtils.showToast('Printing Company Added.');
         this.router.navigateByUrl('/admin/printingcompany');
       },
       error: (error) => {
-
+        ToastrUtils.showErrorToast(error);
       }
     });
   }

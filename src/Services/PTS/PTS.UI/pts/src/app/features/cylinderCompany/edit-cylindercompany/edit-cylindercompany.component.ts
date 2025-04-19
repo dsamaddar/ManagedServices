@@ -6,6 +6,7 @@ import { CylindercompanyService } from '../services/cylindercompany.service';
 import { CylinderCompany } from '../models/CylinderCompany.model';
 import { CommonModule } from '@angular/common';
 import { UpdateCylinderCompanyRequest } from '../models/update-cylindercompany-request.model';
+import { ToastrUtils } from '../../../utils/toastr-utils';
 
 @Component({
   selector: 'app-edit-cylindercompany',
@@ -49,6 +50,7 @@ export class EditCylindercompanyComponent implements OnInit, OnDestroy {
     const updateCylinderCompanyRequest: UpdateCylinderCompanyRequest = {
       name: this.cylindercompany?.name ?? '',
       description: this.cylindercompany?.description ?? '',
+      userId: String( localStorage.getItem('user-id')),
     };
 
     // pass this object to service
@@ -57,8 +59,12 @@ export class EditCylindercompanyComponent implements OnInit, OnDestroy {
         .updateCylinderCompany(this.id, updateCylinderCompanyRequest)
         .subscribe({
           next: (response) => {
+            ToastrUtils.showToast('Company Updated.');
             this.router.navigateByUrl('/admin/cylindercompany');
           },
+          error: (error) =>{
+            ToastrUtils.showErrorToast(error);
+          }
         });
     }
   }
@@ -74,8 +80,12 @@ export class EditCylindercompanyComponent implements OnInit, OnDestroy {
         .deleteCylinderCompany(this.id)
         .subscribe({
           next: (response) => {
+            ToastrUtils.showToast('Company Deleted.');
             this.router.navigateByUrl('/admin/cylindercompany');
           },
+          error: (error) => {
+            ToastrUtils.showErrorToast(error);
+          }
         });
     }
   }

@@ -11,5 +11,6 @@ export interface Product{
     projectdate: Date,
     barcode: string,
     cylindercompanyid: number,
-    printingcompanyid: number
+    printingcompanyid: number,
+    userId: string,
 }

@@ -22,5 +22,7 @@ namespace PTS.API.Models.DTO
 
         public int? PrintingCompanyId { get; set; }
 
+        public string? UserId { get; set; }
+
     }
 }

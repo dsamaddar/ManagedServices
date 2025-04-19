@@ -6,6 +6,7 @@ import { PrintingcompanyService } from '../services/printingcompany.service';
 import { PrintingCompany } from '../models/printingcompany.model';
 import { Subscription } from 'rxjs';
 import { UpdatePrintingCompanyRequest } from '../models/update-printingcompany.model';
+import { ToastrUtils } from '../../../utils/toastr-utils';
 
 @Component({
   selector: 'app-edit-printingcompany',
@@ -54,7 +55,8 @@ export class EditPrintingcompanyComponent implements OnInit, OnDestroy {
   onFormSubmit():void{
       const updatePrintingCompanyRequest: UpdatePrintingCompanyRequest = {
         name: this.printingCompany?.name ?? '',
-        description: this.printingCompany?.description ?? ''
+        description: this.printingCompany?.description ?? '',
+        userId: String( localStorage.getItem('user-id')),
       }
   
       // pass this object to service
@@ -62,7 +64,11 @@ export class EditPrintingcompanyComponent implements OnInit, OnDestroy {
         this.editPrintingCompanySubscription = this.printingCompanyService.updatePrintingCompany(this.id, updatePrintingCompanyRequest)
         .subscribe({
           next: (response) =>{
+            ToastrUtils.showToast('Printing Company Updated.');
             this.router.navigateByUrl('/admin/printingcompany')
+          },
+          error: (error) => {
+            ToastrUtils.showErrorToast(error);
           }
         });
       }
@@ -73,7 +79,11 @@ export class EditPrintingcompanyComponent implements OnInit, OnDestroy {
         this.deletePrintingCompanySubscription = this.printingCompanyService.deletePrintingCompany(this.id)
         .subscribe({
           next: (response) => {
+            ToastrUtils.showToast('Printing Company Updated.');
             this.router.navigateByUrl('/admin/printingcompany');
+          },
+          error: (error) =>{
+            ToastrUtils.showErrorToast(error);
           }
         });
       }

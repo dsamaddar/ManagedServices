@@ -157,7 +157,7 @@ update-database -context ApplicationDbContext
 update-database -context AuthDbContext
 
 ### Tasks yet to be implemented
-1. UI forms validation
+1. UI forms/model validation
 2. Apply toastr in every place
 3. logout if unauthorized
 4. Generic error handling

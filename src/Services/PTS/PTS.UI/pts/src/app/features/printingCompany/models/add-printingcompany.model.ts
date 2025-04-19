@@ -1,4 +1,5 @@
 export interface AddPrintingCompanyRequest{
     name: string,
-    description: string
+    description: string,
+    userId: string,
 }

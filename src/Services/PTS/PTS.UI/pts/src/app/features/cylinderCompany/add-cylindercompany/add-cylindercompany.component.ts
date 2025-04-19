@@ -5,6 +5,7 @@ import { AddCylinderCompanyRequest } from '../models/add-cylindercompany-request
 import { Router, RouterModule } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { CylindercompanyService } from '../services/cylindercompany.service';
+import { ToastrUtils } from '../../../utils/toastr-utils';
 
 @Component({
   selector: 'app-add-cylindercompany',
@@ -24,21 +25,22 @@ export class AddCylindercompanyComponent implements OnDestroy {
     this.model = {
       name : '',
       description : '',
+      userId: '',
     }
   }
   
 
   onFormSubmit(){
-
+    this.model.userId = String( localStorage.getItem('user-id'));
     this.addCylinderCompanySubscription = this.cylinderCompanyService?.addCylinderCompany(this.model)
     .subscribe({
       next: (response) => {
 
-        console.log('this was successful');
+        ToastrUtils.showToast('Company Added.');
         this.router.navigateByUrl('/admin/cylindercompany');
       },
       error: (error) => {
-
+        ToastrUtils.showErrorToast(error);
       }
     });
   }

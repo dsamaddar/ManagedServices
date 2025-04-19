@@ -203,6 +203,7 @@ export class EditProductComponent implements OnInit, OnDestroy {
       barcode: this.product?.barcode,
       cylindercompanyid: this.product?.cylinderCompanyId,
       printingcompanyid: this.product?.printingCompanyId,
+      userId: String(localStorage.getItem('user-id')),
     };
 
     // pass this object to service

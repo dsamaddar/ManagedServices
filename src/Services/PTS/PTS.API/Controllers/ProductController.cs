@@ -41,6 +41,7 @@ namespace PTS.API.Controllers
                 Barcode = request.Barcode,
                 CylinderCompanyId = request.CylinderCompanyId,
                 PrintingCompanyId = request.PrintingCompanyId,
+                UserId = request.UserId,
             };
 
             await productRepository.CreateAsync(product);
@@ -61,6 +62,7 @@ namespace PTS.API.Controllers
                 Barcode = product.Barcode,
                 CylinderCompanyId = product.CylinderCompanyId,
                 PrintingCompanyId = product.PrintingCompanyId,
+                UserId = product.UserId,
             };
 
             return Ok(response);
@@ -119,7 +121,8 @@ namespace PTS.API.Controllers
                     {
                         Id = product.PrintingCompany?.Id ?? 0,
                         Name = product.PrintingCompany?.Name
-                    }
+                    },
+                    UserId = product.UserId,
                 });
             }
 
@@ -182,7 +185,8 @@ namespace PTS.API.Controllers
                 {
                     Id = product.PrintingCompany?.Id ?? 0,
                     Name = product.PrintingCompany?.Name
-                }
+                },
+                UserId = product.UserId,
             };
 
             return Ok(response);
@@ -210,6 +214,7 @@ namespace PTS.API.Controllers
                 Barcode = request.Barcode,
                 PrintingCompanyId = request.PrintingCompanyId,
                 CylinderCompanyId = request.CylinderCompanyId,
+                UserId = request.UserId,
             };
 
             product = await productRepository.UpdateAsync(product);
@@ -235,6 +240,7 @@ namespace PTS.API.Controllers
                 Barcode = product.Barcode,
                 PrintingCompanyId = product.PrintingCompanyId,
                 CylinderCompanyId = product.CylinderCompanyId,
+                UserId = product.UserId,
             };
 
             return Ok(response);
@@ -274,6 +280,7 @@ namespace PTS.API.Controllers
                 Barcode = product.Barcode,
                 PrintingCompanyId = product.PrintingCompanyId,
                 CylinderCompanyId = product.CylinderCompanyId,
+                UserId = product.UserId,
             };
 
             return Ok(response);

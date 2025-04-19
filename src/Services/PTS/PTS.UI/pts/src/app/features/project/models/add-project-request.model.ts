@@ -1,4 +1,5 @@
 export interface AddProjectRequest{
     name: string,
-    description: string
+    description: string,
+    userId: string,
 }

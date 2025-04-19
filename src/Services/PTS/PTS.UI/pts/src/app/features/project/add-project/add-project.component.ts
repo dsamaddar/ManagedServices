@@ -7,6 +7,7 @@ import { AddProjectRequest } from '../models/add-project-request.model';
 import { Subscription } from 'rxjs';
 import { subscriptionLogsToBeFn } from 'rxjs/internal/testing/TestScheduler';
 import { ProjectService } from '../services/project.service';
+import { ToastrUtils } from '../../../utils/toastr-utils';
 
 @Component({
   selector: 'app-add-project',
@@ -24,19 +25,20 @@ export class AddProjectComponent implements OnDestroy {
     this.model = {
       name: '',
       description: '',
+      userId: '',
     }
   }
 
   onFormSubmit(){
+    this.model.userId = String(localStorage.getItem('user-id'));
     this.addProjectSubscription = this.projectService.addProject(this.model)
     .subscribe({
       next: (response) => {
-
-        console.log('this was successful');
+        ToastrUtils.showToast('Project Added.');
         this.router.navigateByUrl('/admin/projects');
       },
       error: (error) => {
-
+        ToastrUtils.showToast(error);
       }
     });
   }

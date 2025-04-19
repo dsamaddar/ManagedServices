@@ -120,6 +120,7 @@ export class AddProductComponent implements OnInit, OnDestroy {
       barcode: '',
       cylindercompanyid: 0,
       printingcompanyid: 0,
+      userId: '',
     };
   }
 
@@ -164,6 +165,7 @@ export class AddProductComponent implements OnInit, OnDestroy {
   }
 
   onFormSubmit() {
+    this.product.userId = String(localStorage.getItem('user-id'));
     this.product.categoryid = this.categoryid || 0;
     this.product.projectid = this.projectid || 0;
     this.product.cylindercompanyid = this.cylindercompanyid || 0;
@@ -215,7 +217,7 @@ export class AddProductComponent implements OnInit, OnDestroy {
             });
         },
         error: (error) => {
-          console.log(error);
+          ToastrUtils.showErrorToast(error);
         },
       });
   }

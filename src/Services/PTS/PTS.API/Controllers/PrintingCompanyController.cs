@@ -28,7 +28,8 @@ namespace PTS.API.Controllers
             var printingCompany = new PrintingCompany
             {
                 Name = request.Name,
-                Description = request.Description
+                Description = request.Description,
+                UserId = request.UserId,
             };
 
             await printingCompanyRepository.CreateAsync(printingCompany);
@@ -38,7 +39,8 @@ namespace PTS.API.Controllers
             {
                 Id = printingCompany.Id,
                 Name = printingCompany.Name,
-                Description = printingCompany.Description
+                Description = printingCompany.Description,
+                UserId = printingCompany.UserId,
             };
 
             return Ok(response);
@@ -59,7 +61,8 @@ namespace PTS.API.Controllers
                 {
                     Id = company.Id,
                     Name = company.Name,
-                    Description = company.Description
+                    Description = company.Description,
+                    UserId = company.UserId,
                 });
             }
 
@@ -84,6 +87,7 @@ namespace PTS.API.Controllers
                 Id = existingPrintingCompany.Id,
                 Name = existingPrintingCompany.Name,
                 Description = existingPrintingCompany.Description,
+                UserId = existingPrintingCompany.UserId,
             };
 
             return Ok(response);
@@ -101,6 +105,7 @@ namespace PTS.API.Controllers
                 Id = id,
                 Name = request.Name,
                 Description = request.Description,
+                UserId = request.UserId,
             };
 
             printingCompany = await printingCompanyRepository.UpdateAsync(printingCompany);
@@ -115,7 +120,8 @@ namespace PTS.API.Controllers
             {
                 Id = printingCompany.Id,
                 Name = printingCompany.Name,
-                Description = printingCompany.Description
+                Description = printingCompany.Description,
+                UserId = printingCompany.UserId,
             };
 
             return Ok(response);
@@ -143,6 +149,7 @@ namespace PTS.API.Controllers
                 Id = printingCompany.Id,
                 Name = printingCompany.Name,
                 Description = printingCompany.Description,
+                UserId = printingCompany.UserId,
             };
 
             return Ok(response);

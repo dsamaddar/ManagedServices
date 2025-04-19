@@ -10,5 +10,6 @@ export interface UpdateProductRequest{
     projectdate?: Date,
     barcode?: string,
     cylindercompanyid?: number,
-    printingcompanyid?: number
+    printingcompanyid?: number,
+    userId?: string,
 }

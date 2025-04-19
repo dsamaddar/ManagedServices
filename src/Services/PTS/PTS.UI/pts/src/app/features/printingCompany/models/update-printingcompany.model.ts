@@ -1,4 +1,5 @@
 export interface UpdatePrintingCompanyRequest{
     name: string,
-    description: string
+    description: string,
+    userId: string,
 }

@@ -29,7 +29,8 @@ namespace PTS.API.Controllers
             var project = new Project
             {
                 Name = request.Name,
-                Description = request.Description
+                Description = request.Description,
+                UserId = request.UserId,
             };
 
             await projectRepository.CreateAsync(project);
@@ -39,7 +40,8 @@ namespace PTS.API.Controllers
             {
                 Id = project.Id,
                 Name = project.Name,
-                Description = project.Description
+                Description = project.Description,
+                UserId = project.UserId,
             };
 
             return Ok(response);
@@ -60,7 +62,8 @@ namespace PTS.API.Controllers
                 {
                     Id = project.Id,
                     Name = project.Name,
-                    Description = project.Description
+                    Description = project.Description,
+                    UserId = project.UserId,
                 });
             }
 
@@ -71,7 +74,7 @@ namespace PTS.API.Controllers
         [HttpGet]
         [Route("{id:int}")]
         [Authorize(Roles = "READER,MANAGER,ADMIN")]
-        public async Task<IActionResult> GetCategoryById([FromRoute] int id)
+        public async Task<IActionResult> GetProjectById([FromRoute] int id)
         {
             var existingProject = await projectRepository.GetById(id);
 
@@ -80,11 +83,12 @@ namespace PTS.API.Controllers
                 return NotFound();
             }
 
-            var response = new CategoryDto
+            var response = new ProjectDto
             {
                 Id = existingProject.Id,
                 Name = existingProject.Name,
                 Description = existingProject.Description,
+                UserId = existingProject.UserId,
             };
 
             return Ok(response);
@@ -94,7 +98,7 @@ namespace PTS.API.Controllers
         [HttpPut]
         [Route("{id:int}")]
         [Authorize(Roles = "MANAGER,ADMIN")]
-        public async Task<IActionResult> EditCategory([FromRoute] int id, UpdateProjectRequestDto request)
+        public async Task<IActionResult> EditProject([FromRoute] int id, UpdateProjectRequestDto request)
         {
             // Convert DTO to Domain Model
             var project = new Project
@@ -102,6 +106,7 @@ namespace PTS.API.Controllers
                 Id = id,
                 Name = request.Name,
                 Description = request.Description,
+                UserId = request.UserId,
             };
 
             project = await projectRepository.UpdateAsync(project);
@@ -116,7 +121,8 @@ namespace PTS.API.Controllers
             {
                 Id = project.Id,
                 Name = project.Name,
-                Description = project.Description
+                Description = project.Description,
+                UserId= project.UserId,
             };
 
             return Ok(response);
@@ -128,7 +134,7 @@ namespace PTS.API.Controllers
         [HttpDelete]
         [Route("{id:int}")]
         [Authorize(Roles = "MANAGER,ADMIN")]
-        public async Task<IActionResult> DeleteCategory([FromRoute] int id)
+        public async Task<IActionResult> DeleteProject([FromRoute] int id)
         {
             var category = await projectRepository.DeleteAsync(id);
 
@@ -139,12 +145,13 @@ namespace PTS.API.Controllers
 
             // Convert Domain Model to DTO
 
-            var response = new CategoryDto
+            var response = new ProjectDto
             {
 
                 Id = category.Id,
                 Name = category.Name,
                 Description = category.Description,
+                UserId = category.UserId,
             };
 
             return Ok(response);

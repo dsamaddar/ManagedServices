@@ -6,15 +6,15 @@ import { Subscription } from 'rxjs';
 import { Project } from '../models/project.model';
 import { ProjectService } from '../services/project.service';
 import { UpdateProjectRequest } from '../models/update-project-request.model';
+import { ToastrUtils } from '../../../utils/toastr-utils';
 
 @Component({
   selector: 'app-edit-project',
   imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './edit-project.component.html',
-  styleUrl: './edit-project.component.css'
+  styleUrl: './edit-project.component.css',
 })
 export class EditProjectComponent implements OnInit, OnDestroy {
-  
   id: number = 0;
 
   paramsSubscription?: Subscription;
@@ -22,57 +22,65 @@ export class EditProjectComponent implements OnInit, OnDestroy {
   deleteProjectSubscription?: Subscription;
   project?: Project;
 
-  constructor(private route: ActivatedRoute,
+  constructor(
+    private route: ActivatedRoute,
     private projectService: ProjectService,
     private router: Router
-  ){
-
-  }
-
+  ) {}
 
   ngOnInit(): void {
     this.paramsSubscription = this.route.paramMap.subscribe({
       next: (params) => {
         this.id = Number(params.get('id'));
 
-        if(this.id){
+        if (this.id) {
           // get data from api for this project id
-          this.projectService.getProjectById(this.id)
-          .subscribe({
+          this.projectService.getProjectById(this.id).subscribe({
             next: (response) => {
               this.project = response;
-            }
+            },
           });
         }
-      }
+      },
     });
   }
 
-  onFormSubmit():void{
+  onFormSubmit(): void {
     const updateProjectRequest: UpdateProjectRequest = {
       name: this.project?.name ?? '',
-      description: this.project?.description ?? ''
-    }
+      description: this.project?.description ?? '',
+      userId: String(localStorage.getItem('user-id')),
+    };
 
     // pass this object to service
-    if(this.id){
-      this.editProjectSubscription = this.projectService.updateProject(this.id, updateProjectRequest)
-      .subscribe({
-        next: (response) =>{
-          this.router.navigateByUrl('/admin/projects')
-        }
-      });
+    if (this.id) {
+      this.editProjectSubscription = this.projectService
+        .updateProject(this.id, updateProjectRequest)
+        .subscribe({
+          next: (response) => {
+            ToastrUtils.showToast('Project Updated.');
+            this.router.navigateByUrl('/admin/projects');
+          },
+          error: (error) => {
+            ToastrUtils.showErrorToast(error);
+          },
+        });
     }
   }
 
   onDelete(): void {
-    if(this.id){
-      this.deleteProjectSubscription = this.projectService.deleteProject(this.id)
-      .subscribe({
-        next: (response) => {
-          this.router.navigateByUrl('/admin/projects');
-        }
-      });
+    if (this.id) {
+      this.deleteProjectSubscription = this.projectService
+        .deleteProject(this.id)
+        .subscribe({
+          next: (response) => {
+            ToastrUtils.showToast('Project Updated.');
+            this.router.navigateByUrl('/admin/projects');
+          },
+          error: (error) => {
+            ToastrUtils.showToast(error);
+          },
+        });
     }
   }
 
@@ -81,7 +89,4 @@ export class EditProjectComponent implements OnInit, OnDestroy {
     this.editProjectSubscription?.unsubscribe();
     this.deleteProjectSubscription?.unsubscribe();
   }
-  
- 
-
 }

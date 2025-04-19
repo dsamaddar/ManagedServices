@@ -33,7 +33,7 @@ namespace PTS.API.Controllers
             foreach (var file in files)
             {
                 string sanitizedFileName = file.FileName.Replace(" ", "_").Replace("'", "_");
-                var fileUploadName = $"{DateTime.Now.Ticks.ToString()}.{sanitizedFileName}";
+                var fileUploadName = $"{DateTime.Now.ToString("yyyyMMddHHmmssfff")}.{sanitizedFileName}";
                 var filePath = Path.Combine("attachments", fileUploadName);
 
                 using (var stream = new FileStream(filePath, FileMode.Create))

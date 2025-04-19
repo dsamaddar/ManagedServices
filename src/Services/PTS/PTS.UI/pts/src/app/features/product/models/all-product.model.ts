@@ -23,4 +23,5 @@ export interface AllProduct{
     category: Category,
     project: Project,
     attachments: Attachment[],
+    userId: string,
 }

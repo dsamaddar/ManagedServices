@@ -25,6 +25,7 @@ namespace PTS.API.Models.DTO
         public CylinderCompanyDto? CylinderCompany { get; set; }
 
         public int? PrintingCompanyId { get; set; }
+        public string? UserId { get; set; }
         public PrintingCompanyDto? PrintingCompany { get; set; }
         public ICollection<AttachmentDto> Attachments { get; set; } = new List<AttachmentDto>();
 

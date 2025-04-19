@@ -28,6 +28,7 @@ namespace PTS.API.Controllers
             {
                 Name = request.Name,
                 Description = request.Description,
+                UserId = request.UserId,
             };
 
             await cylinderCompanyRepository.CreateAsync(cylinderCompany);
@@ -60,6 +61,7 @@ namespace PTS.API.Controllers
                     Id= company.Id,
                     Name = company.Name,
                     Description = company.Description,
+                    UserId = company.UserId,
                 });
             }
 
@@ -83,6 +85,7 @@ namespace PTS.API.Controllers
                 Id = existingCylinderCompany.Id,
                 Name=existingCylinderCompany.Name,
                 Description = existingCylinderCompany.Description,
+                UserId=existingCylinderCompany.UserId,
             };
 
             return Ok(response);
@@ -101,6 +104,7 @@ namespace PTS.API.Controllers
                 Id = id,
                 Name = request.Name,
                 Description = request.Description,
+                UserId=request.UserId,
             };
 
             cylinderCompany = await cylinderCompanyRepository.UpdateAsync(cylinderCompany);
@@ -115,7 +119,8 @@ namespace PTS.API.Controllers
             {
                 Id = cylinderCompany.Id,
                 Name = cylinderCompany.Name,
-                Description = cylinderCompany.Description
+                Description = cylinderCompany.Description,
+                UserId = cylinderCompany.UserId,
             };
 
             return Ok(response);
@@ -143,6 +148,7 @@ namespace PTS.API.Controllers
                 Id = cylinderCompany.Id,
                 Name = cylinderCompany.Name,
                 Description = cylinderCompany.Description,
+                UserId = cylinderCompany.UserId
             };
 
             return Ok(response);

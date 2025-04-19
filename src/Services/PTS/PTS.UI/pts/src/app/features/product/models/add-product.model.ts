@@ -11,5 +11,6 @@ export interface AddProductRequest{
     projectdate: string,
     barcode: string,
     cylindercompanyid: number,
-    printingcompanyid: number
+    printingcompanyid: number,
+    userId: string,
 }
