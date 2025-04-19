@@ -68,12 +68,12 @@ namespace PTS.API.Controllers
             return Ok(response);
         }
 
-        // GET: /api/product
+        // GET: /api/product?query=html
         [HttpGet]
         [Authorize(Roles = "READER,MANAGER,ADMIN")]
-        public async Task<IActionResult> GetAllProducts()
+        public async Task<IActionResult> GetAllProducts([FromQuery] string? query)
         {
-            var products = await productRepository.GetAllAsync();
+            var products = await productRepository.GetAllAsync(query);
 
             // Map Domain model to DTO
             var response = new List<ProductDto>();

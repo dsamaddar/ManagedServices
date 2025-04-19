@@ -3,6 +3,7 @@ import {
   HttpEvent,
   HttpRequest,
   HttpEventType,
+  HttpParams,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
@@ -33,8 +34,16 @@ export class ProductService {
         );
   }
 
-  getAllProducts(): Observable<AllProduct[]> {
-    return this.http.get<AllProduct[]>(`${environment.apiBaseUrl}/api/product`);
+  getAllProducts(query?: string): Observable<AllProduct[]> {
+    let params = new HttpParams();
+
+    if(query){
+      params = params.set('query',query);
+    }
+
+    return this.http.get<AllProduct[]>(`${environment.apiBaseUrl}/api/product`,{
+      params: params
+    });
   }
 
   getProductById(id: number): Observable<AllProduct> {

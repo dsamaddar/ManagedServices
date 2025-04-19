@@ -20,6 +20,10 @@ export class ProductListComponent implements OnInit {
 
   ngOnInit(): void {
     this.products$ = this.productService.getAllProducts();
-    console.log(this.products$);
   }
+
+  onSearch(query: string){
+    this.products$ = this.productService.getAllProducts(query);
+  }
+
 }

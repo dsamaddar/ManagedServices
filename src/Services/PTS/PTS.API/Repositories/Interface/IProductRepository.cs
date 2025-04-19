@@ -5,7 +5,7 @@ namespace PTS.API.Repositories.Interface
     public interface IProductRepository
     {
         Task<Product> CreateAsync(Product product); 
-        Task<IEnumerable<Product>> GetAllAsync();
+        Task<IEnumerable<Product>> GetAllAsync(string? query = null);
 
         Task<Product?> GetByIdAsync(int id);
         Task<Product?> UpdateAsync(Product product);

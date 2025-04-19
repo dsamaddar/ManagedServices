@@ -165,4 +165,4 @@ update-database -context AuthDbContext
 6. Product view options
 7. filter/pagination/sorting options
 8. Beautiful Dashboard
-9. User tracking in Data Insert
+9. User tracking in Data Insert (done)
