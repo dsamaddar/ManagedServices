@@ -49,7 +49,7 @@ namespace PTS.API.Repositories.Implementation
             return existingProduct;
         }
 
-        public async Task<IEnumerable<Product>> GetAllAsync(string? query = null)
+        public async Task<IEnumerable<Product>> GetAllAsync(string? query = null, int? pageNumber = 1, int? pageSize = 5)
         {
             // Query the database not actually retrieving anything
             var products = dbContext.Products
@@ -65,18 +65,27 @@ namespace PTS.API.Repositories.Implementation
             if(string.IsNullOrWhiteSpace(query) == false)
             {
                 products = products
-                            .Where(x => x.Barcode != null && x.Barcode.Contains(query))
-                            .Where(x => x.Brand != null && x.Brand.Contains(query))
-                            .Where(x => x.FlavourType != null && x.FlavourType.Contains(query))
-                            .Where(x => x.Origin != null && x.Origin.Contains(query))
-                            .Where(x => x.SKU != null && x.SKU.Contains(query))
-                            .Where(x => x.PackType != null && x.PackType.Contains(query))
-                            .Where(x => x.Version != null && x.Version.Contains(query));
+                            .Where(x => 
+                            (x.Barcode != null && x.Barcode.Contains(query)) ||
+                            (x.Brand != null && x.Brand.Contains(query)) ||
+                            (x.FlavourType != null && x.FlavourType.Contains(query)) ||
+                            (x.Origin != null && x.Origin.Contains(query)) ||
+                            (x.SKU != null && x.SKU.Contains(query)) ||
+                            (x.PackType != null && x.PackType.Contains(query)) ||
+                            (x.Version != null && x.Version.Contains(query))
+                            )
+                            .OrderByDescending(x => x.ProjectDate);
             }
 
             // Sorting
 
             // Pagination
+            // pageNumber 1 pageSize 5 - skip 0, take 5
+            // pageNumber 2 pageSize 5 - skip 5 take 5
+            // pageNumber 3 pageSize 5 - skip 10 take 5
+
+            var skipResults = (pageNumber - 1) * pageSize;
+            products = products.Skip(skipResults ?? 0).Take(pageSize ?? 5); 
 
             // Return the list of products
 

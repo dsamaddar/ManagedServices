@@ -3,8 +3,15 @@
 
   <div class="d-flex justify-content-between mt-3">
     <div class="d-flex">
-      <input type="text" class="form-control" #queryText>
-      <button type="button" class="btn btn-warning ms-3" (click)="onSearch(queryText.value)">Search</button>
+      <input type="text" class="form-control" placeholder="search content" #queryText>
+      <button type="button" class="btn btn-warning ms-1" (click)="onSearch(queryText.value)">Search</button>
+      <label for="pageSize" class="ms-1">Page Size</label>
+      <select class="ms-1" name="pageSize" id="pageSize" #pageSize>
+        <option value="5">5</option>
+        <option value="10">10</option>
+        <option value="50">50</option>
+        <option value="100">100</option>
+      </select>
     </div>
     <a
       [routerLink]="['/admin/products/add']"
@@ -64,5 +71,14 @@
         </tr>
       </tbody>
     </table>
+    <nav aria-label="Page navigation example">
+      <ul class="pagination">
+        <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+
+        <li *ngFor="let item of page_list; let index = index" class="page-item"><a class="page-link" href="#">{{index+1}}</a></li>
+
+        <li class="page-item"><a class="page-link" href="#">Next</a></li>
+      </ul>
+    </nav>
   </ng-container>
 </div>

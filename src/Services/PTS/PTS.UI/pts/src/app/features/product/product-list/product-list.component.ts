@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { ProductService } from '../services/product.service';
 import { Product } from '../models/product.model';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { AllProduct } from '../models/all-product.model';
 
 @Component({
@@ -15,15 +15,33 @@ import { AllProduct } from '../models/all-product.model';
 })
 export class ProductListComponent implements OnInit {
   products$?: Observable<AllProduct[]>;
+  totalProductCount?: number;
+  page_list: number[] = [];
+  pageNumber = 1;
+  pageSize = 5;
 
   constructor(private productService: ProductService) {}
 
   ngOnInit(): void {
-    this.products$ = this.productService.getAllProducts();
+    this.products$ = this.productService.getAllProducts(undefined, this.pageNumber,this.pageSize);
+    
+    this.products$?.subscribe(products => {
+      this.totalProductCount = products.length;
+
+      this.page_list = new Array(Math.ceil(this.totalProductCount/this.pageSize));
+      
+      console.log('Number of products:', this.totalProductCount);
+    });
+
   }
 
   onSearch(query: string){
-    this.products$ = this.productService.getAllProducts(query);
+    this.products$ = this.productService.getAllProducts(query, this.pageNumber,this.pageSize);
+    
+    this.products$?.subscribe(products => {
+      this.totalProductCount = products.length;
+      console.log('Number of products:', this.totalProductCount);
+    });
   }
 
 }
