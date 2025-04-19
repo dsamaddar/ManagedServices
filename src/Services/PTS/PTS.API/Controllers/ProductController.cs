@@ -102,22 +102,22 @@ namespace PTS.API.Controllers
                     }).ToList(),
                     Category = new CategoryDto
                     {
-                        Id = product.Category.Id,
+                        Id = product.Category?.Id ?? 0,
                         Name = product.Category?.Name,
                     },
                     Project = new ProjectDto
                     {
-                        Id = product.Project.Id,
+                        Id = product.Project?.Id ?? 0,
                         Name = product.Project?.Name
                     },
                     CylinderCompany = new CylinderCompanyDto
                     {
-                        Id = product.CylinderCompany.Id,
+                        Id = product.CylinderCompany?.Id ?? 0,
                         Name = product.CylinderCompany?.Name
                     },
                     PrintingCompany = new PrintingCompanyDto
                     {
-                        Id = product.PrintingCompany.Id,
+                        Id = product.PrintingCompany?.Id ?? 0,
                         Name = product.PrintingCompany?.Name
                     }
                 });
@@ -165,22 +165,22 @@ namespace PTS.API.Controllers
                 }).ToList(),
                 Category = new CategoryDto
                 {
-                    Id  = product.Category.Id,
+                    Id  = product.Category?.Id ?? 0,
                     Name = product.Category?.Name,
                 },
                 Project = new ProjectDto
                 {
-                    Id = product.Project.Id,
+                    Id = product.Project?.Id ?? 0,
                     Name = product.Project?.Name
                 },
                 CylinderCompany = new CylinderCompanyDto
                 {
-                    Id = product.CylinderCompany.Id,
+                    Id = product.CylinderCompany?.Id ?? 0,
                     Name = product.CylinderCompany?.Name
                 },
                 PrintingCompany = new PrintingCompanyDto
                 {
-                    Id = product.PrintingCompany.Id,
+                    Id = product.PrintingCompany?.Id ?? 0,
                     Name = product.PrintingCompany?.Name
                 }
             };

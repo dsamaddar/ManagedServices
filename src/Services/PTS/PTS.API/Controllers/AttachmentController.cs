@@ -15,10 +15,12 @@ namespace PTS.API.Controllers
     public class AttachmentController : ControllerBase
     {
         private readonly IAttachmentRepository attachmentRepository;
+        private readonly IProductRepository productRepository;
 
-        public AttachmentController(IAttachmentRepository attachmentRepository)
+        public AttachmentController(IAttachmentRepository attachmentRepository, IProductRepository productRepository)
         {
             this.attachmentRepository = attachmentRepository;
+            this.productRepository = productRepository;
         }
 
         [HttpPost("upload")]
@@ -26,6 +28,7 @@ namespace PTS.API.Controllers
         public async Task<IActionResult> Upload([FromForm] List<IFormFile> files, [FromForm] string productid)
         {
             var product_id = Convert.ToInt32(productid);
+            var product = await productRepository.GetByIdAsync(product_id);
 
             foreach (var file in files)
             {
@@ -45,6 +48,7 @@ namespace PTS.API.Controllers
                     Name = fileUploadName,
                     Description = fileUploadName,
                     Tag = fileUploadName,
+                    UserId = product?.UserId?? string.Empty,
                 };
 
                 await attachmentRepository.CreateAsync(attachment);

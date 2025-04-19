@@ -18,6 +18,7 @@ namespace PTS.API.Repositories.Implementation
         public string CreateJwtToken(IdentityUser user, List<string> roles)
         {
             // create claims from roles
+
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Email, user.Email)
