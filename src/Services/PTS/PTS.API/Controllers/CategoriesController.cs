@@ -31,7 +31,8 @@ namespace PTS.API.Controllers
             var category = new Category
             {
                 Name = request.Name,
-                Description = request.Description
+                Description = request.Description,
+                UserId = request.UserId
             };
 
             await categoryRepository.CreateAsync(category);
@@ -41,7 +42,8 @@ namespace PTS.API.Controllers
             {
                 Id = category.Id,
                 Name = category.Name,
-                Description = category.Description
+                Description = category.Description,
+                UserId = request.UserId,
             };
 
             return Ok(response);
@@ -62,7 +64,8 @@ namespace PTS.API.Controllers
                 {
                     Id = category.Id,
                     Name = category.Name,
-                    Description = category.Description
+                    Description = category.Description,
+                    UserId = category.UserId,
                 });
             }
 
@@ -87,6 +90,7 @@ namespace PTS.API.Controllers
                 Id = existingCategory.Id,
                 Name = existingCategory.Name,
                 Description = existingCategory.Description,
+                UserId = existingCategory.UserId,
             };
 
             return Ok(response);
@@ -104,6 +108,7 @@ namespace PTS.API.Controllers
                 Id = id,
                 Name = request.Name,
                 Description = request.Description,
+                UserId = request.UserId,
             };
 
             category = await categoryRepository.UpdateAsync(category);
@@ -117,7 +122,8 @@ namespace PTS.API.Controllers
             var response = new CategoryDto { 
                 Id = category.Id,
                 Name = category.Name,
-                Description = category.Description
+                Description = category.Description,
+                UserId = category.UserId,
             };
 
             return Ok(response);
@@ -145,6 +151,7 @@ namespace PTS.API.Controllers
                     Id = category.Id,
                     Name = category.Name,
                     Description = category.Description,
+                    UserId = category.UserId,
             };
 
             return Ok(response);

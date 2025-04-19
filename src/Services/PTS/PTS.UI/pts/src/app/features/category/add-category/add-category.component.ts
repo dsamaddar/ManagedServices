@@ -24,7 +24,7 @@ export class AddCategoryComponent implements OnDestroy {
     private router: Router
   ) {
     this.model = {
-      userid: '',
+      userId: '',
       name: '',
       description: '',
     };
@@ -64,9 +64,7 @@ export class AddCategoryComponent implements OnDestroy {
   }
 
   onFormSubmit() {
-    this.model.userid = String(localStorage.getItem('user-id'));
-    console.log(this.model);
-    return;
+    this.model.userId = String( localStorage.getItem('user-id'));
     this.addCategorySubscription = this.categoryService
       .AddCategory(this.model)
       .subscribe({
