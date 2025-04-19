@@ -195,7 +195,7 @@ namespace PTS.API.Controllers
             return Ok(response);
         }
 
-        // PUT: /api/printingcompany/{id}
+        // PUT: /api/product/{id}
         [HttpPut]
         [Route("{id:int}")]
         [Authorize(Roles = "READER,MANAGER,ADMIN")]
@@ -288,6 +288,19 @@ namespace PTS.API.Controllers
 
             return Ok(response);
         }
+
+        // GET: {apiBaseUrl}/api/product/count
+        [HttpGet]
+        [Route("count")]
+        //[Authorize(Roles = "READER,MANAGER,ADMIN")]
+        public async Task<IActionResult> GetProductCount([FromQuery] string? query)
+        {
+            var count = await productRepository.GetCount(query);
+
+            return Ok(count);
+        }
+
+
 
 
     }

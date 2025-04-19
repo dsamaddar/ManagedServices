@@ -10,5 +10,7 @@ namespace PTS.API.Repositories.Interface
         Task<Product?> GetByIdAsync(int id);
         Task<Product?> UpdateAsync(Product product);
         Task<Product?> DeleteAsync(int id);
+
+        Task<int> GetCount(string? query = null);
     }
 }

@@ -114,6 +114,37 @@ namespace PTS.API.Repositories.Implementation
                 .FirstOrDefaultAsync(x => x.Id == id);
         }
 
+        public async Task<int> GetCount(string? query = null)
+        {
+            // Query the database not actually retrieving anything
+            var products = dbContext.Products
+                .Include(x => x.CylinderCompany)
+                .Include(x => x.PrintingCompany)
+                .Include(x => x.Project)
+                .Include(x => x.Category)
+                .Include(x => x.Attachments)
+                .AsQueryable();
+
+            // Filtering
+
+            if (string.IsNullOrWhiteSpace(query) == false)
+            {
+                products = products
+                            .Where(x =>
+                            (x.Barcode != null && x.Barcode.Contains(query)) ||
+                            (x.Brand != null && x.Brand.Contains(query)) ||
+                            (x.FlavourType != null && x.FlavourType.Contains(query)) ||
+                            (x.Origin != null && x.Origin.Contains(query)) ||
+                            (x.SKU != null && x.SKU.Contains(query)) ||
+                            (x.PackType != null && x.PackType.Contains(query)) ||
+                            (x.Version != null && x.Version.Contains(query))
+                            )
+                            .OrderByDescending(x => x.ProjectDate);
+            }
+
+            return await products.CountAsync();
+        }
+
         public async Task<Product?> UpdateAsync(Product product)
         {
             var existingProduct = await dbContext.Products.FirstOrDefaultAsync(x => x.Id == product.Id);

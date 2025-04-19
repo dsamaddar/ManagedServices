@@ -27,36 +27,61 @@ export class ProductService {
     );
   }
 
-  updateProduct(id: number, updateProductRequest: UpdateProductRequest): Observable<Product>{
-     return this.http.put<Product>(
-          `${environment.apiBaseUrl}/api/product/${id}`,
-          updateProductRequest
-        );
+  updateProduct(
+    id: number,
+    updateProductRequest: UpdateProductRequest
+  ): Observable<Product> {
+    return this.http.put<Product>(
+      `${environment.apiBaseUrl}/api/product/${id}`,
+      updateProductRequest
+    );
   }
 
-  getAllProducts(query?: string, pageNumber?: number, pageSize?: number): Observable<AllProduct[]> {
+  getAllProducts(
+    query?: string,
+    pageNumber?: number,
+    pageSize?: number
+  ): Observable<AllProduct[]> {
     let params = new HttpParams();
 
-    if(query){
-      params = params.set('query',query);
+    if (query) {
+      params = params.set('query', query);
     }
 
-    if(pageNumber){
-      params = params.set('pageNumber',pageNumber);
+    if (pageNumber) {
+      params = params.set('pageNumber', pageNumber);
     }
 
-    if(pageSize){
-      params = params.set('pageSize',pageSize);
+    if (pageSize) {
+      params = params.set('pageSize', pageSize);
     }
 
-    return this.http.get<AllProduct[]>(`${environment.apiBaseUrl}/api/product`,{
-      params: params
-    });
+    return this.http.get<AllProduct[]>(
+      `${environment.apiBaseUrl}/api/product`,
+      {
+        params: params,
+      }
+    );
   }
 
   getProductById(id: number): Observable<AllProduct> {
     return this.http.get<AllProduct>(
       `${environment.apiBaseUrl}/api/product/${id}`
+    );
+  }
+
+  getProductCount(query?: string): Observable<number> {
+    let params = new HttpParams();
+
+    if (query) {
+      params = params.set('query', query);
+    }
+
+    return this.http.get<number>(
+      `${environment.apiBaseUrl}/api/product/count`,
+      {
+        params: params,
+      }
     );
   }
 
@@ -91,9 +116,10 @@ export class ProductService {
     );
   }
 
-    deleteProduct(id: number): Observable<Product> {
-      return this.http.delete<Product>(
-        `${environment.apiBaseUrl}/api/product/${id}`
-      );
-    }
+  deleteProduct(id: number): Observable<Product> {
+    return this.http.delete<Product>(
+      `${environment.apiBaseUrl}/api/product/${id}`
+    );
+  }
+
 }
