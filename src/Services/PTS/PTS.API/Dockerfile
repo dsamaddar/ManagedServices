@@ -27,4 +27,11 @@ RUN dotnet publish "./PTS.API.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
+
+# Copy certs
+COPY https/ https/
+  
+# Create attachment folder
+RUN mkdir -p /app/attachments
+
 ENTRYPOINT ["dotnet", "PTS.API.dll"]

@@ -75,6 +75,16 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
+
+builder.WebHost.ConfigureKestrel(options =>
+{
+    options.ListenAnyIP(5101); // HTTP
+    options.ListenAnyIP(5102, listenOptions =>
+    {
+        listenOptions.UseHttps("https/devcert.pfx", "Farc1lgh#");
+    });
+});
+
 var app = builder.Build();
 
 // Optional: if you're also using wwwroot
@@ -98,6 +108,14 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
     app.UseDeveloperExceptionPage(); // detailed error page
 }
+
+// Swagger
+app.UseSwagger();
+app.UseSwaggerUI(c =>
+{
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "PTS API V1");
+    c.RoutePrefix = string.Empty; // Serve at root
+});
 
 app.UseHttpsRedirection();
 

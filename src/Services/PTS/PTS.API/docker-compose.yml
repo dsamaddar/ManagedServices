@@ -6,7 +6,12 @@ services:
       context: .
       dockerfile: PTS.API/Dockerfile
     ports:
-      - "5101:8080"
-      - "5102:8081"
+     - "5101:5101"  # HTTP (host:container)
+     - "5102:5102"  # HTTPS (host:container)
+    volumes:
+     - ./PTS.API/https:/https
     environment:
-      - ASPNETCORE_ENVIRONMENT=Development
+     - ASPNETCORE_URLS=https://+:5102;http://+:5101
+     - ASPNETCORE_HTTPS_PORT=5102
+     - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/devcert.pfx
+     - ASPNETCORE_Kestrel__Certificates__Default__Password=Farc1lgh#
