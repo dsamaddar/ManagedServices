@@ -12,7 +12,7 @@ COPY . .
 RUN npm run build -- --configuration=production
 
 # Stage 2: Serve Angular App with Nginx
-FROM nginx:alpine
+FROM nginx:latest
 
 # Optional: Replace default nginx config to support Angular routing
 # COPY nginx.conf /etc/nginx/conf.d/default.conf
