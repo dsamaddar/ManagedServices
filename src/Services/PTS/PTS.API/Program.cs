@@ -75,12 +75,6 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
-builder.WebHost.ConfigureKestrel(options =>
-{
-    options.ListenAnyIP(8080); // HTTP
-    options.ListenAnyIP(8081);
-});
-
 var app = builder.Build();
 
 // Optional: if you're also using wwwroot
