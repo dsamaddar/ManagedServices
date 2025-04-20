@@ -1,0 +1,12 @@
+version: "3.4"
+
+services:
+  ptsapi:
+    build:
+      context: .
+      dockerfile: PTS.API/Dockerfile
+    ports:
+      - "5101:8080"
+      - "5102:8081"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
