@@ -125,10 +125,10 @@ server {
 docker images
 
 ### 5. Build Docker Image
-docker build -t pts .
+docker build -t ptsui .
 
 ### 5. Run Docker Container
-docker run -d -p 8080:80 pts
+docker run -d -p 8080:80 ptsui
 
 ### Now you can visit your Angular app at:
 👉 http://localhost:8080
@@ -137,8 +137,8 @@ docker run -d -p 8080:80 pts
 ### ######################## for rapid build and deply ####################################
 
 ng build --configuration production
-docker build -t my-angular-app .
-docker run -d -p 8080:80 my-angular-app
+docker build -t ptsui .
+docker run -d -p 8080:80 ptsui
 
 ### toaster packages
 npm install ngx-toastr --save
