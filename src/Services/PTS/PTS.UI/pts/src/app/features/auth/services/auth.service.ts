@@ -60,4 +60,8 @@ export class AuthService {
     this.$user.next(undefined);
   }
 
+  register(userData: { username: string, password: string }): Observable<any> {
+    return this.http.post(`${environment.apiBaseUrl}/api/auth/login`, userData);
+  }
+
 }

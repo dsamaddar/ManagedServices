@@ -15,6 +15,7 @@ import { ProductListComponent } from './features/product/product-list/product-li
 import { AddProductComponent } from './features/product/add-product/add-product.component';
 import { LoginComponent } from './features/auth/login/login.component';
 import { EditProductComponent } from './features/product/edit-product/edit-product.component';
+import { RegisterComponent } from './features/auth/register/register.component';
 
 export const routes: Routes = [
     {
@@ -80,5 +81,9 @@ export const routes: Routes = [
     {
         path: 'login',
         component: LoginComponent
+    },
+    {
+        path: 'register',
+        component: RegisterComponent
     }
 ];
