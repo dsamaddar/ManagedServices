@@ -15,12 +15,20 @@ RUN npm run build -- --configuration=production
 FROM nginx:alpine
 
 # Optional: Replace default nginx config to support Angular routing
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+# COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 # Copy built app from previous stage
 COPY --from=builder /app/dist/pts/browser /usr/share/nginx/html
 
+# Copy Nginx HTTP and HTTPS config files
+COPY nginx/default.conf /etc/nginx/conf.d/default.conf
+COPY nginx/default-ssl.conf /etc/nginx/conf.d/default-ssl.conf
+
+# Copy SSL certificate and key
+COPY nginx/cert/server.crt /etc/ssl/certs/server.crt
+COPY nginx/cert/server.key /etc/ssl/private/server.key
+
 # Expose port
-EXPOSE 80
+EXPOSE 80 443
 
 CMD ["nginx", "-g", "daemon off;"]

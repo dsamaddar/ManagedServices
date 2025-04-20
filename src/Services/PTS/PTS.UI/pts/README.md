@@ -138,7 +138,7 @@ docker run -d -p 8080:80 ptsui
 
 ng build --configuration production
 docker build -t ptsui .
-docker run -d -p 8080:80 ptsui
+docker run -d -p 80:80 -p 443:443 ptsui
 
 ### toaster packages
 npm install ngx-toastr --save
@@ -155,6 +155,11 @@ add-migration initial -context ApplicationDbContext
 add-migration initial -context AuthDbContext
 update-database -context ApplicationDbContext
 update-database -context AuthDbContext
+
+### Generate Self Signed Certificate
+mkdir -p nginx/cert
+openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout nginx/cert/server.key -out nginx/cert/server.crt -subj "/CN=localhost"
+
 
 ### Tasks yet to be implemented
 1. UI forms/model validation
