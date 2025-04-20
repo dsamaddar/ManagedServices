@@ -12,3 +12,16 @@ docker build -t ptsapi -f Services/PTS/PTS.API/Dockerfile .
 
 ## Run the Docker Container on Port 5101 & 5102
 docker run -d -p 5101:5101 -p 5102:5102 ptsapi
+
+
+## Download Docker Images
+navigate to any pc location
+
+docker save -o ptsapi.tar ptsapi:latest
+docker save -o ptsui.tar ptsui:latest
+
+## Load docker file (On the Same or Another Machine):
+docker load -i ptsapi.tar
+docker load -i ptsui.tar
+
+
