@@ -29,7 +29,7 @@ WORKDIR /app
 COPY --from=publish /app/publish .
 
 # Copy certs
-COPY https/ https/
+COPY ./Services/PTS/PTS.API/https/ https/
   
 # Create attachment folder
 RUN mkdir -p /app/attachments
