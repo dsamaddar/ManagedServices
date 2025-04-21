@@ -6,9 +6,9 @@ import { CylindercompanyListComponent } from './features/cylinderCompany/cylinde
 import { PrintingcompanyListComponent } from './features/printingCompany/printingcompany-list/printingcompany-list.component';
 import { AddCylindercompanyComponent } from './features/cylinderCompany/add-cylindercompany/add-cylindercompany.component';
 import { EditCylindercompanyComponent } from './features/cylinderCompany/edit-cylindercompany/edit-cylindercompany.component';
-import { ProjectListComponent } from './features/project/project-list/project-list.component';
-import { EditProjectComponent } from './features/project/edit-project/edit-project.component';
-import { AddProjectComponent } from './features/project/add-project/add-project.component';
+import { ProjectListComponent } from './features/productCode/productcode-list/project-list.component';
+import { EditProjectComponent } from './features/productCode/edit-productcode/edit-project.component';
+import { AddProjectComponent } from './features/productCode/add-productcode/add-productcode.component';
 import { AddPrintingcompanyComponent } from './features/printingCompany/add-printingcompany/add-printingcompany.component';
 import { EditPrintingcompanyComponent } from './features/printingCompany/edit-printingcompany/edit-printingcompany.component';
 import { ProductListComponent } from './features/product/product-list/product-list.component';

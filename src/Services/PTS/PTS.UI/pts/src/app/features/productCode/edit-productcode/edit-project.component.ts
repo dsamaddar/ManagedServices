@@ -3,9 +3,9 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { Project } from '../models/project.model';
-import { ProjectService } from '../services/project.service';
-import { UpdateProjectRequest } from '../models/update-project-request.model';
+import { Project } from '../models/productcode.model';
+import { ProjectService } from '../services/productcode.service';
+import { UpdateProjectRequest } from '../models/update-productcode-request.model';
 import { ToastrUtils } from '../../../utils/toastr-utils';
 
 @Component({

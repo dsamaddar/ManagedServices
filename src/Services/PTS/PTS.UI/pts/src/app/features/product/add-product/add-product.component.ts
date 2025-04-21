@@ -26,8 +26,8 @@ import { MatIcon } from '@angular/material/icon';
 import { FileSelectorComponent } from '../../../shared/components/file-selector/file-selector.component';
 import { environment } from '../../../../environments/environment';
 import { ProductService } from '../services/product.service';
-import { Project } from '../../project/models/project.model';
-import { ProjectService } from '../../project/services/project.service';
+import { Project } from '../../productCode/models/productcode.model';
+import { ProjectService } from '../../productCode/services/productcode.service';
 import { ToastrUtils } from '../../../utils/toastr-utils';
 
 @Component({

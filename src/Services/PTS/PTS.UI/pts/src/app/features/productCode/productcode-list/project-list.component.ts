@@ -3,8 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { Observable } from 'rxjs';
-import { ProjectService } from '../services/project.service';
-import { Project } from '../models/project.model';
+import { ProductCodeService } from '../services/productcode.service';
+import { ProductCode } from '../models/productcode.model';
 
 @Component({
   selector: 'app-project-list',
@@ -14,14 +14,14 @@ import { Project } from '../models/project.model';
 })
 export class ProjectListComponent implements OnInit {
   
-  projects$?: Observable<Project[]>;
+  projects$?: Observable<ProductCode[]>;
 
-  constructor(private projectService: ProjectService){
+  constructor(private productCodeService: ProductCodeService){
 
   }
   
   ngOnInit(): void {
-    this.projects$ = this.projectService.getAllProjects();
+    this.projects$ = this.productCodeService.getAllProjects();
   }
 
 }
