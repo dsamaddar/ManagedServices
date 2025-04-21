@@ -57,7 +57,7 @@ namespace PTS.API.Repositories.Implementation
                 .Include(x => x.PrintingCompany)
                 .Include(x => x.Project)
                 .Include(x => x.Category)
-                .Include(x => x.Attachments)
+                .Include(x => x.ProductVersions)
                 .OrderByDescending(x => x.ProjectDate)
                 .AsQueryable();
 
@@ -111,7 +111,7 @@ namespace PTS.API.Repositories.Implementation
                 .Include(x => x.PrintingCompany)
                 .Include(x => x.Project)
                 .Include(x => x.Category)
-                .Include(x => x.Attachments)
+                .Include(x => x.ProductVersions)
                 .FirstOrDefaultAsync(x => x.Id == id);
         }
 
@@ -123,7 +123,7 @@ namespace PTS.API.Repositories.Implementation
                 .Include(x => x.PrintingCompany)
                 .Include(x => x.Project)
                 .Include(x => x.Category)
-                .Include(x => x.Attachments)
+                .Include(x => x.ProductVersions)
                 .AsQueryable();
 
             // Filtering

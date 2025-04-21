@@ -26,19 +26,17 @@ namespace PTS.API.Models.Domain
         [Column(Order = 4)]
         public DateTime DateCreated { get; set; } = DateTime.Now;
 
-        [ForeignKey("Product")]
         [Column(Order = 5)]
-        public int ProductId { get; set; }
+        public int TrackingId { get; set; } = 0;
 
         [ForeignKey("ProductVersion")]
         [Column(Order = 6)]
-        public int ProductVersionId { get; set; }
-
+        public int? ProductVersionId { get; set; }
 
         [Column(Order = 7)]
         public string? UserId { get; set; }
-        public Product? Product { get; set; }
 
+        // Navigation property (many-to-one)
         public ProductVersion? ProductVersion { get; set; }
     }
 }

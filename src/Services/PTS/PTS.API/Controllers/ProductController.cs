@@ -5,6 +5,7 @@ using PTS.API.Models.Domain;
 using PTS.API.Models.DTO;
 using PTS.API.Repositories.Implementation;
 using PTS.API.Repositories.Interface;
+using System.Linq;
 
 namespace PTS.API.Controllers
 {
@@ -97,13 +98,21 @@ namespace PTS.API.Controllers
                     Barcode = product.Barcode,
                     CylinderCompanyId = product.CylinderCompanyId,
                     PrintingCompanyId = product.PrintingCompanyId,
-                    Attachments = product.Attachments.Select(x => new AttachmentDto
+                    ProductVersions = product.ProductVersions?.Select( x => new ProductVersionDto
                     {
                         Id = x.Id,
-                        Name = x.Name,
-                        Description = x.Description,
-                        DateCreated = x.DateCreated,
+                        Version = x.Version,
+                        VersionDate = x.VersionDate,
+                        ProductId = x.ProductId,
 
+
+                        Attachments = x.Attachments?.Select(a => new AttachmentDto
+                        {
+                            Id = a.Id,
+                            Name = a.Name,
+                            Description = a.Description,
+                            DateCreated = a.DateCreated,
+                        }).ToList(),                       
                     }).ToList(),
                     Category = new CategoryDto
                     {
@@ -161,13 +170,21 @@ namespace PTS.API.Controllers
                 ProjectDate = product.ProjectDate,
                 SKU = product.SKU,
                 Version = product.Version,
-                Attachments = product.Attachments.Select(x => new AttachmentDto
+                ProductVersions = product.ProductVersions?.Select(x => new ProductVersionDto
                 {
                     Id = x.Id,
-                    Name = x.Name,
-                    Description = x.Description,
-                    DateCreated = x.DateCreated,
+                    Version = x.Version,
+                    VersionDate = x.VersionDate,
+                    ProductId = x.ProductId,
 
+
+                    Attachments = x.Attachments?.Select(a => new AttachmentDto
+                    {
+                        Id = a.Id,
+                        Name = a.Name,
+                        Description = a.Description,
+                        DateCreated = a.DateCreated,
+                    }).ToList(),
                 }).ToList(),
                 Category = new CategoryDto
                 {

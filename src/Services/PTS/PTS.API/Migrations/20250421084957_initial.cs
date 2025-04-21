@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace PTS.API.Migrations.ApplicationDb
+namespace PTS.API.Migrations
 {
     /// <inheritdoc />
     public partial class initial : Migration
@@ -19,7 +19,7 @@ namespace PTS.API.Migrations.ApplicationDb
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     Description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
-                    UserId = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    UserId = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -34,7 +34,7 @@ namespace PTS.API.Migrations.ApplicationDb
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
-                    UserId = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    UserId = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -49,7 +49,7 @@ namespace PTS.API.Migrations.ApplicationDb
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
-                    UserId = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    UserId = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -65,7 +65,7 @@ namespace PTS.API.Migrations.ApplicationDb
                     Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     Code = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     Description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
-                    UserId = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    UserId = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -90,7 +90,7 @@ namespace PTS.API.Migrations.ApplicationDb
                     CylinderCompanyId = table.Column<int>(type: "int", nullable: true),
                     PrintingCompanyId = table.Column<int>(type: "int", nullable: true),
                     ProjectId = table.Column<int>(type: "int", nullable: true),
-                    UserId = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    UserId = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -118,6 +118,27 @@ namespace PTS.API.Migrations.ApplicationDb
                 });
 
             migrationBuilder.CreateTable(
+                name: "ProductVersions",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Version = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    VersionDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ProductId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProductVersions", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ProductVersions_Products_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "Products",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Attachments",
                 columns: table => new
                 {
@@ -127,24 +148,35 @@ namespace PTS.API.Migrations.ApplicationDb
                     Description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
                     Tag = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
                     DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ProductId = table.Column<int>(type: "int", nullable: false),
-                    UserId = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    TrackingId = table.Column<int>(type: "int", nullable: false),
+                    ProductVersionId = table.Column<int>(type: "int", nullable: true),
+                    UserId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ProductId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Attachments", x => x.Id);
                     table.ForeignKey(
+                        name: "FK_Attachments_ProductVersions_ProductVersionId",
+                        column: x => x.ProductVersionId,
+                        principalTable: "ProductVersions",
+                        principalColumn: "Id");
+                    table.ForeignKey(
                         name: "FK_Attachments_Products_ProductId",
                         column: x => x.ProductId,
                         principalTable: "Products",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Attachments_ProductId",
                 table: "Attachments",
                 column: "ProductId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Attachments_ProductVersionId",
+                table: "Attachments",
+                column: "ProductVersionId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Categories_Name",
@@ -186,6 +218,11 @@ namespace PTS.API.Migrations.ApplicationDb
                 column: "ProjectId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ProductVersions_ProductId",
+                table: "ProductVersions",
+                column: "ProductId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Projects_Name",
                 table: "Projects",
                 column: "Name",
@@ -198,6 +235,9 @@ namespace PTS.API.Migrations.ApplicationDb
         {
             migrationBuilder.DropTable(
                 name: "Attachments");
+
+            migrationBuilder.DropTable(
+                name: "ProductVersions");
 
             migrationBuilder.DropTable(
                 name: "Products");

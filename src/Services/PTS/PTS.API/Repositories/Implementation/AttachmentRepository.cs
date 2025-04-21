@@ -53,12 +53,12 @@ namespace PTS.API.Repositories.Implementation
         public async Task DeleteByProductIdAsync(int productId)
         {
             var product = await dbContext.Products
-                                .Include(p => p.Attachments)
+                                .Include(p => p.ProductVersions)
                                 .FirstOrDefaultAsync(p => p.Id == productId);
 
-            if (product != null && product.Attachments.Any())
+            if (product != null && product.ProductVersions.Any())
             {
-                dbContext.Attachments.RemoveRange(product.Attachments);
+                dbContext.ProductVersions.RemoveRange(product.ProductVersions);
                 await dbContext.SaveChangesAsync();
             }
 
@@ -69,9 +69,9 @@ namespace PTS.API.Repositories.Implementation
             return await dbContext.Attachments.ToListAsync();
         }
 
-        public async Task<IEnumerable<Attachment>> GetAllByProductIdAsync(int productId)
+        public async Task<IEnumerable<Attachment>> GetAllByProductIdAsync(int productVersionId)
         {
-            return await dbContext.Attachments.Where(x => x.ProductId == productId)
+            return await dbContext.Attachments.Where(x => x.ProductVersionId == productVersionId)
                            .ToListAsync(); // Returns a list of attachments
         }
 

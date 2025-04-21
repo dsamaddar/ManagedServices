@@ -1,5 +1,6 @@
 ﻿using PTS.API.Models.Domain;
 using System.Net.Mail;
+using System.Linq;
 
 namespace PTS.API.Models.DTO
 {
@@ -27,7 +28,9 @@ namespace PTS.API.Models.DTO
         public int? PrintingCompanyId { get; set; }
         public string? UserId { get; set; }
         public PrintingCompanyDto? PrintingCompany { get; set; }
-        public ICollection<AttachmentDto> Attachments { get; set; } = new List<AttachmentDto>();
+
+        // Navigation property (one-to-many)
+        public ICollection<ProductVersionDto>? ProductVersions { get; set; } = new List<ProductVersionDto>();
 
     }
 }

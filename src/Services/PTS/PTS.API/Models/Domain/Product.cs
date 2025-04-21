@@ -59,11 +59,14 @@ namespace PTS.API.Models.Domain
 
         public string? UserId { get; set; }
 
+        // Navigation property (many-to-one)
         public CylinderCompany? CylinderCompany { get; set; }  // Navigation property
         public PrintingCompany? PrintingCompany { get; set; } // Navigation property
         public Category? Category { get; set; } // Navigation property
         public Project? Project { get; set; } // Navigation property
-        public ICollection<Attachment> Attachments { get; set; } = new List<Attachment>();
+
+        // Navigation property (one-to-many)
+        public List<ProductVersion> ProductVersions { get; set; } = new List<ProductVersion>();
 
     }
 }

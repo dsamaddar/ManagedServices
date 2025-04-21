@@ -43,7 +43,8 @@ namespace PTS.API.Controllers
 
                 var attachment = new Attachment
                 {
-                    ProductId = product_id,
+                    ProductVersionId = product_id,
+                    TrackingId = product_id,
                     DateCreated = DateTime.Now,
                     Name = fileUploadName,
                     Description = fileUploadName,

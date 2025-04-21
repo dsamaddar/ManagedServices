@@ -3,17 +3,20 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PTS.API.Data;
 
 #nullable disable
 
-namespace PTS.API.Migrations.ApplicationDb
+namespace PTS.API.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250421084957_initial")]
+    partial class initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -45,23 +48,31 @@ namespace PTS.API.Migrations.ApplicationDb
                         .HasColumnType("nvarchar(100)")
                         .HasColumnOrder(1);
 
-                    b.Property<int>("ProductId")
+                    b.Property<int?>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ProductVersionId")
                         .HasColumnType("int")
-                        .HasColumnOrder(5);
+                        .HasColumnOrder(6);
 
                     b.Property<string>("Tag")
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)")
                         .HasColumnOrder(3);
 
+                    b.Property<int>("TrackingId")
+                        .HasColumnType("int")
+                        .HasColumnOrder(5);
+
                     b.Property<string>("UserId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)")
-                        .HasColumnOrder(6);
+                        .HasColumnOrder(7);
 
                     b.HasKey("Id");
 
                     b.HasIndex("ProductId");
+
+                    b.HasIndex("ProductVersionId");
 
                     b.ToTable("Attachments");
                 });
@@ -86,7 +97,6 @@ namespace PTS.API.Migrations.ApplicationDb
                         .HasColumnOrder(1);
 
                     b.Property<string>("UserId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -119,7 +129,6 @@ namespace PTS.API.Migrations.ApplicationDb
                         .HasColumnOrder(1);
 
                     b.Property<string>("UserId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)")
                         .HasColumnOrder(3);
 
@@ -152,7 +161,6 @@ namespace PTS.API.Migrations.ApplicationDb
                         .HasColumnOrder(1);
 
                     b.Property<string>("UserId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -223,7 +231,6 @@ namespace PTS.API.Migrations.ApplicationDb
                         .HasColumnOrder(5);
 
                     b.Property<string>("UserId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Version")
@@ -242,6 +249,34 @@ namespace PTS.API.Migrations.ApplicationDb
                     b.HasIndex("ProjectId");
 
                     b.ToTable("Products");
+                });
+
+            modelBuilder.Entity("PTS.API.Models.Domain.ProductVersion", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnOrder(0);
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int")
+                        .HasColumnOrder(3);
+
+                    b.Property<string>("Version")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnOrder(1);
+
+                    b.Property<DateTime>("VersionDate")
+                        .HasColumnType("datetime2")
+                        .HasColumnOrder(2);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("ProductVersions");
                 });
 
             modelBuilder.Entity("PTS.API.Models.Domain.Project", b =>
@@ -269,7 +304,6 @@ namespace PTS.API.Migrations.ApplicationDb
                         .HasColumnOrder(1);
 
                     b.Property<string>("UserId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -283,13 +317,15 @@ namespace PTS.API.Migrations.ApplicationDb
 
             modelBuilder.Entity("PTS.API.Models.Domain.Attachment", b =>
                 {
-                    b.HasOne("PTS.API.Models.Domain.Product", "Product")
+                    b.HasOne("PTS.API.Models.Domain.Product", null)
                         .WithMany("Attachments")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ProductId");
 
-                    b.Navigation("Product");
+                    b.HasOne("PTS.API.Models.Domain.ProductVersion", "ProductVersion")
+                        .WithMany("Attachments")
+                        .HasForeignKey("ProductVersionId");
+
+                    b.Navigation("ProductVersion");
                 });
 
             modelBuilder.Entity("PTS.API.Models.Domain.Product", b =>
@@ -319,6 +355,17 @@ namespace PTS.API.Migrations.ApplicationDb
                     b.Navigation("Project");
                 });
 
+            modelBuilder.Entity("PTS.API.Models.Domain.ProductVersion", b =>
+                {
+                    b.HasOne("PTS.API.Models.Domain.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+                });
+
             modelBuilder.Entity("PTS.API.Models.Domain.Category", b =>
                 {
                     b.Navigation("Products");
@@ -335,6 +382,11 @@ namespace PTS.API.Migrations.ApplicationDb
                 });
 
             modelBuilder.Entity("PTS.API.Models.Domain.Product", b =>
+                {
+                    b.Navigation("Attachments");
+                });
+
+            modelBuilder.Entity("PTS.API.Models.Domain.ProductVersion", b =>
                 {
                     b.Navigation("Attachments");
                 });

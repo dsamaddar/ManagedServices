@@ -19,6 +19,10 @@ namespace PTS.API.Models.Domain
         [Column(Order = 3)]
         public int ProductId { get; set; }
 
-        public ICollection<Attachment> Attachments { get; set; } = new List<Attachment>();
+        // Navigation property (many-to-one)
+        public Product? Product { get; set; }
+
+        // Navigation property (one-to-many)
+        public ICollection<Attachment>? Attachments { get; set; } = new List<Attachment>();
     }
 }
