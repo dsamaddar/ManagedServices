@@ -29,8 +29,16 @@ namespace PTS.API.Models.Domain
         [ForeignKey("Product")]
         [Column(Order = 5)]
         public int ProductId { get; set; }
+
+        [ForeignKey("ProductVersion")]
         [Column(Order = 6)]
+        public int ProductVersionId { get; set; }
+
+
+        [Column(Order = 7)]
         public string? UserId { get; set; }
-        public Product Product { get; set; }
+        public Product? Product { get; set; }
+
+        public ProductVersion? ProductVersion { get; set; }
     }
 }
