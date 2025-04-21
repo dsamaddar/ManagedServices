@@ -4,7 +4,7 @@
     {
         public int Id { get; set; }
         public int? CategoryId { get; set; }
-        public int? ProjectId { get; set; }
+        public int? ProductCodeId { get; set; }
      
         public string? Brand { get; set; }
         public string? FlavourType { get; set; }
@@ -21,7 +21,7 @@
       
         public int? PrintingCompanyId { get; set; }
 
-        public string UserId { get; set; }
+        public string? UserId { get; set; }
 
     }
 }

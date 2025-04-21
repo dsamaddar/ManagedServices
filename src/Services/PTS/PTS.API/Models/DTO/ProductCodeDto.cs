@@ -1,6 +1,6 @@
 ﻿namespace PTS.API.Models.DTO
 {
-    public class ProjectDto
+    public class ProductCodeDto
     {
         public int Id { get; set; }
         public string? Name { get; set; }

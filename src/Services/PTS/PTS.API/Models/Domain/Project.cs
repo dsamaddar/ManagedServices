@@ -4,7 +4,7 @@ using System.Reflection.Emit;
 
 namespace PTS.API.Models.Domain
 {
-    public class Project
+    public class ProductCode
     {
         [Key]
         [Column(Order = 0)]

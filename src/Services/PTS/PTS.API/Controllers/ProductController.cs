@@ -31,7 +31,7 @@ namespace PTS.API.Controllers
             var product = new Product
             {
                 CategoryId = request.CategoryId,
-                ProjectId = request.ProjectId,
+                ProductCodeId = request.ProductCodeId,
                 Brand = request.Brand,
                 FlavourType = request.FlavourType,
                 Origin = request.Origin,
@@ -52,7 +52,7 @@ namespace PTS.API.Controllers
             {
                 Id = product.Id,
                 CategoryId = product.CategoryId,
-                ProjectId = product.ProjectId,
+                ProductCodeId = product.ProductCodeId,
                 Brand = product.Brand,
                 FlavourType = product.FlavourType,
                 Origin = product.Origin,
@@ -87,7 +87,7 @@ namespace PTS.API.Controllers
                 {
                     Id = product.Id,
                     CategoryId = product.CategoryId,
-                    ProjectId = product.ProjectId,
+                    ProductCodeId = product.ProductCodeId,
                     Brand = product.Brand,
                     FlavourType = product.FlavourType,
                     Origin = product.Origin,
@@ -119,10 +119,10 @@ namespace PTS.API.Controllers
                         Id = product.Category?.Id ?? 0,
                         Name = product.Category?.Name,
                     },
-                    Project = new ProjectDto
+                    ProductCode = new ProductCodeDto
                     {
-                        Id = product.Project?.Id ?? 0,
-                        Name = product.Project?.Name
+                        Id = product.ProductCode?.Id ?? 0,
+                        Name = product.ProductCode?.Name
                     },
                     CylinderCompany = new CylinderCompanyDto
                     {
@@ -159,7 +159,7 @@ namespace PTS.API.Controllers
             {
                 Id = product.Id,
                 CategoryId = product.CategoryId,
-                ProjectId = product.ProjectId,
+                ProductCodeId = product.ProductCodeId,
                 Brand = product.Brand,
                 Barcode = product.Barcode,
                 CylinderCompanyId = product.CylinderCompanyId,
@@ -191,10 +191,10 @@ namespace PTS.API.Controllers
                     Id  = product.Category?.Id ?? 0,
                     Name = product.Category?.Name,
                 },
-                Project = new ProjectDto
+                ProductCode = new ProductCodeDto
                 {
-                    Id = product.Project?.Id ?? 0,
-                    Name = product.Project?.Name
+                    Id = product.ProductCode?.Id ?? 0,
+                    Name = product.ProductCode?.Name
                 },
                 CylinderCompany = new CylinderCompanyDto
                 {
@@ -223,7 +223,7 @@ namespace PTS.API.Controllers
             {
                 Id = id,
                 CategoryId = request.CategoryId,
-                ProjectId = request.ProjectId,
+                ProductCodeId = request.ProductCodeId,
                 Brand= request.Brand,
                 FlavourType = request.FlavourType,
                 Origin = request.Origin,
@@ -249,7 +249,7 @@ namespace PTS.API.Controllers
             {
                 Id = product.Id,
                 CategoryId = product.CategoryId,
-                ProjectId = product.ProjectId,
+                ProductCodeId = product.ProductCodeId,
                 Brand = product.Brand,
                 FlavourType = product.FlavourType,
                 Origin = product.Origin,
@@ -289,7 +289,7 @@ namespace PTS.API.Controllers
             {
                 Id = product.Id,
                 CategoryId = product.CategoryId,
-                ProjectId = product.ProjectId,
+                ProductCodeId = product.ProductCodeId,
                 Brand = product.Brand,
                 FlavourType = product.FlavourType,
                 Origin = product.Origin,

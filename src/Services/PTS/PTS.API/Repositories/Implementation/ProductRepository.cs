@@ -55,7 +55,7 @@ namespace PTS.API.Repositories.Implementation
             var products = dbContext.Products
                 .Include(x => x.CylinderCompany)
                 .Include(x => x.PrintingCompany)
-                .Include(x => x.Project)
+                .Include(x => x.ProductCode)
                 .Include(x => x.Category)
                 .Include(x => x.ProductVersions)
                 .OrderByDescending(x => x.ProjectDate)
@@ -109,7 +109,7 @@ namespace PTS.API.Repositories.Implementation
             return await dbContext.Products
                 .Include(x => x.CylinderCompany)
                 .Include(x => x.PrintingCompany)
-                .Include(x => x.Project)
+                .Include(x => x.ProductCode)
                 .Include(x => x.Category)
                 .Include(x => x.ProductVersions)
                 .FirstOrDefaultAsync(x => x.Id == id);
@@ -121,7 +121,7 @@ namespace PTS.API.Repositories.Implementation
             var products = dbContext.Products
                 .Include(x => x.CylinderCompany)
                 .Include(x => x.PrintingCompany)
-                .Include(x => x.Project)
+                .Include(x => x.ProductCode)
                 .Include(x => x.Category)
                 .Include(x => x.ProductVersions)
                 .AsQueryable();

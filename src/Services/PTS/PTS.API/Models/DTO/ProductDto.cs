@@ -9,8 +9,8 @@ namespace PTS.API.Models.DTO
         public int Id { get; set; }
         public int? CategoryId { get; set; }
         public CategoryDto? Category { get; set; }
-        public int? ProjectId { get; set; }
-        public ProjectDto? Project { get; set; }
+        public int? ProductCodeId { get; set; }
+        public ProductCodeDto? ProductCode { get; set; }
         public string? Brand { get; set; }
         public string? FlavourType { get; set; }
 

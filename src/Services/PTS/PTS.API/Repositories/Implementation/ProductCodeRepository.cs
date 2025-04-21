@@ -7,19 +7,19 @@ using PTS.API.Repositories.Interface;
 
 namespace PTS.API.Repositories.Implementation
 {
-    public class ProjectRepository : IProjectRepository
+    public class ProductCodeRepository : IProductCodeRepository
     {
         private readonly ApplicationDbContext dbContext;
 
-        public ProjectRepository(ApplicationDbContext dbContext)
+        public ProductCodeRepository(ApplicationDbContext dbContext)
         {
             this.dbContext = dbContext;
         }
-        public async Task<Project> CreateAsync(Project project)
+        public async Task<ProductCode> CreateAsync(ProductCode project)
         {
             try
             {
-                await dbContext.Projects.AddAsync(project);
+                await dbContext.ProductCodes.AddAsync(project);
                 await dbContext.SaveChangesAsync();
                 return project;
             }
@@ -34,38 +34,38 @@ namespace PTS.API.Repositories.Implementation
             }
         }
 
-        public async Task<Project?> DeleteAsync(int id)
+        public async Task<ProductCode?> DeleteAsync(int id)
         {
-            var existingProject = await dbContext.Projects.FirstOrDefaultAsync(x => x.Id == id);
+            var existingProject = await dbContext.ProductCodes.FirstOrDefaultAsync(x => x.Id == id);
 
             if (existingProject == null)
             {
                 return null;
             }
 
-            dbContext.Projects.Remove(existingProject);
+            dbContext.ProductCodes.Remove(existingProject);
             await dbContext.SaveChangesAsync();
 
             return existingProject;
         }
 
-        public async Task<IEnumerable<Project>> GetAllAsync()
+        public async Task<IEnumerable<ProductCode>> GetAllAsync()
         {
-            return await dbContext.Projects.ToListAsync();
+            return await dbContext.ProductCodes.ToListAsync();
         }
 
-        public async Task<Project?> GetById(int id)
+        public async Task<ProductCode?> GetById(int id)
         {
-            return await dbContext.Projects.FirstOrDefaultAsync(x => x.Id == id);
+            return await dbContext.ProductCodes.FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public async Task<Project?> UpdateAsync(Project project)
+        public async Task<ProductCode?> UpdateAsync(ProductCode project)
         {
-            var existingProject = await dbContext.Projects.FirstOrDefaultAsync(x => x.Id == project.Id);
+            var existingProject = await dbContext.ProductCodes.FirstOrDefaultAsync(x => x.Id == project.Id);
 
             if (existingProject != null)
             {
-                dbContext.Projects.Entry(existingProject).CurrentValues.SetValues(project);
+                dbContext.ProductCodes.Entry(existingProject).CurrentValues.SetValues(project);
                 await dbContext.SaveChangesAsync();
 
                 return project;

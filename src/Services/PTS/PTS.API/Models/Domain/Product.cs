@@ -54,8 +54,8 @@ namespace PTS.API.Models.Domain
         public int? PrintingCompanyId { get; set; }
 
         [Column(Order = 12)]
-        [ForeignKey("Project")]
-        public int? ProjectId { get; set; }
+        [ForeignKey("ProductCode")]
+        public int? ProductCodeId { get; set; }
 
         public string? UserId { get; set; }
 
@@ -63,7 +63,7 @@ namespace PTS.API.Models.Domain
         public CylinderCompany? CylinderCompany { get; set; }  // Navigation property
         public PrintingCompany? PrintingCompany { get; set; } // Navigation property
         public Category? Category { get; set; } // Navigation property
-        public Project? Project { get; set; } // Navigation property
+        public ProductCode? ProductCode { get; set; } // Navigation property
 
         // Navigation property (one-to-many)
         public List<ProductVersion> ProductVersions { get; set; } = new List<ProductVersion>();

@@ -10,38 +10,38 @@ namespace PTS.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ProjectController : ControllerBase
+    public class ProductCodeController : ControllerBase
     {
-        private readonly IProjectRepository projectRepository;
+        private readonly IProductCodeRepository productCodeRepository;
 
-        public ProjectController(IProjectRepository projectRepository)
+        public ProductCodeController(IProductCodeRepository productCodeRepository)
         {
-            this.projectRepository = projectRepository;
+            this.productCodeRepository = productCodeRepository;
         }
 
         // POST: api/projects
 
         [HttpPost]
         [Authorize(Roles = "MANAGER,ADMIN")]
-        public async Task<IActionResult> CreateProjects([FromBody] CreateProjectRequestDto request)
+        public async Task<IActionResult> CreateProjects([FromBody] CreateProductCodeRequestDto request)
         {
             // Map DTO to Domain Model
-            var project = new Project
+            var productCode = new ProductCode
             {
                 Name = request.Name,
                 Description = request.Description,
                 UserId = request.UserId,
             };
 
-            await projectRepository.CreateAsync(project);
+            await productCodeRepository.CreateAsync(productCode);
 
             // Domain model to DTO
-            var response = new ProjectDto
+            var response = new ProductCodeDto
             {
-                Id = project.Id,
-                Name = project.Name,
-                Description = project.Description,
-                UserId = project.UserId,
+                Id = productCode.Id,
+                Name = productCode.Name,
+                Description = productCode.Description,
+                UserId = productCode.UserId,
             };
 
             return Ok(response);
@@ -52,13 +52,13 @@ namespace PTS.API.Controllers
         [Authorize(Roles = "READER,MANAGER,ADMIN")]
         public async Task<IActionResult> GetAllProjects()
         {
-            var projects = await projectRepository.GetAllAsync();
+            var projects = await productCodeRepository.GetAllAsync();
 
             // Map Domain model to DTO
-            var response = new List<ProjectDto>();
+            var response = new List<ProductCodeDto>();
             foreach (var project in projects)
             {
-                response.Add(new ProjectDto
+                response.Add(new ProductCodeDto
                 {
                     Id = project.Id,
                     Name = project.Name,
@@ -76,14 +76,14 @@ namespace PTS.API.Controllers
         [Authorize(Roles = "READER,MANAGER,ADMIN")]
         public async Task<IActionResult> GetProjectById([FromRoute] int id)
         {
-            var existingProject = await projectRepository.GetById(id);
+            var existingProject = await productCodeRepository.GetById(id);
 
             if (existingProject is null)
             {
                 return NotFound();
             }
 
-            var response = new ProjectDto
+            var response = new ProductCodeDto
             {
                 Id = existingProject.Id,
                 Name = existingProject.Name,
@@ -98,31 +98,31 @@ namespace PTS.API.Controllers
         [HttpPut]
         [Route("{id:int}")]
         [Authorize(Roles = "MANAGER,ADMIN")]
-        public async Task<IActionResult> EditProject([FromRoute] int id, UpdateProjectRequestDto request)
+        public async Task<IActionResult> EditProject([FromRoute] int id, UpdateProductCodeRequestDto request)
         {
             // Convert DTO to Domain Model
-            var project = new Project
-            {
+            var productCode = new ProductCode
+            {    
                 Id = id,
                 Name = request.Name,
                 Description = request.Description,
                 UserId = request.UserId,
             };
 
-            project = await projectRepository.UpdateAsync(project);
+            productCode = await productCodeRepository.UpdateAsync(productCode);
 
-            if (project == null)
+            if (productCode == null)
             {
                 return NotFound();
             }
 
             // Convert Domain Model to DTO
-            var response = new ProjectDto
+            var response = new ProductCodeDto
             {
-                Id = project.Id,
-                Name = project.Name,
-                Description = project.Description,
-                UserId= project.UserId,
+                Id = productCode.Id,
+                Name = productCode.Name,
+                Description = productCode.Description,
+                UserId= productCode.UserId,
             };
 
             return Ok(response);
@@ -136,7 +136,7 @@ namespace PTS.API.Controllers
         [Authorize(Roles = "MANAGER,ADMIN")]
         public async Task<IActionResult> DeleteProject([FromRoute] int id)
         {
-            var category = await projectRepository.DeleteAsync(id);
+            var category = await productCodeRepository.DeleteAsync(id);
 
             if (category is null)
             {
@@ -145,7 +145,7 @@ namespace PTS.API.Controllers
 
             // Convert Domain Model to DTO
 
-            var response = new ProjectDto
+            var response = new ProductCodeDto
             {
 
                 Id = category.Id,
