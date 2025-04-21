@@ -147,7 +147,6 @@ namespace PTS.API.Controllers
 
             var response = new ProductCodeDto
             {
-
                 Id = category.Id,
                 Name = category.Name,
                 Description = category.Description,
