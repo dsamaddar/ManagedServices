@@ -194,7 +194,7 @@ export class AddProductComponent implements OnInit, OnDestroy {
 
           if (this.selectedFiles.length === 0) {
             ToastrUtils.showErrorToast('No File Selected');
-            return;
+            //return;
           }
 
           this.uploadAttachmentSubscription = this.productService
