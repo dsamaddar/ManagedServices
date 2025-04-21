@@ -58,6 +58,7 @@ namespace PTS.API.Repositories.Implementation
                 .Include(x => x.Project)
                 .Include(x => x.Category)
                 .Include(x => x.Attachments)
+                .OrderByDescending(x => x.ProjectDate)
                 .AsQueryable();
 
             // Filtering

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../services/auth.service';
 import { CommonModule } from '@angular/common';
+import { ToastrUtils } from '../../../utils/toastr-utils';
 
 @Component({
   selector: 'app-forgot-password',
@@ -33,8 +34,14 @@ export class ForgotPasswordComponent {
     }
 
     this.authService.forgotPassword(this.forgotForm.value.email!).subscribe({
-      next: () => this.success = 'Check your email for reset instructions.',
-      error: () => this.error = 'Unable to send reset instructions.'
+      next: () => {
+        this.success = 'Check your email for reset instructions.';
+        //ToastrUtils.showToast(this.success);
+      },
+      error: () => {
+        this.error = 'Unable to send reset instructions.'
+        //ToastrUtils.showErrorToast(this.error);
+      }
     });
   }
 }
