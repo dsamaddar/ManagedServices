@@ -9,10 +9,10 @@ using PTS.API.Data;
 
 #nullable disable
 
-namespace PTS.API.Migrations
+namespace PTS.API.Migrations.ApplicationDb
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250421101151_initial")]
+    [Migration("20250421150158_initial")]
     partial class initial
     {
         /// <inheritdoc />
@@ -294,6 +294,10 @@ namespace PTS.API.Migrations
                     b.Property<int>("ProductId")
                         .HasColumnType("int")
                         .HasColumnOrder(3);
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnOrder(4);
 
                     b.Property<string>("Version")
                         .HasColumnType("nvarchar(max)")

@@ -10,8 +10,9 @@ namespace PTS.API.Models.DTO
 
         public string? Version { get; set; }
 
-       public DateTime VersionDate { get; set; }
-       public int ProductId { get; set; }
+        public DateTime VersionDate { get; set; }
+        public int ProductId { get; set; }
+        public string? UserId { get; set; }
 
         // Navigation property (many-to-one)
         public ProductDto? Product { get; set; }

@@ -29,6 +29,9 @@ import { ProductService } from '../services/product.service';
 import { ProductCode } from '../../productCode/models/productcode.model';
 import { ProductCodeService } from '../../productCode/services/productcode.service';
 import { ToastrUtils } from '../../../utils/toastr-utils';
+import { ProductVersion } from '../../productversion/models/productversion.model';
+import { ProductversionService } from '../../productversion/services/productversion.service';
+import { AddProductVersionRequest } from '../../productversion/models/add-productversion.model';
 
 @Component({
   selector: 'app-add-product',
@@ -50,6 +53,7 @@ import { ToastrUtils } from '../../../utils/toastr-utils';
 export class AddProductComponent implements OnInit, OnDestroy {
   progress = 0;
   product: AddProductRequest;
+  productVersion: AddProductVersionRequest;
   selectedFiles: File[] = [];
 
   // observable array
@@ -59,6 +63,7 @@ export class AddProductComponent implements OnInit, OnDestroy {
   printingCompanies$?: Observable<PrintingCompany[]>;
 
   private addProductSubscription?: Subscription;
+  private addProductVersionSubscription?: Subscription;
   private uploadAttachmentSubscription?: Subscription;
 
   iconList = [
@@ -99,6 +104,7 @@ export class AddProductComponent implements OnInit, OnDestroy {
     private cylinderCompanyService: CylindercompanyService,
     private printingCompanyService: PrintingcompanyService,
     private productService: ProductService,
+    private productVersionService: ProductversionService,
     private router: Router,
     private datepipe: DatePipe,
     private http: HttpClient
@@ -122,6 +128,13 @@ export class AddProductComponent implements OnInit, OnDestroy {
       printingcompanyid: 0,
       userId: '',
     };
+
+    this.productVersion = {
+      version: '',
+      versionDate: formatted || '',
+      productId: 0,
+      userId: ''
+    }
   }
 
   categoryid?: number;
@@ -197,6 +210,29 @@ export class AddProductComponent implements OnInit, OnDestroy {
             //return;
           }
 
+          // add product version
+          this.productVersion = {
+            version: this.product.version,
+            versionDate: this.product.projectdate,
+            productId: this.product.id,
+            userId: String(localStorage.getItem('user-id'))
+          };
+
+          console.log(this.productVersion);
+
+          this.addProductVersionSubscription = this.productVersionService
+            .addProductVersion(this.productVersion)
+            .subscribe({
+              next: (response) => {
+                console.log(response.id);
+                return;
+              },
+              error: (error) => {
+                ToastrUtils.showErrorToast(error);
+              }
+            });
+
+          // attachments associated with product version
           this.uploadAttachmentSubscription = this.productService
             .uploadAttachment(this.selectedFiles, this.product.id.toString())
             .subscribe((event: HttpEvent<any>) => {

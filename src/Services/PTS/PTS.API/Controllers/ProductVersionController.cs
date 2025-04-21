@@ -30,6 +30,7 @@ namespace PTS.API.Controllers
                 Version = request.Version,
                 VersionDate = request.VersionDate,
                 ProductId = request.ProductId,
+                UserId = request.UserId,
             };
 
             await productVersionRepository.CreateAsync(productVersion);
@@ -41,6 +42,7 @@ namespace PTS.API.Controllers
                 Version = productVersion.Version,
                 VersionDate = productVersion.VersionDate,
                 ProductId = productVersion.ProductId,
+                UserId= productVersion.UserId,
             };
 
             return Ok(response);

@@ -8,7 +8,7 @@ using PTS.API.Data;
 
 #nullable disable
 
-namespace PTS.API.Migrations
+namespace PTS.API.Migrations.ApplicationDb
 {
     [DbContext(typeof(ApplicationDbContext))]
     partial class ApplicationDbContextModelSnapshot : ModelSnapshot
@@ -291,6 +291,10 @@ namespace PTS.API.Migrations
                     b.Property<int>("ProductId")
                         .HasColumnType("int")
                         .HasColumnOrder(3);
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnOrder(4);
 
                     b.Property<string>("Version")
                         .HasColumnType("nvarchar(max)")

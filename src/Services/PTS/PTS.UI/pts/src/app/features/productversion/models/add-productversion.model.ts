@@ -1,4 +1,4 @@
-export interface AddProductVersion{
+export interface AddProductVersionRequest{
     version: string,
     versionDate: string,
     productId: number,

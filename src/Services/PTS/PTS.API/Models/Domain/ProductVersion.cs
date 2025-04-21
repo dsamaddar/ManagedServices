@@ -19,6 +19,9 @@ namespace PTS.API.Models.Domain
         [Column(Order = 3)]
         public int ProductId { get; set; }
 
+        [Column(Order = 4)]
+        public string? UserId { get; set; }
+
         // Navigation property (many-to-one)
         public Product? Product { get; set; }
 
