@@ -171,4 +171,5 @@ openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout nginx/cert/server.ke
 7. filter/pagination/sorting options
 8. Beautiful Dashboard
 9. User tracking in Data Insert (done)
-10. User Registration
+10. User Registration with reader access by default (done)
+11. Forgot password
