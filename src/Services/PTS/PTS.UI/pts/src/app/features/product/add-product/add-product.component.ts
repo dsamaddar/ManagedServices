@@ -26,8 +26,8 @@ import { MatIcon } from '@angular/material/icon';
 import { FileSelectorComponent } from '../../../shared/components/file-selector/file-selector.component';
 import { environment } from '../../../../environments/environment';
 import { ProductService } from '../services/product.service';
-import { Project } from '../../productCode/models/productcode.model';
-import { ProjectService } from '../../productCode/services/productcode.service';
+import { ProductCode } from '../../productCode/models/productcode.model';
+import { ProductCodeService } from '../../productCode/services/productcode.service';
 import { ToastrUtils } from '../../../utils/toastr-utils';
 
 @Component({
@@ -54,7 +54,7 @@ export class AddProductComponent implements OnInit, OnDestroy {
 
   // observable array
   categories$?: Observable<Category[]>;
-  projects$?: Observable<Project[]>;
+  projects$?: Observable<ProductCode[]>;
   cylinderCompanies$?: Observable<CylinderCompany[]>;
   printingCompanies$?: Observable<PrintingCompany[]>;
 
@@ -95,7 +95,7 @@ export class AddProductComponent implements OnInit, OnDestroy {
 
   constructor(
     private categoryService: CategoryService,
-    private projectService: ProjectService,
+    private productCodeService: ProductCodeService,
     private cylinderCompanyService: CylindercompanyService,
     private printingCompanyService: PrintingcompanyService,
     private productService: ProductService,
@@ -131,7 +131,7 @@ export class AddProductComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.categories$ = this.categoryService.getAllCategories();
-    this.projects$ = this.projectService.getAllProjects();
+    this.projects$ = this.productCodeService.getAllProjects();
     this.cylinderCompanies$ =
       this.cylinderCompanyService.getAllCylinderCompanies();
     this.printingCompanies$ =

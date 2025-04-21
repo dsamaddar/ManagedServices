@@ -3,28 +3,28 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { Project } from '../models/productcode.model';
-import { ProjectService } from '../services/productcode.service';
-import { UpdateProjectRequest } from '../models/update-productcode-request.model';
+import { ProductCode } from '../models/productcode.model';
+import { ProductCodeService } from '../services/productcode.service';
+import { UpdateProductCodeRequest } from '../models/update-productcode-request.model';
 import { ToastrUtils } from '../../../utils/toastr-utils';
 
 @Component({
-  selector: 'app-edit-project',
+  selector: 'app-edit-productcode',
   imports: [CommonModule, FormsModule, RouterModule],
-  templateUrl: './edit-project.component.html',
-  styleUrl: './edit-project.component.css',
+  templateUrl: './edit-productcode.component.html',
+  styleUrl: './edit-productcode.component.css',
 })
-export class EditProjectComponent implements OnInit, OnDestroy {
+export class EditProductCodeComponent implements OnInit, OnDestroy {
   id: number = 0;
 
   paramsSubscription?: Subscription;
-  editProjectSubscription?: Subscription;
-  deleteProjectSubscription?: Subscription;
-  project?: Project;
+  editProductCodeSubscription?: Subscription;
+  deleteProductCodeSubscription?: Subscription;
+  project?: ProductCode;
 
   constructor(
     private route: ActivatedRoute,
-    private projectService: ProjectService,
+    private productCodeService: ProductCodeService,
     private router: Router
   ) {}
 
@@ -35,7 +35,7 @@ export class EditProjectComponent implements OnInit, OnDestroy {
 
         if (this.id) {
           // get data from api for this project id
-          this.projectService.getProjectById(this.id).subscribe({
+          this.productCodeService.getProjectById(this.id).subscribe({
             next: (response) => {
               this.project = response;
             },
@@ -46,7 +46,7 @@ export class EditProjectComponent implements OnInit, OnDestroy {
   }
 
   onFormSubmit(): void {
-    const updateProjectRequest: UpdateProjectRequest = {
+    const updateProductCodeRequest: UpdateProductCodeRequest = {
       name: this.project?.name ?? '',
       description: this.project?.description ?? '',
       userId: String(localStorage.getItem('user-id')),
@@ -54,12 +54,12 @@ export class EditProjectComponent implements OnInit, OnDestroy {
 
     // pass this object to service
     if (this.id) {
-      this.editProjectSubscription = this.projectService
-        .updateProject(this.id, updateProjectRequest)
+      this.editProductCodeSubscription = this.productCodeService
+        .updateProject(this.id, updateProductCodeRequest)
         .subscribe({
           next: (response) => {
             ToastrUtils.showToast('Project Updated.');
-            this.router.navigateByUrl('/admin/projects');
+            this.router.navigateByUrl('/admin/productcodes');
           },
           error: (error) => {
             ToastrUtils.showErrorToast(error);
@@ -70,7 +70,7 @@ export class EditProjectComponent implements OnInit, OnDestroy {
 
   onDelete(): void {
     if (this.id) {
-      this.deleteProjectSubscription = this.projectService
+      this.deleteProductCodeSubscription = this.productCodeService
         .deleteProject(this.id)
         .subscribe({
           next: (response) => {
@@ -86,7 +86,7 @@ export class EditProjectComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.paramsSubscription?.unsubscribe();
-    this.editProjectSubscription?.unsubscribe();
-    this.deleteProjectSubscription?.unsubscribe();
+    this.editProductCodeSubscription?.unsubscribe();
+    this.deleteProductCodeSubscription?.unsubscribe();
   }
 }

@@ -10,16 +10,16 @@ import { ProductCodeService } from '../services/productcode.service';
 import { ToastrUtils } from '../../../utils/toastr-utils';
 
 @Component({
-  selector: 'app-add-project',
+  selector: 'app-add-productcode',
   imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './add-productcode.component.html',
   styleUrl: './add-productcode.component.css'
 })
-export class AddProjectComponent implements OnDestroy {
+export class AddProductCodeComponent implements OnDestroy {
 
   model: AddProductCodeRequest;
 
-  private addProjectSubscription?: Subscription;
+  private addProductCodeSubscription?: Subscription;
 
   constructor(private productCodeService: ProductCodeService, private router: Router){
     this.model = {
@@ -31,11 +31,11 @@ export class AddProjectComponent implements OnDestroy {
 
   onFormSubmit(){
     this.model.userId = String(localStorage.getItem('user-id'));
-    this.addProjectSubscription = this.productCodeService.addProject(this.model)
+    this.addProductCodeSubscription = this.productCodeService.addProject(this.model)
     .subscribe({
       next: (response) => {
         ToastrUtils.showToast('Project Added.');
-        this.router.navigateByUrl('/admin/projects');
+        this.router.navigateByUrl('/admin/productcodes');
       },
       error: (error) => {
         ToastrUtils.showToast(error);
@@ -44,6 +44,6 @@ export class AddProjectComponent implements OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.addProjectSubscription?.unsubscribe();
+    this.addProductCodeSubscription?.unsubscribe();
   }
 }

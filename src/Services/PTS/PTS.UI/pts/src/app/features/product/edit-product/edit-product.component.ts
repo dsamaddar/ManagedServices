@@ -7,11 +7,11 @@ import { Observable, Subscription } from 'rxjs';
 import { Product } from '../models/product.model';
 import { AllProduct } from '../models/all-product.model';
 import { Category } from '../../category/models/category.model';
-import { Project } from '../../productCode/models/productcode.model';
+import { ProductCode } from '../../productCode/models/productcode.model';
 import { CylinderCompany } from '../../cylinderCompany/models/CylinderCompany.model';
 import { PrintingCompany } from '../../printingCompany/models/printingcompany.model';
 import { CategoryService } from '../../category/services/category.service';
-import { ProjectService } from '../../productCode/services/productcode.service';
+import { ProductCodeService } from '../../productCode/services/productcode.service';
 import { CylindercompanyService } from '../../cylinderCompany/services/cylindercompany.service';
 import { PrintingcompanyService } from '../../printingCompany/services/printingcompany.service';
 import { HttpClient, HttpEvent, HttpEventType } from '@angular/common/http';
@@ -51,7 +51,7 @@ export class EditProductComponent implements OnInit, OnDestroy {
 
   // observable array
   categories$?: Observable<Category[]>;
-  projects$?: Observable<Project[]>;
+  projects$?: Observable<ProductCode[]>;
   cylinderCompanies$?: Observable<CylinderCompany[]>;
   printingCompanies$?: Observable<PrintingCompany[]>;
 
@@ -95,7 +95,7 @@ export class EditProductComponent implements OnInit, OnDestroy {
     private productService: ProductService,
     private router: Router,
     private categoryService: CategoryService,
-    private projectService: ProjectService,
+    private productCodeService: ProductCodeService,
     private cylinderCompanyService: CylindercompanyService,
     private printingCompanyService: PrintingcompanyService,
     private datepipe: DatePipe,
@@ -153,7 +153,7 @@ export class EditProductComponent implements OnInit, OnDestroy {
     });
 
     this.categories$ = this.categoryService.getAllCategories();
-    this.projects$ = this.projectService.getAllProjects();
+    this.projects$ = this.productCodeService.getAllProjects();
     this.cylinderCompanies$ =
       this.cylinderCompanyService.getAllCylinderCompanies();
     this.printingCompanies$ =

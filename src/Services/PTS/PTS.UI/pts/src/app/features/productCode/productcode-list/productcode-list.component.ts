@@ -7,12 +7,12 @@ import { ProductCodeService } from '../services/productcode.service';
 import { ProductCode } from '../models/productcode.model';
 
 @Component({
-  selector: 'app-project-list',
+  selector: 'app-productcode-list',
   imports: [RouterModule, CommonModule, FormsModule],
-  templateUrl: './project-list.component.html',
-  styleUrl: './project-list.component.css'
+  templateUrl: './productcode-list.component.html',
+  styleUrl: './productcode-list.component.css'
 })
-export class ProjectListComponent implements OnInit {
+export class ProductCodeListComponent implements OnInit {
   
   projects$?: Observable<ProductCode[]>;
 
