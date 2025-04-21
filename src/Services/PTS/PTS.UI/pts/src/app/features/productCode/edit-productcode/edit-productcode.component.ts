@@ -15,12 +15,13 @@ import { ToastrUtils } from '../../../utils/toastr-utils';
   styleUrl: './edit-productcode.component.css',
 })
 export class EditProductCodeComponent implements OnInit, OnDestroy {
+  show_internal_id = false;
   id: number = 0;
 
   paramsSubscription?: Subscription;
   editProductCodeSubscription?: Subscription;
   deleteProductCodeSubscription?: Subscription;
-  project?: ProductCode;
+  productcode?: ProductCode;
 
   constructor(
     private route: ActivatedRoute,
@@ -35,9 +36,9 @@ export class EditProductCodeComponent implements OnInit, OnDestroy {
 
         if (this.id) {
           // get data from api for this project id
-          this.productCodeService.getProjectById(this.id).subscribe({
+          this.productCodeService.getProductCodeById(this.id).subscribe({
             next: (response) => {
-              this.project = response;
+              this.productcode = response;
             },
           });
         }
@@ -47,18 +48,19 @@ export class EditProductCodeComponent implements OnInit, OnDestroy {
 
   onFormSubmit(): void {
     const updateProductCodeRequest: UpdateProductCodeRequest = {
-      name: this.project?.name ?? '',
-      description: this.project?.description ?? '',
+      name: this.productcode?.name ?? '',
+      code: this.productcode?.code ?? '',
+      description: this.productcode?.description ?? '',
       userId: String(localStorage.getItem('user-id')),
     };
 
     // pass this object to service
     if (this.id) {
       this.editProductCodeSubscription = this.productCodeService
-        .updateProject(this.id, updateProductCodeRequest)
+        .updateProductCode(this.id, updateProductCodeRequest)
         .subscribe({
           next: (response) => {
-            ToastrUtils.showToast('Project Updated.');
+            ToastrUtils.showToast('Product Code Updated.');
             this.router.navigateByUrl('/admin/productcodes');
           },
           error: (error) => {
@@ -71,7 +73,7 @@ export class EditProductCodeComponent implements OnInit, OnDestroy {
   onDelete(): void {
     if (this.id) {
       this.deleteProductCodeSubscription = this.productCodeService
-        .deleteProject(this.id)
+        .deleteProductCode(this.id)
         .subscribe({
           next: (response) => {
             ToastrUtils.showToast('Project Updated.');

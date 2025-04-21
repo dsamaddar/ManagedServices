@@ -29,6 +29,7 @@ namespace PTS.API.Controllers
             var productCode = new ProductCode
             {
                 Name = request.Name,
+                Code = request.Code,
                 Description = request.Description,
                 UserId = request.UserId,
             };
@@ -40,6 +41,7 @@ namespace PTS.API.Controllers
             {
                 Id = productCode.Id,
                 Name = productCode.Name,
+                Code = productCode.Code,
                 Description = productCode.Description,
                 UserId = productCode.UserId,
             };
@@ -62,6 +64,7 @@ namespace PTS.API.Controllers
                 {
                     Id = project.Id,
                     Name = project.Name,
+                    Code = project.Code,
                     Description = project.Description,
                     UserId = project.UserId,
                 });
@@ -87,6 +90,7 @@ namespace PTS.API.Controllers
             {
                 Id = existingProject.Id,
                 Name = existingProject.Name,
+                Code = existingProject.Code,
                 Description = existingProject.Description,
                 UserId = existingProject.UserId,
             };
@@ -105,6 +109,7 @@ namespace PTS.API.Controllers
             {    
                 Id = id,
                 Name = request.Name,
+                Code = request.Code,
                 Description = request.Description,
                 UserId = request.UserId,
             };
@@ -121,6 +126,7 @@ namespace PTS.API.Controllers
             {
                 Id = productCode.Id,
                 Name = productCode.Name,
+                Code = productCode.Code,
                 Description = productCode.Description,
                 UserId= productCode.UserId,
             };
@@ -149,6 +155,7 @@ namespace PTS.API.Controllers
             {
                 Id = category.Id,
                 Name = category.Name,
+                Code = category.Code,
                 Description = category.Description,
                 UserId = category.UserId,
             };

@@ -32,7 +32,12 @@
           >
         </li>
 
-        <ng-container *ngIf="user !== undefined && ( user?.roles?.includes('MANAGER') || user?.roles?.includes('ADMIN'))">
+        <ng-container
+          *ngIf="
+            user !== undefined &&
+            (user?.roles?.includes('MANAGER') || user?.roles?.includes('ADMIN'))
+          "
+        >
           <li class="nav-item dropdown">
             <a
               class="nav-link dropdown-toggle"
@@ -73,11 +78,10 @@
                   class="dropdown-item"
                   [routerLink]="['admin/productcodes']"
                   routerLinkActive="active"
-                  >Projects</a
+                  >Product Code</a
                 >
               </li>
               <li><hr class="dropdown-divider" /></li>
-              <li><a class="dropdown-item" href="#">Something else here</a></li>
             </ul>
           </li>
         </ng-container>
@@ -86,7 +90,9 @@
       <div class="d-flex">
         <ng-container *ngIf="user === undefined; else showLogout">
           <a [routerLink]="['/login']" class="btn btn-primary">Login</a>
-          <a [routerLink]="['/register']" class="btn btn-success ms-1">Register</a>
+          <a [routerLink]="['/register']" class="btn btn-success ms-1"
+            >Register</a
+          >
         </ng-container>
 
         <ng-template #showLogout>

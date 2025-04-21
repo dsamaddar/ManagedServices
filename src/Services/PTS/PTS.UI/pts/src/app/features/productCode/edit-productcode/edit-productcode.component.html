@@ -1,12 +1,13 @@
 <div class="container">
-    <h5 class="mt-3">Edit Project</h5>
-    <div class="d-flex justify-content-end mt-3">
-      <a [routerLink]="['/admin/projects']" class="btn btn-success"
-        ><i class="bi bi-house-gear-fill"></i
-      ></a>
-    </div>
-    <ng-container *ngIf="project; else notFound">
-      <form #form="ngForm" (ngSubmit)="onFormSubmit()">
+  <h5 class="mt-3">Edit Product Code</h5>
+  <div class="d-flex justify-content-end mt-3">
+    <a [routerLink]="['/admin/productcodes']" class="btn btn-success"
+      ><i class="bi bi-house-gear-fill"></i
+    ></a>
+  </div>
+  <ng-container *ngIf="productcode; else notFound">
+    <form #form="ngForm" (ngSubmit)="onFormSubmit()">
+      <div class="" *ngIf="show_internal_id == true">
         <div class="mt-3">
           <label class="form-label" for="projectId">Project Id</label>
           <input
@@ -15,40 +16,53 @@
             id="projectId"
             class="form-control"
             name="projectId"
-            value="{{ project.id }}"
+            value="{{ productcode.id }}"
           />
         </div>
-        <div class="mt-3">
-          <label class="form-label" for="projectName">Project Name</label>
-          <input
-            type="text"
-            id="projectName"
-            class="form-control"
-            name="projectName"
-            [(ngModel)]="project.name"
-          />
-        </div>
-        <div class="mt-3">
-          <label class="form-label" for="projectDescription">Project Description</label>
-          <input
-            type="text"
-            id="projectDescription"
-            class="form-control"
-            name="projectDescription"
-            [(ngModel)]="project.description"
-          />
-        </div>
-        <div class="mt-3 d-flex">
-          <button type="submit" class="btn btn-primary">Save</button>
-          <button type="button" class="btn btn-danger ms-3" (click)="onDelete()">
-            Delete
-          </button>
-        </div>
-      </form>
-    </ng-container>
-  
-    <ng-template #notFound>
-      <div class="alert alert-warning" role="alert">Category Not Found!</div>
-    </ng-template>
-  </div>
-  
+      </div>
+
+      <div class="mt-3">
+        <label class="form-label" for="productcode_name">Product Name</label>
+        <input
+          type="text"
+          id="productcode_name"
+          class="form-control"
+          name="productcode_name"
+          [(ngModel)]="productcode.name"
+        />
+      </div>
+      <div class="mt-3">
+        <label class="form-label" for="productcode_code">Product Code</label>
+        <input
+          type="text"
+          id="productcode_code"
+          class="form-control"
+          name="productcode_code"
+          [(ngModel)]="productcode.code"
+        />
+      </div>
+      <div class="mt-3">
+        <label class="form-label" for="productcode_description"
+          >Product Code Description</label
+        >
+        <input
+          type="text"
+          id="productcode_description"
+          class="form-control"
+          name="productcode_description"
+          [(ngModel)]="productcode.description"
+        />
+      </div>
+      <div class="mt-3 d-flex">
+        <button type="submit" class="btn btn-primary">Save</button>
+        <button type="button" class="btn btn-danger ms-3" (click)="onDelete()">
+          Delete
+        </button>
+      </div>
+    </form>
+  </ng-container>
+
+  <ng-template #notFound>
+    <div class="alert alert-warning" role="alert">Category Not Found!</div>
+  </ng-template>
+</div>

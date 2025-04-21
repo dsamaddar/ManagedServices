@@ -20,19 +20,19 @@ export class ProductCodeService {
       );
     }
 
-    addProject(model: AddProductCodeRequest): Observable<void>{
+    addProductCode(model: AddProductCodeRequest): Observable<void>{
       return this.http.post<void>(`${environment.apiBaseUrl}/api/productcode`,model);
     }
 
-    getProjectById(id: number): Observable<ProductCode>{
+    getProductCodeById(id: number): Observable<ProductCode>{
       return this.http.get<ProductCode>(`${environment.apiBaseUrl}/api/productcode/${id}`);
     }
 
-    updateProject(id: number, updateProjectRequest: UpdateProductCodeRequest): Observable<ProductCode>{
+    updateProductCode(id: number, updateProjectRequest: UpdateProductCodeRequest): Observable<ProductCode>{
       return this.http.put<ProductCode>(`${environment.apiBaseUrl}/api/productcode/${id}`, updateProjectRequest);
     }
 
-    deleteProject(id:number):Observable<ProductCode>{
+    deleteProductCode(id:number):Observable<ProductCode>{
       return this.http.delete<ProductCode>(`${environment.apiBaseUrl}/api/productcode/${id}`);
     }
 

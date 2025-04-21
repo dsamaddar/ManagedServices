@@ -5,29 +5,31 @@
         [routerLink]="['/admin/productcodes/add']"
         routerLinkActive="router-link-active"
         class="btn btn-primary"
-        >Add Project</a
+        >Add Product Code</a
       >
     </div>
   
-    <ng-container *ngIf="projects$ | async as projects">
+    <ng-container *ngIf="productcodes$ | async as productcodes">
       <table class="table table-bordered mt-3">
         <thead>
           <tr>
-            <th>Id</th>
+            <th style="display: none;">Id</th>
             <th>Name</th>
+            <th>Code</th>
             <th>Description</th>
             <th></th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let project of projects">
-            <td>{{ project.id }}</td>
-            <td>{{ project.name }}</td>
-            <td>{{ project.description }}</td>
+          <tr *ngFor="let productcode of productcodes">
+            <td style="display: none;">{{ productcode.id }}</td>
+            <td>{{ productcode.name }}</td>
+            <td>{{ productcode.code }}</td>
+            <td>{{ productcode.description }}</td>
             <td>
               <a
                 class="btn btn-light"
-                [routerLink]="['/admin/productcodes', project.id]"
+                [routerLink]="['/admin/productcodes', productcode.id]"
                 >
                 <i class="bi bi-pencil-square"></i>
               </a>

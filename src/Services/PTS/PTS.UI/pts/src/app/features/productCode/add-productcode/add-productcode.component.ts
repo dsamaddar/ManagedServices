@@ -24,6 +24,7 @@ export class AddProductCodeComponent implements OnDestroy {
   constructor(private productCodeService: ProductCodeService, private router: Router){
     this.model = {
       name: '',
+      code: '',
       description: '',
       userId: '',
     }
@@ -31,10 +32,10 @@ export class AddProductCodeComponent implements OnDestroy {
 
   onFormSubmit(){
     this.model.userId = String(localStorage.getItem('user-id'));
-    this.addProductCodeSubscription = this.productCodeService.addProject(this.model)
+    this.addProductCodeSubscription = this.productCodeService.addProductCode(this.model)
     .subscribe({
       next: (response) => {
-        ToastrUtils.showToast('Project Added.');
+        ToastrUtils.showToast('Product Code Added.');
         this.router.navigateByUrl('/admin/productcodes');
       },
       error: (error) => {

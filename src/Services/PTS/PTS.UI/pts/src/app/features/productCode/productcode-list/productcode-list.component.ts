@@ -14,14 +14,14 @@ import { ProductCode } from '../models/productcode.model';
 })
 export class ProductCodeListComponent implements OnInit {
   
-  projects$?: Observable<ProductCode[]>;
+  productcodes$?: Observable<ProductCode[]>;
 
   constructor(private productCodeService: ProductCodeService){
 
   }
   
   ngOnInit(): void {
-    this.projects$ = this.productCodeService.getAllProjects();
+    this.productcodes$ = this.productCodeService.getAllProjects();
   }
 
 }

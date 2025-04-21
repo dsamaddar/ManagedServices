@@ -21,7 +21,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<ApplicationDbContext>(options => 
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("PTSConnectionString_OFFICE"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("PTSConnectionString_OFFICe"));
 });
 
 builder.Services.AddDbContext<AuthDbContext>(options =>
