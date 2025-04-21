@@ -21,12 +21,12 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<ApplicationDbContext>(options => 
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("PTSConnectionString_MOAR"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("PTSConnectionString_OFFICE"));
 });
 
 builder.Services.AddDbContext<AuthDbContext>(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("PTSConnectionString_MOAR"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("PTSConnectionString_OFFICE"));
 });
 
 builder.Services.AddScoped<IAttachmentRepository, AttachmentRepository>();
@@ -90,8 +90,19 @@ var app = builder.Build();
 // Optional: if you're also using wwwroot
 app.UseStaticFiles();
 
+
+
+
 // Serve files from the "attachments" folder
 var attachmentsPath = Path.Combine(Directory.GetCurrentDirectory(), "attachments");
+
+// not recommended for production
+app.UseDirectoryBrowser(new DirectoryBrowserOptions
+{
+    FileProvider = new PhysicalFileProvider(attachmentsPath),
+    RequestPath = "/attachments"
+});
+
 app.UseStaticFiles(new StaticFileOptions
 {
     FileProvider = new PhysicalFileProvider(attachmentsPath),

@@ -1,7 +1,7 @@
 ## Trust the Dev Certificate
 dotnet dev-certs https --trust
 
-## Use .NET CLI to Create a Dev Certificate
+## Use .NET CLI to Create a Dev Certificate (for each machine this certificate needs to be updated)
 dotnet dev-certs https -ep ./devcert.pfx -p Farc1lgh#
 
 ## go to solution folder
