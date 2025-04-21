@@ -15,6 +15,8 @@ import { ToastrUtils } from '../../../utils/toastr-utils';
   styleUrl: './edit-cylindercompany.component.css',
 })
 export class EditCylindercompanyComponent implements OnInit, OnDestroy {
+  show_internal_id = false;
+  
   id?: number = 0;
   paramsSubscription?: Subscription;
   editCylinderCompanySubscription?: Subscription;

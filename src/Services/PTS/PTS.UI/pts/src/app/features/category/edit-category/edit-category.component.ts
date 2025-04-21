@@ -6,6 +6,7 @@ import { Category } from '../models/category.model';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { UpdateCategoryRequest } from '../models/update-category-request.model';
+import { ToastrUtils } from '../../../utils/toastr-utils';
 
 @Component({
   selector: 'app-edit-category',
@@ -14,6 +15,7 @@ import { UpdateCategoryRequest } from '../models/update-category-request.model';
   styleUrl: './edit-category.component.css'
 })
 export class EditCategoryComponent implements OnInit, OnDestroy {
+  show_internal_id = false;
 
   id?: number = 0;
   paramsSubscription?: Subscription;
@@ -60,7 +62,11 @@ export class EditCategoryComponent implements OnInit, OnDestroy {
       this.editCategorySubscription = this.categoryService.updateCategory(this.id, updateCategoryRequest)
       .subscribe({
         next: (response) =>{
+          ToastrUtils.showToast('Category Updated.');
           this.router.navigateByUrl('/admin/categories')
+        },
+        error: (error) => {
+          ToastrUtils.showErrorToast(error);
         }
       });
     }

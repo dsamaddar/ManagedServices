@@ -7,16 +7,18 @@
   </div>
   <ng-container *ngIf="category; else notFound">
     <form #form="ngForm" (ngSubmit)="onFormSubmit()">
-      <div class="mt-3">
-        <label class="form-label" for="categoryId">Category Id</label>
-        <input
-          type="text"
-          disabled
-          id="categoryId"
-          class="form-control"
-          name="categoryId"
-          value="{{ category.id }}"
-        />
+      <div class="" *ngIf="show_internal_id == true">
+        <div class="mt-3">
+          <label class="form-label" for="categoryId">Category Id</label>
+          <input
+            type="text"
+            disabled
+            id="categoryId"
+            class="form-control"
+            name="categoryId"
+            value="{{ category.id }}"
+          />
+        </div>
       </div>
       <div class="mt-3">
         <label class="form-label" for="categoryName">Category Name</label>

@@ -7,7 +7,7 @@ import { Attachment } from "./attachment.model";
 export interface AllProduct{
     id: number,
     categoryId: number,
-    projectId: number,
+    productCodeId: number,
     brand: string,
     flavourType: string,
     origin: string,

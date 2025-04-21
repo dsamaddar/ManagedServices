@@ -51,7 +51,7 @@ export class EditProductComponent implements OnInit, OnDestroy {
 
   // observable array
   categories$?: Observable<Category[]>;
-  projects$?: Observable<ProductCode[]>;
+  ProductCode$?: Observable<ProductCode[]>;
   cylinderCompanies$?: Observable<CylinderCompany[]>;
   printingCompanies$?: Observable<PrintingCompany[]>;
 
@@ -153,7 +153,7 @@ export class EditProductComponent implements OnInit, OnDestroy {
     });
 
     this.categories$ = this.categoryService.getAllCategories();
-    this.projects$ = this.productCodeService.getAllProjects();
+    this.ProductCode$ = this.productCodeService.getAllProjects();
     this.cylinderCompanies$ =
       this.cylinderCompanyService.getAllCylinderCompanies();
     this.printingCompanies$ =
@@ -179,7 +179,7 @@ export class EditProductComponent implements OnInit, OnDestroy {
   onFormSubmit() {
     if (
       this.product?.categoryId == 0 ||
-      this.product?.projectId == 0 ||
+      this.product?.productCodeId == 0 ||
       this.product?.cylinderCompanyId == 0 ||
       this.product?.printingCompanyId == 0
     ) {
@@ -192,7 +192,7 @@ export class EditProductComponent implements OnInit, OnDestroy {
 
     const updateProductRequest: UpdateProductRequest = {
       categoryid: this.product?.categoryId,
-      projectid: this.product?.projectId,
+      productCodeId: this.product?.productCodeId,
       brand: this.product?.brand,
       flavourtype: this.product?.flavourType,
       origin: this.product?.origin,

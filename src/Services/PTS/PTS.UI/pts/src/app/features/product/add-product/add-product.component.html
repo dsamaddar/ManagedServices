@@ -41,14 +41,14 @@
         </div>
         <div class="col-md-4">
           <div class="mt-3 form-group">
-            <label for="projectid" class="form-label">Project</label>
+            <label for="productcodeid" class="form-label">Product Code</label>
             <ng-select
-              name="projectid"
-              [items]="projects$ | async"
+              name="productcodeid"
+              [items]="productCode$ | async"
               bindLabel="name"
               bindValue="id"
-              placeholder="Select Project"
-              [(ngModel)]="projectid"
+              placeholder="Select Product Code"
+              [(ngModel)]="productCodeId"
               [searchable]="true"
             >
             </ng-select>

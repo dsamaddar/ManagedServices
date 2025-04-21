@@ -15,7 +15,8 @@ import { ToastrUtils } from '../../../utils/toastr-utils';
   styleUrl: './edit-printingcompany.component.css'
 })
 export class EditPrintingcompanyComponent implements OnInit, OnDestroy {
-
+  show_internal_id = false;
+  
   id?: number = 0;
   paramsSubscription?: Subscription;
   editPrintingCompanySubscription?: Subscription;

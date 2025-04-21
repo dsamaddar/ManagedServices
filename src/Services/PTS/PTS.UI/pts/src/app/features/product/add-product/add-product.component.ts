@@ -54,7 +54,7 @@ export class AddProductComponent implements OnInit, OnDestroy {
 
   // observable array
   categories$?: Observable<Category[]>;
-  projects$?: Observable<ProductCode[]>;
+  productCode$?: Observable<ProductCode[]>;
   cylinderCompanies$?: Observable<CylinderCompany[]>;
   printingCompanies$?: Observable<PrintingCompany[]>;
 
@@ -109,7 +109,7 @@ export class AddProductComponent implements OnInit, OnDestroy {
     this.product = {
       id: 0,
       categoryid: 0,
-      projectid: 0,
+      productCodeId: 0,
       brand: '',
       flavourtype: '',
       origin: '',
@@ -125,13 +125,13 @@ export class AddProductComponent implements OnInit, OnDestroy {
   }
 
   categoryid?: number;
-  projectid?: number;
+  productCodeId?: number;
   cylindercompanyid?: number;
   printingcompanyid?: number;
 
   ngOnInit(): void {
     this.categories$ = this.categoryService.getAllCategories();
-    this.projects$ = this.productCodeService.getAllProjects();
+    this.productCode$ = this.productCodeService.getAllProjects();
     this.cylinderCompanies$ =
       this.cylinderCompanyService.getAllCylinderCompanies();
     this.printingCompanies$ =
@@ -167,13 +167,13 @@ export class AddProductComponent implements OnInit, OnDestroy {
   onFormSubmit() {
     this.product.userId = String(localStorage.getItem('user-id'));
     this.product.categoryid = this.categoryid || 0;
-    this.product.projectid = this.projectid || 0;
+    this.product.productCodeId = this.productCodeId || 0;
     this.product.cylindercompanyid = this.cylindercompanyid || 0;
     this.product.printingcompanyid = this.printingcompanyid || 0;
 
     if (
       this.product.categoryid == 0 ||
-      this.product.projectid == 0 ||
+      this.product.productCodeId == 0 ||
       this.product.cylindercompanyid == 0 ||
       this.product.printingcompanyid == 0
     ) {

@@ -1,6 +1,6 @@
 export interface UpdateProductRequest{
     categoryid?: number,
-    projectid?: number,
+    productCodeId?: number,
     brand?: string,
     flavourtype?: string,
     origin?: string,

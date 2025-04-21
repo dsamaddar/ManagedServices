@@ -13,7 +13,7 @@
       <table class="table table-bordered mt-3">
         <thead>
           <tr>
-            <th>Id</th>
+            <th style="display: none;">Id</th>
             <th>Name</th>
             <th>Description</th>
             <th></th>
@@ -21,7 +21,7 @@
         </thead>
         <tbody>
           <tr *ngFor="let printingcompany of printingcompanies">
-            <td>{{ printingcompany.id }}</td>
+            <td style="display: none;">{{ printingcompany.id }}</td>
             <td>{{ printingcompany.name }}</td>
             <td>{{ printingcompany.description }}</td>
             <td>
