@@ -1,29 +1,57 @@
-import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { CommonModule, DatePipe } from '@angular/common';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AddProductVersionRequest } from '../../../features/productversion/models/add-productversion.model';
+import { Subscription } from 'rxjs';
+import { ProductversionService } from '../../../features/productversion/services/productversion.service';
+import { HttpEvent, HttpEventType } from '@angular/common/http';
+import { ProductService } from '../../../features/product/services/product.service';
+import { ToastrUtils } from '../../../utils/toastr-utils';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-productversion',
-  imports: [CommonModule,FormsModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './add-productversion.component.html',
-  styleUrl: './add-productversion.component.css'
+  styleUrl: './add-productversion.component.css',
 })
-export class AddProductversionComponent {
-
+export class AddProductversionComponent implements OnInit, OnDestroy {
+  @Input() data!: number;
+  @Output() refreshParent = new EventEmitter<void>();
   progress = 0;
-  productVersion: AddProductVersionRequest = {
-    version: '',
-    versionDate: '2025-04-20',
-    desciption: '',
-    productId: 0,
-    userId: '',
-  };
+
+  productVersion!: AddProductVersionRequest;
   selectedFiles: File[] = [];
 
-  constructor(){
+  private addProductVersionSubscription?: Subscription;
+  private addAttachmentsSubscripts?: Subscription;
+  private uploadAttachmentSubscription?: Subscription;
+
+  constructor(
+    private datepipe: DatePipe,
+    private productVersionService: ProductversionService,
+    private productService: ProductService,
+    private router: Router
+  ) {}
+  ngOnInit(): void {
+    const myDate = new Date();
+    const formatted = this.datepipe.transform(myDate, 'yyyy-MM-dd');
+
+    console.log(this.data);
+    this.productVersion = {
+      version: '',
+      versionDate: formatted || '',
+      desciption: '',
+      productId: this.data,
+      userId: String(localStorage.getItem('user-id')),
+    };
   }
-  
+
+  ngOnDestroy(): void {
+    this.addProductVersionSubscription?.unsubscribe();
+    this.addAttachmentsSubscripts?.unsubscribe();
+  }
+
   iconList = [
     // array of icon class list based on type
     { type: 'docx', icon: 'fas fa-file-word' },
@@ -82,4 +110,40 @@ export class AddProductversionComponent {
     }
   }
 
+  onFormSubmit() {
+    this.addProductVersionSubscription = this.productVersionService
+      .addProductVersion(this.productVersion)
+      .subscribe({
+        next: (response) => {
+          //alert('Product Version Added.');
+
+          // upload attachments if any
+          this.uploadAttachmentSubscription = this.productService
+            .uploadAttachment(this.selectedFiles, response.id.toString())
+            .subscribe((event: HttpEvent<any>) => {
+              switch (event.type) {
+                case HttpEventType.UploadProgress:
+                  if (event.total) {
+                    this.progress = Math.round(
+                      (100 * event.loaded) / event.total
+                    );
+                  }
+                  break;
+                case HttpEventType.Response:
+                  //ToastrUtils.showToast('Product Added Successfully.');
+                  //this.router.navigateByUrl('/admin/products');
+                  ToastrUtils.showToast('Product version added with attachments');
+                  this.progress = 0;
+                  break;
+              }
+            });
+        },
+        error: (error) => {
+          alert(error);
+        },
+      });
+
+      // refresh parent component
+      this.refreshParent.emit();
+  }
 }

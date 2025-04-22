@@ -22,6 +22,7 @@ export class ProductListComponent implements OnInit {
   pageNumber = 1;
   pageSize = 5;
   global_query?: string;
+  master_product_id: number = 0;
 
   isProductVersionModalVisible: boolean = false;
 
@@ -81,6 +82,16 @@ export class ProductListComponent implements OnInit {
     );
   }
 
+  loadData() {
+    console.log('data reloaded');
+    
+    this.products$ = this.productService.getAllProducts(
+      this.global_query,
+      this.pageNumber,
+      this.pageSize
+    );
+  }
+
   getPrevPage() {
     if (this.pageNumber - 1 < 1) {
       return;
@@ -104,7 +115,13 @@ export class ProductListComponent implements OnInit {
   }
 
   openProductVersionModal(productid: number){
+    //console.log('Transferred ID ->' + productid.toString());
+    this.master_product_id = productid;
     this.isProductVersionModalVisible = true;
+  }
+
+  showProductVersionModal(productversionid: number){
+    console.log(productversionid);
   }
 
   closeProductVersionModal(){

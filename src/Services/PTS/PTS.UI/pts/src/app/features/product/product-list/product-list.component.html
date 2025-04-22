@@ -46,7 +46,7 @@
           <th>Flavour/Origin/SKU</th>
           <th>Pack/Version/Barcode</th>
           <th>Cylinder/Printing</th>
-          <th>Docs</th>
+          <th>Versions</th>
           <th>Action</th>
         </tr>
       </thead>
@@ -73,24 +73,30 @@
             Printing: {{ product.printingCompany.name }} <br />
             Date: {{ product.projectDate | date : "mediumDate" }}
           </td>
-          <td *ngFor="let productVersion of product.productVersions">
-            <a href=""
-              >{{ productVersion.version }}[{{ productVersion.versionDate }}]</a
-            >
+          <td>
+            <a
+              *ngFor="let productVersion of product.productVersions"
+              (click)="showProductVersionModal(productVersion.id)"
+              role="button"
+              style="cursor: pointer; text-decoration: underline; color: blue"
+              >{{ productVersion.version }} [{{
+                productVersion.versionDate | date : "yyyy-MM-dd"
+              }}]<br
+            /></a>
           </td>
           <td>
-            <a class="btn btn-primary" (click)="openProductVersionModal(product.id)"
-              data-bs-toggle="tooltip" title="Add Product Version"><i class="bi bi-cloud-plus-fill"></i
-            ></a>
             <a
-              class="btn btn-success ms-1"
-              [routerLink]="['/admin/products', product.id]"
-              ><i class="bi bi-card-checklist"></i
+              class="btn btn-primary"
+              (click)="openProductVersionModal(product.id)"
+              data-bs-toggle="tooltip"
+              title="Add Product Version"
+              ><i class="bi bi-cloud-plus-fill"></i
             ></a>
             <a
               class="btn btn-warning ms-1"
               [routerLink]="['/admin/products', product.id]"
-              data-bs-toggle="tooltip" title="Edit Product Master"
+              data-bs-toggle="tooltip"
+              title="Edit Product Master"
             >
               <i class="bi bi-pencil-square"></i>
             </a>
@@ -116,11 +122,23 @@
   </ng-container>
 </div>
 <div
-  [ngClass]="{'d-block': isProductVersionModalVisible, 'd-none': !isProductVersionModalVisible}"
+  [ngClass]="{
+    'd-block': isProductVersionModalVisible,
+    'd-none': !isProductVersionModalVisible
+  }"
   class="product-version-modal"
 >
-  <button type="button" class="btn btn-light" style="position: fixed;top: 60px; right: 10px;"
-  (click)="closeProductVersionModal()"
-  >X</button>
-  <app-add-productversion></app-add-productversion>
+  <button
+    type="button"
+    class="btn btn-light"
+    style="position: fixed; top: 60px; right: 10px"
+    (click)="closeProductVersionModal()"
+  >
+    X
+  </button>
+  <app-add-productversion
+    *ngIf="isProductVersionModalVisible"
+    [data]="master_product_id"
+    (refreshParent)="loadData()"
+  ></app-add-productversion>
 </div>
