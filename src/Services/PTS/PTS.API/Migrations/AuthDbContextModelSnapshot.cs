@@ -174,7 +174,7 @@ namespace PTS.API.Migrations
                             NormalizedUserName = "DEBAYAN.SAMADDAR@NEOSCODER.COM",
                             PasswordHash = "AQAAAAIAAYagAAAAEBZYK2AcpnXFPESoUdcPjsppX7q80XnHNd5x5mBHfvYDB0/qzdtBkpvb98FfscgIig==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "05d57bf3-4be4-4ea9-98e6-e4f81035bdf9",
+                            SecurityStamp = "cc9a1a6e-6ac0-4b78-8586-d7be7fb2b889",
                             TwoFactorEnabled = false,
                             UserName = "debayan.samaddar@neoscoder.com"
                         });

@@ -29,6 +29,7 @@ namespace PTS.API.Controllers
             {
                 Version = request.Version,
                 VersionDate = request.VersionDate,
+                Description = request.Description,
                 ProductId = request.ProductId,
                 UserId = request.UserId,
             };
@@ -41,6 +42,7 @@ namespace PTS.API.Controllers
                 Id = productVersion.Id,
                 Version = productVersion.Version,
                 VersionDate = productVersion.VersionDate,
+                Description= productVersion.Description,
                 ProductId = productVersion.ProductId,
                 UserId= productVersion.UserId,
             };

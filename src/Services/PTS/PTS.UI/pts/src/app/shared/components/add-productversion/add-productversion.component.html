@@ -1,0 +1,68 @@
+<div class="card h-100">
+  <div class="card-header">
+    <h3 class="card-title">Add Product Version</h3>
+  </div>
+  <div class="card-body">
+    <div class="d-flex flex-md-row flex-sm-column">
+      <div class="col-8 p-4">
+        <div class="card border-info mb-3" style="max-width: 100%">
+          <div class="card-header">Selected Files</div>
+          <div class="card-body text-info">
+            <div *ngFor="let file of selectedFiles">
+              <i
+                class="{{ getFileExtension(file.name) }}"
+                style="color: #5cb85c"
+                aria-hidden="true"
+              ></i>
+              {{ file.name }} [{{ (file.size / 1048576).toFixed(2) }} MB]
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-4 p-4 bg-light">
+        <h6>Properties</h6>
+
+        <form>
+          <div class="mt-3">
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Version"
+              name="version"
+              id="version"
+              [(ngModel)]="productVersion.version"
+            />
+          </div>
+          <div class="mt-3">
+            <input
+              type="date"
+              id="versionDate"
+              name="versionDate"
+              class="form-control"
+              [(ngModel)]="productVersion.versionDate"
+            />
+          </div>
+          <div class="mt-3">
+            <textarea
+              type="text"
+              class="form-control"
+              placeholder="Description"
+              name="desciption"
+              id="desciption"
+              [(ngModel)]="productVersion.desciption"
+            ></textarea>
+          </div>
+
+          <div class="mt-3">
+            <input type="file" class="form-control" multiple 
+            (change)="onFilesSelected($event)"
+            />
+          </div>
+          <div class="mt-3">
+            <button type="submit" class="btn btn-dark">Add</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

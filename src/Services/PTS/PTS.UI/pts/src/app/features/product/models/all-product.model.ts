@@ -2,6 +2,7 @@ import { Category } from "../../category/models/category.model";
 import { CylinderCompany } from "../../cylinderCompany/models/CylinderCompany.model";
 import { PrintingCompany } from "../../printingCompany/models/printingcompany.model";
 import { ProductCode } from "../../productCode/models/productcode.model";
+import { ProductVersion } from "../../productversion/models/productversion.model";
 import { Attachment } from "./attachment.model";
 
 export interface AllProduct{
@@ -22,6 +23,6 @@ export interface AllProduct{
     printingCompany: PrintingCompany,
     category: Category,
     productCode: ProductCode,
-    attachments: Attachment[],
+    productVersions: ProductVersion[],
     userId: string,
 }

@@ -11,6 +11,8 @@ namespace PTS.API.Models.DTO
         public string? Version { get; set; }
 
         public DateTime VersionDate { get; set; }
+
+        public string? Description { get; set; }
         public int ProductId { get; set; }
         public string? UserId { get; set; }
 
@@ -18,6 +20,6 @@ namespace PTS.API.Models.DTO
         public ProductDto? Product { get; set; }
 
         // Navigation property (one-to-many)
-        public List<AttachmentDto>? Attachments { get; set; } = new List<AttachmentDto>();
+        public ICollection<AttachmentDto>? Attachments { get; set; } = new List<AttachmentDto>();
     }
 }

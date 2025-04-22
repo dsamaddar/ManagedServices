@@ -288,13 +288,17 @@ namespace PTS.API.Migrations.ApplicationDb
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnOrder(3);
+
                     b.Property<int>("ProductId")
                         .HasColumnType("int")
-                        .HasColumnOrder(3);
+                        .HasColumnOrder(4);
 
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(max)")
-                        .HasColumnOrder(4);
+                        .HasColumnOrder(5);
 
                     b.Property<string>("Version")
                         .HasColumnType("nvarchar(max)")

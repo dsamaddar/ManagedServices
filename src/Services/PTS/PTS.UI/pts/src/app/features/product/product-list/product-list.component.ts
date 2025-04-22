@@ -6,10 +6,12 @@ import { ProductService } from '../services/product.service';
 import { Product } from '../models/product.model';
 import { map, Observable } from 'rxjs';
 import { AllProduct } from '../models/all-product.model';
+import { AddProductversionComponent } from "../../../shared/components/add-productversion/add-productversion.component";
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-product-list',
-  imports: [CommonModule, FormsModule, RouterModule],
+  imports: [CommonModule, FormsModule, RouterModule, AddProductversionComponent],
   templateUrl: './product-list.component.html',
   styleUrl: './product-list.component.css',
 })
@@ -21,44 +23,45 @@ export class ProductListComponent implements OnInit {
   pageSize = 5;
   global_query?: string;
 
+  isProductVersionModalVisible: boolean = false;
+
   constructor(private productService: ProductService) {}
 
   ngOnInit(): void {
-    this.products$ = this.productService.getAllProducts(undefined, this.pageNumber,this.pageSize);
-    
-    this.productService.getProductCount(undefined)
-    .subscribe({
+    this.products$ = this.productService.getAllProducts(
+      undefined,
+      this.pageNumber,
+      this.pageSize
+    );
+
+    this.productService.getProductCount(undefined).subscribe({
       next: (value) => {
         this.totalProductCount = value;
-        this.page_list = new Array(Math.ceil(this.totalProductCount/this.pageSize));
-        console.log('Number of products:', this.totalProductCount);
-      }
+        this.page_list = new Array(
+          Math.ceil(this.totalProductCount / this.pageSize)
+        );
+        //console.log('Number of products:', this.totalProductCount);
+      },
     });
-
-    /*
-    this.products$?.subscribe(products => {
-      this.totalProductCount = products.length;
-
-      this.page_list = new Array(Math.ceil(this.totalProductCount/this.pageSize));
-
-      console.log('Number of products:', this.totalProductCount);
-    });
-    */
-
   }
 
-  onSearch(query: string){
-    this.products$ = this.productService.getAllProducts(query, this.pageNumber,this.pageSize);
-    
+  onSearch(query: string) {
+    this.products$ = this.productService.getAllProducts(
+      query,
+      this.pageNumber,
+      this.pageSize
+    );
+
     this.global_query = query;
 
-    this.productService.getProductCount(query)
-    .subscribe({
+    this.productService.getProductCount(query).subscribe({
       next: (value) => {
         this.totalProductCount = value;
-        this.page_list = new Array(Math.ceil(this.totalProductCount/this.pageSize));
+        this.page_list = new Array(
+          Math.ceil(this.totalProductCount / this.pageSize)
+        );
         console.log('Number of products:', this.totalProductCount);
-      }
+      },
     });
     /*
     this.products$?.subscribe(products => {
@@ -68,15 +71,18 @@ export class ProductListComponent implements OnInit {
     */
   }
 
-  getPage(pageNumber: number){
+  getPage(pageNumber: number) {
     console.log(pageNumber);
     this.pageNumber = pageNumber;
-    this.products$ = this.productService.getAllProducts(this.global_query, pageNumber,this.pageSize);
+    this.products$ = this.productService.getAllProducts(
+      this.global_query,
+      pageNumber,
+      this.pageSize
+    );
   }
 
-  getPrevPage(){
-
-    if(this.pageNumber - 1 < 1){
+  getPrevPage() {
+    if (this.pageNumber - 1 < 1) {
       return;
     }
 
@@ -84,8 +90,8 @@ export class ProductListComponent implements OnInit {
     this.getPage(this.pageNumber);
   }
 
-  getNextPage(){
-    if(this.pageNumber + 1 > this.page_list.length){
+  getNextPage() {
+    if (this.pageNumber + 1 > this.page_list.length) {
       return;
     }
 
@@ -93,8 +99,16 @@ export class ProductListComponent implements OnInit {
     this.getPage(this.pageNumber);
   }
 
-  onPageSizeChange(value: string){
+  onPageSizeChange(value: string) {
     this.pageSize = Number(value);
+  }
+
+  openProductVersionModal(productid: number){
+    this.isProductVersionModalVisible = true;
+  }
+
+  closeProductVersionModal(){
+    this.isProductVersionModalVisible = false;
   }
 
 }

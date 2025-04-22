@@ -15,11 +15,14 @@ namespace PTS.API.Models.Domain
         [Column(Order = 2)]
         public DateTime VersionDate { get; set; }
 
-        [ForeignKey("Product")]
         [Column(Order = 3)]
+        public string? Description { get; set; }
+
+        [ForeignKey("Product")]
+        [Column(Order = 4)]
         public int ProductId { get; set; }
 
-        [Column(Order = 4)]
+        [Column(Order = 5)]
         public string? UserId { get; set; }
 
         // Navigation property (many-to-one)

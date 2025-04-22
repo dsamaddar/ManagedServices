@@ -71,7 +71,7 @@ namespace PTS.API.Controllers
 
         // GET: /api/product?query=html
         [HttpGet]
-        //[Authorize(Roles = "READER,MANAGER,ADMIN")]
+        [Authorize(Roles = "READER,MANAGER,ADMIN")]
         public async Task<IActionResult> GetAllProducts(
             [FromQuery] string? query,
             [FromQuery] int? pageNumber,
@@ -104,7 +104,7 @@ namespace PTS.API.Controllers
                         Version = x.Version,
                         VersionDate = x.VersionDate,
                         ProductId = x.ProductId,
-
+                        UserId = x.UserId,
 
                         Attachments = x.Attachments?.Select(a => new AttachmentDto
                         {
@@ -112,6 +112,8 @@ namespace PTS.API.Controllers
                             Name = a.Name,
                             Description = a.Description,
                             DateCreated = a.DateCreated,
+                            Tag = a.Tag,
+                            UserId = a.UserId
                         }).ToList(),                       
                     }).ToList(),
                     Category = new CategoryDto
@@ -316,9 +318,6 @@ namespace PTS.API.Controllers
 
             return Ok(count);
         }
-
-
-
 
     }
 }
