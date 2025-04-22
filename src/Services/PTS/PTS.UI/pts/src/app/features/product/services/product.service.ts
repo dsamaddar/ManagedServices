@@ -93,12 +93,12 @@ export class ProductService {
 
   uploadAttachment(
     files: File[],
-    productid: string
+    productVersionId: string
   ): Observable<HttpEvent<any>> {
     const formData = new FormData();
     files.forEach((file) => formData.append('files', file)); // 'files' should match the backend parameter name
 
-    formData.append('productid', productid);
+    formData.append('productVersionId', productVersionId);
 
     return this.http.post<Product>(
       `${environment.apiBaseUrl}/api/attachment/upload`,

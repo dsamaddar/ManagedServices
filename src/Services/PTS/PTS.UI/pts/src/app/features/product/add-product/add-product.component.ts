@@ -55,6 +55,7 @@ export class AddProductComponent implements OnInit, OnDestroy {
   product: AddProductRequest;
   productVersion: AddProductVersionRequest;
   selectedFiles: File[] = [];
+  productVersionId: number = 0;
 
   // observable array
   categories$?: Observable<Category[]>;
@@ -133,8 +134,8 @@ export class AddProductComponent implements OnInit, OnDestroy {
       version: '',
       versionDate: formatted || '',
       productId: 0,
-      userId: ''
-    }
+      userId: '',
+    };
   }
 
   categoryid?: number;
@@ -191,7 +192,9 @@ export class AddProductComponent implements OnInit, OnDestroy {
       this.product.printingcompanyid == 0
     ) {
       //alert('Missing: Category/Project/Cylinder Company/Printing Company');
-      ToastrUtils.showErrorToast('Missing: Category/Project/Cylinder Company/Printing Company');
+      ToastrUtils.showErrorToast(
+        'Missing: Category/Project/Cylinder Company/Printing Company'
+      );
       return;
     }
 
@@ -215,7 +218,7 @@ export class AddProductComponent implements OnInit, OnDestroy {
             version: this.product.version,
             versionDate: this.product.projectdate,
             productId: this.product.id,
-            userId: String(localStorage.getItem('user-id'))
+            userId: String(localStorage.getItem('user-id')),
           };
 
           console.log(this.productVersion);
@@ -224,33 +227,36 @@ export class AddProductComponent implements OnInit, OnDestroy {
             .addProductVersion(this.productVersion)
             .subscribe({
               next: (response) => {
-                console.log(response.id);
-                return;
+                //console.log('Product Version Id: ' + String(response.id));
+                //this.productVersionId = response.id;
+
+                this.uploadAttachmentSubscription = this.productService
+                  .uploadAttachment(this.selectedFiles, response.id.toString())
+                  .subscribe((event: HttpEvent<any>) => {
+                    switch (event.type) {
+                      case HttpEventType.UploadProgress:
+                        if (event.total) {
+                          this.progress = Math.round(
+                            (100 * event.loaded) / event.total
+                          );
+                        }
+                        break;
+                      case HttpEventType.Response:
+                        ToastrUtils.showToast('Product Added Successfully.');
+                        this.router.navigateByUrl('/admin/products');
+                        this.progress = 0;
+                        break;
+                    }
+                  });
               },
               error: (error) => {
                 ToastrUtils.showErrorToast(error);
-              }
+              },
             });
 
           // attachments associated with product version
-          this.uploadAttachmentSubscription = this.productService
-            .uploadAttachment(this.selectedFiles, this.product.id.toString())
-            .subscribe((event: HttpEvent<any>) => {
-              switch (event.type) {
-                case HttpEventType.UploadProgress:
-                  if (event.total) {
-                    this.progress = Math.round(
-                      (100 * event.loaded) / event.total
-                    );
-                  }
-                  break;
-                case HttpEventType.Response:
-                  ToastrUtils.showToast('Product Added Successfully.');
-                  this.router.navigateByUrl('/admin/products');
-                  this.progress = 0;
-                  break;
-              }
-            });
+          if (this.productVersionId > 0) {
+          }
         },
         error: (error) => {
           ToastrUtils.showErrorToast(error);
@@ -271,5 +277,6 @@ export class AddProductComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.addProductSubscription?.unsubscribe();
     this.uploadAttachmentSubscription?.unsubscribe();
+    this.addProductVersionSubscription?.unsubscribe();
   }
 }

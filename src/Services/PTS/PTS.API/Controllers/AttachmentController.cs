@@ -25,10 +25,10 @@ namespace PTS.API.Controllers
 
         [HttpPost("upload")]
         [RequestSizeLimit(1073741824)] // 1 GB
-        public async Task<IActionResult> Upload([FromForm] List<IFormFile> files, [FromForm] string productid)
+        public async Task<IActionResult> Upload([FromForm] List<IFormFile> files, [FromForm] string productVersionId)
         {
-            var product_id = Convert.ToInt32(productid);
-            var product = await productRepository.GetByIdAsync(product_id);
+            var productVersion_Id = Convert.ToInt32(productVersionId);
+            var product = await productRepository.GetByIdAsync(productVersion_Id);
 
             foreach (var file in files)
             {
@@ -43,8 +43,8 @@ namespace PTS.API.Controllers
 
                 var attachment = new Attachment
                 {
-                    ProductVersionId = product_id,
-                    TrackingId = product_id,
+                    ProductVersionId = productVersion_Id,
+                    TrackingId = productVersion_Id,
                     DateCreated = DateTime.Now,
                     Name = fileUploadName,
                     Description = fileUploadName,
