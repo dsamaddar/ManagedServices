@@ -49,5 +49,35 @@ namespace PTS.API.Controllers
 
             return Ok(response);
         }
+
+        // DELETE: /api/productversion/{id}
+
+        [HttpDelete]
+        [Route("{id:int}")]
+        [Authorize(Roles = "MANAGER,ADMIN")]
+        public async Task<IActionResult> DeleteProductVersion([FromRoute] int id)
+        {
+            var productVersion = await productVersionRepository.DeleteAsync(id);
+
+            if (productVersion is null)
+            {
+                return NotFound();
+            }
+
+            // Convert Domain Model to DTO
+
+            var response = new ProductVersionDto
+            {
+
+                Id = productVersion.Id,
+                Version = productVersion.Version,
+                VersionDate = productVersion.VersionDate,
+                Description = productVersion.Description,
+                ProductId = productVersion.ProductId,
+                UserId = productVersion.UserId,
+            };
+
+            return Ok(response);
+        }
     }
 }

@@ -3,6 +3,7 @@ using PTS.API.Data;
 using PTS.API.Models.Domain;
 using PTS.API.Repositories.Exceptions;
 using PTS.API.Repositories.Interface;
+using System;
 
 namespace PTS.API.Repositories.Implementation
 {
@@ -36,17 +37,25 @@ namespace PTS.API.Repositories.Implementation
 
         public async Task<ProductVersion?> DeleteAsync(int id)
         {
-            var existingProductVersion = await dbContext.ProductVersions.FirstOrDefaultAsync(x => x.Id == id);
+            var productVersion = await dbContext.ProductVersions
+                .Include(pv => pv.Attachments)
+                .FirstOrDefaultAsync(x => x.Id == id);
 
-            if (existingProductVersion is null)
+            if (productVersion?.Attachments != null && productVersion.Attachments.Any())
             {
-                return null;
+                if (productVersion?.Attachments?.Any() == true)
+                {
+                    dbContext.Attachments.RemoveRange(productVersion.Attachments);
+                }
             }
 
-            dbContext.ProductVersions.Remove(existingProductVersion);
-            await dbContext.SaveChangesAsync();
+            if (productVersion != null)
+            {
+                dbContext.ProductVersions.Remove(productVersion);
+                await dbContext.SaveChangesAsync();
+            }
 
-            return existingProductVersion;
+            return productVersion;
         }
 
         public async Task<IEnumerable<ProductVersion>> GetAllAsync()

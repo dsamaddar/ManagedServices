@@ -58,6 +58,14 @@ namespace PTS.API.Repositories.Implementation
 
             if (product != null && product.ProductVersions.Any())
             {
+                foreach (var version in product.ProductVersions)
+                {
+                    if (version.Attachments != null && version.Attachments.Any())
+                    {
+                        dbContext.Attachments.RemoveRange(version.Attachments);
+                    }
+                }
+
                 dbContext.ProductVersions.RemoveRange(product.ProductVersions);
                 await dbContext.SaveChangesAsync();
             }

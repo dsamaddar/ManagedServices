@@ -1,17 +1,25 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule, ValueChangeEvent } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { ProductService } from '../services/product.service';
 import { Product } from '../models/product.model';
-import { map, Observable } from 'rxjs';
+import { map, Observable, Subscribable, Subscription } from 'rxjs';
 import { AllProduct } from '../models/all-product.model';
-import { AddProductversionComponent } from "../../../shared/components/add-productversion/add-productversion.component";
+import { AddProductversionComponent } from '../../../shared/components/add-productversion/add-productversion.component';
 import { MatDialog } from '@angular/material/dialog';
+import Swal from 'sweetalert2';
+import { ProductversionService } from '../../productversion/services/productversion.service';
+import { ToastrUtils } from '../../../utils/toastr-utils';
 
 @Component({
   selector: 'app-product-list',
-  imports: [CommonModule, FormsModule, RouterModule, AddProductversionComponent],
+  imports: [
+    CommonModule,
+    FormsModule,
+    RouterModule,
+    AddProductversionComponent,
+  ],
   templateUrl: './product-list.component.html',
   styleUrl: './product-list.component.css',
 })
@@ -24,9 +32,15 @@ export class ProductListComponent implements OnInit {
   global_query?: string;
   master_product_id: number = 0;
 
+  private deleteProductVersionSubscription?: Subscription;
+
   isProductVersionModalVisible: boolean = false;
 
-  constructor(private productService: ProductService) {}
+  constructor(
+    private productService: ProductService,
+    private productVersionService: ProductversionService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.products$ = this.productService.getAllProducts(
@@ -84,7 +98,7 @@ export class ProductListComponent implements OnInit {
 
   loadData() {
     console.log('data reloaded');
-    
+
     this.products$ = this.productService.getAllProducts(
       this.global_query,
       this.pageNumber,
@@ -114,18 +128,49 @@ export class ProductListComponent implements OnInit {
     this.pageSize = Number(value);
   }
 
-  openProductVersionModal(productid: number){
+  openProductVersionModal(productid: number) {
     //console.log('Transferred ID ->' + productid.toString());
     this.master_product_id = productid;
     this.isProductVersionModalVisible = true;
   }
 
-  showProductVersionModal(productversionid: number){
+  showProductVersionModal(productversionid: number) {
     console.log(productversionid);
   }
 
-  closeProductVersionModal(){
-    this.isProductVersionModalVisible = false;
+  deleteProductVersion(productversionid: number) {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to undo this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'Cancel',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // ✅ Call your delete logic here
+          this.deleteProductVersionSubscription = this.productVersionService
+            .deleteProductVersion(productversionid)
+            .subscribe({
+              next: (response) => {
+                Swal.fire('Deleted!', 'Your item has been deleted.', 'success');
+                //this.router.navigateByUrl('/admin/products');
+                this.loadData();
+              },
+              error: (error) => {
+                ToastrUtils.showErrorToast('Not Authorized To Delete!');
+              },
+            });
+      
+      } else {
+        console.log('Delete operation cancelled.');
+      }
+    });
   }
 
+  closeProductVersionModal() {
+    this.isProductVersionModalVisible = false;
+  }
 }

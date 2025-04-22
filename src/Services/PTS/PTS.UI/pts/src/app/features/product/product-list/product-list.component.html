@@ -74,14 +74,13 @@
             Date: {{ product.projectDate | date : "mediumDate" }}
           </td>
           <td>
-            <a
+            <a class="text-primary"
               *ngFor="let productVersion of product.productVersions"
               (click)="showProductVersionModal(productVersion.id)"
               role="button"
-              style="cursor: pointer; text-decoration: underline; color: blue"
               >{{ productVersion.version }} [{{
                 productVersion.versionDate | date : "yyyy-MM-dd"
-              }}]<br
+              }}] <a class="text-danger" (click)="deleteProductVersion(productVersion.id)"><i class="bi bi-trash3"></i></a> <br
             /></a>
           </td>
           <td>

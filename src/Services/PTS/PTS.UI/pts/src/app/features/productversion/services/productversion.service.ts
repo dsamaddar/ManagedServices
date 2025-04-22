@@ -11,10 +11,18 @@ import { environment } from '../../../../environments/environment';
 export class ProductversionService {
   constructor(private http: HttpClient) {}
 
-  addProductVersion(model: AddProductVersionRequest): Observable<ProductVersion> {
+  addProductVersion(
+    model: AddProductVersionRequest
+  ): Observable<ProductVersion> {
     return this.http.post<ProductVersion>(
       `${environment.apiBaseUrl}/api/productversion`,
       model
+    );
+  }
+
+  deleteProductVersion(id: number): Observable<ProductVersion> {
+    return this.http.delete<ProductVersion>(
+      `${environment.apiBaseUrl}/api/productversion/${id}`
     );
   }
 }
