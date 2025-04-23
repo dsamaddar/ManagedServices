@@ -1,6 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { ProductService } from '../../../features/product/services/product.service';
+import { AllProduct } from '../../../features/product/models/all-product.model';
 
 @Component({
   selector: 'app-show-productversion',
@@ -13,14 +15,23 @@ export class ShowProductversionComponent implements OnInit, OnDestroy {
   @Input() data! : number;
 
   selectedFiles: File[] = [];
+  product?: AllProduct;
 
   private showProductVersionSubscription?: Subscription;
 
-  constructor(){
+  constructor(private productService: ProductService){
     
   }
   ngOnInit(): void {
-    throw new Error('Method not implemented.');
+    if (this.data) {
+      // get the data from the api for this category id
+      this.productService.getProductByProductVersionId(this.data).subscribe({
+        next: (response) => {
+          this.product = response;
+          console.log(this.product);
+        },
+      });
+    }
   }
   ngOnDestroy(): void {
     this.showProductVersionSubscription?.unsubscribe();

@@ -80,7 +80,7 @@ namespace PTS.API.Controllers
             return Ok(response);
         }
 
-        //  GET: /api/productversion/{id}
+        //  GET: /api/productversion/showproductversiondetail/{id}
         [HttpGet("showproductversiondetail/{id:int}")]
         [Authorize(Roles = "READER,MANAGER,ADMIN")]
         public async Task<IActionResult> ShowProductVersionDetailById([FromRoute] int id)

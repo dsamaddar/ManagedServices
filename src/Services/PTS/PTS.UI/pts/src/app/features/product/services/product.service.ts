@@ -70,6 +70,12 @@ export class ProductService {
     );
   }
 
+  getProductByProductVersionId(id: number): Observable<AllProduct> {
+    return this.http.get<AllProduct>(
+      `${environment.apiBaseUrl}/api/productversion/showproductversiondetail/${id}`
+    );
+  }
+
   getProductCount(query?: string): Observable<number> {
     let params = new HttpParams();
 

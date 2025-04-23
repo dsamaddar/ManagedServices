@@ -10,8 +10,5 @@ export interface ShowProductVersion{
     productCode: string,
     packType: string,
     barcode: string,
-    version: string,
-    versionDate: Date,
-    description: string,
     attachments: Attachment[];
 }
