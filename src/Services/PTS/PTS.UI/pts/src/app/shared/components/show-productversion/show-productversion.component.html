@@ -7,21 +7,90 @@
       <div class="col-8 p-4 --bs-warning-bg-subtle">
         <h6>Information</h6>
         <div class="card border-info mb-3" style="max-width: 100%">
-          <div class="card-header"></div>
+          <div class="card-header">Product Master Information</div>
           <div class="card-body text-info">
             <table>
               <thead>
                 <th></th>
                 <th></th>
+                <th style="min-width: 100px"></th>
                 <th></th>
                 <th></th>
               </thead>
               <tbody>
                 <tr>
+                  <td>Category</td>
+                  <td>{{ product?.category?.name }}</td>
+                  <td></td>
+                  <td>Brand</td>
+                  <td>{{ product?.brand }}</td>
+                </tr>
+                <tr>
+                  <td>Flavour</td>
+                  <td>{{ product?.flavourType }}</td>
+                  <td></td>
+                  <td>Origin</td>
+                  <td>{{ product?.origin }}</td>
+                </tr>
+                <tr>
+                  <td>SKU</td>
+                  <td>{{ product?.sku }}</td>
+                  <td></td>
+                  <td>Bar Code</td>
+                  <td>{{ product?.barcode }}</td>
+                </tr>
+                <tr>
+                  <td>Project Date</td>
+                  <td>{{ product?.projectDate | date : "mediumDate" }}</td>
+                  <td></td>
+                  <td>Printing Company</td>
+                  <td>{{ product?.printingCompany?.name }}</td>
+                </tr>
+                <tr>
+                  <td>Cylinder Company</td>
+                  <td>{{ product?.cylinderCompany?.name }}</td>
                   <td></td>
                   <td></td>
                   <td></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="card border-info mb-3" style="max-width: 100%">
+          <div class="card-header">Product Version Information</div>
+          <div class="card-body text-info">
+            <table>
+              <thead>
+                <th></th>
+                <th></th>
+                <th style="min-width: 100px"></th>
+                <th></th>
+                <th></th>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Version</td>
+                  <td>
+                    <div *ngIf="product?.productVersions">
+                      {{ product?.productVersions?.[0]?.version }}
+                    </div>
+                  </td>
                   <td></td>
+                  <td>Version Date</td>
+                  <td>
+                    <div *ngIf="product?.productVersions">
+                      {{ product?.productVersions?.[0]?.versionDate | date : "mediumDate" }}
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Description</td>
+                  <td colspan="4">
+                    <div *ngIf="product?.productVersions">
+                      {{ product?.productVersions?.[0]?.description }}
+                    </div>
+                  </td>
                 </tr>
               </tbody>
             </table>
@@ -33,14 +102,18 @@
         <div class="card border-info mb-3" style="max-width: 100%">
           <div class="card-header"></div>
           <div class="card-body text-info">
-            <div *ngFor="let file of selectedFiles">
-              <i
-                class="{{ getFileExtension(file.name) }}"
-                style="color: #5cb85c"
-                aria-hidden="true"
-              ></i>
-              {{ file.name }} [{{ (file.size / 1048576).toFixed(2) }} MB]
-            </div>
+            <ng-container>
+              <div *ngFor="let attachment of attachment_list">
+                <a href="{{attachmentBaseUrl}}{{attachment.name}}" target="_blank">
+                  <i
+                    class="{{ getFileExtension(attachment.name) }}"
+                    style="color: #5cb85c"
+                    aria-hidden="true"
+                  ></i
+                  > {{ attachment.name }}
+                </a>
+              </div>
+            </ng-container>
           </div>
         </div>
       </div>

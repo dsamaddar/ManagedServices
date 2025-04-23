@@ -68,7 +68,6 @@ namespace PTS.API.Controllers
 
             var response = new ProductVersionDto
             {
-
                 Id = productVersion.Id,
                 Version = productVersion.Version,
                 VersionDate = productVersion.VersionDate,

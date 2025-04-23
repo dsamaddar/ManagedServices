@@ -3,6 +3,10 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ProductService } from '../../../features/product/services/product.service';
 import { AllProduct } from '../../../features/product/models/all-product.model';
+import Swal from 'sweetalert2';
+import { ToastrUtils } from '../../../utils/toastr-utils';
+import { Attachment } from '../../../features/product/models/attachment.model';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-show-productversion',
@@ -16,18 +20,25 @@ export class ShowProductversionComponent implements OnInit, OnDestroy {
 
   selectedFiles: File[] = [];
   product?: AllProduct;
+  attachment_list: Attachment[] = [];
+  attachmentBaseUrl?: string;
 
   private showProductVersionSubscription?: Subscription;
+  private deleteAttachmentSubscription?: Subscription;
 
   constructor(private productService: ProductService){
     
   }
   ngOnInit(): void {
+
+    this.attachmentBaseUrl = `${environment.attachmentBaseUrl}`;
+
     if (this.data) {
       // get the data from the api for this category id
       this.productService.getProductByProductVersionId(this.data).subscribe({
         next: (response) => {
           this.product = response;
+          this.attachment_list = this.product.productVersions[0].attachments;
           console.log(this.product);
         },
       });
@@ -94,5 +105,47 @@ export class ShowProductversionComponent implements OnInit, OnDestroy {
       return 'bi bi-paperclip';
     }
   }
+
+    onDeleteAttachment(id: number) {
+      Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to undo this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Yes, delete it!',
+        cancelButtonText: 'Cancel',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          // ✅ Call your delete logic here
+          if (id) {
+            this.deleteAttachmentSubscription = this.productService
+              .deleteAttachment(id)
+              .subscribe({
+                next: (response) => {
+                  this.loadAttachments();
+                  Swal.fire('Deleted!', 'Your item has been deleted.', 'success');
+                },
+                error: (error) => {
+                  ToastrUtils.showErrorToast(error);
+                },
+              });
+          }
+        } else {
+          console.log('Delete operation cancelled.');
+        }
+      });
+    }
+
+    loadAttachments() {
+      /*
+      this.productService
+        .getAttachmentsByProductId(this.productId)
+        .subscribe((data) => {
+          this.attachment_list = data;
+        });
+      */
+    }
 
 }
