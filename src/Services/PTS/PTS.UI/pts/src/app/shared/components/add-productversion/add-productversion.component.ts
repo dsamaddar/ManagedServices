@@ -41,7 +41,7 @@ export class AddProductversionComponent implements OnInit, OnDestroy {
     this.productVersion = {
       version: '',
       versionDate: formatted || '',
-      desciption: '',
+      description: '',
       productId: this.data,
       userId: String(localStorage.getItem('user-id')),
     };
