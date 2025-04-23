@@ -15,20 +15,21 @@ namespace PTS.API.Controllers
     public class AttachmentController : ControllerBase
     {
         private readonly IAttachmentRepository attachmentRepository;
-        private readonly IProductRepository productRepository;
+        private readonly IProductVersionRepository productVersionRepository;
 
-        public AttachmentController(IAttachmentRepository attachmentRepository, IProductRepository productRepository)
+        public AttachmentController(IAttachmentRepository attachmentRepository,IProductVersionRepository productVersionRepository)
         {
             this.attachmentRepository = attachmentRepository;
-            this.productRepository = productRepository;
+            this.productVersionRepository = productVersionRepository;
         }
 
         [HttpPost("upload")]
         [RequestSizeLimit(1073741824)] // 1 GB
+        [Authorize(Roles = "READER,MANAGER,ADMIN")]
         public async Task<IActionResult> Upload([FromForm] List<IFormFile> files, [FromForm] string productVersionId)
         {
             var productVersion_Id = Convert.ToInt32(productVersionId);
-            var product = await productRepository.GetByIdAsync(productVersion_Id);
+            var productVersion = await productVersionRepository.GetByIdAsync(productVersion_Id);
 
             foreach (var file in files)
             {
@@ -49,7 +50,7 @@ namespace PTS.API.Controllers
                     Name = fileUploadName,
                     Description = fileUploadName,
                     Tag = fileUploadName,
-                    UserId = product?.UserId?? string.Empty,
+                    UserId = productVersion?.UserId ?? string.Empty,
                 };
 
                 await attachmentRepository.CreateAsync(attachment);

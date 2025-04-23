@@ -63,7 +63,7 @@ namespace PTS.API.Repositories.Implementation
             return await dbContext.ProductVersions.ToListAsync();
         }
 
-        public async Task<ProductVersion?> GetById(int id)
+        public async Task<ProductVersion?> GetByIdAsync(int id)
         {
             return await dbContext.ProductVersions.FirstOrDefaultAsync(x => x.Id == id);
         }

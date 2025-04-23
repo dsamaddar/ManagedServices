@@ -113,6 +113,7 @@ namespace PTS.API.Repositories.Implementation
                 .Include(x => x.ProductCode)
                 .Include(x => x.Category)
                 .Include(x => x.ProductVersions)
+                    .ThenInclude(pv => pv.Attachments)
                 .FirstOrDefaultAsync(x => x.Id == id);
         }
 
