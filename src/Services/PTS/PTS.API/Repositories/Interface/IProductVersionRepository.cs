@@ -1,4 +1,5 @@
 ﻿using PTS.API.Models.Domain;
+using PTS.API.Models.DTO;
 
 namespace PTS.API.Repositories.Interface
 {
@@ -8,6 +9,8 @@ namespace PTS.API.Repositories.Interface
         Task<IEnumerable<ProductVersion>> GetAllAsync();
 
         Task<ProductVersion?> GetByIdAsync(int id);
+
+        Task<Product?> GetShowProductVersionDetailById(int id);
         Task<ProductVersion?> UpdateAsync(ProductVersion productVersion);
         Task<ProductVersion?> DeleteAsync(int id);
     }

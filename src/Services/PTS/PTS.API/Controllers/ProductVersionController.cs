@@ -79,5 +79,88 @@ namespace PTS.API.Controllers
 
             return Ok(response);
         }
+
+        //  GET: /api/productversion/{id}
+        [HttpGet("showproductversiondetail/{id:int}")]
+        [Authorize(Roles = "READER,MANAGER,ADMIN")]
+        public async Task<IActionResult> ShowProductVersionDetailById([FromRoute] int id)
+        {
+            var product = await productVersionRepository.GetShowProductVersionDetailById(id);
+
+            if (product is null)
+            {
+                return NotFound();
+            }
+
+            // convert domain model to dto
+            var response = new ProductDto
+            {
+                Id = product.Id,
+                CategoryId = product.CategoryId,
+                ProductCodeId = product.ProductCodeId,
+                Brand = product.Brand,
+                Barcode = product.Barcode,
+                CylinderCompanyId = product.CylinderCompanyId,
+                FlavourType = product.FlavourType,
+                Origin = product.Origin,
+                PackType = product.PackType,
+                PrintingCompanyId = product.PrintingCompanyId,
+                ProjectDate = product.ProjectDate,
+                SKU = product.SKU,
+                Version = product.Version,
+                ProductVersions = product.ProductVersions?.Select(x => new ProductVersionDto
+                {
+                    Id = x.Id,
+                    Version = x.Version,
+                    VersionDate = x.VersionDate,
+                    Description = x.Description,
+                    ProductId = x.ProductId,
+                    UserId = x.UserId,
+
+
+                    Attachments = x.Attachments?.Select(a => new AttachmentDto
+                    {
+                        Id = a.Id,
+                        Name = a.Name,
+                        Description = a.Description,
+                        DateCreated = a.DateCreated,
+                        Tag = a.Tag,
+                        UserId = a.UserId,
+                    }).ToList(),
+                }).Where(x => x.Id == id).ToList(),
+                Category = new CategoryDto
+                {
+                    Id = product.Category?.Id ?? 0,
+                    Name = product.Category?.Name,
+                    Description = product.Category?.Description,
+                    UserId = product.Category?.UserId,
+                },
+                ProductCode = new ProductCodeDto
+                {
+                    Id = product.ProductCode?.Id ?? 0,
+                    Name = product.ProductCode?.Name,
+                    Code = product.ProductCode?.Code,
+                    Description = product.ProductCode?.Description,
+                    UserId = product.ProductCode?.UserId,
+                },
+                CylinderCompany = new CylinderCompanyDto
+                {
+                    Id = product.CylinderCompany?.Id ?? 0,
+                    Name = product.CylinderCompany?.Name,
+                    Description = product.CylinderCompany?.Description,
+                    UserId = product.CylinderCompany?.UserId,
+                },
+                PrintingCompany = new PrintingCompanyDto
+                {
+                    Id = product.PrintingCompany?.Id ?? 0,
+                    Name = product.PrintingCompany?.Name,
+                    Description = product.PrintingCompany?.Description,
+                    UserId = product.PrintingCompany?.UserId,
+                },
+                UserId = product.UserId,
+            };
+
+            return Ok(response);
+        }
     }
 }

@@ -1,9 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PTS.API.Data;
 using PTS.API.Models.Domain;
+using PTS.API.Models.DTO;
 using PTS.API.Repositories.Exceptions;
 using PTS.API.Repositories.Interface;
 using System;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace PTS.API.Repositories.Implementation
 {
@@ -66,6 +68,20 @@ namespace PTS.API.Repositories.Implementation
         public async Task<ProductVersion?> GetByIdAsync(int id)
         {
             return await dbContext.ProductVersions.FirstOrDefaultAsync(x => x.Id == id);
+        }
+
+        public async Task<Product?> GetShowProductVersionDetailById(int id)
+        {
+            return await dbContext.Products
+                 .Include(x => x.CylinderCompany)
+                 .Include(x => x.PrintingCompany)
+                 .Include(x => x.ProductCode)
+                 .Include(x => x.Category)
+                 .Include(x => x.ProductVersions)
+                     .ThenInclude(pv => pv.Attachments)
+                 .Where(x => x.ProductVersions.Any(pv => pv.Id == id))
+                 .FirstOrDefaultAsync();
+
         }
 
         public Task<ProductVersion?> UpdateAsync(ProductVersion productVersion)
