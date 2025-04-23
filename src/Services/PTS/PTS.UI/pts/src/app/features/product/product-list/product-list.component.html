@@ -38,71 +38,97 @@
     >
   </div>
   <ng-container *ngIf="products$ | async as products">
-    <table class="table table-bordered mt-3">
-      <thead>
-        <tr>
-          <th>Id</th>
-          <th>Category/Project/Brand</th>
-          <th>Flavour/Origin/SKU</th>
-          <th>Pack/Version/Barcode</th>
-          <th>Cylinder/Printing</th>
-          <th>Versions</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let product of products">
-          <td>{{ product.id }}</td>
-          <td>
-            Category: {{ product.category.name }} <br />
-            Project: {{ product.productCode.name }} <br />
-            Brand: {{ product.brand }}
-          </td>
-          <td>
-            Flavour: {{ product.flavourType }} <br />
-            Origin: {{ product.origin }} <br />
-            SKU: {{ product.sku }}
-          </td>
-          <td>
-            Pack: {{ product.packType }} <br />
-            Version: {{ product.version }} <br />
-            BarCode: {{ product.barcode }}
-          </td>
-          <td>
-            Cylinder: {{ product.cylinderCompany.name }} <br />
-            Printing: {{ product.printingCompany.name }} <br />
-            Date: {{ product.projectDate | date : "mediumDate" }}
-          </td>
-          <td>
-            <a class="text-primary"
-              *ngFor="let productVersion of product.productVersions"
-              (click)="showProductVersionModal(productVersion.id)"
-              role="button"
-              >{{ productVersion.version }} [{{
-                productVersion.versionDate | date : "yyyy-MM-dd"
-              }}] <a class="text-danger" (click)="deleteProductVersion(productVersion.id)"><i class="bi bi-trash3"></i></a> <br
-            /></a>
-          </td>
-          <td>
-            <a
-              class="btn btn-primary"
-              (click)="openProductVersionModal(product.id)"
-              data-bs-toggle="tooltip"
-              title="Add Product Version"
-              ><i class="bi bi-cloud-plus-fill"></i
-            ></a>
-            <a
-              class="btn btn-warning ms-1"
-              [routerLink]="['/admin/products', product.id]"
-              data-bs-toggle="tooltip"
-              title="Edit Product Master"
-            >
-              <i class="bi bi-pencil-square"></i>
-            </a>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="table-responsive mt-3">
+      <table class="table table-striped table-bordered">
+        <thead class="table-dark text-nowrap">
+          <tr>
+            <th style="display: none">Id</th>
+            <th style="min-width: 200px">Versions</th>
+            <th style="min-width: 100px">Action</th>
+            <th>Category</th>
+            <th>Brand</th>
+            <th>Flavour</th>
+            <th>Origin</th>
+            <th>SKU</th>
+            <th>Code</th>
+            <th>Pack Type</th>
+            <th>Barcode</th>
+            <th>Date</th>
+            <th>Cylinder</th>
+            <th>Printing</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let product of products" class="fs-6">
+            <td style="display: none">{{ product.id }}</td>
+            <td>
+              <a
+                class="text-primary"
+                *ngFor="let productVersion of product.productVersions"
+                (click)="openShowProductVersionModal(productVersion.id)"
+                role="button"
+                >{{ productVersion.version }} [{{
+                  productVersion.versionDate | date : "yyyy-MM-dd"
+                }}]
+                <a
+                  class="text-danger"
+                  (click)="deleteProductVersion(productVersion.id)"
+                  ><i class="bi bi-trash3"></i
+                ></a>
+                <br
+              /></a>
+            </td>
+            <td>
+              <a
+                class="text-primary ms-1"
+                (click)="openProductVersionModal(product.id)"
+                data-bs-toggle="tooltip"
+                title="Add Product Version"
+                ><i class="bi bi-cloud-plus-fill fs-3"></i
+              ></a>
+              <a
+                class="text-warning ms-3"
+                [routerLink]="['/admin/products', product.id]"
+                data-bs-toggle="tooltip"
+                title="Edit Product Master"
+              >
+                <i class="bi bi-pencil-square fs-3"></i>
+              </a>
+            </td>
+            <td>
+              {{ product.category.name }}
+            </td>
+            <td>
+              {{ product.brand }}
+            </td>
+            <td>{{ product.flavourType }}</td>
+            <td>
+              {{ product.origin }}
+            </td>
+            <td>
+              {{ product.sku }}
+            </td>
+            <td>{{ product.productCode.name }}</td>
+            <td>
+              {{ product.packType }}
+            </td>
+            <td>
+              {{ product.barcode }}
+            </td>
+            <td>
+              {{ product.projectDate | date : "mediumDate" }}
+            </td>
+            <td>
+              {{ product.cylinderCompany.name }}
+            </td>
+            <td>
+              {{ product.printingCompany.name }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
     <nav aria-label="Page navigation example">
       <ul class="pagination">
         <li class="page-item">
@@ -140,4 +166,25 @@
     [data]="master_product_id"
     (refreshParent)="loadData()"
   ></app-add-productversion>
+</div>
+
+<div
+  [ngClass]="{
+    'd-block': isShowProductVersionModalVisible,
+    'd-none': !isShowProductVersionModalVisible
+  }"
+  class="show-product-version-modal"
+>
+  <button
+    type="button"
+    class="btn btn-light"
+    style="position: fixed; top: 60px; right: 10px"
+    (click)="closeShowProductVersionModal()"
+  >
+    X
+  </button>
+  <app-show-productversion
+    *ngIf="isShowProductVersionModalVisible"
+    [data]="product_version_id"
+  ></app-show-productversion>
 </div>

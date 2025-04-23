@@ -11,6 +11,7 @@ import { MatDialog } from '@angular/material/dialog';
 import Swal from 'sweetalert2';
 import { ProductversionService } from '../../productversion/services/productversion.service';
 import { ToastrUtils } from '../../../utils/toastr-utils';
+import { ShowProductversionComponent } from "../../../shared/components/show-productversion/show-productversion.component";
 
 @Component({
   selector: 'app-product-list',
@@ -19,7 +20,8 @@ import { ToastrUtils } from '../../../utils/toastr-utils';
     FormsModule,
     RouterModule,
     AddProductversionComponent,
-  ],
+    ShowProductversionComponent
+],
   templateUrl: './product-list.component.html',
   styleUrl: './product-list.component.css',
 })
@@ -31,10 +33,12 @@ export class ProductListComponent implements OnInit {
   pageSize = 5;
   global_query?: string;
   master_product_id: number = 0;
+  product_version_id: number = 0;
 
   private deleteProductVersionSubscription?: Subscription;
 
   isProductVersionModalVisible: boolean = false;
+  isShowProductVersionModalVisible: boolean = false;
 
   constructor(
     private productService: ProductService,
@@ -134,8 +138,10 @@ export class ProductListComponent implements OnInit {
     this.isProductVersionModalVisible = true;
   }
 
-  showProductVersionModal(productversionid: number) {
-    console.log(productversionid);
+  openShowProductVersionModal(productversionid: number) {
+    console.log('Product Version ID ->' + productversionid.toString());
+    this.product_version_id = productversionid;
+    this.isShowProductVersionModalVisible = true;
   }
 
   deleteProductVersion(productversionid: number) {
@@ -172,5 +178,9 @@ export class ProductListComponent implements OnInit {
 
   closeProductVersionModal() {
     this.isProductVersionModalVisible = false;
+  }
+
+  closeShowProductVersionModal() {
+    this.isShowProductVersionModalVisible = false;
   }
 }

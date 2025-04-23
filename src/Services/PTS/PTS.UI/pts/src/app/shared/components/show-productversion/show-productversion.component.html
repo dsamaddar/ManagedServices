@@ -1,1 +1,49 @@
-<p>show-productversion works!</p>
+<div class="card h-100">
+  <div class="card-header">
+    <h3 class="card-title">View Product Version</h3>
+  </div>
+  <div class="card-body">
+    <div class="d-flex flex-md-row flex-sm-column">
+      <div class="col-8 p-4 --bs-warning-bg-subtle">
+        <h6>Information</h6>
+        <div class="card border-info mb-3" style="max-width: 100%">
+          <div class="card-header"></div>
+          <div class="card-body text-info">
+            <table>
+              <thead>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+              </thead>
+              <tbody>
+                <tr>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="col-4 p-4 bg-light">
+        <h6>Attachments</h6>
+        <div class="card border-info mb-3" style="max-width: 100%">
+          <div class="card-header"></div>
+          <div class="card-body text-info">
+            <div *ngFor="let file of selectedFiles">
+              <i
+                class="{{ getFileExtension(file.name) }}"
+                style="color: #5cb85c"
+                aria-hidden="true"
+              ></i>
+              {{ file.name }} [{{ (file.size / 1048576).toFixed(2) }} MB]
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
