@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.WebUtilities;
 using PTS.API.Models.DTO;
 using PTS.API.Repositories.Interface;
+using System.Text;
 
 namespace PTS.API.Controllers
 {
@@ -12,14 +14,17 @@ namespace PTS.API.Controllers
     {
         private readonly UserManager<IdentityUser> userManager;
         private readonly ITokenRepository tokenRepository;
+        private readonly IEmailService emailService;
 
         // register action method
 
         public AuthController(UserManager<IdentityUser> userManager,
-            ITokenRepository tokenRepository)
+            ITokenRepository tokenRepository,
+            IEmailService emailService)
         {
             this.userManager = userManager;
             this.tokenRepository = tokenRepository;
+            this.emailService = emailService;
         }
 
         // POSTL {apibaseurl}/api/auth/login
@@ -110,6 +115,40 @@ namespace PTS.API.Controllers
             }
 
             return ValidationProblem(ModelState);
+        }
+
+        [HttpPost("forgot-password")]
+        public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordDto model)
+        {
+            var user = await userManager.FindByEmailAsync(model.Email);
+            if (user == null)
+                return BadRequest("User not found");
+
+            var token = await userManager.GeneratePasswordResetTokenAsync(user);
+            var encodedToken = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(token));
+
+            var resetLink = $"{model.ClientURI}?email={model.Email}&token={encodedToken}";
+
+            // Send resetLink via email (SMTP or SendGrid)
+            await emailService.SendEmailAsync(model.Email, "Reset your password", $"Click here to reset: {resetLink}");
+
+            return Ok("Reset link sent");
+        }
+
+        [HttpPost("reset-password")]
+        public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordDto model)
+        {
+            var user = await userManager.FindByEmailAsync(model.Email);
+            if (user == null)
+                return BadRequest("User not found");
+
+            var decodedToken = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(model.Token));
+            var result = await userManager.ResetPasswordAsync(user, decodedToken, model.NewPassword);
+
+            if (!result.Succeeded)
+                return BadRequest(result.Errors);
+
+            return Ok("Password reset successful");
         }
     }
 }
