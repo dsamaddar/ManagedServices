@@ -17,6 +17,7 @@ import { LoginComponent } from './features/auth/login/login.component';
 import { EditProductComponent } from './features/product/edit-product/edit-product.component';
 import { RegisterComponent } from './features/auth/register/register.component';
 import { ForgotPasswordComponent } from './features/auth/forgot-password/forgot-password.component';
+import { ResetPasswordComponent } from './features/auth/reset-password/reset-password.component';
 
 export const routes: Routes = [
     {
@@ -90,6 +91,7 @@ export const routes: Routes = [
     {
         path: 'forgotpassword',
         component: ForgotPasswordComponent
-    }
+    },
+    { path: 'reset-password', component: ResetPasswordComponent }
 
 ];
