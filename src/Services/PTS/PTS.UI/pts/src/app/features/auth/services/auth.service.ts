@@ -70,8 +70,9 @@ export class AuthService {
     return this.http.post(`${environment.apiBaseUrl}/api/auth/forgot-password`, { email, ClientURI });
   }
   
-  resetPassword(token: string, newPassword: string) {
+  resetPassword(email: string,token: string, newPassword: string) {
     return this.http.post(`${environment.apiBaseUrl}/api/auth/reset-password`, {
+      email,
       token,
       newPassword
     });

@@ -152,7 +152,7 @@ namespace PTS.API.Controllers
             if (!result.Succeeded)
                 return BadRequest(result.Errors);
 
-            return Ok("Password reset successful");
+            return Ok(new { message = "Password reset successful" });
         }
 
         private string GenerateEmailBody(string resetLink)
