@@ -21,12 +21,12 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<ApplicationDbContext>(options => 
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("PTSConnectionString_MOAR"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("PTSConnectionString_OFFICE"));
 });
 
 builder.Services.AddDbContext<AuthDbContext>(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("PTSConnectionString_MOAR"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("PTSConnectionString_OFFICE"));
 });
 
 builder.Services.AddScoped<IAttachmentRepository, AttachmentRepository>();
@@ -80,10 +80,14 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 builder.WebHost.ConfigureKestrel(options =>
 {
-    options.ListenAnyIP(5101); // HTTP
-    options.ListenAnyIP(5102, listenOptions =>
+    var kestrelSection = builder.Configuration.GetSection("Kestrel:Certificates:Default");
+    var certPath = kestrelSection["Path"];
+    var certPassword = kestrelSection["Password"];
+
+    options.ListenAnyIP(5201); // HTTP
+    options.ListenAnyIP(5202, listenOptions =>
     {
-        listenOptions.UseHttps("https/devcert.pfx", "Farc1lgh#");
+        listenOptions.UseHttps(certPath, certPassword);
     });
 });
 
