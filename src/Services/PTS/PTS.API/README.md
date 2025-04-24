@@ -11,7 +11,7 @@ ManagedService/src/
 docker build -t ptsapi -f Services/PTS/PTS.API/Dockerfile .
 
 ## Run the Docker Container on Port 5101 & 5102
-docker run -d -p 5101:5101 -p 5102:5102 ptsapi
+docker run -d -p 5201:5201 -p 5202:5202 ptsapi
 
 
 ## Download Docker Images
