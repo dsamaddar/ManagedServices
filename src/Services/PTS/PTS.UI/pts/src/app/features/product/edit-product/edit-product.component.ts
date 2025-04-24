@@ -146,6 +146,7 @@ export class EditProductComponent implements OnInit, OnDestroy {
           this.productService.getProductById(this.productId).subscribe({
             next: (response) => {
               this.product = response;
+              console.log(this.product.projectDate);
             },
           });
         }

@@ -123,7 +123,7 @@ export class AddProductComponent implements OnInit, OnDestroy {
       sku: '',
       packtype: '',
       version: '',
-      projectdate: formatted || '',
+      projectdate: myDate || '',
       barcode: '',
       cylindercompanyid: 0,
       printingcompanyid: 0,
@@ -132,7 +132,7 @@ export class AddProductComponent implements OnInit, OnDestroy {
 
     this.productVersion = {
       version: '',
-      versionDate: formatted || '',
+      versionDate: myDate || '',
       description: '',
       productId: 0,
       userId: '',

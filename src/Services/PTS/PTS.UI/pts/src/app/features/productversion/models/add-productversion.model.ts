@@ -1,6 +1,6 @@
 export interface AddProductVersionRequest{
     version: string,
-    versionDate: string,
+    versionDate: Date,
     description: string,
     productId: number,
     userId: string,
