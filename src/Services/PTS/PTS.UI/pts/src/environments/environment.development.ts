@@ -1,5 +1,5 @@
 export const environment = {
-    apiBaseUrl: 'https://localhost:5102',
-    attachmentBaseUrl: 'https://localhost:5102/attachments/'
+    apiBaseUrl: 'https://ptsapi.neoscoder.com:5202',
+    attachmentBaseUrl: 'https://ptsapi.neoscoder.com:5202/attachments/'
 };
 

@@ -25,10 +25,10 @@ COPY nginx/default.conf /etc/nginx/conf.d/default.conf
 COPY nginx/default-ssl.conf /etc/nginx/conf.d/default-ssl.conf
 
 # Copy SSL certificate and key
-COPY nginx/cert/server.crt /etc/ssl/certs/server.crt
-COPY nginx/cert/server.key /etc/ssl/private/server.key
+COPY nginx/cert/neoscoder.crt /etc/ssl/certs/neoscoder.crt
+COPY nginx/cert/neoscoder.key /etc/ssl/private/neoscoder.key
 
 # Expose port
-EXPOSE 80 443
+EXPOSE 5203
 
 CMD ["nginx", "-g", "daemon off;"]
