@@ -138,7 +138,7 @@ docker run -d -p 8080:80 ptsui
 
 ng build --configuration production
 docker build -t ptsui .
-docker run -d -p 80:80 -p 443:443 ptsui
+docker run -d -p 5203:5203 -p 5204:5204 ptsui
 
 ### toaster packages
 npm install ngx-toastr --save

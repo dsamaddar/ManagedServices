@@ -29,6 +29,6 @@ COPY nginx/cert/neoscoder.crt /etc/ssl/certs/neoscoder.crt
 COPY nginx/cert/neoscoder.key /etc/ssl/private/neoscoder.key
 
 # Expose port
-EXPOSE 5203
+EXPOSE 5203 5204
 
 CMD ["nginx", "-g", "daemon off;"]

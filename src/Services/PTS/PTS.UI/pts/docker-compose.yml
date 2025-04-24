@@ -1,12 +1,15 @@
 version: '3.5'
 
 services:
+  webapp:
+    image: ptsui
+    hostname: ptsui.neoscoder.com
   angular-app:
     build: .
     container_name: ptsui
     ports:
-      - '80:80'
-      - '443:443'
+      - '5203:5203'
+      - '5204:5204'
     volumes:
       - ./:/ptsui
     environment:
