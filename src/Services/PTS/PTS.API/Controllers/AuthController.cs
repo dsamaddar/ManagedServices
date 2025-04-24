@@ -136,7 +136,7 @@ namespace PTS.API.Controllers
             // Send resetLink via email (SMTP or SendGrid)
             await emailService.SendGmailAsync(model.Email, "NEOS-PTS: Reset your password", email_body);
 
-            return Ok("Reset link sent");
+            return Ok(new { message = "Reset link sent" });
         }
 
         [HttpPost("reset-password")]

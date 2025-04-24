@@ -1,25 +1,40 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { AuthService } from '../services/auth.service';
 import { CommonModule } from '@angular/common';
 import { ToastrUtils } from '../../../utils/toastr-utils';
+import { environment } from '../../../../environments/environment';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-forgot-password',
   imports: [CommonModule, FormsModule, ReactiveFormsModule],
   templateUrl: './forgot-password.component.html',
-  styleUrl: './forgot-password.component.css'
+  styleUrl: './forgot-password.component.css',
 })
 export class ForgotPasswordComponent {
   success = '';
   error = '';
   submitted = false;
   forgotForm!: FormGroup;
-  
 
-  constructor(private fb: FormBuilder, private authService: AuthService) {
+  emailSent: boolean = false;
+  countdown: number = 15;
+  private intervalId: any;
+
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private router: Router
+  ) {
     this.forgotForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]]
+      email: ['', [Validators.required, Validators.email]],
     });
   }
 
@@ -33,15 +48,35 @@ export class ForgotPasswordComponent {
       return;
     }
 
-    this.authService.forgotPassword(this.forgotForm.value.email!).subscribe({
-      next: () => {
-        this.success = 'Check your email for reset instructions.';
-        //ToastrUtils.showToast(this.success);
-      },
-      error: () => {
-        this.error = 'Unable to send reset instructions.'
-        //ToastrUtils.showErrorToast(this.error);
+    // Show countdown message and start countdown immediately
+    this.emailSent = true;
+    this.success = 'Sending reset instructions...';
+    this.startCountdown();
+
+    this.authService
+      .forgotPassword(
+        this.forgotForm.value.email!,
+        environment.resetPasswordClientURI
+      )
+      .subscribe({
+        next: (response) => {
+          this.success = 'Check your email for reset instructions.';
+        },
+        error: (error) => {
+          console.log(error);
+          this.error = 'Unable to send reset instructions.';
+          //ToastrUtils.showErrorToast(this.error);
+        },
+      });
+  }
+
+  startCountdown() {
+    this.intervalId = setInterval(() => {
+      this.countdown--;
+      if (this.countdown <= 0) {
+        clearInterval(this.intervalId);
+        this.router.navigate(['/login']); // Navigate to login after countdown
       }
-    });
+    }, 1000);
   }
 }
