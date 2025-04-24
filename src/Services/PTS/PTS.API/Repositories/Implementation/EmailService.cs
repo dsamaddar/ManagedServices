@@ -1,6 +1,7 @@
 ﻿using System.Net.Mail;
 using System.Net;
 using PTS.API.Repositories.Interface;
+using System.Web;
 
 namespace PTS.API.Repositories.Implementation
 {
@@ -34,5 +35,33 @@ namespace PTS.API.Repositories.Implementation
 
             await smtpClient.SendMailAsync(mailMessage);
         }
+
+        public async Task SendGmailAsync(string to, string subject, string body)
+        {
+            var fromAddress = new MailAddress(configuration["Gmail:From"], "Debayan Samaddar");
+            var toAddress = new MailAddress(to);
+            var fromPassword = configuration["Gmail:Password"]; // App password, not your Google password
+
+            var smtp = new SmtpClient
+            {
+                Host = configuration["Gmail:SmtpServer"],
+                Port = int.Parse(configuration["Gmail:Port"]), // or 465 for SSL
+                EnableSsl = true,
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                UseDefaultCredentials = false,
+                Credentials = new NetworkCredential(fromAddress.Address, fromPassword)
+            };
+
+            using var message = new MailMessage(fromAddress, toAddress)
+            {
+                Subject = subject,
+                Body = body,
+                IsBodyHtml = true
+            };
+
+            await smtp.SendMailAsync(message);
+        }
+
+        
     }
 }

@@ -65,11 +65,11 @@ export class AuthService {
   }
 
   forgotPassword(email: string) {
-    return this.http.post('/api/auth/forgot-password', { email });
+    return this.http.post(`${environment.apiBaseUrl}/api/auth/forgot-password`, { email });
   }
   
   resetPassword(token: string, newPassword: string) {
-    return this.http.post('/api/auth/reset-password', {
+    return this.http.post(`${environment.apiBaseUrl}/api/auth/reset-password`, {
       token,
       newPassword
     });

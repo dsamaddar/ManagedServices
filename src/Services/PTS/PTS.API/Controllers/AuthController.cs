@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.WebUtilities;
 using PTS.API.Models.DTO;
 using PTS.API.Repositories.Interface;
 using System.Text;
+using System.Web;
 
 namespace PTS.API.Controllers
 {
@@ -121,6 +122,7 @@ namespace PTS.API.Controllers
         public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordDto model)
         {
             var user = await userManager.FindByEmailAsync(model.Email);
+
             if (user == null)
                 return BadRequest("User not found");
 
@@ -129,8 +131,10 @@ namespace PTS.API.Controllers
 
             var resetLink = $"{model.ClientURI}?email={model.Email}&token={encodedToken}";
 
+            var email_body = GenerateEmailBody(resetLink);
+
             // Send resetLink via email (SMTP or SendGrid)
-            await emailService.SendEmailAsync(model.Email, "Reset your password", $"Click here to reset: {resetLink}");
+            await emailService.SendGmailAsync(model.Email, "NEOS-PTS: Reset your password", email_body);
 
             return Ok("Reset link sent");
         }
@@ -149,6 +153,60 @@ namespace PTS.API.Controllers
                 return BadRequest(result.Errors);
 
             return Ok("Password reset successful");
+        }
+
+        private string GenerateEmailBody(string resetLink)
+        {
+            var body = $@"
+                        <!DOCTYPE html>
+                        <html lang=""en"">
+                        <head>
+                          <meta charset=""UTF-8"">
+                          <meta name=""viewport"" content=""width=device-width, initial-scale=1.0"">
+                          <style>
+                            body {{
+                              font-family: Arial, sans-serif;
+                              background-color: #f4f4f4;
+                              padding: 20px;
+                            }}
+                            .container {{
+                              background-color: #ffffff;
+                              padding: 30px;
+                              border-radius: 8px;
+                              box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                              max-width: 600px;
+                              margin: auto;
+                            }}
+                            .button {{
+                              display: inline-block;
+                              padding: 10px 20px;
+                              margin-top: 20px;
+                              background-color: #007bff;
+                              color: #ffffff;
+                              text-decoration: none;
+                              border-radius: 5px;
+                            }}
+                            .footer {{
+                              margin-top: 30px;
+                              font-size: 0.9em;
+                              color: #666;
+                            }}
+                          </style>
+                        </head>
+                        <body>
+                          <div class=""container"">
+                            <h2>Password Reset Request</h2>
+                            <p>Hello,</p>
+                            <p>We received a request to reset your password. Click the button below to reset it:</p>
+                            <a href=""{resetLink}"" class=""button"">Reset Password</a>
+                            <p>If you didn't request this, you can safely ignore this email.</p>
+                            <div class=""footer"">
+                              <p>Thanks,<br/>NeosCoder</p>
+                            </div>
+                          </div>
+                        </body>
+                        </html>";
+            return body;
         }
     }
 }
