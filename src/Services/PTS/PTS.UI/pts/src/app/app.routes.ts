@@ -18,6 +18,7 @@ import { EditProductComponent } from './features/product/edit-product/edit-produ
 import { RegisterComponent } from './features/auth/register/register.component';
 import { ForgotPasswordComponent } from './features/auth/forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './features/auth/reset-password/reset-password.component';
+import { PermissionControlComponent } from './features/auth/permission-control/permission-control.component';
 
 export const routes: Routes = [
     {
@@ -80,6 +81,7 @@ export const routes: Routes = [
         path: 'admin/products/:id',
         component: EditProductComponent
     },
+    { path: 'admin/permission-control', component: PermissionControlComponent },
     {
         path: 'login',
         component: LoginComponent
@@ -92,6 +94,7 @@ export const routes: Routes = [
         path: 'forgotpassword',
         component: ForgotPasswordComponent
     },
-    { path: 'reset-password', component: ResetPasswordComponent }
+    { path: 'reset-password', component: ResetPasswordComponent },
+
 
 ];

@@ -20,6 +20,9 @@
               <small class="text-danger" *ngIf="registerForm.get('email')?.errors?.['minlength']"
                 >Invalid email</small
               >
+              <small class="text-danger" *ngIf="registerForm.get('email')?.hasError('forbiddenDomain')">
+                Email must be from an approved domains.
+              </small>
             </div>
           </div>
 

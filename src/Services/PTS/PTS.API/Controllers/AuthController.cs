@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
@@ -14,16 +15,18 @@ namespace PTS.API.Controllers
     public class AuthController : ControllerBase
     {
         private readonly UserManager<IdentityUser> userManager;
+        private readonly RoleManager<IdentityRole> roleManager;
         private readonly ITokenRepository tokenRepository;
         private readonly IEmailService emailService;
 
         // register action method
 
-        public AuthController(UserManager<IdentityUser> userManager,
+        public AuthController(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager,
             ITokenRepository tokenRepository,
             IEmailService emailService)
         {
             this.userManager = userManager;
+            this.roleManager = roleManager;
             this.tokenRepository = tokenRepository;
             this.emailService = emailService;
         }
@@ -207,6 +210,79 @@ namespace PTS.API.Controllers
                         </body>
                         </html>";
             return body;
+        }
+
+        [Authorize(Roles = "ADMIN")]
+        [HttpGet("users")]
+        public IActionResult GetUsers()
+        {
+            var emails = userManager.Users.Select(r => r.Email).ToList();
+            return Ok(emails);
+        }
+
+        [HttpGet("roles/{email}")]
+        //[Authorize(Roles = "ADMIN")]
+        public async Task<IActionResult> GetUserRoles(string email)
+        {
+            var user = await userManager.FindByEmailAsync(email);
+            if (user == null)
+                return NotFound("User not found");
+
+            var roles = await userManager.GetRolesAsync(user);
+            return Ok(roles);
+        }
+
+        [Authorize(Roles = "ADMIN")]
+        [HttpGet("roles")]
+        public IActionResult GetRoles()
+        {
+            var roles = roleManager.Roles.Select(r => r.Name).ToList();
+            return Ok(roles);
+        }
+
+        [HttpPost("assign-role")]
+        [Authorize(Roles = "ADMIN")]
+        public async Task<IActionResult> AssignRole([FromBody] RoleAssignmentDto dto)
+        {
+            var user = await userManager.FindByEmailAsync(dto.Email);
+            if (user == null)
+                return NotFound("User not found");
+
+            if (!await roleManager.RoleExistsAsync(dto.Role))
+                return BadRequest("Role does not exist");
+
+            if (await userManager.IsInRoleAsync(user, dto.Role))
+                return BadRequest("User already has this role");
+
+            var result = await userManager.AddToRoleAsync(user, dto.Role);
+            if (!result.Succeeded)
+                return BadRequest(result.Errors);
+
+            return Ok(new { message = "Role assigned successfully" });
+        }
+
+        [HttpPost("revoke-role")]
+        [Authorize(Roles = "ADMIN")]
+        public async Task<IActionResult> RevokeRole([FromBody] RoleAssignmentDto dto)
+        {
+            var user = await userManager.FindByEmailAsync(dto.Email);
+            if (user == null)
+                return NotFound("User not found");
+
+            if (!await roleManager.RoleExistsAsync(dto.Role))
+                return BadRequest("Role does not exist");
+
+            if (!await userManager.IsInRoleAsync(user, dto.Role))
+                return BadRequest("User role does not exists");
+
+            if (await userManager.IsInRoleAsync(user, dto.Role))
+            {
+                var result = await userManager.RemoveFromRoleAsync(user, dto.Role);
+                if (!result.Succeeded)
+                    return BadRequest(result.Errors);
+            }
+ 
+            return Ok(new { message = "Role revoked successfully" });
         }
     }
 }

@@ -172,4 +172,7 @@ openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout nginx/cert/server.ke
 8. Beautiful Dashboard
 9. User tracking in Data Insert (done)
 10. User Registration with reader access by default (done)
-11. Forgot password
+11. Forgot password (done)
+12. Reset Password (done)
+13. Permission Control
+14. Restrict Domain in Registration. (done)

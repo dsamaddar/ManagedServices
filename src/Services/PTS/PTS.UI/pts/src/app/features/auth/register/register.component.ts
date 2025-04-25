@@ -11,6 +11,7 @@ import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { ToastrUtils } from '../../../utils/toastr-utils';
+import { allowedDomainValidator } from '../../../validators/email-domain.validator';
 
 @Component({
   selector: 'app-register',
@@ -31,8 +32,9 @@ export class RegisterComponent implements OnInit {
 
   ngOnInit(): void {
     this.registerForm = this.formBuilder.group({
-      email: ['', [Validators.required, Validators.minLength(3)]],
+      email: ['', [Validators.required,Validators.email,allowedDomainValidator(['neoscoder.com', 'akijfood.com'])]],
       password: ['', [Validators.required, Validators.minLength(6)]],
+      
     });
   }
 
