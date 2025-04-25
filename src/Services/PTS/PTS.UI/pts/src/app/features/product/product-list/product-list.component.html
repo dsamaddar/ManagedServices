@@ -186,5 +186,6 @@
   <app-show-productversion
     *ngIf="isShowProductVersionModalVisible"
     [data]="product_version_id"
+    (refreshParent)="loadData()"
   ></app-show-productversion>
 </div>

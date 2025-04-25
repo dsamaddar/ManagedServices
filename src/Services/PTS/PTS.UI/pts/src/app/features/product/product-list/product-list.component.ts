@@ -145,6 +145,12 @@ export class ProductListComponent implements OnInit {
   }
 
   deleteProductVersion(productversionid: number) {
+
+    if(this.isShowProductVersionModalVisible == true){
+      console.log('showing is true');
+    }
+    this.closeShowProductVersionModal();
+
     Swal.fire({
       title: 'Are you sure?',
       text: "You won't be able to undo this!",

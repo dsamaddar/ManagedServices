@@ -176,3 +176,5 @@ openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout nginx/cert/server.ke
 12. Reset Password (done)
 13. Permission Control
 14. Restrict Domain in Registration. (done)
+15. Upload Progress Bar in Add product Version
+16. Show Product Modal while delete -> bug

@@ -74,7 +74,11 @@ namespace PTS.API.Repositories.Implementation
                             (x.Origin != null && x.Origin.Contains(query)) ||
                             (x.SKU != null && x.SKU.Contains(query)) ||
                             (x.PackType != null && x.PackType.Contains(query)) ||
-                            (x.Version != null && x.Version.Contains(query))
+                            (x.Version != null && x.Version.Contains(query)) ||
+                            (x.Category != null && x.Category.Name != null && x.Category.Name.Contains(query)) ||
+                            (x.ProductCode != null && x.ProductCode.Name != null && x.ProductCode.Name.Contains(query)) ||
+                            (x.PrintingCompany != null && x.PrintingCompany.Name != null && x.PrintingCompany.Name.Contains(query)) ||
+                            (x.CylinderCompany != null && x.CylinderCompany.Name != null && x.CylinderCompany.Name.Contains(query))
                             )
                             .OrderByDescending(x => x.ProjectDate);
             }
