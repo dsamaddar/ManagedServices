@@ -19,67 +19,83 @@ import { RegisterComponent } from './features/auth/register/register.component';
 import { ForgotPasswordComponent } from './features/auth/forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './features/auth/reset-password/reset-password.component';
 import { PermissionControlComponent } from './features/auth/permission-control/permission-control.component';
+import { authGuard } from './features/auth/guards/auth.guard';
 
 export const routes: Routes = [
     {
         path: 'admin/categories',
-        component: CategoryListComponent
+        component: CategoryListComponent,
+        canActivate: [authGuard]
     },
     {
         path: 'admin/categories/add',
-        component: AddCategoryComponent
+        component: AddCategoryComponent,
+        canActivate: [authGuard]
     },
     {
         path: 'admin/categories/:id',
-        component: EditCategoryComponent
+        component: EditCategoryComponent,
+        canActivate: [authGuard]
     },
     {
         path: 'admin/cylindercompany',
-        component: CylindercompanyListComponent
+        component: CylindercompanyListComponent,
+        canActivate: [authGuard]
     },
     {
         path: 'admin/cylindercompany/add',
-        component: AddCylindercompanyComponent
+        component: AddCylindercompanyComponent,
+        canActivate: [authGuard]
     },
     {
         path: 'admin/cylindercompany/:id',
-        component: EditCylindercompanyComponent
+        component: EditCylindercompanyComponent,
+        canActivate: [authGuard]
     },
     {
         path: 'admin/printingcompany',
-        component: PrintingcompanyListComponent
+        component: PrintingcompanyListComponent,
+        canActivate: [authGuard]
     },
     {
         path: 'admin/printingcompany/add',
-        component: AddPrintingcompanyComponent
+        component: AddPrintingcompanyComponent,
+        canActivate: [authGuard]
     },
     {
         path: 'admin/printingcompany/:id',
-        component: EditPrintingcompanyComponent
+        component: EditPrintingcompanyComponent,
+        canActivate: [authGuard]
     },
     {
         path: 'admin/productcodes',
-        component: ProductCodeListComponent
+        component: ProductCodeListComponent,
+        canActivate: [authGuard]
     },
     {
         path: 'admin/productcodes/add',
-        component: AddProductCodeComponent
+        component: AddProductCodeComponent,
+        canActivate: [authGuard]
     },
     {
         path: 'admin/productcodes/:id',
-        component: EditProductCodeComponent
+        component: EditProductCodeComponent,
+        canActivate: [authGuard]
     },
     {
         path: 'admin/products',
-        component: ProductListComponent
+        component: ProductListComponent,
+        canActivate: [authGuard]
     },
     {
         path: 'admin/products/add',
-        component: AddProductComponent
+        component: AddProductComponent,
+        canActivate: [authGuard]
     },
     {
         path: 'admin/products/:id',
-        component: EditProductComponent
+        component: EditProductComponent,
+        canActivate: [authGuard]
     },
     { path: 'admin/permission-control', component: PermissionControlComponent },
     {
