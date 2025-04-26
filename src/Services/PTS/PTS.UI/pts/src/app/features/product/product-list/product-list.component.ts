@@ -146,10 +146,13 @@ export class ProductListComponent implements OnInit {
 
   deleteProductVersion(productversionid: number) {
 
+    this.isShowProductVersionModalVisible = false;
+    /*
     if(this.isShowProductVersionModalVisible == true){
       console.log('showing is true');
     }
     this.closeShowProductVersionModal();
+    */
 
     Swal.fire({
       title: 'Are you sure?',
