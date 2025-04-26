@@ -163,18 +163,18 @@ openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout nginx/cert/server.ke
 
 ### Tasks yet to be implemented
 1. UI forms/model validation
-2. Apply toastr in every place
-3. logout if unauthorized
+2. Apply toastr in every place (done)
+3. logout if unauthorized (done)
 4. Generic error handling
-5. Auth guard implementaiton
+5. Auth guard implementaiton (done)
 6. Product view options
-7. filter/pagination/sorting options
+7. filter/pagination/sorting options (done)
 8. Beautiful Dashboard
 9. User tracking in Data Insert (done)
 10. User Registration with reader access by default (done)
 11. Forgot password (done)
 12. Reset Password (done)
-13. Permission Control
+13. Permission Control (done)
 14. Restrict Domain in Registration. (done)
-15. Upload Progress Bar in Add product Version
-16. Show Product Modal while delete -> bug
+15. Upload Progress Bar in Add product Version (done)
+16. Show Product Modal while delete -> bug -> no alternate found
