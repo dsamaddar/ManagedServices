@@ -47,6 +47,14 @@ export class AddProductversionComponent implements OnInit, OnDestroy {
     };
   }
 
+  get productVersionDateString(): string {
+    return this.productVersion.versionDate.toISOString().split('T')[0];
+  }
+  
+  onProductVersionDateChange(value: string) {
+    this.productVersion.versionDate = new Date(value);
+  }
+
   ngOnDestroy(): void {
     this.addProductVersionSubscription?.unsubscribe();
     this.addAttachmentsSubscripts?.unsubscribe();
