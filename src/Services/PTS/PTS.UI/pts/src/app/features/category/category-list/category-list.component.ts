@@ -6,12 +6,11 @@ import { CommonModule } from '@angular/common';
 import { catchError, Observable, of, Subscription } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
-import Swal from 'sweetalert2/dist/sweetalert2.all.js';
+import Swal from 'sweetalert2/dist/sweetalert2.js';
 
 @Component({
   selector: 'app-category-list',
-  imports: [RouterModule, CommonModule, MatSnackBarModule, SweetAlert2Module],
+  imports: [RouterModule, CommonModule, MatSnackBarModule],
   templateUrl: './category-list.component.html',
   styleUrl: './category-list.component.css',
 })
