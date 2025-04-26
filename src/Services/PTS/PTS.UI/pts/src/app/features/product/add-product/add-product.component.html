@@ -127,7 +127,8 @@
               id="projectdate"
               name="projectdate"
               class="form-control"
-              [(ngModel)]="product.projectdate"
+              [(ngModel)]="projectDateString"
+              (ngModelChange)="onProjectDateChange($event)"
             />
           </div>
         </div>

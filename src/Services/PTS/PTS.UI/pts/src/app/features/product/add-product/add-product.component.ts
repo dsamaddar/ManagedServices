@@ -153,6 +153,14 @@ export class AddProductComponent implements OnInit, OnDestroy {
       this.printingCompanyService.getAllPrintingCompanies();
   }
 
+  get projectDateString(): string {
+    return this.product.projectdate.toISOString().split('T')[0];
+  }
+  
+  onProjectDateChange(value: string) {
+    this.product.projectdate = new Date(value);
+  }
+
   onFilesSelected(event: Event) {
     const fileInput = event.target as HTMLInputElement;
     if (fileInput.files) {

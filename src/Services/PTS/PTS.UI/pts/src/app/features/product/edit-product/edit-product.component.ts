@@ -102,6 +102,36 @@ export class EditProductComponent implements OnInit, OnDestroy {
     private http: HttpClient
   ) {}
 
+  get projectDateString(): string {
+    if (!this.product?.projectDate) {
+      return '';
+    }
+
+    const date = new Date(this.product.projectDate);
+    //console.log('getter: ' + String(date));
+    //return date.toISOString().split('T')[0];
+
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+  
+    return `${year}-${month}-${day}`;
+  }
+
+  set projectDateString(value: string) {
+    if (this.product?.projectDate) {
+      this.product.projectDate = value ? new Date(value) : new Date();
+    }
+  }
+
+  onProjectDateChange(value: string) {
+    if (this.product?.projectDate) {
+      console.log('setter: ' + value);
+
+      this.product.projectDate = value ? new Date(value) : new Date();
+    }
+  }
+
   onFilesSelected(event: Event) {
     const fileInput = event.target as HTMLInputElement;
     if (fileInput.files) {
@@ -242,9 +272,6 @@ export class EditProductComponent implements OnInit, OnDestroy {
                   }
                 });
             }
-
-            
-            
           },
         });
     }
