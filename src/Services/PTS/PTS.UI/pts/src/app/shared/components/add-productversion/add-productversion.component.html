@@ -71,6 +71,12 @@
             <button type="submit" class="btn btn-dark">Add</button>
           </div>
         </form>
+        <div class="col-md-4">
+          <div *ngIf="progress > 0">
+            Upload Progress: {{ progress }}%
+            <progress [value]="progress" max="100"></progress>
+          </div>
+        </div>
       </div>
     </div>
   </div>

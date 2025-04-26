@@ -102,7 +102,7 @@ export class ProductListComponent implements OnInit {
 
   loadData() {
     console.log('data reloaded');
-
+    
     this.products$ = this.productService.getAllProducts(
       this.global_query,
       this.pageNumber,
