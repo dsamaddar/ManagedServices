@@ -3,21 +3,39 @@
 
   <div class="d-flex justify-content-between mt-3">
     <div class="d-flex">
-      <input type="text" class="form-control" placeholder="search content" #queryText />
-      <button type="button" class="btn btn-warning ms-1" (click)="onSearch(queryText.value)">
+      <input
+        type="text"
+        class="form-control"
+        placeholder="search content"
+        #queryText
+      />
+      <button
+        type="button"
+        class="btn btn-warning ms-1"
+        (click)="onSearch(queryText.value)"
+      >
         Search
       </button>
       <label for="pageSize" class="ms-1">Page Size</label>
-      <select class="ms-1" name="pageSize" id="pageSize" #selectPageSize
-        (change)="onPageSizeChange(selectPageSize.value)">
+      <select
+        class="ms-1"
+        name="pageSize"
+        id="pageSize"
+        #selectPageSize
+        (change)="onPageSizeChange(selectPageSize.value)"
+      >
         <option value="5">5</option>
         <option value="10">10</option>
         <option value="50">50</option>
         <option value="100">100</option>
       </select>
     </div>
-    <a [routerLink]="['/admin/products/add']" class="btn btn-primary" routerLinkActive="router-link-active">Add
-      Product</a>
+    <a
+      [routerLink]="['/admin/products/add']"
+      class="btn btn-primary"
+      routerLinkActive="router-link-active"
+      >Add Product</a
+    >
   </div>
   <ng-container *ngIf="products$ | async as products">
     <div class="table-responsive mt-3">
@@ -44,23 +62,41 @@
           <tr *ngFor="let product of products" class="fs-6">
             <td style="display: none">{{ product.id }}</td>
             <td>
-              <a class="text-primary" *ngFor="let productVersion of product.productVersions"
-                (click)="openShowProductVersionModal(productVersion.id)" role="button">{{ productVersion.version }} [{{
-                productVersion.versionDate | date : "yyyy-MM-dd"
-                }}]
-                <a class="text-danger" role="button"
-                  (click)="deleteProductVersion(productVersion.id)"><i class="bi bi-trash3"></i></a>
-                  <br>
-              </a>
-
-
-              
+              <div
+                class=""
+                *ngFor="let productVersion of product.productVersions"
+              >
+                <a
+                  class="text-primary"
+                  (click)="openShowProductVersionModal(productVersion.id)"
+                  role="button"
+                  >{{ productVersion.version }} [{{
+                    productVersion.versionDate | date : "yyyy-MM-dd"
+                  }}]
+                </a>
+                <a
+                  class="text-danger"
+                  role="button"
+                  (click)="deleteProductVersion(productVersion.id)"
+                  ><i class="bi bi-trash3"></i
+                ></a>
+                <br />
+              </div>
             </td>
             <td>
-              <a class="text-primary ms-1" (click)="openProductVersionModal(product.id)" data-bs-toggle="tooltip"
-                title="Add Product Version"><i class="bi bi-cloud-plus-fill fs-3"></i></a>
-              <a class="text-warning ms-3" [routerLink]="['/admin/products', product.id]" data-bs-toggle="tooltip"
-                title="Edit Product Master">
+              <a
+                class="text-primary ms-1"
+                (click)="openProductVersionModal(product.id)"
+                data-bs-toggle="tooltip"
+                title="Add Product Version"
+                ><i class="bi bi-cloud-plus-fill fs-3"></i
+              ></a>
+              <a
+                class="text-warning ms-3"
+                [routerLink]="['/admin/products', product.id]"
+                data-bs-toggle="tooltip"
+                title="Edit Product Master"
+              >
                 <i class="bi bi-pencil-square fs-3"></i>
               </a>
             </td>
@@ -115,26 +151,46 @@
     </nav>
   </ng-container>
 </div>
-<div [ngClass]="{
+<div
+  [ngClass]="{
     'd-block': isProductVersionModalVisible,
     'd-none': !isProductVersionModalVisible
-  }" class="product-version-modal">
-  <button type="button" class="btn btn-light" style="position: fixed; top: 60px; right: 10px"
-    (click)="closeProductVersionModal()">
+  }"
+  class="product-version-modal"
+>
+  <button
+    type="button"
+    class="btn btn-light"
+    style="position: fixed; top: 60px; right: 10px"
+    (click)="closeProductVersionModal()"
+  >
     X
   </button>
-  <app-add-productversion *ngIf="isProductVersionModalVisible" [data]="master_product_id"
-    (refreshParent)="loadData()"></app-add-productversion>
+  <app-add-productversion
+    *ngIf="isProductVersionModalVisible"
+    [data]="master_product_id"
+    (refreshParent)="loadData()"
+  ></app-add-productversion>
 </div>
 
-<div [ngClass]="{
+<div
+  [ngClass]="{
     'd-block': isShowProductVersionModalVisible,
     'd-none': !isShowProductVersionModalVisible
-  }" class="show-product-version-modal">
-  <button type="button" class="btn btn-light" style="position: fixed; top: 60px; right: 10px"
-    (click)="closeShowProductVersionModal()">
+  }"
+  class="show-product-version-modal"
+>
+  <button
+    type="button"
+    class="btn btn-light"
+    style="position: fixed; top: 60px; right: 10px"
+    (click)="closeShowProductVersionModal()"
+  >
     X
   </button>
-  <app-show-productversion *ngIf="isShowProductVersionModalVisible" [data]="product_version_id"
-    (refreshParent)="loadData()"></app-show-productversion>
+  <app-show-productversion
+    *ngIf="isShowProductVersionModalVisible"
+    [data]="product_version_id"
+    (refreshParent)="loadData()"
+  ></app-show-productversion>
 </div>

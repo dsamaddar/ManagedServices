@@ -19,35 +19,35 @@
               </thead>
               <tbody>
                 <tr>
-                  <td>Category</td>
-                  <td>{{ product?.category?.name }}</td>
+                  <td class="text-dark">Category</td>
+                  <td >{{ product?.category?.name }}</td>
                   <td></td>
-                  <td>Brand</td>
+                  <td class="text-dark">Brand</td>
                   <td>{{ product?.brand }}</td>
                 </tr>
                 <tr>
-                  <td>Flavour</td>
+                  <td class="text-dark">Flavour</td>
                   <td>{{ product?.flavourType }}</td>
                   <td></td>
-                  <td>Origin</td>
+                  <td class="text-dark">Origin</td>
                   <td>{{ product?.origin }}</td>
                 </tr>
                 <tr>
-                  <td>SKU</td>
+                  <td class="text-dark">SKU</td>
                   <td>{{ product?.sku }}</td>
                   <td></td>
-                  <td>Bar Code</td>
+                  <td class="text-dark">Bar Code</td>
                   <td>{{ product?.barcode }}</td>
                 </tr>
                 <tr>
-                  <td>Project Date</td>
+                  <td class="text-dark">Project Date</td>
                   <td>{{ product?.projectDate | date : "mediumDate" }}</td>
                   <td></td>
-                  <td>Printing Company</td>
+                  <td class="text-dark">Printing Company</td>
                   <td>{{ product?.printingCompany?.name }}</td>
                 </tr>
                 <tr>
-                  <td>Cylinder Company</td>
+                  <td class="text-dark">Cylinder Company</td>
                   <td>{{ product?.cylinderCompany?.name }}</td>
                   <td></td>
                   <td></td>
@@ -70,14 +70,14 @@
               </thead>
               <tbody>
                 <tr>
-                  <td>Version</td>
+                  <td class="text-dark">Version</td>
                   <td>
                     <div *ngIf="product?.productVersions">
                       {{ product?.productVersions?.[0]?.version }}
                     </div>
                   </td>
                   <td></td>
-                  <td>Version Date</td>
+                  <td class="text-dark">Version Date</td>
                   <td>
                     <div *ngIf="product?.productVersions">
                       {{ product?.productVersions?.[0]?.versionDate | date : "mediumDate" }}
@@ -85,7 +85,7 @@
                   </td>
                 </tr>
                 <tr>
-                  <td>Description</td>
+                  <td class="text-dark">Description</td>
                   <td colspan="4">
                     <div *ngIf="product?.productVersions">
                       {{ product?.productVersions?.[0]?.description }}
