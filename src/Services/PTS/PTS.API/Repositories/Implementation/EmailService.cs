@@ -18,8 +18,9 @@ namespace PTS.API.Repositories.Implementation
             var smtpClient = new SmtpClient(configuration["Email:SmtpServer"], int.Parse(configuration["Email:Port"]))
             {
                 Port = int.Parse(configuration["Email:Port"]),
-                //Credentials = new NetworkCredential(configuration["Email:Username"], configuration["Email:Password"]),
+                Credentials = new NetworkCredential(configuration["Email:Username"], configuration["Email:Password"]),
                 EnableSsl = false,
+                DeliveryMethod = SmtpDeliveryMethod.Network,
                 UseDefaultCredentials = true
             };
 

@@ -27,7 +27,6 @@
   <ItemGroup>
     <Folder Include="Migrations\" />
     <Folder Include="attachments\" />
-    <Folder Include="wwwroot\" />
   </ItemGroup>
 
 </Project>
