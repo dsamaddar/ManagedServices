@@ -12,7 +12,7 @@ using PTS.API.Data;
 namespace PTS.API.Migrations
 {
     [DbContext(typeof(AuthDbContext))]
-    [Migration("20250422061338_initial")]
+    [Migration("20250429060041_initial")]
     partial class initial
     {
         /// <inheritdoc />
@@ -177,7 +177,7 @@ namespace PTS.API.Migrations
                             NormalizedUserName = "DEBAYAN.SAMADDAR@NEOSCODER.COM",
                             PasswordHash = "AQAAAAIAAYagAAAAEBZYK2AcpnXFPESoUdcPjsppX7q80XnHNd5x5mBHfvYDB0/qzdtBkpvb98FfscgIig==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "cc9a1a6e-6ac0-4b78-8586-d7be7fb2b889",
+                            SecurityStamp = "6c273e31-31d0-49d8-985a-dc9a6e880a8c",
                             TwoFactorEnabled = false,
                             UserName = "debayan.samaddar@neoscoder.com"
                         });

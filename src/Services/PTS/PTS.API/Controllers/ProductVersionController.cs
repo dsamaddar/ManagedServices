@@ -96,13 +96,12 @@ namespace PTS.API.Controllers
             {
                 Id = product.Id,
                 CategoryId = product.CategoryId,
-                ProductCodeId = product.ProductCodeId,
+                ProductCode = product.ProductCode,
                 Brand = product.Brand,
                 Barcode = product.Barcode,
                 CylinderCompanyId = product.CylinderCompanyId,
                 FlavourType = product.FlavourType,
                 Origin = product.Origin,
-                PackType = product.PackType,
                 PrintingCompanyId = product.PrintingCompanyId,
                 ProjectDate = product.ProjectDate,
                 SKU = product.SKU,
@@ -134,14 +133,6 @@ namespace PTS.API.Controllers
                     Description = product.Category?.Description,
                     UserId = product.Category?.UserId,
                 },
-                ProductCode = new ProductCodeDto
-                {
-                    Id = product.ProductCode?.Id ?? 0,
-                    Name = product.ProductCode?.Name,
-                    Code = product.ProductCode?.Code,
-                    Description = product.ProductCode?.Description,
-                    UserId = product.ProductCode?.UserId,
-                },
                 CylinderCompany = new CylinderCompanyDto
                 {
                     Id = product.CylinderCompany?.Id ?? 0,
@@ -155,6 +146,13 @@ namespace PTS.API.Controllers
                     Name = product.PrintingCompany?.Name,
                     Description = product.PrintingCompany?.Description,
                     UserId = product.PrintingCompany?.UserId,
+                },
+                PackType = new PackTypeDto
+                {
+                    Id = product.PackType?.Id ?? 0,
+                    Name = product.PackType?.Name,
+                    Description = product.PackType?.Description,
+                    UserId = product.PackType?.UserId,
                 },
                 UserId = product.UserId,
             };

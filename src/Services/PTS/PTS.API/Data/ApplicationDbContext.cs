@@ -21,6 +21,8 @@ namespace PTS.API.Data
 
         public DbSet<ProductVersion> ProductVersions { get; set; }
 
+        public DbSet<PackType> PackTypes { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<Category>()
@@ -36,6 +38,10 @@ namespace PTS.API.Data
                 .IsUnique(true);
 
             builder.Entity<PrintingCompany>()
+                .HasIndex(u => u.Name)
+                .IsUnique(true);
+
+            builder.Entity<PackType>()
                 .HasIndex(u => u.Name)
                 .IsUnique(true);
         }

@@ -32,7 +32,7 @@ namespace PTS.API.Models.Domain
 
         [Column(Order = 6)]
         [MaxLength(100)]
-        public string? PackType { get; set; }
+        public string? ProductCode { get; set; }
 
         [Column(Order = 7)]
         [MaxLength(100)]
@@ -57,13 +57,18 @@ namespace PTS.API.Models.Domain
         [ForeignKey("ProductCode")]
         public int? ProductCodeId { get; set; }
 
+        [Column(Order = 13)]
+        [ForeignKey("PackType")]
+        public int? PackTypeId { get; set; }
+
         public string? UserId { get; set; }
 
         // Navigation property (many-to-one)
         public CylinderCompany? CylinderCompany { get; set; }  // Navigation property
         public PrintingCompany? PrintingCompany { get; set; } // Navigation property
         public Category? Category { get; set; } // Navigation property
-        public ProductCode? ProductCode { get; set; } // Navigation property
+        
+        public PackType? PackType { get; set; } // Navigation property
 
         // Navigation property (one-to-many)
         public List<ProductVersion> ProductVersions { get; set; } = new List<ProductVersion>();
