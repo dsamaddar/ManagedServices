@@ -2,10 +2,11 @@
 using PTS.API.Data;
 using PTS.API.Models.Domain;
 using PTS.API.Repositories.Exceptions;
+using PTS.API.Repositories.Interface;
 
 namespace PTS.API.Repositories.Implementation
 {
-    public class PackTypeRepository
+    public class PackTypeRepository: IPackTypeRepository
     {
         private readonly ApplicationDbContext dbContext;
 
@@ -56,7 +57,7 @@ namespace PTS.API.Repositories.Implementation
             return await dbContext.PackTypes.ToListAsync();
         }
 
-        public async Task<PackType?> GetById(int id)
+        public async Task<PackType?> GetByIdAsync(int id)
         {
             return await dbContext.PackTypes.FirstOrDefaultAsync(x => x.Id == id);
         }
