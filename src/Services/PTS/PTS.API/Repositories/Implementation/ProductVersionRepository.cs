@@ -70,10 +70,13 @@ namespace PTS.API.Repositories.Implementation
             return await dbContext.ProductVersions.FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public async Task<ProductVersion[]?> GetProductVersionsByProductId(int productId)
+        public async Task<IEnumerable<ProductVersion>> GetProductVersionsByProductId(int productId)
         {
-            return await dbContext.ProductVersions.Where(x => x.ProductId == productId).OrderByDescending(x => x.VersionDate)
-            .ToArrayAsync();
+            return await dbContext.ProductVersions
+                .Include(x => x.Attachments)
+                .Where(x => x.ProductId == productId)
+                .OrderByDescending(x => x.VersionDate)
+                .ToArrayAsync();
         }
 
         public async Task<Product?> GetShowProductVersionDetailById(int id)

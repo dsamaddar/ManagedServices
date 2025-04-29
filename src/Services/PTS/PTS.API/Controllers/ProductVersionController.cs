@@ -5,6 +5,7 @@ using PTS.API.Models.Domain;
 using PTS.API.Models.DTO;
 using PTS.API.Repositories.Implementation;
 using PTS.API.Repositories.Interface;
+using System.Net.Mail;
 
 namespace PTS.API.Controllers
 {
@@ -103,6 +104,15 @@ namespace PTS.API.Controllers
                     Description = productVersion.Description,
                     ProductId = productVersion.ProductId,
                     UserId = productVersion.UserId,
+                    Attachments = productVersion.Attachments?.Select(a => new AttachmentDto
+                    {
+                        Id = a.Id,
+                        Name = a.Name,
+                        Description = a.Description,
+                        DateCreated = a.DateCreated,
+                        Tag = a.Tag,
+                        UserId = a.UserId,
+                    }).ToList(),
                 });
             }
 

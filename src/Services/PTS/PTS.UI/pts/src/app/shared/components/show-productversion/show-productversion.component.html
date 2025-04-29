@@ -20,7 +20,7 @@
               <tbody>
                 <tr>
                   <td class="text-dark">Category</td>
-                  <td >{{ product?.category?.name }}</td>
+                  <td>{{ product?.category?.name }}</td>
                   <td></td>
                   <td class="text-dark">Brand</td>
                   <td>{{ product?.brand }}</td>
@@ -104,13 +104,16 @@
           <div class="card-body text-info">
             <ng-container>
               <div *ngFor="let attachment of attachment_list">
-                <a href="{{attachmentBaseUrl}}{{attachment.name}}" target="_blank">
+                <a
+                  href="{{ attachmentBaseUrl }}{{ attachment.name }}"
+                  target="_blank"
+                >
                   <i
                     class="{{ getFileExtension(attachment.name) }}"
                     style="color: #5cb85c"
                     aria-hidden="true"
-                  ></i
-                  > {{ attachment.name }}
+                  ></i>
+                  {{ attachment.name }}
                 </a>
               </div>
             </ng-container>

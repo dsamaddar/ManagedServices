@@ -10,7 +10,7 @@ namespace PTS.API.Repositories.Interface
 
         Task<ProductVersion?> GetByIdAsync(int id);
 
-        Task<ProductVersion[]?> GetProductVersionsByProductId(int productId);
+        Task<IEnumerable<ProductVersion>> GetProductVersionsByProductId(int productId);
         Task<Product?> GetShowProductVersionDetailById(int id);
         Task<ProductVersion?> UpdateAsync(ProductVersion productVersion);
         Task<ProductVersion?> DeleteAsync(int id);

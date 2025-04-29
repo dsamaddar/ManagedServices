@@ -20,6 +20,12 @@ export class ProductversionService {
     );
   }
 
+    getProdVersionsByProdId(id: number): Observable<ProductVersion[]> {
+      return this.http.get<ProductVersion[]>(
+        `${environment.apiBaseUrl}/api/ProductVersion/showprodversionbyprodid/${id}`
+      );
+    }
+
   deleteProductVersion(id: number): Observable<ProductVersion> {
     return this.http.delete<ProductVersion>(
       `${environment.apiBaseUrl}/api/productversion/${id}`

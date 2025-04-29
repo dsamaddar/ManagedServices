@@ -8,6 +8,8 @@ import { HttpEvent, HttpEventType } from '@angular/common/http';
 import { ProductService } from '../../../features/product/services/product.service';
 import { ToastrUtils } from '../../../utils/toastr-utils';
 import { Router } from '@angular/router';
+import { ProductVersion } from '../../../features/productversion/models/productversion.model';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-add-productversion',
@@ -21,7 +23,9 @@ export class AddProductversionComponent implements OnInit, OnDestroy {
   progress = 0;
 
   productVersion!: AddProductVersionRequest;
+  prevProdVersions: ProductVersion[] = [];
   selectedFiles: File[] = [];
+  attachmentBaseUrl?: string;
 
   private addProductVersionSubscription?: Subscription;
   private addAttachmentsSubscripts?: Subscription;
@@ -34,10 +38,12 @@ export class AddProductversionComponent implements OnInit, OnDestroy {
     private router: Router
   ) {}
   ngOnInit(): void {
+
+    this.attachmentBaseUrl = `${environment.attachmentBaseUrl}`;
     const myDate = new Date();
     const formatted = this.datepipe.transform(myDate, 'yyyy-MM-dd');
 
-    console.log(this.data);
+    //console.log(this.data);
     this.productVersion = {
       version: '',
       versionDate: myDate || '',
@@ -45,6 +51,20 @@ export class AddProductversionComponent implements OnInit, OnDestroy {
       productId: this.data,
       userId: String(localStorage.getItem('user-id')),
     };
+
+    this.getPrevProductVersions(this.data);
+  }
+
+  getPrevProductVersions(productid: number){
+    this.productVersionService.getProdVersionsByProdId(productid)
+    .subscribe({
+      next: (response) => {
+        this.prevProdVersions = response;
+      },
+      error: (error) => {
+        ToastrUtils.showErrorToast(error);
+      }
+    });
   }
 
   get productVersionDateString(): string {
