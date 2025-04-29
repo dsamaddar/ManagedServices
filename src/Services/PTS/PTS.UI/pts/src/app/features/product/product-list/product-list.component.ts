@@ -132,6 +132,12 @@ export class ProductListComponent implements OnInit {
     this.pageSize = Number(value);
   }
 
+  openViewProduct(productid: number){
+    this.router.navigateByUrl(`/admin/viewproduct/${productid}`);
+    //const url = `/admin/viewproduct/${productid}`;
+    //window.open(url, '_blank'); // opens in new tab
+  }
+
   openProductVersionModal(productid: number) {
     //console.log('Transferred ID ->' + productid.toString());
     this.master_product_id = productid;

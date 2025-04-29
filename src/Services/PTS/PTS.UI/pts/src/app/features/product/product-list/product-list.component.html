@@ -44,7 +44,7 @@
           <tr>
             <th style="display: none">Id</th>
             <th style="min-width: 200px">Versions</th>
-            <th style="min-width: 100px">Action</th>
+            <th style="min-width: 150px">Action</th>
             <th>Category</th>
             <th>Brand</th>
             <th>Flavour</th>
@@ -85,7 +85,15 @@
             </td>
             <td>
               <a
-                class="text-primary ms-1"
+                class="text-info ms-3"
+                target="_blank"
+                (click)="openViewProduct(product.id)"
+                data-bs-toggle="tooltip"
+                title="View Product"
+                ><i class="bi bi-binoculars-fill fs-3"></i
+              ></a>
+              <a
+                class="text-primary ms-3"                
                 (click)="openProductVersionModal(product.id)"
                 data-bs-toggle="tooltip"
                 title="Add Product Version"

@@ -23,6 +23,7 @@ import { authGuard } from './features/auth/guards/auth.guard';
 import { PacktypeListComponent } from './features/packtype/packtype-list/packtype-list.component';
 import { AddPacktypeComponent } from './features/packtype/add-packtype/add-packtype.component';
 import { EditPacktypeComponent } from './features/packtype/edit-packtype/edit-packtype.component';
+import { ViewProductComponent } from './features/product/view-product/view-product.component';
 
 export const routes: Routes = [
     {
@@ -98,6 +99,11 @@ export const routes: Routes = [
     {
         path: 'admin/products/:id',
         component: EditProductComponent,
+        canActivate: [authGuard]
+    },
+    {
+        path: 'admin/viewproduct/:id',
+        component: ViewProductComponent,
         canActivate: [authGuard]
     },
     { path: 'admin/permission-control', component: PermissionControlComponent },

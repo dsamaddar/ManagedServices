@@ -1,0 +1,85 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-6">
+      <h5 class="mt-3">View Product</h5>
+    </div>
+    <div class="col-md-6">
+      <div class="d-flex justify-content-end mt-3">
+        <a [routerLink]="['/admin/products']" class="btn btn-success"
+          ><i class="bi bi-house-gear-fill"></i
+        ></a>
+      </div>
+    </div>
+  </div>
+
+  <div class="card mt-3">
+    <div class="card-header">Product Details</div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-2"><strong>Category</strong></div>
+        <div class="col-md-2">{{ product?.category?.name }}</div>
+        <div class="col-md-2"><strong>Brand</strong></div>
+        <div class="col-md-2">{{ product?.brand }}</div>
+        <div class="col-md-2"><strong>Flavour</strong></div>
+        <div class="col-md-2">{{ product?.flavourType }}</div>
+      </div>
+      <div class="row mt-3">
+        <div class="col-md-2"><strong>Origin</strong></div>
+        <div class="col-md-2">{{ product?.origin }}</div>
+        <div class="col-md-2"><strong>SKU</strong></div>
+        <div class="col-md-2">{{ product?.sku }}</div>
+        <div class="col-md-2"><strong>Pack Type</strong></div>
+        <div class="col-md-2">{{ product?.packType?.name }}</div>
+      </div>
+      <div class="row mt-3">
+        <div class="col-md-2"><strong>Product Code</strong></div>
+        <div class="col-md-2">{{ product?.productCode }}</div>
+        <div class="col-md-2"><strong>Barcode</strong></div>
+        <div class="col-md-2">{{ product?.barcode }}</div>
+      </div>
+      <div class="row mt-3">
+        <div class="col-md-2"><strong>Project Date</strong></div>
+        <div class="col-md-2">{{ product?.projectDate }}</div>
+        <div class="col-md-2"><strong>Cylinder Company</strong></div>
+        <div class="col-md-2">{{ product?.cylinderCompany?.name }}</div>
+        <div class="col-md-2"><strong>Printing Company</strong></div>
+        <div class="col-md-2">{{ product?.printingCompany?.name }}</div>
+      </div>
+    </div>
+  </div>
+  <div class="card mt-3">
+    <div class="card-header">Version Details</div>
+    <div class="card-body">
+        <table class="table table-responsive table-sm w-100">
+            <thead>
+              <th style="display: none;">Id</th>
+              <th>Version</th>
+              <th>Version Dt</th>
+              <th>Description</th>
+              <th>Attachments</th>
+            </thead>
+            <tr *ngFor="let prevProdVersion of product?.productVersions">
+              <td style="display: none;">
+                {{ prevProdVersion.id }}
+              </td>
+              <td>{{ prevProdVersion.version }}</td>
+              <td>{{ prevProdVersion.versionDate }}</td>
+              <td>{{ prevProdVersion.description }}</td>
+              <td>
+                <div class="" *ngFor="let attachment of prevProdVersion.attachments">
+                  <a href="{{attachmentBaseUrl}}{{attachment.name}}" target="_blank">
+                    <i
+                      class="{{ getFileExtension(attachment.name) }}"
+                      style="color: #5cb85c"
+                      aria-hidden="true"
+                    ></i
+                    > {{ attachment.name }}
+                  </a>
+                </div>
+                  
+              </td>
+            </tr>
+          </table>
+    </div>
+  </div>
+</div>
