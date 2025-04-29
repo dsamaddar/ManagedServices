@@ -74,6 +74,8 @@
               name="sku"
               class="form-control"
               [(ngModel)]="product.sku"
+              pattern="^\S*$"
+              (keydown.space)="$event.preventDefault()" 
             />
           </div>
         </div>
@@ -116,6 +118,8 @@
               name="version"
               class="form-control"
               [(ngModel)]="product.version"
+              pattern="^\S*$"
+              (keydown.space)="$event.preventDefault()" 
             />
           </div>
         </div>
@@ -128,6 +132,8 @@
               name="barcode"
               class="form-control"
               [(ngModel)]="product.barcode"
+              pattern="^\S*$"
+              (keydown.space)="$event.preventDefault()" 
             />
           </div>
         </div>
