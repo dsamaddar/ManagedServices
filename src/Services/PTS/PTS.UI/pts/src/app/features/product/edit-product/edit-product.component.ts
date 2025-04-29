@@ -22,6 +22,8 @@ import { ToastrUtils } from '../../../utils/toastr-utils';
 import Swal from 'sweetalert2';
 import { Attachment } from '../models/attachment.model';
 import { UpdateProductRequest } from '../models/edit-product.model';
+import { PackType } from '../../packtype/models/packtype.model';
+import { PacktypeService } from '../../packtype/services/packtype.service';
 
 @Component({
   selector: 'app-edit-product',
@@ -51,7 +53,7 @@ export class EditProductComponent implements OnInit, OnDestroy {
 
   // observable array
   categories$?: Observable<Category[]>;
-  ProductCode$?: Observable<ProductCode[]>;
+  packtypes$?: Observable<PackType[]>;
   cylinderCompanies$?: Observable<CylinderCompany[]>;
   printingCompanies$?: Observable<PrintingCompany[]>;
 
@@ -96,6 +98,7 @@ export class EditProductComponent implements OnInit, OnDestroy {
     private router: Router,
     private categoryService: CategoryService,
     private productCodeService: ProductCodeService,
+    private packTypeService: PacktypeService,
     private cylinderCompanyService: CylindercompanyService,
     private printingCompanyService: PrintingcompanyService,
     private datepipe: DatePipe,
@@ -176,7 +179,7 @@ export class EditProductComponent implements OnInit, OnDestroy {
           this.productService.getProductById(this.productId).subscribe({
             next: (response) => {
               this.product = response;
-              console.log(this.product.projectDate);
+              console.log(this.product);
             },
           });
         }
@@ -184,7 +187,7 @@ export class EditProductComponent implements OnInit, OnDestroy {
     });
 
     this.categories$ = this.categoryService.getAllCategories();
-    this.ProductCode$ = this.productCodeService.getAllProjects();
+    this.packtypes$ = this.packTypeService.getAllPackTypes();
     this.cylinderCompanies$ =
       this.cylinderCompanyService.getAllCylinderCompanies();
     this.printingCompanies$ =
@@ -210,7 +213,7 @@ export class EditProductComponent implements OnInit, OnDestroy {
   onFormSubmit() {
     if (
       this.product?.categoryId == 0 ||
-      this.product?.packtypeid == 0 ||
+      this.product?.packTypeId == 0 ||
       this.product?.cylinderCompanyId == 0 ||
       this.product?.printingCompanyId == 0
     ) {
@@ -223,7 +226,7 @@ export class EditProductComponent implements OnInit, OnDestroy {
 
     const updateProductRequest: UpdateProductRequest = {
       categoryid: this.product?.categoryId,
-      packtypeid: this.product?.packtypeid,
+      packtypeid: this.product?.packTypeId,
       brand: this.product?.brand,
       flavourtype: this.product?.flavourType,
       origin: this.product?.origin,

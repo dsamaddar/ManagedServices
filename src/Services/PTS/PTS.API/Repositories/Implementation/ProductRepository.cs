@@ -114,7 +114,7 @@ namespace PTS.API.Repositories.Implementation
             return await dbContext.Products
                 .Include(x => x.CylinderCompany)
                 .Include(x => x.PrintingCompany)
-                .Include(x => x.ProductCode)
+                .Include(x => x.PackType)
                 .Include(x => x.Category)
                 .Include(x => x.ProductVersions)
                     .ThenInclude(pv => pv.Attachments)
@@ -127,7 +127,7 @@ namespace PTS.API.Repositories.Implementation
             var products = dbContext.Products
                 .Include(x => x.CylinderCompany)
                 .Include(x => x.PrintingCompany)
-                .Include(x => x.ProductCode)
+                .Include(x => x.PackType)
                 .Include(x => x.Category)
                 .Include(x => x.ProductVersions)
                 .AsQueryable();

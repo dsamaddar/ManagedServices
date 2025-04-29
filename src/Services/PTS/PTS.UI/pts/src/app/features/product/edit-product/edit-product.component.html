@@ -107,15 +107,19 @@
       <div class="row">
         <div class="col-md-4">
           <div class="mt-2">
-            <label for="packtype" class="form-label">Pack Type</label>
-            <input
+            <label for="packTypeId" class="form-label">Pack Type</label>
+
+            <ng-select
               *ngIf="product"
-              type="text"
-              id="packtype"
-              name="packtype"
-              class="form-control"
-              [(ngModel)]="product.packType"
-            />
+              name="packTypeId"
+              [items]="packtypes$ | async"
+              bindLabel="name"
+              bindValue="id"
+              placeholder="Select Pack Type"
+              [(ngModel)]="product.packTypeId"
+              [searchable]="true"
+            >
+            </ng-select>
           </div>
         </div>
         <div class="col-md-4">

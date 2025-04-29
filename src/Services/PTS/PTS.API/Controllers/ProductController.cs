@@ -145,7 +145,7 @@ namespace PTS.API.Controllers
         // GET: {apiBaseUrl}/api/product/{id}
         [HttpGet]
         [Route("{id:int}")]
-        [Authorize(Roles = "READER,MANAGER,ADMIN")]
+        //[Authorize(Roles = "READER,MANAGER,ADMIN")]
         public async Task<IActionResult> GetProductById([FromRoute] int id)
         {
             // Get the product from the repository
@@ -171,6 +171,7 @@ namespace PTS.API.Controllers
                 ProjectDate = product.ProjectDate,
                 SKU = product.SKU,
                 Version = product.Version,
+                PackTypeId = product.PackTypeId,
                 ProductVersions = product.ProductVersions?.Select(x => new ProductVersionDto
                 {
                     Id = x.Id,
