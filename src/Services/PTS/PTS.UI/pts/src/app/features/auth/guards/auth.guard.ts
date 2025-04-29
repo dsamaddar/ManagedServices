@@ -29,7 +29,7 @@ export const authGuard: CanActivateFn = (route, state) => {
     }
     else {
       // token is still valid
-      if (user.roles.includes('ADMIN') || user.roles.includes('MANAGER')) {
+      if (user.roles.includes('ADMIN') || user.roles.includes('MANAGER') || user.roles.includes('READER')) {
         return true;
       } else {
         alert('unauthorized');

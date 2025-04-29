@@ -20,6 +20,9 @@ import { ForgotPasswordComponent } from './features/auth/forgot-password/forgot-
 import { ResetPasswordComponent } from './features/auth/reset-password/reset-password.component';
 import { PermissionControlComponent } from './features/auth/permission-control/permission-control.component';
 import { authGuard } from './features/auth/guards/auth.guard';
+import { PacktypeListComponent } from './features/packtype/packtype-list/packtype-list.component';
+import { AddPacktypeComponent } from './features/packtype/add-packtype/add-packtype.component';
+import { EditPacktypeComponent } from './features/packtype/edit-packtype/edit-packtype.component';
 
 export const routes: Routes = [
     {
@@ -68,18 +71,18 @@ export const routes: Routes = [
         canActivate: [authGuard]
     },
     {
-        path: 'admin/productcodes',
-        component: ProductCodeListComponent,
+        path: 'admin/packtype',
+        component: PacktypeListComponent,
         canActivate: [authGuard]
     },
     {
-        path: 'admin/productcodes/add',
-        component: AddProductCodeComponent,
+        path: 'admin/packtype/add',
+        component: AddPacktypeComponent,
         canActivate: [authGuard]
     },
     {
-        path: 'admin/productcodes/:id',
-        component: EditProductCodeComponent,
+        path: 'admin/packtype/:id',
+        component: EditPacktypeComponent,
         canActivate: [authGuard]
     },
     {

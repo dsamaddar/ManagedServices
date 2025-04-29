@@ -146,6 +146,7 @@ namespace PTS.API.Controllers
         // GET: {apiBaseUrl}/api/product/{id}
         [HttpGet]
         [Route("{id:int}")]
+        [Authorize(Roles = "READER,MANAGER,ADMIN")]
         public async Task<IActionResult> GetProductById([FromRoute] int id)
         {
             // Get the product from the repository
@@ -217,7 +218,7 @@ namespace PTS.API.Controllers
         // PUT: /api/product/{id}
         [HttpPut]
         [Route("{id:int}")]
-        [Authorize(Roles = "READER,MANAGER,ADMIN")]
+        [Authorize(Roles = "MANAGER,ADMIN")]
         public async Task<IActionResult> EditProduct([FromRoute] int id, UpdateProductRequestDto request)
         {
             // Convert DTO to Domain Model
@@ -311,7 +312,7 @@ namespace PTS.API.Controllers
         // GET: {apiBaseUrl}/api/product/count
         [HttpGet]
         [Route("count")]
-        //[Authorize(Roles = "READER,MANAGER,ADMIN")]
+        [Authorize(Roles = "READER,MANAGER,ADMIN")]
         public async Task<IActionResult> GetProductCount([FromQuery] string? query)
         {
             var count = await productRepository.GetCount(query);
