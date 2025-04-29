@@ -71,7 +71,7 @@ namespace PTS.API.Controllers
 
         // GET: /api/product?query=html
         [HttpGet]
-        [Authorize(Roles = "READER,MANAGER,ADMIN")]
+        //[Authorize(Roles = "READER,MANAGER,ADMIN")]
         public async Task<IActionResult> GetAllProducts(
             [FromQuery] string? query,
             [FromQuery] int? pageNumber,

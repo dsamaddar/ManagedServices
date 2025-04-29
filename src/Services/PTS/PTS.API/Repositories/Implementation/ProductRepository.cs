@@ -55,7 +55,7 @@ namespace PTS.API.Repositories.Implementation
             var products = dbContext.Products
                 .Include(x => x.CylinderCompany)
                 .Include(x => x.PrintingCompany)
-                .Include(x => x.ProductCode)
+                .Include(x => x.PackType)
                 .Include(x => x.Category)
                 .Include(x => x.ProductVersions)
                     .ThenInclude(pv => pv.Attachments)
@@ -73,9 +73,9 @@ namespace PTS.API.Repositories.Implementation
                             (x.FlavourType != null && x.FlavourType.Contains(query)) ||
                             (x.Origin != null && x.Origin.Contains(query)) ||
                             (x.SKU != null && x.SKU.Contains(query)) ||
+                            (x.ProductCode != null && x.ProductCode.Contains(query)) ||
                             (x.Version != null && x.Version.Contains(query)) ||
                             (x.Category != null && x.Category.Name != null && x.Category.Name.Contains(query)) ||
-                            (x.ProductCode != null && x.ProductCode.Contains(query)) ||
                             (x.PrintingCompany != null && x.PrintingCompany.Name != null && x.PrintingCompany.Name.Contains(query)) ||
                             (x.CylinderCompany != null && x.CylinderCompany.Name != null && x.CylinderCompany.Name.Contains(query)) ||
                             (x.PackType != null && x.PackType.Name != null && x.PackType.Name.Contains(query))
