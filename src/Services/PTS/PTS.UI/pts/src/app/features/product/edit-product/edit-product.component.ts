@@ -210,25 +210,25 @@ export class EditProductComponent implements OnInit, OnDestroy {
   onFormSubmit() {
     if (
       this.product?.categoryId == 0 ||
-      this.product?.productCodeId == 0 ||
+      this.product?.packtypeid == 0 ||
       this.product?.cylinderCompanyId == 0 ||
       this.product?.printingCompanyId == 0
     ) {
       //alert('Missing: Category/Project/Cylinder Company/Printing Company');
       ToastrUtils.showErrorToast(
-        'Missing: Category/Project/Cylinder Company/Printing Company'
+        'Missing: Category/Pack Type/Cylinder Company/Printing Company'
       );
       return;
     }
 
     const updateProductRequest: UpdateProductRequest = {
       categoryid: this.product?.categoryId,
-      productCodeId: this.product?.productCodeId,
+      packtypeid: this.product?.packtypeid,
       brand: this.product?.brand,
       flavourtype: this.product?.flavourType,
       origin: this.product?.origin,
       sku: this.product?.origin,
-      packtype: this.product?.packType,
+      productcode: this.product?.productcode,
       version: this.product?.version,
       projectdate: this.product?.projectDate,
       barcode: this.product?.barcode,

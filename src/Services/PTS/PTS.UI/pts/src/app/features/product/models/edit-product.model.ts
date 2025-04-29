@@ -1,11 +1,11 @@
 export interface UpdateProductRequest{
     categoryid?: number,
-    productCodeId?: number,
+    packtypeid?: number,
     brand?: string,
     flavourtype?: string,
     origin?: string,
     sku?: string,
-    packtype?:string,
+    productcode?: string,
     version?: string,
     projectdate?: Date,
     barcode?: string,

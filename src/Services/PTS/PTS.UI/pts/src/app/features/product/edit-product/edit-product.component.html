@@ -50,18 +50,15 @@
         </div>
         <div class="col-md-4">
           <div class="mt-3 form-group">
-            <label for="productCodeId" class="form-label">Product Code</label>
-            <ng-select
+            <label for="productcode" class="form-label">Product Code</label>
+            <input
               *ngIf="product"
-              name="productCodeId"
-              [items]="ProductCode$ | async"
-              bindLabel="name"
-              bindValue="id"
-              placeholder="Select Product Code"
-              [(ngModel)]="product.productCodeId"
-              [searchable]="true"
-            >
-            </ng-select>
+              type="text"
+              id="productcode"
+              name="productcode"
+              class="form-control"
+              [(ngModel)]="product.productcode"
+            />
           </div>
         </div>
       </div>

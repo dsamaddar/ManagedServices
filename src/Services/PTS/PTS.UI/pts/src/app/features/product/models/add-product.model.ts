@@ -1,16 +1,16 @@
 export interface AddProductRequest{
     id: number,
     categoryid: number,
-    productCodeId: number,
     brand: string,
     flavourtype: string,
     origin: string,
     sku: string,
-    packtype:string,
+    productcode: string,
     version: string,
     projectdate: Date,
     barcode: string,
     cylindercompanyid: number,
     printingcompanyid: number,
+    packtypeid: number,
     userId: string,
 }

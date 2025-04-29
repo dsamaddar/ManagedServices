@@ -32,6 +32,8 @@ import { ToastrUtils } from '../../../utils/toastr-utils';
 import { ProductVersion } from '../../productversion/models/productversion.model';
 import { ProductversionService } from '../../productversion/services/productversion.service';
 import { AddProductVersionRequest } from '../../productversion/models/add-productversion.model';
+import { PackType } from '../../packtype/models/packtype.model';
+import { PacktypeService } from '../../packtype/services/packtype.service';
 
 @Component({
   selector: 'app-add-product',
@@ -59,7 +61,7 @@ export class AddProductComponent implements OnInit, OnDestroy {
 
   // observable array
   categories$?: Observable<Category[]>;
-  productCode$?: Observable<ProductCode[]>;
+  packtypes$?: Observable<PackType[]>;
   cylinderCompanies$?: Observable<CylinderCompany[]>;
   printingCompanies$?: Observable<PrintingCompany[]>;
 
@@ -102,6 +104,7 @@ export class AddProductComponent implements OnInit, OnDestroy {
   constructor(
     private categoryService: CategoryService,
     private productCodeService: ProductCodeService,
+    private packTypeService: PacktypeService,
     private cylinderCompanyService: CylindercompanyService,
     private printingCompanyService: PrintingcompanyService,
     private productService: ProductService,
@@ -116,12 +119,12 @@ export class AddProductComponent implements OnInit, OnDestroy {
     this.product = {
       id: 0,
       categoryid: 0,
-      productCodeId: 0,
+      packtypeid: 0,
       brand: '',
       flavourtype: '',
       origin: '',
       sku: '',
-      packtype: '',
+      productcode: '',
       version: '',
       projectdate: myDate || '',
       barcode: '',
@@ -140,13 +143,13 @@ export class AddProductComponent implements OnInit, OnDestroy {
   }
 
   categoryid?: number;
-  productCodeId?: number;
+  packtypeid?: number;
   cylindercompanyid?: number;
   printingcompanyid?: number;
 
   ngOnInit(): void {
     this.categories$ = this.categoryService.getAllCategories();
-    this.productCode$ = this.productCodeService.getAllProjects();
+    this.packtypes$ = this.packTypeService.getAllPackTypes();
     this.cylinderCompanies$ =
       this.cylinderCompanyService.getAllCylinderCompanies();
     this.printingCompanies$ =
@@ -190,13 +193,13 @@ export class AddProductComponent implements OnInit, OnDestroy {
   onFormSubmit() {
     this.product.userId = String(localStorage.getItem('user-id'));
     this.product.categoryid = this.categoryid || 0;
-    this.product.productCodeId = this.productCodeId || 0;
+    this.product.packtypeid = this.packtypeid || 0;
     this.product.cylindercompanyid = this.cylindercompanyid || 0;
     this.product.printingcompanyid = this.printingcompanyid || 0;
 
     if (
       this.product.categoryid == 0 ||
-      this.product.productCodeId == 0 ||
+      this.product.packtypeid == 0 ||
       this.product.cylindercompanyid == 0 ||
       this.product.printingcompanyid == 0
     ) {

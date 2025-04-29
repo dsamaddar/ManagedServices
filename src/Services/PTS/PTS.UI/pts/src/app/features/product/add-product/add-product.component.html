@@ -41,17 +41,14 @@
         </div>
         <div class="col-md-4">
           <div class="mt-3 form-group">
-            <label for="productcodeid" class="form-label">Product Code</label>
-            <ng-select
-              name="productcodeid"
-              [items]="productCode$ | async"
-              bindLabel="name"
-              bindValue="id"
-              placeholder="Select Product Code"
-              [(ngModel)]="productCodeId"
-              [searchable]="true"
-            >
-            </ng-select>
+            <label for="productcode" class="form-label">Product Code</label>
+            <input
+              type="text"
+              id="productcode"
+              name="productcode"
+              class="form-control"
+              [(ngModel)]="product.productcode"
+            />
           </div>
         </div>
       </div>
@@ -97,14 +94,17 @@
       <div class="row">
         <div class="col-md-4">
           <div class="mt-2">
-            <label for="packtype" class="form-label">Pack Type</label>
-            <input
-              type="text"
-              id="packtype"
-              name="packtype"
-              class="form-control"
-              [(ngModel)]="product.packtype"
-            />
+            <label for="packtypeid" class="form-label">Pack Type</label>
+            <ng-select
+              name="packtypeid"
+              [items]="packtypes$ | async"
+              bindLabel="name"
+              bindValue="id"
+              placeholder="Select Pack Type"
+              [(ngModel)]="packtypeid"
+              [searchable]="true"
+            >
+            </ng-select>
           </div>
         </div>
         <div class="col-md-4">
