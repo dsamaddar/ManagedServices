@@ -14,7 +14,7 @@ export interface AllProduct{
     flavourType: string,
     origin: string,
     sku: string,
-    productcode: string,
+    productCode: string,
     version: string,
     projectDate: Date,
     barcode: string,
