@@ -6,13 +6,14 @@ namespace PTS.API.Models.DTO
     public class CreateProductRequestDto
     {
         public int? CategoryId { get; set; }
-        public int? ProductCodeId { get; set; }
         public string? Brand { get; set; }     
         public string? FlavourType { get; set; }
 
         public string? Origin { get; set; }
 
         public string? SKU { get; set; }
+
+        public string? ProductCode { get; set; }
 
         public string? PackType { get; set; }
         public string? Version { get; set; }

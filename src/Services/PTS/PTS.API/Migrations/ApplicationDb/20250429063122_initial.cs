@@ -72,22 +72,6 @@ namespace PTS.API.Migrations.ApplicationDb
                 });
 
             migrationBuilder.CreateTable(
-                name: "ProductCodes",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    Code = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    Description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
-                    UserId = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ProductCodes", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Products",
                 columns: table => new
                 {
@@ -98,12 +82,12 @@ namespace PTS.API.Migrations.ApplicationDb
                     FlavourType = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     Origin = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     SKU = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    ProductCode = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     Version = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     ProjectDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Barcode = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     CylinderCompanyId = table.Column<int>(type: "int", nullable: true),
                     PrintingCompanyId = table.Column<int>(type: "int", nullable: true),
-                    ProductCodeId = table.Column<int>(type: "int", nullable: true),
                     PackTypeId = table.Column<int>(type: "int", nullable: true),
                     UserId = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
@@ -129,11 +113,6 @@ namespace PTS.API.Migrations.ApplicationDb
                         name: "FK_Products_PrintingCompanies_PrintingCompanyId",
                         column: x => x.PrintingCompanyId,
                         principalTable: "PrintingCompanies",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Products_ProductCodes_ProductCodeId",
-                        column: x => x.ProductCodeId,
-                        principalTable: "ProductCodes",
                         principalColumn: "Id");
                 });
 
@@ -216,13 +195,6 @@ namespace PTS.API.Migrations.ApplicationDb
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProductCodes_Name",
-                table: "ProductCodes",
-                column: "Name",
-                unique: true,
-                filter: "[Name] IS NOT NULL");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Products_CategoryId",
                 table: "Products",
                 column: "CategoryId");
@@ -241,11 +213,6 @@ namespace PTS.API.Migrations.ApplicationDb
                 name: "IX_Products_PrintingCompanyId",
                 table: "Products",
                 column: "PrintingCompanyId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Products_ProductCodeId",
-                table: "Products",
-                column: "ProductCodeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ProductVersions_ProductId",
@@ -276,9 +243,6 @@ namespace PTS.API.Migrations.ApplicationDb
 
             migrationBuilder.DropTable(
                 name: "PrintingCompanies");
-
-            migrationBuilder.DropTable(
-                name: "ProductCodes");
         }
     }
 }

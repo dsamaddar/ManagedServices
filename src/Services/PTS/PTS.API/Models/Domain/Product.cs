@@ -54,10 +54,6 @@ namespace PTS.API.Models.Domain
         public int? PrintingCompanyId { get; set; }
 
         [Column(Order = 12)]
-        [ForeignKey("ProductCode")]
-        public int? ProductCodeId { get; set; }
-
-        [Column(Order = 13)]
         [ForeignKey("PackType")]
         public int? PackTypeId { get; set; }
 

@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PTS.API.Models.Domain;
+using System.Reflection.Emit;
+using System.Xml;
 
 namespace PTS.API.Data
 {
@@ -11,10 +13,10 @@ namespace PTS.API.Data
 
         public DbSet<Category> Categories { get; set; }
 
-        public DbSet<ProductCode> ProductCodes { get; set; }
-
         public DbSet<Attachment> Attachments { get; set; }
         public DbSet<Product> Products { get; set; }
+
+        public DbSet<ProductCode> ProductCodes { get; set; }
 
         public DbSet<CylinderCompany> CylinderCompanies { get; set; }
         public DbSet<PrintingCompany> PrintingCompanies { get; set; }
@@ -25,11 +27,9 @@ namespace PTS.API.Data
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder.Entity<Category>()
-                .HasIndex(u => u.Name)
-                .IsUnique(true);
+            builder.Ignore<ProductCode>();
 
-            builder.Entity<ProductCode>()
+            builder.Entity<Category>()
                 .HasIndex(u => u.Name)
                 .IsUnique(true);
 

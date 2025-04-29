@@ -31,7 +31,7 @@ namespace PTS.API.Controllers
             var product = new Product
             {
                 CategoryId = request.CategoryId,
-                ProductCodeId = request.ProductCodeId,
+                ProductCode = request.ProductCode,
                 Brand = request.Brand,
                 FlavourType = request.FlavourType,
                 Origin = request.Origin,
@@ -224,11 +224,11 @@ namespace PTS.API.Controllers
             {
                 Id = id,
                 CategoryId = request.CategoryId,
-                ProductCodeId = request.ProductCodeId,
                 Brand= request.Brand,
                 FlavourType = request.FlavourType,
                 Origin = request.Origin,
                 SKU = request.SKU,
+                ProductCode =request.ProductCode,
                 Version = request.Version,
                 ProjectDate = request.ProjectDate,
                 Barcode = request.Barcode,
