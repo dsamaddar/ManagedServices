@@ -35,17 +35,17 @@ export class PacktypeService {
 
   updatePackType(
     id: number,
-    updateCategoryRequest: UpdatePackTypeRequest
+    updatePackTypeRequest: UpdatePackTypeRequest
   ): Observable<PackType> {
     return this.http.put<PackType>(
       `${environment.apiBaseUrl}/api/packtype/${id}`,
-      updateCategoryRequest
+      updatePackTypeRequest
     );
   }
 
-  deleteCategory(id: number): Observable<PackType> {
+  deletePackType(id: number): Observable<PackType> {
     return this.http.delete<PackType>(
-      `${environment.apiBaseUrl}/api/Categories/${id}`
+      `${environment.apiBaseUrl}/api/packtype/${id}`
     );
   }
 }

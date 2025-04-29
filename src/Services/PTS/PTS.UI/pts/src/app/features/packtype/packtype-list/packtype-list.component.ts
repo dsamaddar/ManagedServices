@@ -11,25 +11,23 @@ import { ToastrUtils } from '../../../utils/toastr-utils';
   selector: 'app-packtype-list',
   imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './packtype-list.component.html',
-  styleUrl: './packtype-list.component.css'
+  styleUrl: './packtype-list.component.css',
 })
 export class PacktypeListComponent implements OnInit {
-
   packtypes$?: Observable<PackType[]>;
   private listPackTypeSubscription?: Subscription;
 
   constructor(
     private packTypeSerivce: PacktypeService,
-    private router: Router,
+    private router: Router
   ) {}
-  
+
   ngOnInit(): void {
     this.packtypes$ = this.packTypeSerivce.getAllPackTypes().pipe(
-          catchError((error) => {
-            ToastrUtils.showErrorToast('Failed to load Packtypes');
-            return of([]);
-          })
-        );
+      catchError((error) => {
+        ToastrUtils.showErrorToast('Failed to load Packtypes');
+        return of([]);
+      })
+    );
   }
-
 }
