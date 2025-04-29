@@ -13,7 +13,7 @@
     <div class="mt-2">
       <div class="row">
         <div class="col-md-4">
-          <div class="mt-3 form-group">
+          <div class="mt-1 form-group">
             <label for="categoryid" class="form-label">Category</label>
             <ng-select
               name="categoryid"
@@ -28,7 +28,7 @@
           </div>
         </div>
         <div class="col-md-4">
-          <div class="mt-3 form-group">
+          <div class="mt-1 form-group">
             <label for="brand" class="form-label">Brand</label>
             <input
               type="text"
@@ -40,21 +40,7 @@
           </div>
         </div>
         <div class="col-md-4">
-          <div class="mt-3 form-group">
-            <label for="productcode" class="form-label">Product Code</label>
-            <input
-              type="text"
-              id="productcode"
-              name="productcode"
-              class="form-control"
-              [(ngModel)]="product.productcode"
-            />
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-4">
-          <div class="mt-2 form-group">
+          <div class="mt-1 form-group">
             <label for="flavourtype" class="form-label">Flavour</label>
             <input
               type="text"
@@ -65,8 +51,10 @@
             />
           </div>
         </div>
+      </div>
+      <div class="row">
         <div class="col-md-4">
-          <div class="mt-2 form-group">
+          <div class="mt-1 form-group">
             <label for="origin" class="form-label">Origin</label>
             <input
               type="text"
@@ -78,7 +66,7 @@
           </div>
         </div>
         <div class="col-md-4">
-          <div class="mt-2">
+          <div class="mt-1 form-group">
             <label for="sku" class="form-label">SKU</label>
             <input
               type="text"
@@ -89,11 +77,8 @@
             />
           </div>
         </div>
-      </div>
-
-      <div class="row">
         <div class="col-md-4">
-          <div class="mt-2">
+          <div class="mt-1 form-group">
             <label for="packtypeid" class="form-label">Pack Type</label>
             <ng-select
               name="packtypeid"
@@ -107,8 +92,23 @@
             </ng-select>
           </div>
         </div>
+      </div>
+
+      <div class="row">
         <div class="col-md-4">
-          <div class="mt-2">
+          <div class="mt-1 form-group">
+            <label for="productcode" class="form-label">Product Code</label>
+            <input
+              type="text"
+              id="productcode"
+              name="productcode"
+              class="form-control"
+              [(ngModel)]="product.productcode"
+            />
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="mt-1 form-group">
             <label for="version" class="form-label">Version</label>
             <input
               type="text"
@@ -120,7 +120,22 @@
           </div>
         </div>
         <div class="col-md-4">
-          <div class="mt-2">
+          <div class="mt-1 form-group">
+            <label for="barcode" class="form-label">Barcode</label>
+            <input
+              type="text"
+              id="barcode"
+              name="barcode"
+              class="form-control"
+              [(ngModel)]="product.barcode"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-4">
+          <div class="mt-1 form-group">
             <label for="projectdate" class="form-label">Project Date</label>
             <input
               type="date"
@@ -132,40 +147,9 @@
             />
           </div>
         </div>
-      </div>
 
-      <div class="row">
         <div class="col-md-4">
-          <div class="mt-2">
-            <label for="barcode" class="form-label">Barcode</label>
-            <input
-              type="text"
-              id="barcode"
-              name="barcode"
-              class="form-control"
-              [(ngModel)]="product.barcode"
-            />
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="mt-2">
-            <label for="printingcompanyid" class="form-label"
-              >Printing Company</label
-            >
-            <ng-select
-              name="printingcompanyid"
-              [items]="printingCompanies$ | async"
-              bindLabel="name"
-              bindValue="id"
-              placeholder="Select Printing Company"
-              [(ngModel)]="printingcompanyid"
-              [searchable]="true"
-            >
-            </ng-select>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="mt-2">
+          <div class="mt-1 form-group">
             <label for="cylindercompanyid" class="form-label"
               >Cylinder Company</label
             >
@@ -176,6 +160,23 @@
               bindValue="id"
               placeholder="Select Cylinder Company"
               [(ngModel)]="cylindercompanyid"
+              [searchable]="true"
+            >
+            </ng-select>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="mt-1 form-group">
+            <label for="printingcompanyid" class="form-label"
+              >Printing Company</label
+            >
+            <ng-select
+              name="printingcompanyid"
+              [items]="printingCompanies$ | async"
+              bindLabel="name"
+              bindValue="id"
+              placeholder="Select Printing Company"
+              [(ngModel)]="printingcompanyid"
               [searchable]="true"
             >
             </ng-select>
