@@ -79,6 +79,36 @@ namespace PTS.API.Controllers
             return Ok(response);
         }
 
+        [HttpGet("showprodversionbyprodid/{productId:int}")]
+        //[Authorize(Roles = "READER,MANAGER,ADMIN")]
+        public async Task<IActionResult> ShowProdVersionbyprodId([FromRoute] int productId)
+        {
+            var productVersions = await productVersionRepository.GetProductVersionsByProductId(productId);
+
+            if(productVersions is null)
+            {
+                return NotFound();
+            }
+
+
+            // Map Domain model to DTO
+            var response = new List<ProductVersionDto>();
+            foreach (var productVersion in productVersions)
+            {
+                response.Add(new ProductVersionDto
+                {
+                    Id = productVersion.Id,
+                    Version = productVersion.Version,
+                    VersionDate = productVersion.VersionDate,
+                    Description = productVersion.Description,
+                    ProductId = productVersion.ProductId,
+                    UserId = productVersion.UserId,
+                });
+            }
+
+            return Ok(response);
+        }
+
         //  GET: /api/productversion/showproductversiondetail/{id}
         [HttpGet("showproductversiondetail/{id:int}")]
         [Authorize(Roles = "READER,MANAGER,ADMIN")]
