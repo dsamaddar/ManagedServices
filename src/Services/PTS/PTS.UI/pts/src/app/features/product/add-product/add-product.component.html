@@ -34,7 +34,7 @@
               type="text"
               id="brand"
               name="brand"
-              class="form-control"
+              class="form-control uppercase-only"
               [(ngModel)]="product.brand"
             />
           </div>
@@ -46,7 +46,7 @@
               type="text"
               id="flavourtype"
               name="flavourtype"
-              class="form-control"
+              class="form-control uppercase-only"
               [(ngModel)]="product.flavourtype"
             />
           </div>
@@ -60,7 +60,7 @@
               type="text"
               id="origin"
               name="origin"
-              class="form-control"
+              class="form-control uppercase-only"
               [(ngModel)]="product.origin"
             />
           </div>
@@ -72,7 +72,7 @@
               type="text"
               id="sku"
               name="sku"
-              class="form-control"
+              class="form-control uppercase-only"
               [(ngModel)]="product.sku"
               pattern="^\S*$"
               (keydown.space)="$event.preventDefault()" 
@@ -104,8 +104,9 @@
               type="text"
               id="productcode"
               name="productcode"
-              class="form-control"
+              class="form-control uppercase-only"
               [(ngModel)]="product.productcode"
+              (keydown.space)="$event.preventDefault()" 
             />
           </div>
         </div>
@@ -116,7 +117,7 @@
               type="text"
               id="version"
               name="version"
-              class="form-control"
+              class="form-control uppercase-only"
               [(ngModel)]="product.version"
               pattern="^\S*$"
               (keydown.space)="$event.preventDefault()" 
@@ -130,7 +131,7 @@
               type="text"
               id="barcode"
               name="barcode"
-              class="form-control"
+              class="form-control uppercase-only"
               [(ngModel)]="product.barcode"
               pattern="^\S*$"
               (keydown.space)="$event.preventDefault()" 

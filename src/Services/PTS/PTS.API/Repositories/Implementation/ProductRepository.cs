@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure.Internal;
 using PTS.API.Data;
 using PTS.API.Models.Domain;
@@ -165,6 +166,47 @@ namespace PTS.API.Repositories.Implementation
             }
 
             return null;
+        }
+
+        public async Task<IEnumerable<string>> GetSuggestionsBrand(string query)
+        {
+            if (string.IsNullOrWhiteSpace(query))
+                return new List<string>();
+
+            var results = await dbContext.Products
+                .Where(f => 
+                    (f.Brand != null && f.Brand.Contains(query)))
+                .OrderBy(f => f.Brand)
+                .Select(f => f.Brand!) //null-forgiving operator (!)
+                .Take(10)
+                .ToListAsync();
+
+            return results;
+        }
+
+        public Task<IEnumerable<string>> GetSuggestionsFlavourType(string query)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<string>> GetSuggestionsOrigin(string query)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<string>> GetSuggestionsSKU(string query)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<string>> GetSuggestionsProductCode(string query)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<string>> GetSuggestionsBarCode(string query)
+        {
+            throw new NotImplementedException();
         }
     }
 }

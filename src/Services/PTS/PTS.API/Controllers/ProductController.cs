@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using PTS.API.Models.Domain;
 using PTS.API.Models.DTO;
 using PTS.API.Repositories.Implementation;
@@ -319,5 +320,18 @@ namespace PTS.API.Controllers
             return Ok(count);
         }
 
+        // GET {apiBaseUrl}/api/suggestions? search = app
+        [HttpGet]
+        [Route("suggestions")]
+        //[Authorize(Roles = "READER,MANAGER,ADMIN")]
+        public async Task<ActionResult> GetSuggestionsBrand([FromQuery] string? query)
+        {
+            if (string.IsNullOrWhiteSpace(query))
+                return Ok(null);
+
+            var results = await productRepository.GetSuggestionsBrand(query);
+
+            return Ok(results);
+        }
     }
 }

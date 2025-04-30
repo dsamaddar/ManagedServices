@@ -178,3 +178,28 @@ openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout nginx/cert/server.ke
 14. Restrict Domain in Registration. (done)
 15. Upload Progress Bar in Add product Version (done)
 16. Show Product Modal while delete -> bug -> no alternate found
+
+
+### PHASE-3 : Requirements
+Add Product Version
+	-- version code must be unique
+	-- version code Add product also must be unique
+	-- product code (space less)
+	-- barcode (if exists show warning: already enlisted)
+	-- all input fields must be capitalized.
+	-- suggest already existing field.
+Dashboard
+	- Product Page first landing (after login)
+	- 
+Admin (panel)
+	- Not for managers only admin
+ 
+product Page
+	- managers 
+		- can't delete product version		
+		- can edit product
+ 
+Report
+	- excel
+	- Filter Menu
+		- drop down wise view
