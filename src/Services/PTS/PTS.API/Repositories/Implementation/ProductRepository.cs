@@ -184,29 +184,84 @@ namespace PTS.API.Repositories.Implementation
             return results;
         }
 
-        public Task<IEnumerable<string>> GetSuggestionsFlavourType(string query)
+        public async Task<IEnumerable<string>> GetSuggestionsFlavourType(string query)
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrWhiteSpace(query))
+                return new List<string>();
+
+            var results = await dbContext.Products
+                .Where(f =>
+                    (f.FlavourType != null && f.FlavourType.Contains(query)))
+                .OrderBy(f => f.FlavourType)
+                .Select(f => f.FlavourType!) //null-forgiving operator (!)
+                .Take(10)
+                .ToListAsync();
+
+            return results;
         }
 
-        public Task<IEnumerable<string>> GetSuggestionsOrigin(string query)
+        public async Task<IEnumerable<string>> GetSuggestionsOrigin(string query)
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrWhiteSpace(query))
+                return new List<string>();
+
+            var results = await dbContext.Products
+                .Where(f =>
+                    (f.Origin != null && f.Origin.Contains(query)))
+                .OrderBy(f => f.Origin)
+                .Select(f => f.Origin!) //null-forgiving operator (!)
+                .Take(10)
+                .ToListAsync();
+
+            return results;
         }
 
-        public Task<IEnumerable<string>> GetSuggestionsSKU(string query)
+        public async Task<IEnumerable<string>> GetSuggestionsSKU(string query)
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrWhiteSpace(query))
+                return new List<string>();
+
+            var results = await dbContext.Products
+                .Where(f =>
+                    (f.SKU != null && f.SKU.Contains(query)))
+                .OrderBy(f => f.SKU)
+                .Select(f => f.SKU!) //null-forgiving operator (!)
+                .Take(10)
+                .ToListAsync();
+
+            return results;
         }
 
-        public Task<IEnumerable<string>> GetSuggestionsProductCode(string query)
+        public async Task<IEnumerable<string>> GetSuggestionsProductCode(string query)
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrWhiteSpace(query))
+                return new List<string>();
+
+            var results = await dbContext.Products
+                .Where(f =>
+                    (f.ProductCode != null && f.ProductCode.Contains(query)))
+                .OrderBy(f => f.ProductCode)
+                .Select(f => f.ProductCode!) //null-forgiving operator (!)
+                .Take(10)
+                .ToListAsync();
+
+            return results;
         }
 
-        public Task<IEnumerable<string>> GetSuggestionsBarCode(string query)
+        public async Task<IEnumerable<string>> GetSuggestionsBarCode(string query)
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrWhiteSpace(query))
+                return new List<string>();
+
+            var results = await dbContext.Products
+                .Where(f =>
+                    (f.Barcode != null && f.Barcode.Contains(query)))
+                .OrderBy(f => f.Barcode)
+                .Select(f => f.Barcode!) //null-forgiving operator (!)
+                .Take(10)
+                .ToListAsync();
+
+            return results;
         }
     }
 }

@@ -322,7 +322,7 @@ namespace PTS.API.Controllers
 
         // GET {apiBaseUrl}/api/suggestions? search = app
         [HttpGet]
-        [Route("suggestions")]
+        [Route("suggestions-brand")]
         //[Authorize(Roles = "READER,MANAGER,ADMIN")]
         public async Task<ActionResult> GetSuggestionsBrand([FromQuery] string? query)
         {
@@ -330,6 +330,71 @@ namespace PTS.API.Controllers
                 return Ok(null);
 
             var results = await productRepository.GetSuggestionsBrand(query);
+
+            return Ok(results);
+        }
+
+        [HttpGet]
+        [Route("suggestions-flavourtype")]
+        //[Authorize(Roles = "READER,MANAGER,ADMIN")]
+        public async Task<ActionResult> GetSuggestionsFlavourType([FromQuery] string? query)
+        {
+            if (string.IsNullOrWhiteSpace(query))
+                return Ok(null);
+
+            var results = await productRepository.GetSuggestionsFlavourType(query);
+
+            return Ok(results);
+        }
+
+        [HttpGet]
+        [Route("suggestions-origin")]
+        //[Authorize(Roles = "READER,MANAGER,ADMIN")]
+        public async Task<ActionResult> GetSuggestionsOrigin([FromQuery] string? query)
+        {
+            if (string.IsNullOrWhiteSpace(query))
+                return Ok(null);
+
+            var results = await productRepository.GetSuggestionsOrigin(query);
+
+            return Ok(results);
+        }
+
+        [HttpGet]
+        [Route("suggestions-sku")]
+        //[Authorize(Roles = "READER,MANAGER,ADMIN")]
+        public async Task<ActionResult> GetSuggestionsSKU([FromQuery] string? query)
+        {
+            if (string.IsNullOrWhiteSpace(query))
+                return Ok(null);
+
+            var results = await productRepository.GetSuggestionsSKU(query);
+
+            return Ok(results);
+        }
+
+        [HttpGet]
+        [Route("suggestions-productcode")]
+        //[Authorize(Roles = "READER,MANAGER,ADMIN")]
+        public async Task<ActionResult> GetSuggestionsProductCode([FromQuery] string? query)
+        {
+            if (string.IsNullOrWhiteSpace(query))
+                return Ok(null);
+
+            var results = await productRepository.GetSuggestionsProductCode(query);
+
+            return Ok(results);
+        }
+
+        [HttpGet]
+        [Route("suggestions-barcode")]
+        //[Authorize(Roles = "READER,MANAGER,ADMIN")]
+        public async Task<ActionResult> GetSuggestionsBarCode([FromQuery] string? query)
+        {
+            if (string.IsNullOrWhiteSpace(query))
+                return Ok(null);
+
+            var results = await productRepository.GetSuggestionsBarCode(query);
 
             return Ok(results);
         }

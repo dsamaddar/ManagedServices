@@ -74,7 +74,7 @@ export class LoginComponent {
         });
 
         // Redirect back to Home Page
-        this.router.navigateByUrl('/');
+        this.router.navigateByUrl('/admin/products');
       },
       error: (error: HttpErrorResponse) => {
         this.showErrorToast(error);

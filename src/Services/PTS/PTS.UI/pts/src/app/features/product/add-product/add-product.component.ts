@@ -34,6 +34,7 @@ import { ProductversionService } from '../../productversion/services/productvers
 import { AddProductVersionRequest } from '../../productversion/models/add-productversion.model';
 import { PackType } from '../../packtype/models/packtype.model';
 import { PacktypeService } from '../../packtype/services/packtype.service';
+import { SuggestionService } from '../services/suggestion.service';
 
 @Component({
   selector: 'app-add-product',
@@ -58,6 +59,14 @@ export class AddProductComponent implements OnInit, OnDestroy {
   productVersion: AddProductVersionRequest;
   selectedFiles: File[] = [];
   productVersionId: number = 0;
+
+  suggestions_brand: string[] = [];
+  suggestions_flavourtype: string[] = [];
+  suggestions_origin: string[] = [];
+  suggestions_sku: string[] = [];
+  suggestions_productcode: string[] = [];
+  suggestions_version: string[] = [];
+  suggestions_barcode: string[] = [];
 
   // observable array
   categories$?: Observable<Category[]>;
@@ -109,6 +118,7 @@ export class AddProductComponent implements OnInit, OnDestroy {
     private printingCompanyService: PrintingcompanyService,
     private productService: ProductService,
     private productVersionService: ProductversionService,
+    private suggestionService: SuggestionService,
     private router: Router,
     private datepipe: DatePipe,
     private http: HttpClient
