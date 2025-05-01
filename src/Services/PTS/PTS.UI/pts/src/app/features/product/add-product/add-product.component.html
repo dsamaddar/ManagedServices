@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container-fluid">
   <h5 class="mt-3">Add Product</h5>
   <div class="d-flex justify-content-end mt-3">
     <a [routerLink]="['/admin/products']" class="btn btn-success"
@@ -36,6 +36,7 @@
               name="brand"
               class="form-control uppercase-only"
               [(ngModel)]="product.brand"
+              (ngModelChange)="product.brand = product.brand.toUpperCase()" 
             />
           </div>
         </div>
@@ -48,6 +49,7 @@
               name="flavourtype"
               class="form-control uppercase-only"
               [(ngModel)]="product.flavourtype"
+              (ngModelChange)="product.flavourtype = product.flavourtype.toUpperCase()"
             />
           </div>
         </div>
@@ -62,6 +64,7 @@
               name="origin"
               class="form-control uppercase-only"
               [(ngModel)]="product.origin"
+              (ngModelChange)="product.origin = product.origin.toUpperCase()"
             />
           </div>
         </div>
@@ -75,7 +78,8 @@
               class="form-control uppercase-only"
               [(ngModel)]="product.sku"
               pattern="^\S*$"
-              (keydown.space)="$event.preventDefault()" 
+              (keydown.space)="$event.preventDefault()"
+              (ngModelChange)="product.sku = product.sku.toUpperCase()"
             />
           </div>
         </div>
@@ -106,7 +110,8 @@
               name="productcode"
               class="form-control uppercase-only"
               [(ngModel)]="product.productcode"
-              (keydown.space)="$event.preventDefault()" 
+              (keydown.space)="$event.preventDefault()"
+              (ngModelChange)="product.productcode = product.productcode.toUpperCase()"
             />
           </div>
         </div>
@@ -120,7 +125,8 @@
               class="form-control uppercase-only"
               [(ngModel)]="product.version"
               pattern="^\S*$"
-              (keydown.space)="$event.preventDefault()" 
+              (keydown.space)="$event.preventDefault()"
+              (ngModelChange)="product.version = product.version.toUpperCase()"
             />
           </div>
         </div>
@@ -134,7 +140,8 @@
               class="form-control uppercase-only"
               [(ngModel)]="product.barcode"
               pattern="^\S*$"
-              (keydown.space)="$event.preventDefault()" 
+              (keydown.space)="$event.preventDefault()"
+              (ngModelChange)="product.barcode = product.barcode.toUpperCase()"
             />
           </div>
         </div>
