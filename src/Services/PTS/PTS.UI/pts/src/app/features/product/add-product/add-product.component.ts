@@ -1,17 +1,19 @@
 import { CommonModule, DatePipe } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import {
   MatDatepicker,
   MatDatepickerModule,
 } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatSelectModule } from '@angular/material/select';
 import { Router, RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { CategoryService } from '../../category/services/category.service';
 import { Category } from '../../category/models/category.model';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subject, Subscription } from 'rxjs';
 import { AddCategoryRequest } from '../../category/models/add-category-request.model';
 import { CylinderCompany } from '../../cylinderCompany/models/CylinderCompany.model';
 import { PrintingCompany } from '../../printingCompany/models/printingcompany.model';
@@ -20,7 +22,7 @@ import { PrintingcompanyService } from '../../printingCompany/services/printingc
 import { NumericLiteral } from 'typescript';
 import { Product } from '../models/product.model';
 import { AddProductRequest } from '../models/add-product.model';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClient, HttpEvent, HttpEventType } from '@angular/common/http';
 import { MatIcon } from '@angular/material/icon';
 import { FileSelectorComponent } from '../../../shared/components/file-selector/file-selector.component';
@@ -43,6 +45,8 @@ import { SuggestionService } from '../services/suggestion.service';
     MatSelectModule,
     MatFormFieldModule,
     MatInputModule,
+    MatAutocompleteModule,
+    ReactiveFormsModule,
     CommonModule,
     RouterModule,
     MatDatepickerModule,
@@ -77,6 +81,10 @@ export class AddProductComponent implements OnInit, OnDestroy {
   private addProductSubscription?: Subscription;
   private addProductVersionSubscription?: Subscription;
   private uploadAttachmentSubscription?: Subscription;
+
+  // search subjects
+  private searchBrands = new Subject<string>();
+  private searchFlavourTypes = new Subject<string>();
 
   iconList = [
     // array of icon class list based on type
@@ -164,12 +172,49 @@ export class AddProductComponent implements OnInit, OnDestroy {
       this.cylinderCompanyService.getAllCylinderCompanies();
     this.printingCompanies$ =
       this.printingCompanyService.getAllPrintingCompanies();
+
+    // load brands
+    this.searchBrands.pipe(
+      debounceTime(300),
+      distinctUntilChanged(),
+      switchMap((term: string) => this.suggestionService.getSuggestionsBrand(term))
+    ).subscribe(data => {
+      this.suggestions_brand = data;
+    });
+
+    // load flavour types
+    this.searchFlavourTypes.pipe(
+      debounceTime(300),
+      distinctUntilChanged(),
+      switchMap((term: string) => this.suggestionService.getSuggestionsFlavourType(term))
+    ).subscribe(data => {
+      this.suggestions_brand = data;
+    });
+
+  }
+
+
+
+  onSearchChangeBrand(value: string) {
+    if (value && value.length >= 1) {
+      this.searchBrands.next(value);
+    } else {
+      this.suggestions_brand = [];
+    }
+  }
+
+  onSearchChangeFlavourType(value: string) {
+    if (value && value.length >= 1) {
+      this.searchFlavourTypes.next(value);
+    } else {
+      this.suggestions_flavourtype = [];
+    }
   }
 
   get projectDateString(): string {
     return this.product.projectdate.toISOString().split('T')[0];
   }
-  
+
   onProjectDateChange(value: string) {
     this.product.projectdate = new Date(value);
   }
