@@ -177,7 +177,7 @@ namespace PTS.API.Repositories.Implementation
                 .Where(f => 
                     (f.Brand != null && EF.Functions.Like(f.Brand, $"%{query}%")))
                 .OrderBy(f => f.Brand)
-                .Select(f => f.Brand!) //null-forgiving operator (!)
+                .Select(f => f.Brand!.ToUpper()) //null-forgiving operator (!)
                 .Distinct()
                 .Take(10)
                 .ToListAsync();

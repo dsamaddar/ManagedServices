@@ -18,9 +18,9 @@
           <div class="mt-1 form-group">
             <mat-form-field appearance="outline" class="full-width">
               <label for="brand" class="form-label">Brand</label>
-              <input matInput [(ngModel)]="product.brand" [matAutocomplete]="auto" placeholder="Pick a Brand"
+              <input matInput [(ngModel)]="product.brand" [matAutocomplete]="autoBrand" placeholder="Pick a Brand"
                 name="brand" class="form-control" (ngModelChange)="onSearchChangeBrand($event)"/>
-              <mat-autocomplete #auto="matAutocomplete">
+              <mat-autocomplete #autoBrand="matAutocomplete">
                 <mat-option *ngFor="let brand of suggestions_brand" [value]="brand">
                   {{ brand }}
                 </mat-option>
@@ -30,19 +30,33 @@
         </div>
         <div class="col-md-4">
           <div class="mt-1 form-group">
-            <label for="flavourtype" class="form-label">Flavour</label>
-            <input type="text" id="flavourtype" name="flavourtype" class="form-control uppercase-only"
-              [(ngModel)]="product.flavourtype"
-              (ngModelChange)="product.flavourtype = product.flavourtype.toUpperCase()" />
+            <mat-form-field appearance="outline" class="full-width">
+              <label for="flavourtype" class="form-label">Flavour</label>
+              <input matInput [(ngModel)]="product.flavourtype" [matAutocomplete]="autoFlavourType" placeholder=""
+                name="flavourtype" class="form-control" (ngModelChange)="onSearchChangeFlavourType($event)"/>
+              <mat-autocomplete #autoFlavourType="matAutocomplete">
+                <mat-option *ngFor="let flavourtype of suggestions_flavourtype" [value]="flavourtype">
+                  {{ flavourtype }}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>           
           </div>
         </div>
       </div>
       <div class="row">
         <div class="col-md-4">
           <div class="mt-1 form-group">
-            <label for="origin" class="form-label">Origin</label>
-            <input type="text" id="origin" name="origin" class="form-control uppercase-only"
-              [(ngModel)]="product.origin" (ngModelChange)="product.origin = product.origin.toUpperCase()" />
+            <mat-form-field appearance="outline" class="full-width">
+              <label for="origin" class="form-label">Origin</label>
+              <input matInput [(ngModel)]="product.origin" [matAutocomplete]="autoOrigin" placeholder=""
+                name="flavourtype" class="form-control" (ngModelChange)="onSearchChangeOrigin($event)"/>
+              <mat-autocomplete #autoOrigin="matAutocomplete">
+                <mat-option *ngFor="let origin of suggestions_origin" [value]="origin">
+                  {{ origin }}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>  
+            
           </div>
         </div>
         <div class="col-md-4">

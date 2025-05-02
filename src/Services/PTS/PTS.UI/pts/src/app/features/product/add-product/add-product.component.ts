@@ -85,6 +85,8 @@ export class AddProductComponent implements OnInit, OnDestroy {
   // search subjects
   private searchBrands = new Subject<string>();
   private searchFlavourTypes = new Subject<string>();
+  private searchOrigins = new Subject<string>();
+  private searchSKUs = new Subject<string>();
 
   iconList = [
     // array of icon class list based on type
@@ -188,7 +190,25 @@ export class AddProductComponent implements OnInit, OnDestroy {
       distinctUntilChanged(),
       switchMap((term: string) => this.suggestionService.getSuggestionsFlavourType(term))
     ).subscribe(data => {
-      this.suggestions_brand = data;
+      this.suggestions_flavourtype = data;
+    });
+
+    // load Origins
+    this.searchOrigins.pipe(
+      debounceTime(300),
+      distinctUntilChanged(),
+      switchMap((term: string) => this.suggestionService.getSuggestionsOrigin(term))
+    ).subscribe(data => {
+      this.suggestions_origin = data;
+    });
+
+    // load SKUs
+    this.searchOrigins.pipe(
+      debounceTime(300),
+      distinctUntilChanged(),
+      switchMap((term: string) => this.suggestionService.getSuggestionsSKU(term))
+    ).subscribe(data => {
+      this.suggestions_sku = data;
     });
 
   }
@@ -196,18 +216,43 @@ export class AddProductComponent implements OnInit, OnDestroy {
 
 
   onSearchChangeBrand(value: string) {
+
+    const upper = value.toUpperCase();
+    this.product.brand = upper; // updates ngModel immediately
+
+    console.log('brand->' + upper);
+
     if (value && value.length >= 1) {
-      this.searchBrands.next(value);
+      this.searchBrands.next(upper);
     } else {
       this.suggestions_brand = [];
     }
   }
 
   onSearchChangeFlavourType(value: string) {
+    console.log('flavourtype->' + value);
     if (value && value.length >= 1) {
       this.searchFlavourTypes.next(value);
     } else {
       this.suggestions_flavourtype = [];
+    }
+  }
+
+  onSearchChangeOrigin(value: string) {
+    console.log('origin->' + value);
+    if (value && value.length >= 1) {
+      this.searchOrigins.next(value);
+    } else {
+      this.suggestions_origin = [];
+    }
+  }
+
+  onSearchChangeSKU(value: string) {
+    console.log('sku->' + value);
+    if (value && value.length >= 1) {
+      this.searchSKUs.next(value);
+    } else {
+      this.suggestions_sku = [];
     }
   }
 
