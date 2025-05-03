@@ -17,9 +17,9 @@
         <div class="col-md-4">
           <div class="mt-1 form-group">
             <mat-form-field appearance="outline" class="full-width">
-              <label for="brand" class="form-label">Brand</label>
-              <input matInput [(ngModel)]="product.brand" [matAutocomplete]="autoBrand" placeholder="Pick a Brand"
-                name="brand" class="form-control" (ngModelChange)="onSearchChangeBrand($event)"/>
+              <mat-label>Brand</mat-label>
+              <input matInput [(ngModel)]="product.brand" [matAutocomplete]="autoBrand" placeholder="" name="brand"
+                class="form-control" (ngModelChange)="onSearchChangeBrand($event)" />
               <mat-autocomplete #autoBrand="matAutocomplete">
                 <mat-option *ngFor="let brand of suggestions_brand" [value]="brand">
                   {{ brand }}
@@ -31,15 +31,15 @@
         <div class="col-md-4">
           <div class="mt-1 form-group">
             <mat-form-field appearance="outline" class="full-width">
-              <label for="flavourtype" class="form-label">Flavour</label>
+              <mat-label>Flavour Type</mat-label>
               <input matInput [(ngModel)]="product.flavourtype" [matAutocomplete]="autoFlavourType" placeholder=""
-                name="flavourtype" class="form-control" (ngModelChange)="onSearchChangeFlavourType($event)"/>
+                name="flavourtype" class="form-control" (ngModelChange)="onSearchChangeFlavourType($event)" />
               <mat-autocomplete #autoFlavourType="matAutocomplete">
                 <mat-option *ngFor="let flavourtype of suggestions_flavourtype" [value]="flavourtype">
                   {{ flavourtype }}
                 </mat-option>
               </mat-autocomplete>
-            </mat-form-field>           
+            </mat-form-field>
           </div>
         </div>
       </div>
@@ -47,24 +47,32 @@
         <div class="col-md-4">
           <div class="mt-1 form-group">
             <mat-form-field appearance="outline" class="full-width">
-              <label for="origin" class="form-label">Origin</label>
-              <input matInput [(ngModel)]="product.origin" [matAutocomplete]="autoOrigin" placeholder=""
-                name="flavourtype" class="form-control" (ngModelChange)="onSearchChangeOrigin($event)"/>
+              <mat-label>Origin</mat-label>
+              <input matInput [(ngModel)]="product.origin" [matAutocomplete]="autoOrigin" placeholder="" name="origin"
+                class="form-control" (ngModelChange)="onSearchChangeOrigin($event)" />
               <mat-autocomplete #autoOrigin="matAutocomplete">
                 <mat-option *ngFor="let origin of suggestions_origin" [value]="origin">
                   {{ origin }}
                 </mat-option>
               </mat-autocomplete>
-            </mat-form-field>  
-            
+            </mat-form-field>
+
           </div>
         </div>
         <div class="col-md-4">
           <div class="mt-1 form-group">
-            <label for="sku" class="form-label">SKU</label>
-            <input type="text" id="sku" name="sku" class="form-control uppercase-only" [(ngModel)]="product.sku"
-              pattern="^\S*$" (keydown.space)="$event.preventDefault()"
-              (ngModelChange)="product.sku = product.sku.toUpperCase()" />
+
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>SKU</mat-label>
+              <input matInput [(ngModel)]="product.sku" [matAutocomplete]="autoSKU" placeholder="" name="sku"
+                class="form-control" (ngModelChange)="onSearchChangeSKU($event)"
+                (keydown.space)="$event.preventDefault()" />
+              <mat-autocomplete #autoSKU="matAutocomplete">
+                <mat-option *ngFor="let sku of suggestions_sku" [value]="sku">
+                  {{ sku }}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
           </div>
         </div>
         <div class="col-md-4">
@@ -80,26 +88,49 @@
       <div class="row">
         <div class="col-md-4">
           <div class="mt-1 form-group">
-            <label for="productcode" class="form-label">Product Code</label>
-            <input type="text" id="productcode" name="productcode" class="form-control uppercase-only"
-              [(ngModel)]="product.productcode" (keydown.space)="$event.preventDefault()"
-              (ngModelChange)="product.productcode = product.productcode.toUpperCase()" />
+
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Product Code</mat-label>
+              <input matInput [(ngModel)]="product.productcode" [matAutocomplete]="autoProductCode" placeholder=""
+                name="productcode" class="form-control" (ngModelChange)="onSearchChangeProductCode($event)"
+                (keydown.space)="$event.preventDefault()" />
+              <mat-autocomplete #autoProductCode="matAutocomplete">
+                <mat-option *ngFor="let productcode of suggestions_productcode" [value]="productcode">
+                  {{ productcode }}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
           </div>
         </div>
         <div class="col-md-4">
           <div class="mt-1 form-group">
-            <label for="version" class="form-label">Version</label>
-            <input type="text" id="version" name="version" class="form-control uppercase-only"
-              [(ngModel)]="product.version" pattern="^\S*$" (keydown.space)="$event.preventDefault()"
-              (ngModelChange)="product.version = product.version.toUpperCase()" />
+
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Version</mat-label>
+              <input matInput [(ngModel)]="product.version" [matAutocomplete]="autoProductCode" placeholder=""
+                name="version" class="form-control" (ngModelChange)="onSearchChangeVersion($event)"
+                (keydown.space)="$event.preventDefault()" />
+              <mat-autocomplete #autoVersion="matAutocomplete">
+                <mat-option *ngFor="let version of suggestions_version" [value]="version">
+                  {{ version }}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
           </div>
         </div>
         <div class="col-md-4">
           <div class="mt-1 form-group">
-            <label for="barcode" class="form-label">Barcode</label>
-            <input type="text" id="barcode" name="barcode" class="form-control uppercase-only"
-              [(ngModel)]="product.barcode" pattern="^\S*$" (keydown.space)="$event.preventDefault()"
-              (ngModelChange)="product.barcode = product.barcode.toUpperCase()" />
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Barcode</mat-label>
+              <input matInput [(ngModel)]="product.barcode" [matAutocomplete]="autoBarcode" placeholder=""
+                name="barcode" class="form-control" (ngModelChange)="onSearchChangeBarcode($event)"
+                (keydown.space)="$event.preventDefault()" />
+              <mat-autocomplete #autoBarcode="matAutocomplete">
+                <mat-option *ngFor="let barcode of suggestions_barcode" [value]="barcode">
+                  {{ barcode }}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
           </div>
         </div>
       </div>
@@ -107,9 +138,15 @@
       <div class="row">
         <div class="col-md-4">
           <div class="mt-1 form-group">
-            <label for="projectdate" class="form-label">Project Date</label>
-            <input type="date" id="projectdate" name="projectdate" class="form-control" [(ngModel)]="projectDateString"
-              (ngModelChange)="onProjectDateChange($event)" />
+
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Project Date</mat-label>
+              <input matInput [matDatepicker]="picker" id="projectdate" name="projectdate" [(ngModel)]="product.projectdate" (dateChange)="onProjectDateChange($event)" >
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+
+            
           </div>
         </div>
 

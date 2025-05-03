@@ -387,6 +387,19 @@ namespace PTS.API.Controllers
         }
 
         [HttpGet]
+        [Route("suggestions-version")]
+        //[Authorize(Roles = "READER,MANAGER,ADMIN")]
+        public async Task<ActionResult> GetSuggestionsVersion([FromQuery] string? query)
+        {
+            if (string.IsNullOrWhiteSpace(query))
+                return Ok(null);
+
+            var results = await productRepository.GetSuggestionsVersion(query);
+
+            return Ok(results);
+        }
+
+        [HttpGet]
         [Route("suggestions-barcode")]
         //[Authorize(Roles = "READER,MANAGER,ADMIN")]
         public async Task<ActionResult> GetSuggestionsBarCode([FromQuery] string? query)

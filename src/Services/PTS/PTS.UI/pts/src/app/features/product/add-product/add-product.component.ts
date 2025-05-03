@@ -3,8 +3,10 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import {
   MatDatepicker,
+  MatDatepickerInputEvent,
   MatDatepickerModule,
 } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -53,6 +55,7 @@ import { SuggestionService } from '../services/suggestion.service';
     NgSelectModule,
     FormsModule,
     FileSelectorComponent,
+    MatNativeDateModule,
   ],
   templateUrl: './add-product.component.html',
   styleUrl: './add-product.component.css',
@@ -87,6 +90,9 @@ export class AddProductComponent implements OnInit, OnDestroy {
   private searchFlavourTypes = new Subject<string>();
   private searchOrigins = new Subject<string>();
   private searchSKUs = new Subject<string>();
+  private searchProductCodes = new Subject<string>();
+  private searchVersions = new Subject<string>();
+  private searchBarcodes = new Subject<string>();
 
   iconList = [
     // array of icon class list based on type
@@ -175,6 +181,8 @@ export class AddProductComponent implements OnInit, OnDestroy {
     this.printingCompanies$ =
       this.printingCompanyService.getAllPrintingCompanies();
 
+    this.product.projectdate = new Date();
+
     // load brands
     this.searchBrands.pipe(
       debounceTime(300),
@@ -203,7 +211,7 @@ export class AddProductComponent implements OnInit, OnDestroy {
     });
 
     // load SKUs
-    this.searchOrigins.pipe(
+    this.searchSKUs.pipe(
       debounceTime(300),
       distinctUntilChanged(),
       switchMap((term: string) => this.suggestionService.getSuggestionsSKU(term))
@@ -211,9 +219,34 @@ export class AddProductComponent implements OnInit, OnDestroy {
       this.suggestions_sku = data;
     });
 
+    // load Product Codes
+    this.searchProductCodes.pipe(
+      debounceTime(300),
+      distinctUntilChanged(),
+      switchMap((term: string) => this.suggestionService.getSuggestionsProductCode(term))
+    ).subscribe(data => {
+      this.suggestions_productcode = data;
+    });
+
+    // load Versions
+    this.searchVersions.pipe(
+      debounceTime(300),
+      distinctUntilChanged(),
+      switchMap((term: string) => this.suggestionService.getSuggestionsVersion(term))
+    ).subscribe(data => {
+      this.suggestions_version = data;
+    });
+
+    // load Barcodes
+    this.searchBarcodes.pipe(
+      debounceTime(300),
+      distinctUntilChanged(),
+      switchMap((term: string) => this.suggestionService.getSuggestionsBarCode(term))
+    ).subscribe(data => {
+      this.suggestions_barcode = data;
+    });
+
   }
-
-
 
   onSearchChangeBrand(value: string) {
 
@@ -230,29 +263,80 @@ export class AddProductComponent implements OnInit, OnDestroy {
   }
 
   onSearchChangeFlavourType(value: string) {
-    console.log('flavourtype->' + value);
+
+    const upper = value.toUpperCase();
+    this.product.flavourtype = upper; // updates ngModel immediately
+
+    console.log('flavourtype->' + upper);
     if (value && value.length >= 1) {
-      this.searchFlavourTypes.next(value);
+      this.searchFlavourTypes.next(upper);
     } else {
       this.suggestions_flavourtype = [];
     }
   }
 
   onSearchChangeOrigin(value: string) {
-    console.log('origin->' + value);
+
+    const upper = value.toUpperCase();
+    this.product.origin = upper; // updates ngModel immediately
+
+    console.log('origin->' + upper);
     if (value && value.length >= 1) {
-      this.searchOrigins.next(value);
+      this.searchOrigins.next(upper);
     } else {
       this.suggestions_origin = [];
     }
   }
 
   onSearchChangeSKU(value: string) {
-    console.log('sku->' + value);
+
+    const upper = value.toUpperCase();
+    this.product.sku = upper; // updates ngModel immediately
+
+    console.log('sku->' + upper);
     if (value && value.length >= 1) {
-      this.searchSKUs.next(value);
+      this.searchSKUs.next(upper);
     } else {
       this.suggestions_sku = [];
+    }
+  }
+
+  onSearchChangeProductCode(value: string) {
+
+    const upper = value.toUpperCase();
+    this.product.productcode = upper; // updates ngModel immediately
+
+    console.log('productcode->' + upper);
+    if (value && value.length >= 1) {
+      this.searchProductCodes.next(upper);
+    } else {
+      this.suggestions_productcode = [];
+    }
+  }
+
+  onSearchChangeVersion(value: string) {
+
+    const upper = value.toUpperCase();
+    this.product.version = upper; // updates ngModel immediately
+
+    console.log('version->' + upper);
+    if (value && value.length >= 1) {
+      this.searchVersions.next(upper);
+    } else {
+      this.suggestions_version = [];
+    }
+  }
+
+  onSearchChangeBarcode(value: string) {
+
+    const upper = value.toUpperCase();
+    this.product.barcode = upper; // updates ngModel immediately
+
+    console.log('barcode->' + upper);
+    if (value && value.length >= 1) {
+      this.searchBarcodes.next(upper);
+    } else {
+      this.suggestions_barcode = [];
     }
   }
 
@@ -260,8 +344,11 @@ export class AddProductComponent implements OnInit, OnDestroy {
     return this.product.projectdate.toISOString().split('T')[0];
   }
 
-  onProjectDateChange(value: string) {
-    this.product.projectdate = new Date(value);
+  onProjectDateChange(event: MatDatepickerInputEvent<Date>): void {
+    if (event.value) {
+      this.product.projectdate = event.value;
+      console.log(this.product.projectdate);
+    }
   }
 
   onFilesSelected(event: Event) {

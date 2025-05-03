@@ -253,6 +253,23 @@ namespace PTS.API.Repositories.Implementation
             return results;
         }
 
+        public async Task<IEnumerable<string>> GetSuggestionsVersion(string query)
+        {
+            if (string.IsNullOrWhiteSpace(query))
+                return new List<string>();
+
+            var results = await dbContext.Products
+                .Where(f =>
+                    (f.Version != null && f.Version.Contains(query)))
+                .OrderBy(f => f.Version)
+                .Select(f => f.Version!) //null-forgiving operator (!)
+                .Distinct()
+                .Take(10)
+                .ToListAsync();
+
+            return results;
+        }
+
         public async Task<IEnumerable<string>> GetSuggestionsBarCode(string query)
         {
             if (string.IsNullOrWhiteSpace(query))

@@ -17,6 +17,7 @@ namespace PTS.API.Repositories.Interface
         Task<IEnumerable<string>> GetSuggestionsOrigin(string query);
         Task<IEnumerable<string>> GetSuggestionsSKU(string query);
         Task<IEnumerable<string>> GetSuggestionsProductCode(string query);
+        Task<IEnumerable<string>> GetSuggestionsVersion(string query);
         Task<IEnumerable<string>> GetSuggestionsBarCode(string query);
     }
 }

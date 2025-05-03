@@ -26,6 +26,10 @@ export class SuggestionService {
     return this.http.get<string[]>(`${environment.apiBaseUrl}/api/product/suggestions-sku?query=${query}`);
   }
 
+  getSuggestionsVersion(query: string): Observable<string[]> {
+    return this.http.get<string[]>(`${environment.apiBaseUrl}/api/product/suggestions-version?query=${query}`);
+  }
+
   getSuggestionsProductCode(query: string): Observable<string[]> {
     return this.http.get<string[]>(`${environment.apiBaseUrl}/api/product/suggestions-productcode?query=${query}`);
   }
