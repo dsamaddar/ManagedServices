@@ -184,7 +184,7 @@ openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout nginx/cert/server.ke
 Add Product Version
 	-- version code must be unique
 	-- version code Add product also must be unique
-	-- product code (space less)
+	-- product code (space less) (done)
 	-- barcode (if exists show warning: already enlisted)
 	-- all input fields must be capitalized.
 	-- suggest already existing field.

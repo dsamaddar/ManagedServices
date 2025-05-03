@@ -75,6 +75,7 @@ export class AddProductComponent implements OnInit, OnDestroy {
   productVersionId: number = 0;
 
   isVersionUnique:  boolean | null = null;
+  isBarCodeUnique:  boolean | null = null;
 
   ngForm: FormGroup;
 
@@ -395,6 +396,17 @@ export class AddProductComponent implements OnInit, OnDestroy {
     console.log('barcode->' + upper);
     if (value && value.length >= 1) {
       this.searchBarcodes.next(upper);
+
+      this.suggestionService.getIsBarCodeUnique(upper).subscribe({
+        next: (response) => {
+          this.isBarCodeUnique = response;
+          if(this.isBarCodeUnique === false){
+            console.log(this.isBarCodeUnique);
+            ToastrUtils.showErrorToast('Barcode Already Exists (' + upper + ')' );
+          }
+          
+        },
+      });
     } else {
       this.suggestions_barcode = [];
     }

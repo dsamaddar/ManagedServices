@@ -429,5 +429,24 @@ namespace PTS.API.Controllers
 
             return Ok(results);
         }
+
+        [HttpGet]
+        [Route("is-barcode-unique")]
+        //[Authorize(Roles = "READER,MANAGER,ADMIN")]
+        public async Task<ActionResult> GetIsBarCodeUnique([FromQuery] string? query)
+        {
+            bool isUnique = true;
+
+            if (string.IsNullOrWhiteSpace(query))
+            {
+                isUnique = true;
+            }
+            else
+            {
+                isUnique = await productRepository.GetIsBarCodeUnique(query);
+            }
+
+            return Ok(new { isUnique });
+        }
     }
 }

@@ -302,5 +302,22 @@ namespace PTS.API.Repositories.Implementation
 
             return results;
         }
+
+        public async Task<Boolean> GetIsBarCodeUnique(string query)
+        {
+            if (string.IsNullOrWhiteSpace(query))
+                return true;
+
+            var results = await dbContext.Products
+                .Where(f =>
+                    (f.Barcode != null && f.Barcode == query))
+                .Select(f => f.Barcode!) //null-forgiving operator (!)
+                .ToListAsync();
+
+            if (results.Any()) return false;
+
+            return true;
+        }
+
     }
 }

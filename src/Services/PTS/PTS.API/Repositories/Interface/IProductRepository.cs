@@ -20,5 +20,7 @@ namespace PTS.API.Repositories.Interface
         Task<IEnumerable<string>> GetSuggestionsVersion(string query);
         Task<Boolean> GetIsVersionUnique(string query);
         Task<IEnumerable<string>> GetSuggestionsBarCode(string query);
+
+        Task<Boolean> GetIsBarCodeUnique(string query);
     }
 }

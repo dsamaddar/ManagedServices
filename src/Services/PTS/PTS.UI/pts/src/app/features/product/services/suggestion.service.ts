@@ -36,6 +36,12 @@ export class SuggestionService {
       .pipe(map(response => response.isUnique));
   }
 
+  getIsBarCodeUnique(query: string): Observable<boolean> {
+    return this.http
+      .get<{ isUnique: boolean }>(`${environment.apiBaseUrl}/api/product/is-barcode-unique?query=${query}`)
+      .pipe(map(response => response.isUnique));
+  }
+
   getSuggestionsProductCode(query: string): Observable<string[]> {
     return this.http.get<string[]>(`${environment.apiBaseUrl}/api/product/suggestions-productcode?query=${query}`);
   }
