@@ -45,6 +45,37 @@
         </div>
         <div class="col-md-4">
           <div class="mt-1 form-group">
+
+
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Brand</mat-label>
+              <input
+                *ngIf="product"
+                matInput
+                [(ngModel)]="product.brand"
+                [matAutocomplete]="autoBrand"
+                placeholder=""
+                name="brand"
+                class="form-control"
+                (ngModelChange)="onSearchChangeBrand($event)"
+                required
+              />
+              <mat-autocomplete #autoBrand="matAutocomplete">
+                <mat-option
+                  *ngFor="let brand of suggestions_brand"
+                  [value]="brand"
+                >
+                  {{ brand }}
+                </mat-option>
+              </mat-autocomplete>
+               <!-- Validation error message -->
+               <mat-error *ngIf="form.submitted && form.controls['brand']?.invalid">
+                Brand is required
+              </mat-error>
+            </mat-form-field>
+
+
+            <!--
             <label for="brand" class="form-label">Brand</label>
             <input
               *ngIf="product"
@@ -54,6 +85,7 @@
               class="form-control"
               [(ngModel)]="product.brand"
             />
+            -->
           </div>
         </div>
         <div class="col-md-4">

@@ -1,9 +1,15 @@
 import { CommonModule, DatePipe } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, Validators } from '@angular/forms';
+import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  Validators,
+} from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { ProductService } from '../services/product.service';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subject, Subscription } from 'rxjs';
 import { Product } from '../models/product.model';
 import { AllProduct } from '../models/all-product.model';
 import { Category } from '../../category/models/category.model';
@@ -30,6 +36,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { SuggestionService } from '../services/suggestion.service';
 
 @Component({
   selector: 'app-edit-product',
@@ -72,10 +79,27 @@ export class EditProductComponent implements OnInit, OnDestroy {
   private addProductSubscription?: Subscription;
   private uploadAttachmentSubscription?: Subscription;
 
-  isVersionUnique:  boolean | null = null;
-  isBarCodeUnique:  boolean | null = null;
+  isVersionUnique: boolean | null = null;
+  isBarCodeUnique: boolean | null = null;
 
   ngForm: FormGroup;
+
+  suggestions_brand: string[] = [];
+  suggestions_flavourtype: string[] = [];
+  suggestions_origin: string[] = [];
+  suggestions_sku: string[] = [];
+  suggestions_productcode: string[] = [];
+  suggestions_version: string[] = [];
+  suggestions_barcode: string[] = [];
+
+  // search subjects
+  private searchBrands = new Subject<string>();
+  private searchFlavourTypes = new Subject<string>();
+  private searchOrigins = new Subject<string>();
+  private searchSKUs = new Subject<string>();
+  private searchProductCodes = new Subject<string>();
+  private searchVersions = new Subject<string>();
+  private searchBarcodes = new Subject<string>();
 
   iconList = [
     // array of icon class list based on type
@@ -120,9 +144,9 @@ export class EditProductComponent implements OnInit, OnDestroy {
     private printingCompanyService: PrintingcompanyService,
     private datepipe: DatePipe,
     private http: HttpClient,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private suggestionServices: SuggestionService
   ) {
-
     this.ngForm = this.fb.group({
       categoryid: ['', Validators.required],
       brand: ['', Validators.required],
@@ -137,7 +161,6 @@ export class EditProductComponent implements OnInit, OnDestroy {
       cylindercompanyid: ['', Validators.required],
       printingcompanyid: ['', Validators.required],
     });
-
   }
 
   get projectDateString(): string {
@@ -152,7 +175,7 @@ export class EditProductComponent implements OnInit, OnDestroy {
     const year = date.getFullYear();
     const month = (date.getMonth() + 1).toString().padStart(2, '0');
     const day = date.getDate().toString().padStart(2, '0');
-  
+
     return `${year}-${month}-${day}`;
   }
 
@@ -227,6 +250,35 @@ export class EditProductComponent implements OnInit, OnDestroy {
       this.cylinderCompanyService.getAllCylinderCompanies();
     this.printingCompanies$ =
       this.printingCompanyService.getAllPrintingCompanies();
+
+    // load brands
+    this.searchBrands
+      .pipe(
+        debounceTime(300),
+        distinctUntilChanged(),
+        switchMap((term: string) =>
+          this.suggestionServices.getSuggestionsBrand(term)
+        )
+      )
+      .subscribe((data) => {
+        this.suggestions_brand = data;
+      });
+  }
+
+  onSearchChangeBrand(value: string) {
+    const upper = value.toUpperCase();
+
+    if (this.product) {
+      this.product.brand = upper; // updates ngModel immediately
+
+      console.log('brand->' + upper);
+
+      if (value && value.length >= 1) {
+        this.searchBrands.next(upper);
+      } else {
+        this.suggestions_brand = [];
+      }
+    }
   }
 
   isFileSelectorVisible: boolean = false;
