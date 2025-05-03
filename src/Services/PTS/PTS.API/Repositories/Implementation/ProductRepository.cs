@@ -270,6 +270,22 @@ namespace PTS.API.Repositories.Implementation
             return results;
         }
 
+        public async Task<Boolean> GetIsVersionUnique(string query)
+        {
+            if (string.IsNullOrWhiteSpace(query))
+                return true;
+
+            var results = await dbContext.Products
+                .Where(f =>
+                    (f.Version != null && f.Version == query))
+                .Select(f => f.Version!) //null-forgiving operator (!)
+                .ToListAsync();
+
+            if (results.Any()) return false;
+
+            return true;
+        }
+
         public async Task<IEnumerable<string>> GetSuggestionsBarCode(string query)
         {
             if (string.IsNullOrWhiteSpace(query))
@@ -280,6 +296,7 @@ namespace PTS.API.Repositories.Implementation
                     (f.Barcode != null && f.Barcode.Contains(query)))
                 .OrderBy(f => f.Barcode)
                 .Select(f => f.Barcode!) //null-forgiving operator (!)
+                .Distinct()
                 .Take(10)
                 .ToListAsync();
 

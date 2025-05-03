@@ -142,9 +142,9 @@
                 </mat-option>
               </mat-autocomplete>
                <!-- Validation error message -->
-               <mat-error *ngIf="form.submitted && form.controls['version']?.invalid">
+               <mat-error *ngIf="form.submitted && form.controls['sku']?.invalid">
                 SKU is required
-              </mat-error>
+              </mat-error>              
             </mat-form-field>
           </div>
         </div>
@@ -227,6 +227,12 @@
               <!-- Validation error message -->
               <mat-error *ngIf="form.submitted && form.controls['version']?.invalid">
                 Version is required
+              </mat-error>
+              <mat-error *ngIf="true">
+                Version Already Exists
+              </mat-error>
+              <mat-error *ngIf="form.submitted && isVersionUnique === false">
+                Version Already Exists
               </mat-error>
             </mat-form-field>
           </div>
@@ -380,10 +386,11 @@
       </div>
     </div>
 
-   <!-- 🔍 Debug output here
+   <!-- 🔍 Debug output here    -->
    <pre>{{ form.value | json }}</pre>
    <pre>Valid: {{ form.valid }}</pre>
-    -->
+   <pre>Is Version Unique: {{ isVersionUnique }}</pre>
+
   </form>
   
 </div>

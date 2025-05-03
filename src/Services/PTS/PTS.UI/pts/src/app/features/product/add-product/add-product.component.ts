@@ -24,7 +24,14 @@ import { PrintingcompanyService } from '../../printingCompany/services/printingc
 import { NumericLiteral } from 'typescript';
 import { Product } from '../models/product.model';
 import { AddProductRequest } from '../models/add-product.model';
-import { FormBuilder, FormGroup, FormsModule, NgForm, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  NgForm,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { HttpClient, HttpEvent, HttpEventType } from '@angular/common/http';
 import { MatIcon } from '@angular/material/icon';
 import { FileSelectorComponent } from '../../../shared/components/file-selector/file-selector.component';
@@ -66,6 +73,8 @@ export class AddProductComponent implements OnInit, OnDestroy {
   productVersion: AddProductVersionRequest;
   selectedFiles: File[] = [];
   productVersionId: number = 0;
+
+  isVersionUnique:  boolean | null = null;
 
   ngForm: FormGroup;
 
@@ -142,7 +151,6 @@ export class AddProductComponent implements OnInit, OnDestroy {
     private http: HttpClient,
     private fb: FormBuilder
   ) {
-
     this.ngForm = this.fb.group({
       categoryid: ['', Validators.required],
       brand: ['', Validators.required],
@@ -150,12 +158,12 @@ export class AddProductComponent implements OnInit, OnDestroy {
       origin: ['', Validators.required],
       sku: ['', Validators.required],
       productcode: ['', Validators.required],
-      version: ['', Validators.required], 
+      version: ['', Validators.required],
       barcode: ['', Validators.required],
       projectdate: ['', Validators.required],
       packtypeid: ['', Validators.required],
       cylindercompanyid: ['', Validators.required],
-      printingcompanyid: ['', Validators.required]
+      printingcompanyid: ['', Validators.required],
     });
 
     const myDate = new Date();
@@ -203,73 +211,99 @@ export class AddProductComponent implements OnInit, OnDestroy {
     this.product.projectdate = new Date();
 
     // load brands
-    this.searchBrands.pipe(
-      debounceTime(300),
-      distinctUntilChanged(),
-      switchMap((term: string) => this.suggestionService.getSuggestionsBrand(term))
-    ).subscribe(data => {
-      this.suggestions_brand = data;
-    });
+    this.searchBrands
+      .pipe(
+        debounceTime(300),
+        distinctUntilChanged(),
+        switchMap((term: string) =>
+          this.suggestionService.getSuggestionsBrand(term)
+        )
+      )
+      .subscribe((data) => {
+        this.suggestions_brand = data;
+      });
 
     // load flavour types
-    this.searchFlavourTypes.pipe(
-      debounceTime(300),
-      distinctUntilChanged(),
-      switchMap((term: string) => this.suggestionService.getSuggestionsFlavourType(term))
-    ).subscribe(data => {
-      this.suggestions_flavourtype = data;
-    });
+    this.searchFlavourTypes
+      .pipe(
+        debounceTime(300),
+        distinctUntilChanged(),
+        switchMap((term: string) =>
+          this.suggestionService.getSuggestionsFlavourType(term)
+        )
+      )
+      .subscribe((data) => {
+        this.suggestions_flavourtype = data;
+      });
 
     // load Origins
-    this.searchOrigins.pipe(
-      debounceTime(300),
-      distinctUntilChanged(),
-      switchMap((term: string) => this.suggestionService.getSuggestionsOrigin(term))
-    ).subscribe(data => {
-      this.suggestions_origin = data;
-    });
+    this.searchOrigins
+      .pipe(
+        debounceTime(300),
+        distinctUntilChanged(),
+        switchMap((term: string) =>
+          this.suggestionService.getSuggestionsOrigin(term)
+        )
+      )
+      .subscribe((data) => {
+        this.suggestions_origin = data;
+      });
 
     // load SKUs
-    this.searchSKUs.pipe(
-      debounceTime(300),
-      distinctUntilChanged(),
-      switchMap((term: string) => this.suggestionService.getSuggestionsSKU(term))
-    ).subscribe(data => {
-      this.suggestions_sku = data;
-    });
+    this.searchSKUs
+      .pipe(
+        debounceTime(300),
+        distinctUntilChanged(),
+        switchMap((term: string) =>
+          this.suggestionService.getSuggestionsSKU(term)
+        )
+      )
+      .subscribe((data) => {
+        this.suggestions_sku = data;
+      });
 
     // load Product Codes
-    this.searchProductCodes.pipe(
-      debounceTime(300),
-      distinctUntilChanged(),
-      switchMap((term: string) => this.suggestionService.getSuggestionsProductCode(term))
-    ).subscribe(data => {
-      this.suggestions_productcode = data;
-    });
+    this.searchProductCodes
+      .pipe(
+        debounceTime(300),
+        distinctUntilChanged(),
+        switchMap((term: string) =>
+          this.suggestionService.getSuggestionsProductCode(term)
+        )
+      )
+      .subscribe((data) => {
+        this.suggestions_productcode = data;
+      });
 
     // load Versions
-    this.searchVersions.pipe(
-      debounceTime(300),
-      distinctUntilChanged(),
-      switchMap((term: string) => this.suggestionService.getSuggestionsVersion(term))
-    ).subscribe(data => {
-      this.suggestions_version = data;
-      console.log(this.suggestions_version);
-    });
+    this.searchVersions
+      .pipe(
+        debounceTime(300),
+        distinctUntilChanged(),
+        switchMap((term: string) =>
+          this.suggestionService.getSuggestionsVersion(term)
+        )
+      )
+      .subscribe((data) => {
+        this.suggestions_version = data;
+        console.log(this.suggestions_version);
+      });
 
     // load Barcodes
-    this.searchBarcodes.pipe(
-      debounceTime(300),
-      distinctUntilChanged(),
-      switchMap((term: string) => this.suggestionService.getSuggestionsBarCode(term))
-    ).subscribe(data => {
-      this.suggestions_barcode = data;
-    });
-
+    this.searchBarcodes
+      .pipe(
+        debounceTime(300),
+        distinctUntilChanged(),
+        switchMap((term: string) =>
+          this.suggestionService.getSuggestionsBarCode(term)
+        )
+      )
+      .subscribe((data) => {
+        this.suggestions_barcode = data;
+      });
   }
 
   onSearchChangeBrand(value: string) {
-
     const upper = value.toUpperCase();
     this.product.brand = upper; // updates ngModel immediately
 
@@ -283,7 +317,6 @@ export class AddProductComponent implements OnInit, OnDestroy {
   }
 
   onSearchChangeFlavourType(value: string) {
-
     const upper = value.toUpperCase();
     this.product.flavourtype = upper; // updates ngModel immediately
 
@@ -296,7 +329,6 @@ export class AddProductComponent implements OnInit, OnDestroy {
   }
 
   onSearchChangeOrigin(value: string) {
-
     const upper = value.toUpperCase();
     this.product.origin = upper; // updates ngModel immediately
 
@@ -309,7 +341,6 @@ export class AddProductComponent implements OnInit, OnDestroy {
   }
 
   onSearchChangeSKU(value: string) {
-
     const upper = value.toUpperCase();
     this.product.sku = upper; // updates ngModel immediately
 
@@ -322,7 +353,6 @@ export class AddProductComponent implements OnInit, OnDestroy {
   }
 
   onSearchChangeProductCode(value: string) {
-
     const upper = value.toUpperCase();
     this.product.productcode = upper; // updates ngModel immediately
 
@@ -335,7 +365,6 @@ export class AddProductComponent implements OnInit, OnDestroy {
   }
 
   onSearchChangeVersion(value: string) {
-
     const upper = value.toUpperCase();
     this.product.version = upper; // updates ngModel immediately
 
@@ -343,13 +372,23 @@ export class AddProductComponent implements OnInit, OnDestroy {
     if (value && value.length >= 1) {
       this.searchVersions.next(upper);
       console.log('version->->' + upper);
+
+      this.suggestionService.getIsVersionUnique(upper).subscribe({
+        next: (response) => {
+          this.isVersionUnique = response;
+          if(this.isVersionUnique === false){
+            console.log(this.isVersionUnique);
+            ToastrUtils.showErrorToast('Version Already Exists');
+          }
+          
+        },
+      });
     } else {
       this.suggestions_version = [];
     }
   }
 
   onSearchChangeBarcode(value: string) {
-
     const upper = value.toUpperCase();
     this.product.barcode = upper; // updates ngModel immediately
 
@@ -399,8 +438,8 @@ export class AddProductComponent implements OnInit, OnDestroy {
   }
 
   onFormSubmit(form: NgForm) {
-
-    if (form.invalid) {
+    if (form.invalid || this.isVersionUnique === false) {
+      this.ngForm.markAllAsTouched();
       console.log('invalid form');
       return;
     }

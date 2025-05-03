@@ -400,6 +400,24 @@ namespace PTS.API.Controllers
         }
 
         [HttpGet]
+        [Route("is-version-unique")]
+        public async Task<ActionResult> GetIsVersionUnique([FromQuery] string? query)
+        {
+            bool isUnique = true;
+
+            if (string.IsNullOrWhiteSpace(query))
+            {
+                isUnique = true;
+            }
+            else
+            {
+                isUnique = await productRepository.GetIsVersionUnique(query);
+            }
+
+            return Ok(new { isUnique });
+        }
+
+        [HttpGet]
         [Route("suggestions-barcode")]
         //[Authorize(Roles = "READER,MANAGER,ADMIN")]
         public async Task<ActionResult> GetSuggestionsBarCode([FromQuery] string? query)
