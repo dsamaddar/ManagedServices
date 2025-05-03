@@ -182,22 +182,22 @@ openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout nginx/cert/server.ke
 
 ### PHASE-3 : Requirements
 Add Product Version
-	-- version code must be unique
+	-- version code must be unique (done)
 	-- version code Add product also must be unique
 	-- product code (space less) (done)
-	-- barcode (if exists show warning: already enlisted)
-	-- all input fields must be capitalized.
-	-- suggest already existing field.
+	-- barcode (if exists show warning: already enlisted) (done)
+	-- all input fields must be capitalized. (done)
+	-- suggest already existing field. (done)
 Dashboard
-	- Product Page first landing (after login)
+	- Product Page first landing (after login) (done)
 	- 
 Admin (panel)
-	- Not for managers only admin
+	- Not for managers only admin (done)
  
 product Page
 	- managers 
-		- can't delete product version		
-		- can edit product
+		- can't delete product version (done)
+		- can edit product 
  
 Report
 	- excel

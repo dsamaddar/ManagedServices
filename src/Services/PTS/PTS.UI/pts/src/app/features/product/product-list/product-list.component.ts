@@ -12,6 +12,9 @@ import Swal from 'sweetalert2';
 import { ProductversionService } from '../../productversion/services/productversion.service';
 import { ToastrUtils } from '../../../utils/toastr-utils';
 import { ShowProductversionComponent } from "../../../shared/components/show-productversion/show-productversion.component";
+import { User } from '../../auth/models/user.model';
+import { AuthService } from '../../auth/services/auth.service';
+import { ExcelExportService } from '../services/excel-export.service';
 
 @Component({
   selector: 'app-product-list',
@@ -34,6 +37,7 @@ export class ProductListComponent implements OnInit {
   global_query?: string;
   master_product_id: number = 0;
   product_version_id: number = 0;
+  user?: User;
 
   private deleteProductVersionSubscription?: Subscription;
 
@@ -43,10 +47,14 @@ export class ProductListComponent implements OnInit {
   constructor(
     private productService: ProductService,
     private productVersionService: ProductversionService,
-    private router: Router
+    private router: Router,
+    private authService: AuthService,
+    private excelService: ExcelExportService
   ) {}
 
   ngOnInit(): void {
+    this.user = this.authService.getUser();
+
     this.products$ = this.productService.getAllProducts(
       undefined,
       this.pageNumber,
@@ -61,6 +69,26 @@ export class ProductListComponent implements OnInit {
         );
         //console.log('Number of products:', this.totalProductCount);
       },
+    });
+  }
+
+  exportToExcel() {
+    this.productService.getAllProducts('', 0, 10000000).subscribe(products => {
+      const exportData = products.map(p => ({
+        Category: p.category.name,
+        Brand: p.brand,
+        Flavour: p.flavourType,
+        Origin: p.origin,
+        SKU: p.sku,
+        ProductCode: p.productCode,
+        PackType: p.packType.name,
+        BarCode: p.barcode,
+        ProjectDate: p.projectDate? new Date(p.projectDate).toISOString().slice(0, 10) : '',
+        CylinderCompany: p.cylinderCompany.name,
+        PrintingCompany: p.printingCompany.name,
+      }));
+  
+      this.excelService.exportAsExcelFile(exportData, 'ProductList');
     });
   }
 

@@ -30,19 +30,30 @@
         <option value="100">100</option>
       </select>
     </div>
-    <a
-      [routerLink]="['/admin/products/add']"
-      class="btn btn-primary"
-      routerLinkActive="router-link-active"
-      >Add Product</a
-    >
+    <div class="d-flex">
+      <a
+        role="button"
+        class="btn btn-success"
+        data-bs-toggle="tooltip"
+        title="Export To Excel"
+        (click)="exportToExcel()"
+      >
+        <i class="bi bi-file-earmark-spreadsheet-fill fs-3"></i>
+      </a>
+      <a
+        [routerLink]="['/admin/products/add']"
+        class="btn btn-primary ms-2"
+        routerLinkActive="router-link-active"
+        >Add Product</a
+      >
+    </div>
   </div>
   <ng-container *ngIf="products$ | async as products">
     <div class="table-responsive mt-3">
       <table class="table table-striped table-bordered">
         <thead class="table-dark text-nowrap">
           <tr>
-            <th style="display: none">Id</th>           
+            <th style="display: none">Id</th>
             <th>Category</th>
             <th>Brand</th>
             <th>Flavour</th>
@@ -103,12 +114,17 @@
                     productVersion.versionDate | date : "yyyy-MM-dd"
                   }}]
                 </a>
-                <a
-                  class="text-danger"
-                  role="button"
-                  (click)="deleteProductVersion(productVersion.id)"
-                  ><i class="bi bi-trash3"></i
-                ></a>
+                <ng-container
+                  *ngIf="user !== undefined && user?.roles?.includes('ADMIN')"
+                >
+                  <a
+                    class="text-danger"
+                    role="button"
+                    (click)="deleteProductVersion(productVersion.id)"
+                    ><i class="bi bi-trash3"></i
+                  ></a>
+                </ng-container>
+
                 <br />
               </div>
             </td>
@@ -122,7 +138,7 @@
                 ><i class="bi bi-binoculars-fill fs-3"></i
               ></a>
               <a
-                class="text-primary ms-3"                
+                class="text-primary ms-3"
                 (click)="openProductVersionModal(product.id)"
                 data-bs-toggle="tooltip"
                 title="Add Product Version"

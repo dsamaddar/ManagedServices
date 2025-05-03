@@ -23,12 +23,14 @@
     "@ng-select/ng-select": "^14.2.8",
     "@sweetalert2/ngx-sweetalert2": "^13.0.0",
     "bootstrap-icons": "^1.11.3",
+    "file-saver": "^2.0.5",
     "jwt-decode": "^4.0.0",
     "ngx-cookie-service": "^19.1.2",
     "ngx-toastr": "^19.0.0",
     "rxjs": "~7.8.0",
     "sweetalert2": "^11.19.1",
     "tslib": "^2.3.0",
+    "xlsx": "^0.18.5",
     "zone.js": "~0.15.0"
   },
   "devDependencies": {
