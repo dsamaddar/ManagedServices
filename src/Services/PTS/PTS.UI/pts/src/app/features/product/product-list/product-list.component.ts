@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormsModule, ValueChangeEvent } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, ValueChangeEvent } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { ProductService } from '../services/product.service';
 import { Product } from '../models/product.model';
@@ -15,6 +15,15 @@ import { ShowProductversionComponent } from "../../../shared/components/show-pro
 import { User } from '../../auth/models/user.model';
 import { AuthService } from '../../auth/services/auth.service';
 import { ExcelExportService } from '../services/excel-export.service';
+import { Category } from '../../category/models/category.model';
+import { PackType } from '../../packtype/models/packtype.model';
+import { CylinderCompany } from '../../cylinderCompany/models/CylinderCompany.model';
+import { PrintingCompany } from '../../printingCompany/models/printingcompany.model';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { CategoryService } from '../../category/services/category.service';
+import { PacktypeService } from '../../packtype/services/packtype.service';
+import { CylindercompanyService } from '../../cylinderCompany/services/cylindercompany.service';
+import { PrintingcompanyService } from '../../printingCompany/services/printingcompany.service';
 
 @Component({
   selector: 'app-product-list',
@@ -23,7 +32,9 @@ import { ExcelExportService } from '../services/excel-export.service';
     FormsModule,
     RouterModule,
     AddProductversionComponent,
-    ShowProductversionComponent
+    ShowProductversionComponent,
+    ReactiveFormsModule,
+    NgSelectModule
 ],
   templateUrl: './product-list.component.html',
   styleUrl: './product-list.component.css',
@@ -39,6 +50,17 @@ export class ProductListComponent implements OnInit {
   product_version_id: number = 0;
   user?: User;
 
+  // observable array
+  categories$?: Observable<Category[]>;
+  packtypes$?: Observable<PackType[]>;
+  cylinderCompanies$?: Observable<CylinderCompany[]>;
+  printingCompanies$?: Observable<PrintingCompany[]>;
+
+  categoryid?: number;
+  packtypeid?: number;
+  cylindercompanyid?: number;
+  printingcompanyid?: number;
+
   private deleteProductVersionSubscription?: Subscription;
 
   isProductVersionModalVisible: boolean = false;
@@ -49,11 +71,22 @@ export class ProductListComponent implements OnInit {
     private productVersionService: ProductversionService,
     private router: Router,
     private authService: AuthService,
-    private excelService: ExcelExportService
+    private excelService: ExcelExportService,
+    private categoryService: CategoryService,
+    private packTypeService: PacktypeService,
+    private cylinderCompanyService: CylindercompanyService,
+    private printingCompanyService: PrintingcompanyService,
   ) {}
 
   ngOnInit(): void {
     this.user = this.authService.getUser();
+
+    this.categories$ = this.categoryService.getAllCategories();
+    this.packtypes$ = this.packTypeService.getAllPackTypes();
+    this.cylinderCompanies$ =
+      this.cylinderCompanyService.getAllCylinderCompanies();
+    this.printingCompanies$ =
+      this.printingCompanyService.getAllPrintingCompanies();
 
     this.products$ = this.productService.getAllProducts(
       undefined,
