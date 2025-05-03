@@ -24,7 +24,7 @@ import { PrintingcompanyService } from '../../printingCompany/services/printingc
 import { NumericLiteral } from 'typescript';
 import { Product } from '../models/product.model';
 import { AddProductRequest } from '../models/add-product.model';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, NgForm, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HttpClient, HttpEvent, HttpEventType } from '@angular/common/http';
 import { MatIcon } from '@angular/material/icon';
 import { FileSelectorComponent } from '../../../shared/components/file-selector/file-selector.component';
@@ -66,6 +66,8 @@ export class AddProductComponent implements OnInit, OnDestroy {
   productVersion: AddProductVersionRequest;
   selectedFiles: File[] = [];
   productVersionId: number = 0;
+
+  ngForm: FormGroup;
 
   suggestions_brand: string[] = [];
   suggestions_flavourtype: string[] = [];
@@ -137,8 +139,25 @@ export class AddProductComponent implements OnInit, OnDestroy {
     private suggestionService: SuggestionService,
     private router: Router,
     private datepipe: DatePipe,
-    private http: HttpClient
+    private http: HttpClient,
+    private fb: FormBuilder
   ) {
+
+    this.ngForm = this.fb.group({
+      categoryid: ['', Validators.required],
+      brand: ['', Validators.required],
+      flavourtype: ['', Validators.required],
+      origin: ['', Validators.required],
+      sku: ['', Validators.required],
+      productcode: ['', Validators.required],
+      version: ['', Validators.required], 
+      barcode: ['', Validators.required],
+      projectdate: ['', Validators.required],
+      packtypeid: ['', Validators.required],
+      cylindercompanyid: ['', Validators.required],
+      printingcompanyid: ['', Validators.required]
+    });
+
     const myDate = new Date();
     const formatted = this.datepipe.transform(myDate, 'yyyy-MM-dd');
 
@@ -235,6 +254,7 @@ export class AddProductComponent implements OnInit, OnDestroy {
       switchMap((term: string) => this.suggestionService.getSuggestionsVersion(term))
     ).subscribe(data => {
       this.suggestions_version = data;
+      console.log(this.suggestions_version);
     });
 
     // load Barcodes
@@ -306,7 +326,7 @@ export class AddProductComponent implements OnInit, OnDestroy {
     const upper = value.toUpperCase();
     this.product.productcode = upper; // updates ngModel immediately
 
-    console.log('productcode->' + upper);
+    //console.log('productcode->' + upper);
     if (value && value.length >= 1) {
       this.searchProductCodes.next(upper);
     } else {
@@ -322,6 +342,7 @@ export class AddProductComponent implements OnInit, OnDestroy {
     console.log('version->' + upper);
     if (value && value.length >= 1) {
       this.searchVersions.next(upper);
+      console.log('version->->' + upper);
     } else {
       this.suggestions_version = [];
     }
@@ -377,7 +398,13 @@ export class AddProductComponent implements OnInit, OnDestroy {
     }
   }
 
-  onFormSubmit() {
+  onFormSubmit(form: NgForm) {
+
+    if (form.invalid) {
+      console.log('invalid form');
+      return;
+    }
+
     this.product.userId = String(localStorage.getItem('user-id'));
     this.product.categoryid = this.categoryid || 0;
     this.product.packtypeid = this.packtypeid || 0;
