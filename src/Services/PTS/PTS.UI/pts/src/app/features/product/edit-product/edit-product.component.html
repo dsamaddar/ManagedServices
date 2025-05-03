@@ -1,7 +1,7 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-md-6">
-      <h5 class="mt-3">Add Product</h5>
+      <h5 class="mt-3">Modify Product</h5>
     </div>
     <div class="col-md-6">
       <div class="d-flex justify-content-end mt-3">
@@ -20,8 +20,8 @@
     <div class="mt-2">
       <div class="row">
         <div class="col-md-4">
-          <div class="mt-1 form-group">
-            <label for="categoryid" class="form-label">Category</label>
+          <div class="mt-1 ng-wrapper">
+            <label for="categoryid" class="material-label">Category</label>
             <ng-select
               *ngIf="product"
               name="categoryid"
@@ -31,8 +31,16 @@
               placeholder="Select Category"
               [(ngModel)]="product.categoryId"
               [searchable]="true"
+              class="material-ng-select"
+              required
             >
             </ng-select>
+            <div
+              *ngIf="form.submitted && form.controls['categoryid']?.invalid"
+              class="text-danger"
+            >
+              Category is required
+            </div>
           </div>
         </div>
         <div class="col-md-4">
@@ -86,13 +94,15 @@
               name="sku"
               class="form-control"
               [(ngModel)]="product.sku"
-              (keydown.space)="$event.preventDefault()" 
+              (keydown.space)="$event.preventDefault()"
             />
           </div>
         </div>
         <div class="col-md-4">
-          <div class="mt-1 form-group">
-            <label for="packTypeId" class="form-label">Pack Type</label>
+          <div class="mt-1 form-group ng-wrapper">
+            <label for="packTypeId" class="form-label material-label"
+              >Pack Type</label
+            >
 
             <ng-select
               *ngIf="product"
@@ -103,8 +113,16 @@
               placeholder="Select Pack Type"
               [(ngModel)]="product.packTypeId"
               [searchable]="true"
+              class="material-ng-select"
+              required
             >
             </ng-select>
+            <div
+              *ngIf="form.submitted && form.controls['packtypeid']?.invalid"
+              class="text-danger"
+            >
+              Pack Type is required
+            </div>
           </div>
         </div>
       </div>
@@ -133,7 +151,7 @@
               name="version"
               class="form-control"
               [(ngModel)]="product.version"
-              (keydown.space)="$event.preventDefault()" 
+              (keydown.space)="$event.preventDefault()"
             />
           </div>
         </div>
@@ -147,7 +165,7 @@
               name="barcode"
               class="form-control"
               [(ngModel)]="product.barcode"
-              (keydown.space)="$event.preventDefault()" 
+              (keydown.space)="$event.preventDefault()"
             />
           </div>
         </div>
@@ -170,8 +188,8 @@
         </div>
 
         <div class="col-md-4">
-          <div class="mt-1 form-group">
-            <label for="cylindercompanyid" class="form-label"
+          <div class="mt-1 form-group ng-wrapper">
+            <label for="cylindercompanyid" class="form-label material-label"
               >Cylinder Company</label
             >
             <ng-select
@@ -183,13 +201,23 @@
               placeholder="Select Cylinder Company"
               [(ngModel)]="product.cylinderCompanyId"
               [searchable]="true"
+              class="material-ng-select"
+              required
             >
             </ng-select>
+            <div
+              *ngIf="
+                form.submitted && form.controls['cylindercompanyid']?.invalid
+              "
+              class="text-danger"
+            >
+              Cylinder Company is required
+            </div>
           </div>
         </div>
         <div class="col-md-4">
-          <div class="mt-1 form-group">
-            <label for="printingcompanyid" class="form-label"
+          <div class="mt-1 form-group ng-wrapper">
+            <label for="printingcompanyid" class="form-label material-label"
               >Printing Company</label
             >
             <ng-select
@@ -201,8 +229,18 @@
               placeholder="Select Printing Company"
               [(ngModel)]="product.printingCompanyId"
               [searchable]="true"
+              class="material-ng-select"
+              required
             >
             </ng-select>
+            <div
+              *ngIf="
+                form.submitted && form.controls['printingcompanyid']?.invalid
+              "
+              class="text-danger"
+            >
+              Printing Company is required
+            </div>
           </div>
         </div>
       </div>
@@ -285,6 +323,12 @@
         <div class="col-md-12 mt-6"></div>
       </div>
     </div>
+  
+   <!-- 🔍 Debug output here        -->
+   <pre>{{ form.value | json }}</pre>
+   <pre>Valid: {{ form.valid }}</pre>
+   <pre>Is Version Unique: {{ isVersionUnique }}</pre>
+
   </form>
 </div>
 <div

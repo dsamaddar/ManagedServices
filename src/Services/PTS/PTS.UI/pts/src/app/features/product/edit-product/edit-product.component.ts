@@ -1,6 +1,6 @@
 import { CommonModule, DatePipe } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { ProductService } from '../services/product.service';
 import { Observable, Subscription } from 'rxjs';
@@ -24,6 +24,12 @@ import { Attachment } from '../models/attachment.model';
 import { UpdateProductRequest } from '../models/edit-product.model';
 import { PackType } from '../../packtype/models/packtype.model';
 import { PacktypeService } from '../../packtype/services/packtype.service';
+import { MatSelectModule } from '@angular/material/select';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @Component({
   selector: 'app-edit-product',
@@ -33,6 +39,12 @@ import { PacktypeService } from '../../packtype/services/packtype.service';
     RouterModule,
     NgSelectModule,
     FileSelectorComponent,
+    MatSelectModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatAutocompleteModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
   ],
   templateUrl: './edit-product.component.html',
   styleUrl: './edit-product.component.css',
@@ -59,6 +71,11 @@ export class EditProductComponent implements OnInit, OnDestroy {
 
   private addProductSubscription?: Subscription;
   private uploadAttachmentSubscription?: Subscription;
+
+  isVersionUnique:  boolean | null = null;
+  isBarCodeUnique:  boolean | null = null;
+
+  ngForm: FormGroup;
 
   iconList = [
     // array of icon class list based on type
@@ -102,8 +119,26 @@ export class EditProductComponent implements OnInit, OnDestroy {
     private cylinderCompanyService: CylindercompanyService,
     private printingCompanyService: PrintingcompanyService,
     private datepipe: DatePipe,
-    private http: HttpClient
-  ) {}
+    private http: HttpClient,
+    private fb: FormBuilder
+  ) {
+
+    this.ngForm = this.fb.group({
+      categoryid: ['', Validators.required],
+      brand: ['', Validators.required],
+      flavourtype: ['', Validators.required],
+      origin: ['', Validators.required],
+      sku: ['', Validators.required],
+      productcode: ['', Validators.required],
+      version: ['', Validators.required],
+      barcode: ['', Validators.required],
+      projectdate: ['', Validators.required],
+      packtypeid: ['', Validators.required],
+      cylindercompanyid: ['', Validators.required],
+      printingcompanyid: ['', Validators.required],
+    });
+
+  }
 
   get projectDateString(): string {
     if (!this.product?.projectDate) {
