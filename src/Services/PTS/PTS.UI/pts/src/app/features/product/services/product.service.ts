@@ -40,7 +40,11 @@ export class ProductService {
   getAllProducts(
     query?: string,
     pageNumber?: number,
-    pageSize?: number
+    pageSize?: number,
+    categoryid?: number,
+    packtypeid?: number,
+    cylindercompanyid?: number,
+    printingcompanyid?: number,
   ): Observable<AllProduct[]> {
     let params = new HttpParams();
 
@@ -54,6 +58,22 @@ export class ProductService {
 
     if (pageSize) {
       params = params.set('pageSize', pageSize);
+    }
+
+    if (categoryid) {
+      params = params.set('categoryid', categoryid);
+    }
+
+    if (packtypeid) {
+      params = params.set('packtypeid', packtypeid);
+    }
+
+    if (cylindercompanyid) {
+      params = params.set('cylindercompanyid', cylindercompanyid);
+    }
+
+    if (printingcompanyid) {
+      params = params.set('printingcompanyid', printingcompanyid);
     }
 
     return this.http.get<AllProduct[]>(

@@ -76,9 +76,13 @@ namespace PTS.API.Controllers
         public async Task<IActionResult> GetAllProducts(
             [FromQuery] string? query,
             [FromQuery] int? pageNumber,
-            [FromQuery] int? pageSize)
+            [FromQuery] int? pageSize,
+            [FromQuery] int? categoryid,
+            [FromQuery] int? packtypeid,
+            [FromQuery] int? cylindercompanyid,
+            [FromQuery] int? printingcompanyid)
         {
-            var products = await productRepository.GetAllAsync(query, pageNumber, pageSize);
+            var products = await productRepository.GetAllAsync(query, pageNumber, pageSize, categoryid,packtypeid,cylindercompanyid,printingcompanyid);
 
             // Map Domain model to DTO
             var response = new List<ProductDto>();

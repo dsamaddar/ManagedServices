@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure.Internal;
+using Microsoft.EntityFrameworkCore.Query;
 using PTS.API.Data;
 using PTS.API.Models.Domain;
 using PTS.API.Repositories.Exceptions;
@@ -50,7 +51,7 @@ namespace PTS.API.Repositories.Implementation
             return existingProduct;
         }
 
-        public async Task<IEnumerable<Product>> GetAllAsync(string? query = null, int? pageNumber = 1, int? pageSize = 5)
+        public async Task<IEnumerable<Product>> GetAllAsync(string? query = null, int? pageNumber = 1, int? pageSize = 5, int? categoryid = null, int? packtypeid = null, int? cylindercompanyid = null, int? printingcompanyid = null)
         {
             // Query the database not actually retrieving anything
             var products = dbContext.Products
@@ -65,10 +66,17 @@ namespace PTS.API.Repositories.Implementation
 
             // Filtering
 
-            if(string.IsNullOrWhiteSpace(query) == false)
+            if (string.IsNullOrWhiteSpace(query) == false)
+            {
+                query = "";
+            }
+
+            if (string.IsNullOrWhiteSpace(query) == false || categoryid != null || packtypeid != null || cylindercompanyid != null || printingcompanyid != null)
             {
                 products = products
-                            .Where(x => 
+                            .Where(x =>
+                            // OR-based query search
+                            (string.IsNullOrWhiteSpace(query) || (
                             (x.Barcode != null && x.Barcode.Contains(query)) ||
                             (x.Brand != null && x.Brand.Contains(query)) ||
                             (x.FlavourType != null && x.FlavourType.Contains(query)) ||
@@ -79,7 +87,18 @@ namespace PTS.API.Repositories.Implementation
                             (x.Category != null && x.Category.Name != null && x.Category.Name.Contains(query)) ||
                             (x.PrintingCompany != null && x.PrintingCompany.Name != null && x.PrintingCompany.Name.Contains(query)) ||
                             (x.CylinderCompany != null && x.CylinderCompany.Name != null && x.CylinderCompany.Name.Contains(query)) ||
-                            (x.PackType != null && x.PackType.Name != null && x.PackType.Name.Contains(query))
+                            (x.PackType != null && x.PackType.Name != null && x.PackType.Name.Contains(query)) ||
+                            (x.CategoryId != null && x.CategoryId == categoryid) ||
+                            (x.PackTypeId != null && x.PackTypeId == packtypeid) ||
+                            (x.CylinderCompanyId != null && x.CylinderCompanyId == cylindercompanyid) ||
+                            (x.PrintingCompanyId != null && x.PrintingCompanyId == printingcompanyid)
+                            )
+                            ) &&
+                            // AND-based filters (apply only if filter has value)
+                            (categoryid == null || x.CategoryId == categoryid) &&
+                            (packtypeid == null || x.PackTypeId == packtypeid) &&
+                            (cylindercompanyid == null || x.CylinderCompanyId == cylindercompanyid) &&
+                            (printingcompanyid == null || x.PrintingCompanyId == printingcompanyid)
                             )
                             .OrderByDescending(x => x.ProjectDate);
             }

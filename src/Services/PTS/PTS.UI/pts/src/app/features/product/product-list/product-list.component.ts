@@ -1,6 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormsModule, ReactiveFormsModule, ValueChangeEvent } from '@angular/forms';
+import {
+  FormsModule,
+  ReactiveFormsModule,
+  ValueChangeEvent,
+} from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { ProductService } from '../services/product.service';
 import { Product } from '../models/product.model';
@@ -11,7 +15,7 @@ import { MatDialog } from '@angular/material/dialog';
 import Swal from 'sweetalert2';
 import { ProductversionService } from '../../productversion/services/productversion.service';
 import { ToastrUtils } from '../../../utils/toastr-utils';
-import { ShowProductversionComponent } from "../../../shared/components/show-productversion/show-productversion.component";
+import { ShowProductversionComponent } from '../../../shared/components/show-productversion/show-productversion.component';
 import { User } from '../../auth/models/user.model';
 import { AuthService } from '../../auth/services/auth.service';
 import { ExcelExportService } from '../services/excel-export.service';
@@ -34,8 +38,8 @@ import { PrintingcompanyService } from '../../printingCompany/services/printingc
     AddProductversionComponent,
     ShowProductversionComponent,
     ReactiveFormsModule,
-    NgSelectModule
-],
+    NgSelectModule,
+  ],
   templateUrl: './product-list.component.html',
   styleUrl: './product-list.component.css',
 })
@@ -75,7 +79,7 @@ export class ProductListComponent implements OnInit {
     private categoryService: CategoryService,
     private packTypeService: PacktypeService,
     private cylinderCompanyService: CylindercompanyService,
-    private printingCompanyService: PrintingcompanyService,
+    private printingCompanyService: PrintingcompanyService
   ) {}
 
   ngOnInit(): void {
@@ -106,30 +110,47 @@ export class ProductListComponent implements OnInit {
   }
 
   exportToExcel() {
-    this.productService.getAllProducts('', 0, 10000000).subscribe(products => {
-      const exportData = products.map(p => ({
-        Category: p.category.name,
-        Brand: p.brand,
-        Flavour: p.flavourType,
-        Origin: p.origin,
-        SKU: p.sku,
-        ProductCode: p.productCode,
-        PackType: p.packType.name,
-        BarCode: p.barcode,
-        ProjectDate: p.projectDate? new Date(p.projectDate).toISOString().slice(0, 10) : '',
-        CylinderCompany: p.cylinderCompany.name,
-        PrintingCompany: p.printingCompany.name,
-      }));
-  
-      this.excelService.exportAsExcelFile(exportData, 'ProductList');
-    });
+    this.productService
+      .getAllProducts(
+        '',
+        0,
+        10000000,
+        this.categoryid,
+        this.packtypeid,
+        this.cylindercompanyid,
+        this.printingcompanyid
+      )
+      .subscribe((products) => {
+        const exportData = products.map((p) => ({
+          Category: p.category.name,
+          Brand: p.brand,
+          Flavour: p.flavourType,
+          Origin: p.origin,
+          SKU: p.sku,
+          ProductCode: p.productCode,
+          PackType: p.packType.name,
+          BarCode: p.barcode,
+          ProjectDate: p.projectDate
+            ? new Date(p.projectDate).toISOString().slice(0, 10)
+            : '',
+          CylinderCompany: p.cylinderCompany.name,
+          PrintingCompany: p.printingCompany.name,
+        }));
+
+        this.excelService.exportAsExcelFile(exportData, 'ProductList');
+      });
   }
 
   onSearch(query: string) {
+    console.log(this.categoryid);
     this.products$ = this.productService.getAllProducts(
       query,
       this.pageNumber,
-      this.pageSize
+      this.pageSize,
+      this.categoryid,
+      this.packtypeid,
+      this.cylindercompanyid,
+      this.printingcompanyid
     );
 
     this.global_query = query;
@@ -163,7 +184,7 @@ export class ProductListComponent implements OnInit {
 
   loadData() {
     console.log('data reloaded');
-    
+
     this.products$ = this.productService.getAllProducts(
       this.global_query,
       this.pageNumber,
@@ -193,7 +214,7 @@ export class ProductListComponent implements OnInit {
     this.pageSize = Number(value);
   }
 
-  openViewProduct(productid: number){
+  openViewProduct(productid: number) {
     this.router.navigateByUrl(`/admin/viewproduct/${productid}`);
     //const url = `/admin/viewproduct/${productid}`;
     //window.open(url, '_blank'); // opens in new tab
@@ -212,7 +233,6 @@ export class ProductListComponent implements OnInit {
   }
 
   deleteProductVersion(productversionid: number) {
-
     this.isShowProductVersionModalVisible = false;
     /*
     if(this.isShowProductVersionModalVisible == true){
@@ -233,19 +253,18 @@ export class ProductListComponent implements OnInit {
     }).then((result) => {
       if (result.isConfirmed) {
         // ✅ Call your delete logic here
-          this.deleteProductVersionSubscription = this.productVersionService
-            .deleteProductVersion(productversionid)
-            .subscribe({
-              next: (response) => {
-                Swal.fire('Deleted!', 'Your item has been deleted.', 'success');
-                //this.router.navigateByUrl('/admin/products');
-                this.loadData();
-              },
-              error: (error) => {
-                ToastrUtils.showErrorToast('Not Authorized To Delete!');
-              },
-            });
-      
+        this.deleteProductVersionSubscription = this.productVersionService
+          .deleteProductVersion(productversionid)
+          .subscribe({
+            next: (response) => {
+              Swal.fire('Deleted!', 'Your item has been deleted.', 'success');
+              //this.router.navigateByUrl('/admin/products');
+              this.loadData();
+            },
+            error: (error) => {
+              ToastrUtils.showErrorToast('Not Authorized To Delete!');
+            },
+          });
       } else {
         console.log('Delete operation cancelled.');
       }
