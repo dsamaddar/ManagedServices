@@ -11,6 +11,7 @@
         [(ngModel)]="categoryid"
         [searchable]="true"
         class="material-ng-select"
+        (change)="onSearch(queryText.value)"
       >
       </ng-select>
     </div>
@@ -24,7 +25,7 @@
         [(ngModel)]="packtypeid"
         [searchable]="true"
         class="material-ng-select"
-        required
+        (change)="onSearch(queryText.value)"
       >
       </ng-select>
     </div>
@@ -38,7 +39,7 @@
         [(ngModel)]="cylindercompanyid"
         [searchable]="true"
         class="material-ng-select"
-        required
+        (change)="onSearch(queryText.value)"
       >
       </ng-select>
     </div>
@@ -52,7 +53,7 @@
         [(ngModel)]="printingcompanyid"
         [searchable]="true"
         class="material-ng-select"
-        required
+        (change)="onSearch(queryText.value)"
       >
       </ng-select>
     </div>
