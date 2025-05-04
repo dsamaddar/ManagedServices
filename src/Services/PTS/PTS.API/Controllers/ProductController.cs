@@ -78,11 +78,15 @@ namespace PTS.API.Controllers
             [FromQuery] int? pageNumber,
             [FromQuery] int? pageSize,
             [FromQuery] int? categoryid,
+            [FromQuery] string? brand,
+            [FromQuery] string? flavour,
+            [FromQuery] string? origin,
+            [FromQuery] string? sku,
             [FromQuery] int? packtypeid,
             [FromQuery] int? cylindercompanyid,
             [FromQuery] int? printingcompanyid)
         {
-            var products = await productRepository.GetAllAsync(query, pageNumber, pageSize, categoryid,packtypeid,cylindercompanyid,printingcompanyid);
+            var products = await productRepository.GetAllAsync(query, pageNumber, pageSize, categoryid,brand,flavour,origin,sku,packtypeid,cylindercompanyid,printingcompanyid);
 
             // Map Domain model to DTO
             var response = new List<ProductDto>();
@@ -320,11 +324,15 @@ namespace PTS.API.Controllers
         public async Task<IActionResult> GetProductCount(
             [FromQuery] string? query, 
             [FromQuery] int? categoryid,
+            [FromQuery] string? brand,
+            [FromQuery] string? flavour,
+            [FromQuery] string? origin,
+            [FromQuery] string? sku,
             [FromQuery] int? packtypeid,
             [FromQuery] int? cylindercompanyid,
             [FromQuery] int? printingcompanyid)
         {
-            var count = await productRepository.GetCount(query, categoryid, packtypeid, cylindercompanyid, printingcompanyid);
+            var count = await productRepository.GetCount(query, categoryid,brand,flavour,origin,sku, packtypeid, cylindercompanyid, printingcompanyid);
 
             return Ok(count);
         }

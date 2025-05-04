@@ -51,7 +51,7 @@ namespace PTS.API.Repositories.Implementation
             return existingProduct;
         }
 
-        public async Task<IEnumerable<Product>> GetAllAsync(string? query = null, int? pageNumber = 1, int? pageSize = 5, int? categoryid = null, int? packtypeid = null, int? cylindercompanyid = null, int? printingcompanyid = null)
+        public async Task<IEnumerable<Product>> GetAllAsync(string? query = null, int? pageNumber = 1, int? pageSize = 5, int? categoryid = null, string? brand = null, string? flavour = null, string? origin = null, string? sku = null, int? packtypeid = null, int? cylindercompanyid = null, int? printingcompanyid = null)
         {
             // Query the database not actually retrieving anything
             var products = dbContext.Products
@@ -71,7 +71,7 @@ namespace PTS.API.Repositories.Implementation
                 query = "";
             }
 
-            if (string.IsNullOrWhiteSpace(query) == false || categoryid != null || packtypeid != null || cylindercompanyid != null || printingcompanyid != null)
+            if (string.IsNullOrWhiteSpace(query) == false || categoryid != null  || brand != null || flavour != null || origin != null || sku != null || packtypeid != null || cylindercompanyid != null || printingcompanyid != null)
             {
                 products = products
                             .Where(x =>
@@ -96,6 +96,10 @@ namespace PTS.API.Repositories.Implementation
                             ) &&
                             // AND-based filters (apply only if filter has value)
                             (categoryid == null || x.CategoryId == categoryid) &&
+                            (brand == null || x.Brand == brand) &&
+                            (flavour == null || x.FlavourType == flavour) &&
+                            (origin == null || x.Origin == origin) &&
+                            (sku == null || x.SKU == sku) &&
                             (packtypeid == null || x.PackTypeId == packtypeid) &&
                             (cylindercompanyid == null || x.CylinderCompanyId == cylindercompanyid) &&
                             (printingcompanyid == null || x.PrintingCompanyId == printingcompanyid)
@@ -141,7 +145,7 @@ namespace PTS.API.Repositories.Implementation
                 .FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public async Task<int> GetCount(string? query = null, int ? categoryid = null, int? packtypeid = null, int? cylindercompanyid = null, int? printingcompanyid = null)
+        public async Task<int> GetCount(string? query = null, int ? categoryid = null, string? brand = null, string? flavour = null, string? origin = null, string? sku = null, int? packtypeid = null, int? cylindercompanyid = null, int? printingcompanyid = null)
         {
             // Query the database not actually retrieving anything
             var products = dbContext.Products
@@ -154,7 +158,7 @@ namespace PTS.API.Repositories.Implementation
 
             // Filtering
 
-            if (string.IsNullOrWhiteSpace(query) == false || categoryid != null || packtypeid != null || cylindercompanyid != null || printingcompanyid != null)
+            if (string.IsNullOrWhiteSpace(query) == false || categoryid != null || brand != null || flavour != null || origin != null || sku != null || packtypeid != null || cylindercompanyid != null || printingcompanyid != null)
             {
                 products = products
                             
@@ -172,6 +176,10 @@ namespace PTS.API.Repositories.Implementation
                             ) &&
                             // AND-based filters (apply only if filter has value)
                             (categoryid == null || x.CategoryId == categoryid) &&
+                            (brand == null || x.Brand == brand) &&
+                            (flavour == null || x.FlavourType == flavour) &&
+                            (origin == null || x.Origin == origin) &&
+                            (sku == null || x.SKU == sku) &&
                             (packtypeid == null || x.PackTypeId == packtypeid) &&
                             (cylindercompanyid == null || x.CylinderCompanyId == cylindercompanyid) &&
                             (printingcompanyid == null || x.PrintingCompanyId == printingcompanyid)

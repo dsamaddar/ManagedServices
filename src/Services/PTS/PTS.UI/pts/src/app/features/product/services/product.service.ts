@@ -42,9 +42,13 @@ export class ProductService {
     pageNumber?: number,
     pageSize?: number,
     categoryid?: number,
+    brand?: string,
+    flavour?: string,
+    origin?: string,
+    sku?: string,
     packtypeid?: number,
     cylindercompanyid?: number,
-    printingcompanyid?: number,
+    printingcompanyid?: number
   ): Observable<AllProduct[]> {
     let params = new HttpParams();
 
@@ -62,6 +66,22 @@ export class ProductService {
 
     if (categoryid) {
       params = params.set('categoryid', categoryid);
+    }
+
+    if (brand) {
+      params = params.set('brand', brand);
+    }
+
+    if (flavour) {
+      params = params.set('flavour', flavour);
+    }
+
+    if (origin) {
+      params = params.set('origin', origin);
+    }
+
+    if (sku) {
+      params = params.set('sku', sku);
     }
 
     if (packtypeid) {
@@ -96,11 +116,17 @@ export class ProductService {
     );
   }
 
-  getProductCount(query?: string,
+  getProductCount(
+    query?: string,
     categoryid?: number,
+    brand?: string,
+    flavour?: string,
+    origin?: string,
+    sku?: string,
     packtypeid?: number,
     cylindercompanyid?: number,
-    printingcompanyid?: number,): Observable<number> {
+    printingcompanyid?: number
+  ): Observable<number> {
     let params = new HttpParams();
 
     if (query) {
@@ -109,6 +135,22 @@ export class ProductService {
 
     if (categoryid) {
       params = params.set('categoryid', categoryid);
+    }
+
+    if (brand) {
+      params = params.set('brand', brand);
+    }
+
+    if (flavour) {
+      params = params.set('flavour', flavour);
+    }
+
+    if (origin) {
+      params = params.set('origin', origin);
+    }
+
+    if (sku) {
+      params = params.set('sku', sku);
     }
 
     if (packtypeid) {
@@ -167,5 +209,4 @@ export class ProductService {
       `${environment.apiBaseUrl}/api/product/${id}`
     );
   }
-
 }

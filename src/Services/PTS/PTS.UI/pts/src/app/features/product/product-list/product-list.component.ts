@@ -56,10 +56,10 @@ export class ProductListComponent implements OnInit {
   product_version_id: number = 0;
   user?: User;
 
-  filtered_brand: string | null = null;
-  filtered_flavourtype: string | null = null;
-  filtered_origin: string | null = null;
-  filtered_sku: string | null = null;
+  filtered_brand: string | undefined = undefined;
+  filtered_flavourtype: string | undefined = undefined;
+  filtered_origin: string | undefined = undefined;
+  filtered_sku: string | undefined = undefined;
 
   // observable array
   categories$?: Observable<Category[]>;
@@ -127,16 +127,16 @@ export class ProductListComponent implements OnInit {
     });
 
     // load brands
-    this.brands$ =  this.suggestionService.getSuggestionsBrand('%');
+    this.brands$ = this.suggestionService.getSuggestionsBrand('%');
 
     // load flavoour type
-    this.flavourtypes$ =  this.suggestionService.getSuggestionsFlavourType('%');
+    this.flavourtypes$ = this.suggestionService.getSuggestionsFlavourType('%');
 
     // load origin
-    this.origins$ =  this.suggestionService.getSuggestionsOrigin('%');
+    this.origins$ = this.suggestionService.getSuggestionsOrigin('%');
 
     // load SKU
-    this.skus$ =  this.suggestionService.getSuggestionsSKU('%');
+    this.skus$ = this.suggestionService.getSuggestionsSKU('%');
   }
 
   exportToExcel() {
@@ -146,6 +146,10 @@ export class ProductListComponent implements OnInit {
         0,
         10000000,
         this.categoryid,
+        this.filtered_brand,
+        this.filtered_flavourtype,
+        this.filtered_origin,
+        this.filtered_sku,
         this.packtypeid,
         this.cylindercompanyid,
         this.printingcompanyid
@@ -172,12 +176,15 @@ export class ProductListComponent implements OnInit {
   }
 
   onSearch(query: string) {
-    console.log(this.categoryid);
     this.products$ = this.productService.getAllProducts(
       query,
       this.pageNumber,
       this.pageSize,
       this.categoryid,
+      this.filtered_brand,
+      this.filtered_flavourtype,
+      this.filtered_origin,
+      this.filtered_sku,
       this.packtypeid,
       this.cylindercompanyid,
       this.printingcompanyid
@@ -189,6 +196,10 @@ export class ProductListComponent implements OnInit {
       .getProductCount(
         query,
         this.categoryid,
+        this.filtered_brand,
+        this.filtered_flavourtype,
+        this.filtered_origin,
+        this.filtered_sku,
         this.packtypeid,
         this.cylindercompanyid,
         this.printingcompanyid
@@ -216,7 +227,15 @@ export class ProductListComponent implements OnInit {
     this.products$ = this.productService.getAllProducts(
       this.global_query,
       pageNumber,
-      this.pageSize
+      this.pageSize,
+      this.categoryid,
+      this.filtered_brand,
+      this.filtered_flavourtype,
+      this.filtered_origin,
+      this.filtered_sku,
+      this.packtypeid,
+      this.cylindercompanyid,
+      this.printingcompanyid
     );
   }
 
