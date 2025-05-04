@@ -169,6 +169,7 @@ export class ProductListComponent implements OnInit {
             : '',
           CylinderCompany: p.cylinderCompany.name,
           PrintingCompany: p.printingCompany.name,
+          ProductVersions: p.productVersions ?.map((v) => v.version + ' [' + v.versionDate + ']').join(', ') || ''
         }));
 
         this.excelService.exportAsExcelFile(exportData, 'ProductList');
