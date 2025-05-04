@@ -25,7 +25,7 @@ namespace PTS.API.Controllers
 
         // https://localhost:xxxx/api/product
         [HttpPost]
-        [Authorize(Roles = "READER,MANAGER,ADMIN")]
+        [Authorize(Roles = "MANAGER,ADMIN")]
         public async Task<IActionResult> CreateProduct([FromBody] CreateProductRequestDto request)
         {
             // Map DTO to Domain Model
@@ -72,7 +72,7 @@ namespace PTS.API.Controllers
 
         // GET: /api/product?query=html
         [HttpGet]
-        //[Authorize(Roles = "READER,MANAGER,ADMIN")]
+        [Authorize(Roles = "READER,MANAGER,ADMIN")]
         public async Task<IActionResult> GetAllProducts(
             [FromQuery] string? query,
             [FromQuery] int? pageNumber,
@@ -150,7 +150,7 @@ namespace PTS.API.Controllers
         // GET: {apiBaseUrl}/api/product/{id}
         [HttpGet]
         [Route("{id:int}")]
-        //[Authorize(Roles = "READER,MANAGER,ADMIN")]
+        [Authorize(Roles = "READER,MANAGER,ADMIN")]
         public async Task<IActionResult> GetProductById([FromRoute] int id)
         {
             // Get the product from the repository
@@ -332,7 +332,7 @@ namespace PTS.API.Controllers
         // GET {apiBaseUrl}/api/suggestions? search = app
         [HttpGet]
         [Route("suggestions-brand")]
-        //[Authorize(Roles = "READER,MANAGER,ADMIN")]
+        [Authorize(Roles = "READER,MANAGER,ADMIN")]
         public async Task<ActionResult> GetSuggestionsBrand([FromQuery] string? query)
         {
             if (string.IsNullOrWhiteSpace(query))
@@ -345,7 +345,7 @@ namespace PTS.API.Controllers
 
         [HttpGet]
         [Route("suggestions-flavourtype")]
-        //[Authorize(Roles = "READER,MANAGER,ADMIN")]
+        [Authorize(Roles = "READER,MANAGER,ADMIN")]
         public async Task<ActionResult> GetSuggestionsFlavourType([FromQuery] string? query)
         {
             if (string.IsNullOrWhiteSpace(query))
@@ -358,7 +358,7 @@ namespace PTS.API.Controllers
 
         [HttpGet]
         [Route("suggestions-origin")]
-        //[Authorize(Roles = "READER,MANAGER,ADMIN")]
+        [Authorize(Roles = "READER,MANAGER,ADMIN")]
         public async Task<ActionResult> GetSuggestionsOrigin([FromQuery] string? query)
         {
             if (string.IsNullOrWhiteSpace(query))
@@ -371,7 +371,7 @@ namespace PTS.API.Controllers
 
         [HttpGet]
         [Route("suggestions-sku")]
-        //[Authorize(Roles = "READER,MANAGER,ADMIN")]
+        [Authorize(Roles = "READER,MANAGER,ADMIN")]
         public async Task<ActionResult> GetSuggestionsSKU([FromQuery] string? query)
         {
             if (string.IsNullOrWhiteSpace(query))
@@ -384,7 +384,7 @@ namespace PTS.API.Controllers
 
         [HttpGet]
         [Route("suggestions-productcode")]
-        //[Authorize(Roles = "READER,MANAGER,ADMIN")]
+        [Authorize(Roles = "READER,MANAGER,ADMIN")]
         public async Task<ActionResult> GetSuggestionsProductCode([FromQuery] string? query)
         {
             if (string.IsNullOrWhiteSpace(query))
@@ -397,7 +397,7 @@ namespace PTS.API.Controllers
 
         [HttpGet]
         [Route("suggestions-version")]
-        //[Authorize(Roles = "READER,MANAGER,ADMIN")]
+        [Authorize(Roles = "READER,MANAGER,ADMIN")]
         public async Task<ActionResult> GetSuggestionsVersion([FromQuery] string? query)
         {
             if (string.IsNullOrWhiteSpace(query))
@@ -410,6 +410,7 @@ namespace PTS.API.Controllers
 
         [HttpGet]
         [Route("is-version-unique")]
+        [Authorize(Roles = "READER,MANAGER,ADMIN")]
         public async Task<ActionResult> GetIsVersionUnique([FromQuery] string? query)
         {
             bool isUnique = true;
@@ -428,7 +429,7 @@ namespace PTS.API.Controllers
 
         [HttpGet]
         [Route("suggestions-barcode")]
-        //[Authorize(Roles = "READER,MANAGER,ADMIN")]
+        [Authorize(Roles = "READER,MANAGER,ADMIN")]
         public async Task<ActionResult> GetSuggestionsBarCode([FromQuery] string? query)
         {
             if (string.IsNullOrWhiteSpace(query))
@@ -441,7 +442,7 @@ namespace PTS.API.Controllers
 
         [HttpGet]
         [Route("is-barcode-unique")]
-        //[Authorize(Roles = "READER,MANAGER,ADMIN")]
+        [Authorize(Roles = "READER,MANAGER,ADMIN")]
         public async Task<ActionResult> GetIsBarCodeUnique([FromQuery] string? query)
         {
             bool isUnique = true;
