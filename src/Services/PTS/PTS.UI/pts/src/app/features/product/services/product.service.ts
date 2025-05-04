@@ -96,11 +96,31 @@ export class ProductService {
     );
   }
 
-  getProductCount(query?: string): Observable<number> {
+  getProductCount(query?: string,
+    categoryid?: number,
+    packtypeid?: number,
+    cylindercompanyid?: number,
+    printingcompanyid?: number,): Observable<number> {
     let params = new HttpParams();
 
     if (query) {
       params = params.set('query', query);
+    }
+
+    if (categoryid) {
+      params = params.set('categoryid', categoryid);
+    }
+
+    if (packtypeid) {
+      params = params.set('packtypeid', packtypeid);
+    }
+
+    if (cylindercompanyid) {
+      params = params.set('cylindercompanyid', cylindercompanyid);
+    }
+
+    if (printingcompanyid) {
+      params = params.set('printingcompanyid', printingcompanyid);
     }
 
     return this.http.get<number>(

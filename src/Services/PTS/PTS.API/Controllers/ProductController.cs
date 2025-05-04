@@ -317,9 +317,14 @@ namespace PTS.API.Controllers
         [HttpGet]
         [Route("count")]
         [Authorize(Roles = "READER,MANAGER,ADMIN")]
-        public async Task<IActionResult> GetProductCount([FromQuery] string? query)
+        public async Task<IActionResult> GetProductCount(
+            [FromQuery] string? query, 
+            [FromQuery] int? categoryid,
+            [FromQuery] int? packtypeid,
+            [FromQuery] int? cylindercompanyid,
+            [FromQuery] int? printingcompanyid)
         {
-            var count = await productRepository.GetCount(query);
+            var count = await productRepository.GetCount(query, categoryid, packtypeid, cylindercompanyid, printingcompanyid);
 
             return Ok(count);
         }

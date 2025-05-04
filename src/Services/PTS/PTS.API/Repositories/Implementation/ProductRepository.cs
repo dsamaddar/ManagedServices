@@ -141,7 +141,7 @@ namespace PTS.API.Repositories.Implementation
                 .FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public async Task<int> GetCount(string? query = null)
+        public async Task<int> GetCount(string? query = null, int ? categoryid = null, int? packtypeid = null, int? cylindercompanyid = null, int? printingcompanyid = null)
         {
             // Query the database not actually retrieving anything
             var products = dbContext.Products
@@ -154,10 +154,13 @@ namespace PTS.API.Repositories.Implementation
 
             // Filtering
 
-            if (string.IsNullOrWhiteSpace(query) == false)
+            if (string.IsNullOrWhiteSpace(query) == false || categoryid != null || packtypeid != null || cylindercompanyid != null || printingcompanyid != null)
             {
                 products = products
+                            
                             .Where(x =>
+                            // OR-based query search
+                            (string.IsNullOrWhiteSpace(query) || (
                             (x.Barcode != null && x.Barcode.Contains(query)) ||
                             (x.Brand != null && x.Brand.Contains(query)) ||
                             (x.FlavourType != null && x.FlavourType.Contains(query)) ||
@@ -165,6 +168,13 @@ namespace PTS.API.Repositories.Implementation
                             (x.SKU != null && x.SKU.Contains(query)) ||
                             (x.ProductCode != null && x.ProductCode.Contains(query)) ||
                             (x.Version != null && x.Version.Contains(query))
+                            )
+                            ) &&
+                            // AND-based filters (apply only if filter has value)
+                            (categoryid == null || x.CategoryId == categoryid) &&
+                            (packtypeid == null || x.PackTypeId == packtypeid) &&
+                            (cylindercompanyid == null || x.CylinderCompanyId == cylindercompanyid) &&
+                            (printingcompanyid == null || x.PrintingCompanyId == printingcompanyid)
                             )
                             .OrderByDescending(x => x.ProjectDate);
             }

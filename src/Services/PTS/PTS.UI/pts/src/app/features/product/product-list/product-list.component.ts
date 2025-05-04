@@ -155,7 +155,12 @@ export class ProductListComponent implements OnInit {
 
     this.global_query = query;
 
-    this.productService.getProductCount(query).subscribe({
+    this.productService.getProductCount(query,
+      this.categoryid,
+      this.packtypeid,
+      this.cylindercompanyid,
+      this.printingcompanyid
+    ).subscribe({
       next: (value) => {
         this.totalProductCount = value;
         this.page_list = new Array(
