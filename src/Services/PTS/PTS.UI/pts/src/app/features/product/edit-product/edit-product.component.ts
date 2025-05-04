@@ -1,10 +1,12 @@
 import { CommonModule, DatePipe } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { parseISO, format } from 'date-fns';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import {
   FormBuilder,
   FormGroup,
   FormsModule,
+  NgForm,
   Validators,
 } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
@@ -34,7 +36,10 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { MatDatepickerModule } from '@angular/material/datepicker';
+import {
+  MatDatepickerInputEvent,
+  MatDatepickerModule,
+} from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { SuggestionService } from '../services/suggestion.service';
 
@@ -65,6 +70,8 @@ export class EditProductComponent implements OnInit, OnDestroy {
   product?: AllProduct;
   attachmentBaseUrl?: string;
   attachment_list: Attachment[] = [];
+
+  existing_version: string = '';
 
   progress = 0;
   //product: AddProductRequest;
@@ -145,12 +152,12 @@ export class EditProductComponent implements OnInit, OnDestroy {
     private datepipe: DatePipe,
     private http: HttpClient,
     private fb: FormBuilder,
-    private suggestionServices: SuggestionService
+    private suggestionService: SuggestionService
   ) {
     this.ngForm = this.fb.group({
       categoryid: ['', Validators.required],
       brand: ['', Validators.required],
-      flavourtype: ['', Validators.required],
+      flavourType: ['', Validators.required],
       origin: ['', Validators.required],
       sku: ['', Validators.required],
       productcode: ['', Validators.required],
@@ -185,12 +192,20 @@ export class EditProductComponent implements OnInit, OnDestroy {
     }
   }
 
-  onProjectDateChange(value: string) {
-    if (this.product?.projectDate) {
-      console.log('setter: ' + value);
-
-      this.product.projectDate = value ? new Date(value) : new Date();
+  onProjectDateChange(event: MatDatepickerInputEvent<Date>) {
+    console.log(event);
+    if (event.value && this.product) {
+      this.product.projectDate = event.value
+        ? new Date(format(event.value, 'yyyy-MM-dd'))
+        : new Date();
+      console.log(this.product.projectDate);
     }
+
+    // if (this.product?.projectDate) {
+    //   console.log('setter: ' + value);
+
+    //   this.product.projectDate = value ? new Date(value) : new Date();
+    // }
   }
 
   onFilesSelected(event: Event) {
@@ -238,6 +253,7 @@ export class EditProductComponent implements OnInit, OnDestroy {
             next: (response) => {
               this.product = response;
               //console.log(this.product);
+              this.existing_version = this.product.version;
             },
           });
         }
@@ -257,11 +273,90 @@ export class EditProductComponent implements OnInit, OnDestroy {
         debounceTime(300),
         distinctUntilChanged(),
         switchMap((term: string) =>
-          this.suggestionServices.getSuggestionsBrand(term)
+          this.suggestionService.getSuggestionsBrand(term)
         )
       )
       .subscribe((data) => {
         this.suggestions_brand = data;
+      });
+
+    // load flavour types
+    this.searchFlavourTypes
+      .pipe(
+        debounceTime(300),
+        distinctUntilChanged(),
+        switchMap((term: string) =>
+          this.suggestionService.getSuggestionsFlavourType(term)
+        )
+      )
+      .subscribe((data) => {
+        this.suggestions_flavourtype = data;
+      });
+
+    // load Origins
+    this.searchOrigins
+      .pipe(
+        debounceTime(300),
+        distinctUntilChanged(),
+        switchMap((term: string) =>
+          this.suggestionService.getSuggestionsOrigin(term)
+        )
+      )
+      .subscribe((data) => {
+        this.suggestions_origin = data;
+      });
+
+    // load SKUs
+    this.searchSKUs
+      .pipe(
+        debounceTime(300),
+        distinctUntilChanged(),
+        switchMap((term: string) =>
+          this.suggestionService.getSuggestionsSKU(term)
+        )
+      )
+      .subscribe((data) => {
+        this.suggestions_sku = data;
+      });
+
+    // load Product Codes
+    this.searchProductCodes
+      .pipe(
+        debounceTime(300),
+        distinctUntilChanged(),
+        switchMap((term: string) =>
+          this.suggestionService.getSuggestionsProductCode(term)
+        )
+      )
+      .subscribe((data) => {
+        this.suggestions_productcode = data;
+      });
+
+    // load Versions
+    this.searchVersions
+      .pipe(
+        debounceTime(300),
+        distinctUntilChanged(),
+        switchMap((term: string) =>
+          this.suggestionService.getSuggestionsVersion(term)
+        )
+      )
+      .subscribe((data) => {
+        this.suggestions_version = data;
+        console.log(this.suggestions_version);
+      });
+
+    // load Barcodes
+    this.searchBarcodes
+      .pipe(
+        debounceTime(300),
+        distinctUntilChanged(),
+        switchMap((term: string) =>
+          this.suggestionService.getSuggestionsBarCode(term)
+        )
+      )
+      .subscribe((data) => {
+        this.suggestions_barcode = data;
       });
   }
 
@@ -277,6 +372,124 @@ export class EditProductComponent implements OnInit, OnDestroy {
         this.searchBrands.next(upper);
       } else {
         this.suggestions_brand = [];
+      }
+    }
+  }
+
+  onSearchChangeFlavourType(value: string) {
+    const upper = value.toUpperCase();
+
+    if (this.product) {
+      this.product.flavourType = upper; // updates ngModel immediately
+
+      console.log('flavour->' + upper);
+
+      if (value && value.length >= 1) {
+        this.searchFlavourTypes.next(upper);
+      } else {
+        this.suggestions_flavourtype = [];
+      }
+    }
+  }
+
+  onSearchChangeOrigin(value: string) {
+    const upper = value.toUpperCase();
+    if (this.product) {
+      this.product.origin = upper; // updates ngModel immediately
+
+      console.log('origin->' + upper);
+      if (value && value.length >= 1) {
+        this.searchOrigins.next(upper);
+      } else {
+        this.suggestions_origin = [];
+      }
+    }
+  }
+
+  onSearchChangeSKU(value: string) {
+    const upper = value.toUpperCase();
+
+    if (this.product) {
+      this.product.sku = upper; // updates ngModel immediately
+
+      console.log('sku->' + upper);
+      if (value && value.length >= 1) {
+        this.searchSKUs.next(upper);
+      } else {
+        this.suggestions_sku = [];
+      }
+    }
+  }
+
+  onSearchChangeProductCode(value: string) {
+    const upper = value.toUpperCase();
+
+    if (this.product) {
+      this.product.productCode = upper; // updates ngModel immediately
+
+      //console.log('productcode->' + upper);
+      if (value && value.length >= 1) {
+        this.searchProductCodes.next(upper);
+      } else {
+        this.suggestions_productcode = [];
+      }
+    }
+  }
+
+  onSearchChangeVersion(value: string) {
+    const upper = value.toUpperCase();
+
+    if (this.product) {
+      this.product.version = upper; // updates ngModel immediately
+
+      console.log('version->' + upper);
+      if (value && value.length >= 1) {
+        this.searchVersions.next(upper);
+        console.log('version->->' + upper);
+
+        // check for the existing version
+        if (this.product.version == this.existing_version) {
+          return;
+        }
+
+        this.suggestionService.getIsVersionUnique(upper).subscribe({
+          next: (response) => {
+            this.isVersionUnique = response;
+            if (this.isVersionUnique === false) {
+              console.log(this.isVersionUnique);
+              ToastrUtils.showErrorToast('Version Already Exists');
+            }
+          },
+        });
+      } else {
+        this.suggestions_version = [];
+      }
+    }
+  }
+
+  onSearchChangeBarcode(value: string) {
+    const upper = value.toUpperCase();
+
+    if (this.product) {
+      this.product.barcode = upper; // updates ngModel immediately
+
+      console.log('barcode->' + upper);
+      if (value && value.length >= 1) {
+        this.searchBarcodes.next(upper);
+
+        this.suggestionService.getIsBarCodeUnique(upper).subscribe({
+          next: (response) => {
+            this.isBarCodeUnique = response;
+            if (this.isBarCodeUnique === false) {
+              console.log(this.isBarCodeUnique);
+              ToastrUtils.showErrorToast(
+                'Barcode Already Exists (' + upper + ')'
+              );
+            }
+          },
+        });
+      } else {
+        this.suggestions_barcode = [];
       }
     }
   }
@@ -297,7 +510,13 @@ export class EditProductComponent implements OnInit, OnDestroy {
     this.deleteAttachmentSubscription?.unsubscribe();
   }
 
-  onFormSubmit() {
+  onFormSubmit(form: NgForm) {
+    if (form.invalid || this.isVersionUnique === false) {
+      this.ngForm.markAllAsTouched();
+      console.log('invalid form');
+      return;
+    }
+
     if (
       this.product?.categoryId == 0 ||
       this.product?.packTypeId == 0 ||

@@ -1,6 +1,6 @@
 import { CommonModule, DatePipe } from '@angular/common';
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, NgForm, Validators } from '@angular/forms';
 import { AddProductVersionRequest } from '../../../features/productversion/models/add-productversion.model';
 import { Subscription } from 'rxjs';
 import { ProductversionService } from '../../../features/productversion/services/productversion.service';
@@ -27,26 +27,38 @@ export class AddProductversionComponent implements OnInit, OnDestroy {
   selectedFiles: File[] = [];
   attachmentBaseUrl?: string;
 
+  isVersionUnique:  boolean | null = null;
+  ngForm: FormGroup;
+
   private addProductVersionSubscription?: Subscription;
   private addAttachmentsSubscripts?: Subscription;
   private uploadAttachmentSubscription?: Subscription;
+
+  myDate = new Date();
 
   constructor(
     private datepipe: DatePipe,
     private productVersionService: ProductversionService,
     private productService: ProductService,
-    private router: Router
-  ) {}
+    private router: Router,
+    private fb: FormBuilder
+  ) {
+    this.ngForm = this.fb.group({
+      version: ['', Validators.required],
+      versionDate: [this.myDate, Validators.required],
+      description: ['', Validators.required],
+    });
+  }
   ngOnInit(): void {
 
     this.attachmentBaseUrl = `${environment.attachmentBaseUrl}`;
-    const myDate = new Date();
-    const formatted = this.datepipe.transform(myDate, 'yyyy-MM-dd');
+    
+    const formatted = this.datepipe.transform(this.myDate, 'yyyy-MM-dd');
 
     //console.log(this.data);
     this.productVersion = {
       version: '',
-      versionDate: myDate || '',
+      versionDate: this.myDate || '',
       description: '',
       productId: this.data,
       userId: String(localStorage.getItem('user-id')),
@@ -138,7 +150,14 @@ export class AddProductversionComponent implements OnInit, OnDestroy {
     }
   }
 
-  onFormSubmit() {
+  onFormSubmit(form: NgForm) {
+
+    if (form.invalid || this.isVersionUnique === false) {
+      this.ngForm.markAllAsTouched();
+      console.log('invalid form');
+      return;
+    }
+
     this.addProductVersionSubscription = this.productVersionService
       .addProductVersion(this.productVersion)
       .subscribe({

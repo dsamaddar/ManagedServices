@@ -14,7 +14,7 @@
 
   <form
     #form="ngForm"
-    (ngSubmit)="onFormSubmit()"
+    (ngSubmit)="onFormSubmit(form)"
     enctype="multipart/form-data"
   >
     <div class="mt-2">
@@ -45,8 +45,6 @@
         </div>
         <div class="col-md-4">
           <div class="mt-1 form-group">
-
-
             <mat-form-field appearance="outline" class="full-width">
               <mat-label>Brand</mat-label>
               <input
@@ -68,12 +66,13 @@
                   {{ brand }}
                 </mat-option>
               </mat-autocomplete>
-               <!-- Validation error message -->
-               <mat-error *ngIf="form.submitted && form.controls['brand']?.invalid">
+              <!-- Validation error message -->
+              <mat-error
+                *ngIf="form.submitted && form.controls['brand']?.invalid"
+              >
                 Brand is required
               </mat-error>
             </mat-form-field>
-
 
             <!--
             <label for="brand" class="form-label">Brand</label>
@@ -90,7 +89,36 @@
         </div>
         <div class="col-md-4">
           <div class="mt-1 form-group">
-            <label for="flavourtype" class="form-label">Flavour</label>
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Flavour</mat-label>
+              <input
+                *ngIf="product"
+                matInput
+                [(ngModel)]="product.flavourType"
+                [matAutocomplete]="autoFlavourType"
+                placeholder=""
+                name="flavourType"
+                class="form-control"
+                (ngModelChange)="onSearchChangeFlavourType($event)"
+                required
+              />
+              <mat-autocomplete #autoFlavourType="matAutocomplete">
+                <mat-option
+                  *ngFor="let flavourtype of suggestions_flavourtype"
+                  [value]="flavourtype"
+                >
+                  {{ flavourtype }}
+                </mat-option>
+              </mat-autocomplete>
+              <!-- Validation error message -->
+              <mat-error
+                *ngIf="form.submitted && form.controls['brand']?.invalid"
+              >
+                Flavour is required
+              </mat-error>
+            </mat-form-field>
+
+            <!-- <label for="flavourtype" class="form-label">Flavour</label>
             <input
               *ngIf="product"
               type="text"
@@ -98,14 +126,43 @@
               name="flavourtype"
               class="form-control"
               [(ngModel)]="product.flavourType"
-            />
+            /> -->
           </div>
         </div>
       </div>
       <div class="row">
         <div class="col-md-4">
           <div class="mt-1 form-group">
-            <label for="origin" class="form-label">Origin</label>
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Origin</mat-label>
+              <input
+                matInput
+                *ngIf="product"
+                [(ngModel)]="product.origin"
+                [matAutocomplete]="autoOrigin"
+                placeholder=""
+                name="origin"
+                class="form-control"
+                (ngModelChange)="onSearchChangeOrigin($event)"
+                required
+              />
+              <mat-autocomplete #autoOrigin="matAutocomplete">
+                <mat-option
+                  *ngFor="let origin of suggestions_origin"
+                  [value]="origin"
+                >
+                  {{ origin }}
+                </mat-option>
+              </mat-autocomplete>
+              <!-- Validation error message -->
+              <mat-error
+                *ngIf="form.submitted && form.controls['origin']?.invalid"
+              >
+                Origin is required
+              </mat-error>
+            </mat-form-field>
+
+            <!-- <label for="origin" class="form-label">Origin</label>
             <input
               *ngIf="product"
               type="text"
@@ -113,12 +170,39 @@
               name="origin"
               class="form-control"
               [(ngModel)]="product.origin"
-            />
+            /> -->
           </div>
         </div>
         <div class="col-md-4">
           <div class="mt-1 form-group">
-            <label for="sku" class="form-label">SKU</label>
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>SKU</mat-label>
+              <input
+                matInput
+                *ngIf="product"
+                [(ngModel)]="product.sku"
+                [matAutocomplete]="autoSKU"
+                placeholder=""
+                name="sku"
+                class="form-control"
+                (ngModelChange)="onSearchChangeSKU($event)"
+                (keydown.space)="$event.preventDefault()"
+                required
+              />
+              <mat-autocomplete #autoSKU="matAutocomplete">
+                <mat-option *ngFor="let sku of suggestions_sku" [value]="sku">
+                  {{ sku }}
+                </mat-option>
+              </mat-autocomplete>
+              <!-- Validation error message -->
+              <mat-error
+                *ngIf="form.submitted && form.controls['sku']?.invalid"
+              >
+                SKU is required
+              </mat-error>
+            </mat-form-field>
+
+            <!-- <label for="sku" class="form-label">SKU</label>
             <input
               *ngIf="product"
               type="text"
@@ -127,7 +211,7 @@
               class="form-control"
               [(ngModel)]="product.sku"
               (keydown.space)="$event.preventDefault()"
-            />
+            /> -->
           </div>
         </div>
         <div class="col-md-4">
@@ -162,7 +246,36 @@
       <div class="row">
         <div class="col-md-4">
           <div class="mt-1 form-group">
-            <label for="productcode" class="form-label">Product Code</label>
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Product Code</mat-label>
+              <input
+                matInput
+                *ngIf="product"
+                [(ngModel)]="product.productCode"
+                [matAutocomplete]="autoProductCode"
+                placeholder=""
+                name="productCode"
+                class="form-control"
+                (ngModelChange)="onSearchChangeProductCode($event)"
+                (keydown.space)="$event.preventDefault()"
+                required
+              />
+              <mat-autocomplete #autoProductCode="matAutocomplete">
+                <mat-option
+                  *ngFor="let productcode of suggestions_productcode"
+                  [value]="productcode"
+                >
+                  {{ productcode }}
+                </mat-option>
+              </mat-autocomplete>
+              <!-- Validation error message -->
+              <mat-error
+                *ngIf="form.submitted && form.controls['productcode']?.invalid"
+              >
+                Product Code is required
+              </mat-error>
+            </mat-form-field>
+            <!-- <label for="productcode" class="form-label">Product Code</label>
             <input
               *ngIf="product"
               type="text"
@@ -170,12 +283,46 @@
               name="productcode"
               class="form-control"
               [(ngModel)]="product.productCode"
-            />
+            /> -->
           </div>
         </div>
         <div class="col-md-4">
           <div class="mt-1 form-group">
-            <label for="version" class="form-label">Version</label>
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Version</mat-label>
+              <input
+                matInput
+                *ngIf="product"
+                [(ngModel)]="product.version"
+                [matAutocomplete]="autoVersion"
+                placeholder=""
+                name="version"
+                class="form-control"
+                (ngModelChange)="onSearchChangeVersion($event)"
+                (keydown.space)="$event.preventDefault()"
+                required
+              />
+              <mat-autocomplete #autoVersion="matAutocomplete">
+                <mat-option
+                  *ngFor="let version of suggestions_version"
+                  [value]="version"
+                >
+                  {{ version }}
+                </mat-option>
+              </mat-autocomplete>
+              <!-- Validation error message -->
+              <mat-error
+                *ngIf="form.submitted && form.controls['version']?.invalid"
+              >
+                Version is required
+              </mat-error>
+              <mat-error *ngIf="true"> Version Already Exists </mat-error>
+              <mat-error *ngIf="form.submitted && isVersionUnique === false">
+                Version Already Exists
+              </mat-error>
+            </mat-form-field>
+
+            <!-- <label for="version" class="form-label">Version</label>
             <input
               *ngIf="product"
               type="text"
@@ -184,12 +331,42 @@
               class="form-control"
               [(ngModel)]="product.version"
               (keydown.space)="$event.preventDefault()"
-            />
+            /> -->
           </div>
         </div>
         <div class="col-md-4">
           <div class="mt-1 form-group">
-            <label for="barcode" class="form-label">Barcode</label>
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Barcode</mat-label>
+              <input
+                matInput
+                *ngIf="product"
+                [(ngModel)]="product.barcode"
+                [matAutocomplete]="autoBarcode"
+                placeholder=""
+                name="barcode"
+                class="form-control"
+                (ngModelChange)="onSearchChangeBarcode($event)"
+                (keydown.space)="$event.preventDefault()"
+                required
+              />
+              <mat-autocomplete #autoBarcode="matAutocomplete">
+                <mat-option
+                  *ngFor="let barcode of suggestions_barcode"
+                  [value]="barcode"
+                >
+                  {{ barcode }}
+                </mat-option>
+              </mat-autocomplete>
+              <!-- Validation error message -->
+              <mat-error
+                *ngIf="form.submitted && form.controls['barcode']?.invalid"
+              >
+                Barcode is required
+              </mat-error>
+            </mat-form-field>
+
+            <!-- <label for="barcode" class="form-label">Barcode</label>
             <input
               *ngIf="product"
               type="text"
@@ -198,7 +375,7 @@
               class="form-control"
               [(ngModel)]="product.barcode"
               (keydown.space)="$event.preventDefault()"
-            />
+            /> -->
           </div>
         </div>
       </div>
@@ -206,7 +383,31 @@
       <div class="row">
         <div class="col-md-4">
           <div class="mt-1 form-group">
-            <label for="projectdate" class="form-label">Project Date</label>
+
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Project Date</mat-label>
+              <input
+                matInput
+                *ngIf="product"
+                [matDatepicker]="picker"
+                id="projectdate"
+                name="projectdate"
+                [(ngModel)]="product.projectDate"
+                (dateChange)="onProjectDateChange($event)"
+                required
+              />
+              <mat-datepicker-toggle
+                matSuffix
+                [for]="picker"
+              ></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+               <!-- Validation error message -->
+               <mat-error *ngIf="form.submitted && form.controls['projectdate']?.invalid">
+                Project Date is required
+              </mat-error>
+            </mat-form-field>
+
+            <!-- <label for="projectdate" class="form-label">Project Date</label>
             <input
               *ngIf="product"
               type="date"
@@ -215,7 +416,7 @@
               class="form-control"
               [(ngModel)]="projectDateString"
               (ngModelChange)="onProjectDateChange($event)"
-            />
+            /> -->
           </div>
         </div>
 
@@ -355,12 +556,11 @@
         <div class="col-md-12 mt-6"></div>
       </div>
     </div>
-  
-   <!-- 🔍 Debug output here        -->
-   <pre>{{ form.value | json }}</pre>
-   <pre>Valid: {{ form.valid }}</pre>
-   <pre>Is Version Unique: {{ isVersionUnique }}</pre>
 
+    <!-- 🔍 Debug output here        -->
+    <pre>{{ form.value | json }}</pre>
+    <pre>Valid: {{ form.valid }}</pre>
+    <pre>Is Version Unique: {{ isVersionUnique }}</pre>
   </form>
 </div>
 <div
