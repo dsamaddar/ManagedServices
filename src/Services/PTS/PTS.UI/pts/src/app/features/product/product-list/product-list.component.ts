@@ -272,9 +272,9 @@ export class ProductListComponent implements OnInit {
   }
 
   openViewProduct(productid: number) {
-    this.router.navigateByUrl(`/admin/viewproduct/${productid}`);
-    //const url = `/admin/viewproduct/${productid}`;
-    //window.open(url, '_blank'); // opens in new tab
+    //this.router.navigateByUrl(`/admin/viewproduct/${productid}`);
+    const url = `/admin/viewproduct/${productid}`;
+    window.open(url, '_blank'); // opens in new tab
   }
 
   openProductVersionModal(productid: number) {

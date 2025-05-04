@@ -63,7 +63,7 @@
                 {{ prevProdVersion.id }}
               </td>
               <td>{{ prevProdVersion.version }}</td>
-              <td>{{ prevProdVersion.versionDate }}</td>
+              <td>{{ prevProdVersion.versionDate | date : "mediumDate"}}</td>
               <td>{{ prevProdVersion.description }}</td>
               <td>
                 <div class="" *ngFor="let attachment of prevProdVersion.attachments">
