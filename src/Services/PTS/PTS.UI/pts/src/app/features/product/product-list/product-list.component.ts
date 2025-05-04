@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import {
   FormsModule,
   ReactiveFormsModule,
@@ -8,7 +9,7 @@ import {
 import { Router, RouterModule } from '@angular/router';
 import { ProductService } from '../services/product.service';
 import { Product } from '../models/product.model';
-import { map, Observable, Subscribable, Subscription } from 'rxjs';
+import { map, Observable, Subject, Subscribable, Subscription } from 'rxjs';
 import { AllProduct } from '../models/all-product.model';
 import { AddProductversionComponent } from '../../../shared/components/add-productversion/add-productversion.component';
 import { MatDialog } from '@angular/material/dialog';
@@ -28,6 +29,7 @@ import { CategoryService } from '../../category/services/category.service';
 import { PacktypeService } from '../../packtype/services/packtype.service';
 import { CylindercompanyService } from '../../cylinderCompany/services/cylindercompany.service';
 import { PrintingcompanyService } from '../../printingCompany/services/printingcompany.service';
+import { SuggestionService } from '../services/suggestion.service';
 
 @Component({
   selector: 'app-product-list',
@@ -54,6 +56,11 @@ export class ProductListComponent implements OnInit {
   product_version_id: number = 0;
   user?: User;
 
+  filtered_brand: string | null = null;
+  filtered_flavourtype: string | null = null;
+  filtered_origin: string | null = null;
+  filtered_sku: string | null = null;
+
   // observable array
   categories$?: Observable<Category[]>;
   packtypes$?: Observable<PackType[]>;
@@ -70,6 +77,16 @@ export class ProductListComponent implements OnInit {
   isProductVersionModalVisible: boolean = false;
   isShowProductVersionModalVisible: boolean = false;
 
+  brands$?: Observable<string[]>;
+  flavourtypes$?: Observable<string[]>;
+  origins$?: Observable<string[]>;
+  skus$?: Observable<string[]>;
+
+  private searchBrands = new Subject<string>();
+  private searchFlavourTypes = new Subject<string>();
+  private searchOrigins = new Subject<string>();
+  private searchSKUs = new Subject<string>();
+
   constructor(
     private productService: ProductService,
     private productVersionService: ProductversionService,
@@ -79,7 +96,8 @@ export class ProductListComponent implements OnInit {
     private categoryService: CategoryService,
     private packTypeService: PacktypeService,
     private cylinderCompanyService: CylindercompanyService,
-    private printingCompanyService: PrintingcompanyService
+    private printingCompanyService: PrintingcompanyService,
+    private suggestionService: SuggestionService
   ) {}
 
   ngOnInit(): void {
@@ -107,6 +125,18 @@ export class ProductListComponent implements OnInit {
         //console.log('Number of products:', this.totalProductCount);
       },
     });
+
+    // load brands
+    this.brands$ =  this.suggestionService.getSuggestionsBrand('%');
+
+    // load flavoour type
+    this.flavourtypes$ =  this.suggestionService.getSuggestionsFlavourType('%');
+
+    // load origin
+    this.origins$ =  this.suggestionService.getSuggestionsOrigin('%');
+
+    // load SKU
+    this.skus$ =  this.suggestionService.getSuggestionsSKU('%');
   }
 
   exportToExcel() {
@@ -155,20 +185,23 @@ export class ProductListComponent implements OnInit {
 
     this.global_query = query;
 
-    this.productService.getProductCount(query,
-      this.categoryid,
-      this.packtypeid,
-      this.cylindercompanyid,
-      this.printingcompanyid
-    ).subscribe({
-      next: (value) => {
-        this.totalProductCount = value;
-        this.page_list = new Array(
-          Math.ceil(this.totalProductCount / this.pageSize)
-        );
-        console.log('Number of products:', this.totalProductCount);
-      },
-    });
+    this.productService
+      .getProductCount(
+        query,
+        this.categoryid,
+        this.packtypeid,
+        this.cylindercompanyid,
+        this.printingcompanyid
+      )
+      .subscribe({
+        next: (value) => {
+          this.totalProductCount = value;
+          this.page_list = new Array(
+            Math.ceil(this.totalProductCount / this.pageSize)
+          );
+          console.log('Number of products:', this.totalProductCount);
+        },
+      });
     /*
     this.products$?.subscribe(products => {
       this.totalProductCount = products.length;

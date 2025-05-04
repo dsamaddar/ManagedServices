@@ -221,9 +221,9 @@ namespace PTS.API.Repositories.Implementation
 
             var results = await dbContext.Products
                 .Where(f =>
-                    (f.FlavourType != null && f.FlavourType.Contains(query)))
+                    (f.FlavourType != null && EF.Functions.Like(f.FlavourType, $"%{query}%")))
                 .OrderBy(f => f.FlavourType)
-                .Select(f => f.FlavourType!) //null-forgiving operator (!)
+                .Select(f => f.FlavourType!.ToUpper()) //null-forgiving operator (!)
                 .Distinct()
                 .Take(10)
                 .ToListAsync();
@@ -238,9 +238,9 @@ namespace PTS.API.Repositories.Implementation
 
             var results = await dbContext.Products
                 .Where(f =>
-                    (f.Origin != null && f.Origin.Contains(query)))
+                    (f.Origin != null && EF.Functions.Like(f.Origin, $"%{query}%")))
                 .OrderBy(f => f.Origin)
-                .Select(f => f.Origin!) //null-forgiving operator (!)
+                .Select(f => f.Origin!.ToUpper()) //null-forgiving operator (!)
                 .Distinct()
                 .Take(10)
                 .ToListAsync();
@@ -255,9 +255,9 @@ namespace PTS.API.Repositories.Implementation
 
             var results = await dbContext.Products
                 .Where(f =>
-                    (f.SKU != null && f.SKU.Contains(query)))
+                    (f.SKU != null && EF.Functions.Like(f.SKU, $"%{query}%")))
                 .OrderBy(f => f.SKU)
-                .Select(f => f.SKU!) //null-forgiving operator (!)
+                .Select(f => f.SKU!.ToUpper()) //null-forgiving operator (!)
                 .Distinct()
                 .Take(10)
                 .ToListAsync();
