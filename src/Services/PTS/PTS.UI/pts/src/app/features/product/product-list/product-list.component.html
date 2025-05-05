@@ -296,7 +296,39 @@
       </table>
     </div>
 
-    <nav aria-label="Page navigation example">
+    <nav aria-label="Pagination">
+      <ul class="pagination justify-content-left">
+        <li class="page-item" [class.disabled]="pageNumber === 1">
+          <a class="page-link" (click)="getPage(1)">First</a>
+        </li>
+    
+        <li class="page-item" [class.disabled]="pageNumber === 1">
+          <a class="page-link" (click)="getPrevPage()">Previous</a>
+        </li>
+    
+        <li *ngFor="let page of smartPageList"
+            class="page-item"
+            [class.active]="page === pageNumber"
+            [class.disabled]="page === '...'">
+          <a class="page-link" *ngIf="page !== '...'" (click)="onPageClick(page)">
+            {{ page }}
+          </a>
+          <span class="page-link" *ngIf="page === '...'">…</span>
+        </li>
+    
+        <li class="page-item" [class.disabled]="pageNumber === totalPages">
+          <a class="page-link" (click)="getNextPage()">Next</a>
+        </li>
+    
+        <li class="page-item" [class.disabled]="pageNumber === totalPages">
+          <a class="page-link" (click)="getPage(totalPages)">Last</a>
+        </li>
+      </ul>
+    </nav>
+    
+    
+
+    <!-- <nav aria-label="Page navigation example">
       <ul class="pagination">
         <li class="page-item">
           <a class="page-link" (click)="getPrevPage()">Previous</a>
@@ -310,7 +342,7 @@
           <a class="page-link" (click)="getNextPage()">Next</a>
         </li>
       </ul>
-    </nav>
+    </nav> -->
   </ng-container>
 </div>
 <div

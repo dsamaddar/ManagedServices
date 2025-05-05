@@ -176,6 +176,56 @@ export class ProductListComponent implements OnInit {
       });
   }
 
+  onPageClick(page: number | string) {
+    if (typeof page === 'number') {
+      this.getPage(page);
+    }
+  }
+
+  get totalPages(): number {
+    //return Math.ceil(this.page_list.length / this.pageSize);
+    return Math.ceil(this.page_list.length);
+  }
+
+  get smartPageList(): (number | string)[] {
+    const maxButtons = 5;
+    const total = this.totalPages;
+    const current = this.pageNumber;
+    const pages: (number | string)[] = [];
+
+    if (total <= maxButtons + 2) {
+      // Show all pages if few enough
+      for (let i = 1; i <= total; i++) pages.push(i);
+      return pages;
+    }
+
+    // Always show first page
+    pages.push(1);
+
+    // Leading ellipsis
+    if (current > 3) {
+      pages.push('...');
+    }
+
+    // Center pages
+    const start = Math.max(2, current - 1);
+    const end = Math.min(total - 1, current + 1);
+    for (let i = start; i <= end; i++) {
+      pages.push(i);
+    }
+
+    // Trailing ellipsis
+    if (current < total - 2) {
+      pages.push('...');
+    }
+
+    // Always show last page
+    pages.push(total);
+
+    return pages;
+  }
+  
+
   onSearch(query: string) {
     this.products$ = this.productService.getAllProducts(
       query,
