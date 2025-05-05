@@ -96,9 +96,9 @@ namespace PTS.API.Data
             );
 
             builder.Entity<CylinderCompany>().HasData(
-                new CylinderCompany { Id = 1, Name = "BANGLA - SHANGHAI PLATE MAKING LTD", Description = ".", UserId = "e07b4029-5a27-491d-9fc5-7043e22ae5eb" },
-                new CylinderCompany { Id = 2, Name = "DIGITAL ENGRAVERS LTD", Description = ".", UserId = "e07b4029-5a27-491d-9fc5-7043e22ae5eb" },
-                new CylinderCompany { Id = 3, Name = "MASTER PLATE MAKING(BD) CO.LTD", Description = "." , UserId = "e07b4029-5a27-491d-9fc5-7043e22ae5eb" },
+                new CylinderCompany { Id = 1, Name = "BANGLA - SHANGHAI PLATE MAKING LTD.", Description = ".", UserId = "e07b4029-5a27-491d-9fc5-7043e22ae5eb" },
+                new CylinderCompany { Id = 2, Name = "DIGITAL ENGRAVERS LTD.", Description = ".", UserId = "e07b4029-5a27-491d-9fc5-7043e22ae5eb" },
+                new CylinderCompany { Id = 3, Name = "MASTER PLATE MAKING(BD) CO.LTD.", Description = "." , UserId = "e07b4029-5a27-491d-9fc5-7043e22ae5eb" },
                 new CylinderCompany { Id = 4, Name = "PRINTO PACK SYNDICATE", Description = "." , UserId = "e07b4029-5a27-491d-9fc5-7043e22ae5eb" }
             );
 
