@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace PTS.API.Migrations.ApplicationDb
 {
     /// <inheritdoc />
@@ -122,7 +124,7 @@ namespace PTS.API.Migrations.ApplicationDb
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Version = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Version = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     VersionDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ProductId = table.Column<int>(type: "int", nullable: false),
@@ -161,6 +163,85 @@ namespace PTS.API.Migrations.ApplicationDb
                         column: x => x.ProductVersionId,
                         principalTable: "ProductVersions",
                         principalColumn: "Id");
+                });
+
+            migrationBuilder.InsertData(
+                table: "Categories",
+                columns: new[] { "Id", "Description", "Name", "UserId" },
+                values: new object[,]
+                {
+                    { 1, ".", "BAKERY", "e07b4029-5a27-491d-9fc5-7043e22ae5eb" },
+                    { 2, ".", "BEVERAGE", "e07b4029-5a27-491d-9fc5-7043e22ae5eb" },
+                    { 3, ".", "CONDIMENTS", "e07b4029-5a27-491d-9fc5-7043e22ae5eb" },
+                    { 4, ".", "CONFECTIONARY", "e07b4029-5a27-491d-9fc5-7043e22ae5eb" },
+                    { 5, ".", "DAIRY", "e07b4029-5a27-491d-9fc5-7043e22ae5eb" },
+                    { 6, ".", "DRINKING WATER", "e07b4029-5a27-491d-9fc5-7043e22ae5eb" },
+                    { 7, ".", "FRUIT DRINK", "e07b4029-5a27-491d-9fc5-7043e22ae5eb" },
+                    { 8, ".", "GRAINS", "e07b4029-5a27-491d-9fc5-7043e22ae5eb" },
+                    { 9, ".", "MEAT", "e07b4029-5a27-491d-9fc5-7043e22ae5eb" },
+                    { 10, ".", "PERSONAL CARE", "e07b4029-5a27-491d-9fc5-7043e22ae5eb" },
+                    { 11, ".", "SNACKS", "e07b4029-5a27-491d-9fc5-7043e22ae5eb" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "CylinderCompanies",
+                columns: new[] { "Id", "Description", "Name", "UserId" },
+                values: new object[,]
+                {
+                    { 1, ".", "BANGLA - SHANGHAI PLATE MAKING LTD", "e07b4029-5a27-491d-9fc5-7043e22ae5eb" },
+                    { 2, ".", "DIGITAL ENGRAVERS LTD", "e07b4029-5a27-491d-9fc5-7043e22ae5eb" },
+                    { 3, ".", "MASTER PLATE MAKING(BD) CO.LTD", "e07b4029-5a27-491d-9fc5-7043e22ae5eb" },
+                    { 4, ".", "PRINTO PACK SYNDICATE", "e07b4029-5a27-491d-9fc5-7043e22ae5eb" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "PackTypes",
+                columns: new[] { "Id", "Description", "Name", "UserId" },
+                values: new object[,]
+                {
+                    { 1, ".", "BAG", "e07b4029-5a27-491d-9fc5-7043e22ae5eb" },
+                    { 2, ".", "BOX", "e07b4029-5a27-491d-9fc5-7043e22ae5eb" },
+                    { 3, ".", "BRICK", "e07b4029-5a27-491d-9fc5-7043e22ae5eb" },
+                    { 4, ".", "CAN", "e07b4029-5a27-491d-9fc5-7043e22ae5eb" },
+                    { 5, ".", "CHASE", "e07b4029-5a27-491d-9fc5-7043e22ae5eb" },
+                    { 6, ".", "CLUSTER", "e07b4029-5a27-491d-9fc5-7043e22ae5eb" },
+                    { 7, ".", "COMBIFIT", "e07b4029-5a27-491d-9fc5-7043e22ae5eb" },
+                    { 8, ".", "CONTAINER", "e07b4029-5a27-491d-9fc5-7043e22ae5eb" },
+                    { 9, ".", "CUP", "e07b4029-5a27-491d-9fc5-7043e22ae5eb" },
+                    { 10, ".", "FAT CAN", "e07b4029-5a27-491d-9fc5-7043e22ae5eb" },
+                    { 11, ".", "FOIL", "e07b4029-5a27-491d-9fc5-7043e22ae5eb" },
+                    { 12, ".", "GLASS BOTTLE", "e07b4029-5a27-491d-9fc5-7043e22ae5eb" },
+                    { 13, ".", "GLASS JAR", "e07b4029-5a27-491d-9fc5-7043e22ae5eb" },
+                    { 14, ".", "MASTER CARTON", "e07b4029-5a27-491d-9fc5-7043e22ae5eb" },
+                    { 15, ".", "PET", "e07b4029-5a27-491d-9fc5-7043e22ae5eb" },
+                    { 16, ".", "PILLOW", "e07b4029-5a27-491d-9fc5-7043e22ae5eb" },
+                    { 17, ".", "PLASTIC JAR", "e07b4029-5a27-491d-9fc5-7043e22ae5eb" },
+                    { 18, ".", "POLY", "e07b4029-5a27-491d-9fc5-7043e22ae5eb" },
+                    { 19, ".", "POUCH", "e07b4029-5a27-491d-9fc5-7043e22ae5eb" },
+                    { 20, ".", "PRISMA", "e07b4029-5a27-491d-9fc5-7043e22ae5eb" },
+                    { 21, ".", "SASSY", "e07b4029-5a27-491d-9fc5-7043e22ae5eb" },
+                    { 22, ".", "SHRINK", "e07b4029-5a27-491d-9fc5-7043e22ae5eb" },
+                    { 23, ".", "STANDING POUCH", "e07b4029-5a27-491d-9fc5-7043e22ae5eb" },
+                    { 24, ".", "TIN CONTAINER", "e07b4029-5a27-491d-9fc5-7043e22ae5eb" },
+                    { 25, ".", "UHT POUCH", "e07b4029-5a27-491d-9fc5-7043e22ae5eb" },
+                    { 26, ".", "WRAPPER", "e07b4029-5a27-491d-9fc5-7043e22ae5eb" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "PrintingCompanies",
+                columns: new[] { "Id", "Description", "Name", "UserId" },
+                values: new object[,]
+                {
+                    { 1, ".", "AFBL FOOD PARK", "e07b4029-5a27-491d-9fc5-7043e22ae5eb" },
+                    { 2, ".", "AKIJ PRINTING & PACKAGES LTD", "e07b4029-5a27-491d-9fc5-7043e22ae5eb" },
+                    { 3, ".", "ANNAN PACK LIMITED", "e07b4029-5a27-491d-9fc5-7043e22ae5eb" },
+                    { 4, ".", "ARBAB PACK LIMITED", "e07b4029-5a27-491d-9fc5-7043e22ae5eb" },
+                    { 5, ".", "BENGAL PRINTING & PACKAGING", "e07b4029-5a27-491d-9fc5-7043e22ae5eb" },
+                    { 6, ".", "FRESH PACK INDUSTRIES", "e07b4029-5a27-491d-9fc5-7043e22ae5eb" },
+                    { 7, ".", "MAHTAB FLEXIBLE PRINTING PRESS", "e07b4029-5a27-491d-9fc5-7043e22ae5eb" },
+                    { 8, ".", "PREMIAFLEX PLASTICS LTD", "e07b4029-5a27-491d-9fc5-7043e22ae5eb" },
+                    { 9, ".", "SHAJINAZ EXIM PACK LTD", "e07b4029-5a27-491d-9fc5-7043e22ae5eb" },
+                    { 10, ".", "TAMPACO FOILS LTD", "e07b4029-5a27-491d-9fc5-7043e22ae5eb" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -218,6 +299,13 @@ namespace PTS.API.Migrations.ApplicationDb
                 name: "IX_ProductVersions_ProductId",
                 table: "ProductVersions",
                 column: "ProductId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProductVersions_Version",
+                table: "ProductVersions",
+                column: "Version",
+                unique: true,
+                filter: "[Version] IS NOT NULL");
         }
 
         /// <inheritdoc />
