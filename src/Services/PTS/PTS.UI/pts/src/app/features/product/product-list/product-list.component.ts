@@ -139,10 +139,10 @@ export class ProductListComponent implements OnInit {
     this.skus$ = this.suggestionService.getSuggestionsSKU('%');
   }
 
-  exportToExcel() {
+  exportToExcel(query: string) {
     this.productService
       .getAllProducts(
-        '',
+        query,
         0,
         10000000,
         this.categoryid,
