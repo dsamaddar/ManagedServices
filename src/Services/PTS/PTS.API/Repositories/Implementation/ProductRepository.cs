@@ -216,6 +216,7 @@ namespace PTS.API.Repositories.Implementation
                 .OrderBy(f => f.Brand)
                 .Select(f => f.Brand!.ToUpper()) //null-forgiving operator (!)
                 .Distinct()
+                .OrderBy(b => b)
                 .Take(10)
                 .ToListAsync();
 
@@ -233,6 +234,7 @@ namespace PTS.API.Repositories.Implementation
                 .OrderBy(f => f.FlavourType)
                 .Select(f => f.FlavourType!.ToUpper()) //null-forgiving operator (!)
                 .Distinct()
+                .OrderBy(b => b)
                 .Take(10)
                 .ToListAsync();
 
@@ -250,6 +252,7 @@ namespace PTS.API.Repositories.Implementation
                 .OrderBy(f => f.Origin)
                 .Select(f => f.Origin!.ToUpper()) //null-forgiving operator (!)
                 .Distinct()
+                .OrderBy(b => b)
                 .Take(10)
                 .ToListAsync();
 
@@ -267,6 +270,7 @@ namespace PTS.API.Repositories.Implementation
                 .OrderBy(f => f.SKU)
                 .Select(f => f.SKU!.ToUpper()) //null-forgiving operator (!)
                 .Distinct()
+                .OrderBy(b => b)
                 .Take(10)
                 .ToListAsync();
 
@@ -284,6 +288,7 @@ namespace PTS.API.Repositories.Implementation
                 .OrderBy(f => f.ProductCode)
                 .Select(f => f.ProductCode!) //null-forgiving operator (!)
                 .Distinct()
+                .OrderBy(b => b)
                 .Take(10)
                 .ToListAsync();
 
@@ -301,6 +306,7 @@ namespace PTS.API.Repositories.Implementation
                 .OrderBy(f => f.Version)
                 .Select(f => f.Version!) //null-forgiving operator (!)
                 .Distinct()
+                .OrderBy(b => b)
                 .Take(10)
                 .ToListAsync();
 
@@ -334,6 +340,7 @@ namespace PTS.API.Repositories.Implementation
                 .OrderBy(f => f.Barcode)
                 .Select(f => f.Barcode!) //null-forgiving operator (!)
                 .Distinct()
+                .OrderBy(b => b)
                 .Take(10)
                 .ToListAsync();
 
