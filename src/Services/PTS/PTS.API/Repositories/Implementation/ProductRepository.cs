@@ -217,7 +217,7 @@ namespace PTS.API.Repositories.Implementation
                 .Select(f => f.Brand!.ToUpper()) //null-forgiving operator (!)
                 .Distinct()
                 .OrderBy(b => b)
-                .Take(10)
+                .Take(100)
                 .ToListAsync();
 
             return results;
@@ -235,7 +235,7 @@ namespace PTS.API.Repositories.Implementation
                 .Select(f => f.FlavourType!.ToUpper()) //null-forgiving operator (!)
                 .Distinct()
                 .OrderBy(b => b)
-                .Take(10)
+                .Take(100)
                 .ToListAsync();
 
             return results;
@@ -253,7 +253,7 @@ namespace PTS.API.Repositories.Implementation
                 .Select(f => f.Origin!.ToUpper()) //null-forgiving operator (!)
                 .Distinct()
                 .OrderBy(b => b)
-                .Take(10)
+                .Take(100)
                 .ToListAsync();
 
             return results;
@@ -271,7 +271,7 @@ namespace PTS.API.Repositories.Implementation
                 .Select(f => f.SKU!.ToUpper()) //null-forgiving operator (!)
                 .Distinct()
                 .OrderBy(b => b)
-                .Take(10)
+                .Take(100)
                 .ToListAsync();
 
             return results;
@@ -284,12 +284,12 @@ namespace PTS.API.Repositories.Implementation
 
             var results = await dbContext.Products
                 .Where(f =>
-                    (f.ProductCode != null && f.ProductCode.Contains(query)))
+                    (f.ProductCode != null && EF.Functions.Like(f.ProductCode, $"%{query}%")))
                 .OrderBy(f => f.ProductCode)
                 .Select(f => f.ProductCode!) //null-forgiving operator (!)
                 .Distinct()
                 .OrderBy(b => b)
-                .Take(10)
+                .Take(100)
                 .ToListAsync();
 
             return results;
@@ -302,12 +302,12 @@ namespace PTS.API.Repositories.Implementation
 
             var results = await dbContext.Products
                 .Where(f =>
-                    (f.Version != null && f.Version.Contains(query)))
+                    (f.Version != null && EF.Functions.Like(f.Version, $"%{query}%")))
                 .OrderBy(f => f.Version)
                 .Select(f => f.Version!) //null-forgiving operator (!)
                 .Distinct()
                 .OrderBy(b => b)
-                .Take(10)
+                .Take(100)
                 .ToListAsync();
 
             return results;
@@ -336,12 +336,12 @@ namespace PTS.API.Repositories.Implementation
 
             var results = await dbContext.Products
                 .Where(f =>
-                    (f.Barcode != null && f.Barcode.Contains(query)))
+                    (f.Barcode != null && EF.Functions.Like(f.Barcode, $"%{query}%")))
                 .OrderBy(f => f.Barcode)
                 .Select(f => f.Barcode!) //null-forgiving operator (!)
                 .Distinct()
                 .OrderBy(b => b)
-                .Take(10)
+                .Take(100)
                 .ToListAsync();
 
             return results;
