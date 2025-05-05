@@ -217,7 +217,6 @@ namespace PTS.API.Repositories.Implementation
                 .Select(f => f.Brand!.ToUpper()) //null-forgiving operator (!)
                 .Distinct()
                 .OrderBy(b => b)
-                .Take(100)
                 .ToListAsync();
 
             return results;
@@ -235,7 +234,6 @@ namespace PTS.API.Repositories.Implementation
                 .Select(f => f.FlavourType!.ToUpper()) //null-forgiving operator (!)
                 .Distinct()
                 .OrderBy(b => b)
-                .Take(100)
                 .ToListAsync();
 
             return results;
@@ -253,7 +251,6 @@ namespace PTS.API.Repositories.Implementation
                 .Select(f => f.Origin!.ToUpper()) //null-forgiving operator (!)
                 .Distinct()
                 .OrderBy(b => b)
-                .Take(100)
                 .ToListAsync();
 
             return results;
@@ -271,7 +268,6 @@ namespace PTS.API.Repositories.Implementation
                 .Select(f => f.SKU!.ToUpper()) //null-forgiving operator (!)
                 .Distinct()
                 .OrderBy(b => b)
-                .Take(100)
                 .ToListAsync();
 
             return results;
@@ -289,7 +285,6 @@ namespace PTS.API.Repositories.Implementation
                 .Select(f => f.ProductCode!) //null-forgiving operator (!)
                 .Distinct()
                 .OrderBy(b => b)
-                .Take(100)
                 .ToListAsync();
 
             return results;
@@ -307,7 +302,6 @@ namespace PTS.API.Repositories.Implementation
                 .Select(f => f.Version!) //null-forgiving operator (!)
                 .Distinct()
                 .OrderBy(b => b)
-                .Take(100)
                 .ToListAsync();
 
             return results;
@@ -341,7 +335,6 @@ namespace PTS.API.Repositories.Implementation
                 .Select(f => f.Barcode!) //null-forgiving operator (!)
                 .Distinct()
                 .OrderBy(b => b)
-                .Take(100)
                 .ToListAsync();
 
             return results;
