@@ -90,7 +90,7 @@ namespace PTS.API.Controllers
         //  GET: /api/categories/{id}
         [HttpGet]
         [Route("{productId:int}")]
-        //[Authorize(Roles = "READER,MANAGER,ADMIN")]
+        [Authorize(Roles = "READER,MANAGER,ADMIN")]
         public async Task<IActionResult> GetAttachmentsByProductId([FromRoute] int productId)
         {
             var attachments = await attachmentRepository.GetAllByProductIdAsync(productId);

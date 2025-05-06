@@ -137,7 +137,7 @@ namespace PTS.API.Controllers
             var email_body = GenerateEmailBody(resetLink);
 
             // Send resetLink via email (SMTP or SendGrid)
-            await emailService.SendEmailAsync(model.Email, "NEOS-PTS: Reset your password", email_body);
+            await emailService.SendGmailAsync(model.Email, "NEOS-PTS: Reset your password", email_body);
 
             return Ok(new { message = "Reset link sent" });
         }
@@ -221,7 +221,7 @@ namespace PTS.API.Controllers
         }
 
         [HttpGet("roles/{email}")]
-        //[Authorize(Roles = "ADMIN")]
+        [Authorize(Roles = "ADMIN")]
         public async Task<IActionResult> GetUserRoles(string email)
         {
             var user = await userManager.FindByEmailAsync(email);

@@ -22,7 +22,7 @@ namespace PTS.API.Controllers
 
         // https://localhost:xxxx/api/productversion
         [HttpPost]
-        [Authorize(Roles = "READER,MANAGER,ADMIN")]
+        [Authorize(Roles = "MANAGER,ADMIN")]
         public async Task<IActionResult> CreateProductVersion([FromBody] CreateProductVersionDto request)
         {
             // Map DTO to Domain Model
@@ -81,7 +81,7 @@ namespace PTS.API.Controllers
         }
 
         [HttpGet("showprodversionbyprodid/{productId:int}")]
-        //[Authorize(Roles = "READER,MANAGER,ADMIN")]
+        [Authorize(Roles = "READER,MANAGER,ADMIN")]
         public async Task<IActionResult> ShowProdVersionbyprodId([FromRoute] int productId)
         {
             var productVersions = await productVersionRepository.GetProductVersionsByProductId(productId);

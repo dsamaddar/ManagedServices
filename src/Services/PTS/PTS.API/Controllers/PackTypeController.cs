@@ -49,7 +49,7 @@ namespace PTS.API.Controllers
 
         // GET: /api/packtype
         [HttpGet]
-        //[Authorize(Roles = "READER,MANAGER,ADMIN")]
+        [Authorize(Roles = "READER,MANAGER,ADMIN")]
         public async Task<IActionResult> GetAllPackTypes()
         {
             var packTypes = await packTypeRepository.GetAllAsync();

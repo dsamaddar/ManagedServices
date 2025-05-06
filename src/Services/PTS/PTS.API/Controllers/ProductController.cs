@@ -340,7 +340,7 @@ namespace PTS.API.Controllers
         // GET {apiBaseUrl}/api/suggestions? search = app
         [HttpGet]
         [Route("suggestions-brand")]
-        //[Authorize(Roles = "READER,MANAGER,ADMIN")]
+        [Authorize(Roles = "READER,MANAGER,ADMIN")]
         public async Task<ActionResult> GetSuggestionsBrand([FromQuery] string? query)
         {
             if (string.IsNullOrWhiteSpace(query))
