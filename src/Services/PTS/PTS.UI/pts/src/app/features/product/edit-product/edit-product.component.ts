@@ -162,7 +162,7 @@ export class EditProductComponent implements OnInit, OnDestroy {
       sku: ['', Validators.required],
       productcode: ['', Validators.required],
       version: ['', Validators.required],
-      barcode: ['', Validators.required],
+      barcode: ['', Validators.required, Validators.minLength(13), Validators.maxLength(13)],
       projectdate: ['', Validators.required],
       packtypeid: ['', Validators.required],
       cylindercompanyid: ['', Validators.required],

@@ -203,3 +203,11 @@ Report
 	- excel
 	- Filter Menu
 		- drop down wise view
+
+
+### UAT-04
+-- allow all domain of akij venture (done)
+-- login - > only Registration (done)
+-- initial page should be login page (done)
+-- Origin and SKU got same value after save in edit page.
+-- no space in: Barcode (13 digit must) (done)

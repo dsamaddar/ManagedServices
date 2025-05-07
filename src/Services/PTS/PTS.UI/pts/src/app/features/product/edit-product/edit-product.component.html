@@ -346,6 +346,8 @@
                 placeholder=""
                 name="barcode"
                 class="form-control"
+                maxlength="13"
+                minlength="13"
                 (ngModelChange)="onSearchChangeBarcode($event)"
                 (keydown.space)="$event.preventDefault()"
                 required
@@ -362,7 +364,24 @@
               <mat-error
                 *ngIf="form.submitted && form.controls['barcode']?.invalid"
               >
-                Barcode is required
+                13 Digit Barcode is required
+              </mat-error>
+              <mat-error
+                *ngIf="
+                  form.submitted &&
+                  form.controls['barcode']?.hasError('minLength')
+                "
+              >
+                Barcode must be at least 13 characters
+              </mat-error>
+
+              <mat-error
+                *ngIf="
+                  form.submitted &&
+                  form.controls['barcode']?.hasError('maxLength')
+                "
+              >
+                Barcode must not exceed 13 characters
               </mat-error>
             </mat-form-field>
 
@@ -383,7 +402,6 @@
       <div class="row">
         <div class="col-md-4">
           <div class="mt-1 form-group">
-
             <mat-form-field appearance="outline" class="full-width">
               <mat-label>Project Date</mat-label>
               <input
@@ -401,8 +419,10 @@
                 [for]="picker"
               ></mat-datepicker-toggle>
               <mat-datepicker #picker></mat-datepicker>
-               <!-- Validation error message -->
-               <mat-error *ngIf="form.submitted && form.controls['projectdate']?.invalid">
+              <!-- Validation error message -->
+              <mat-error
+                *ngIf="form.submitted && form.controls['projectdate']?.invalid"
+              >
                 Project Date is required
               </mat-error>
             </mat-form-field>

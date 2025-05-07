@@ -32,9 +32,8 @@ export class RegisterComponent implements OnInit {
 
   ngOnInit(): void {
     this.registerForm = this.formBuilder.group({
-      email: ['', [Validators.required,Validators.email,allowedDomainValidator(['neoscoder.com', 'akijfood.com'])]],
+      email: ['', [Validators.required,Validators.email,allowedDomainValidator(['akijventure.com','adhunikpaper.com','akijagro.net','akijbicycle.com','akijdairy.net','akijee.com','akijfairvalue.com','akijfisheries.com','akijfoodltd.onmicrosoft.com','akijhealthcare.com','akijmdf.com','akijmonowaratrust.net','akijppl.net','akijtakafullife.com.bd','akijvg.net','ampublication.com','atlplc.com','cheesepuffsbd.com','clemonlakhpoti.com','clemonsportsbd.com','fairvalueltd.com','farmfreshbd.net','frutikapurelakhpoti.com','sazmintraders.com','sazmintrading.com','speedlakhpoti.com','wesupportpalestine.net','neoscoder.com', 'akijfood.com'])]],
       password: ['', [Validators.required, Validators.minLength(6)]],
-      
     });
   }
 

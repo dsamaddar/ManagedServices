@@ -26,100 +26,107 @@ import { EditPacktypeComponent } from './features/packtype/edit-packtype/edit-pa
 import { ViewProductComponent } from './features/product/view-product/view-product.component';
 
 export const routes: Routes = [
-    {
-        path: 'admin/categories',
-        component: CategoryListComponent,
-        canActivate: [authGuard]
-    },
-    {
-        path: 'admin/categories/add',
-        component: AddCategoryComponent,
-        canActivate: [authGuard]
-    },
-    {
-        path: 'admin/categories/:id',
-        component: EditCategoryComponent,
-        canActivate: [authGuard]
-    },
-    {
-        path: 'admin/cylindercompany',
-        component: CylindercompanyListComponent,
-        canActivate: [authGuard]
-    },
-    {
-        path: 'admin/cylindercompany/add',
-        component: AddCylindercompanyComponent,
-        canActivate: [authGuard]
-    },
-    {
-        path: 'admin/cylindercompany/:id',
-        component: EditCylindercompanyComponent,
-        canActivate: [authGuard]
-    },
-    {
-        path: 'admin/printingcompany',
-        component: PrintingcompanyListComponent,
-        canActivate: [authGuard]
-    },
-    {
-        path: 'admin/printingcompany/add',
-        component: AddPrintingcompanyComponent,
-        canActivate: [authGuard]
-    },
-    {
-        path: 'admin/printingcompany/:id',
-        component: EditPrintingcompanyComponent,
-        canActivate: [authGuard]
-    },
-    {
-        path: 'admin/packtype',
-        component: PacktypeListComponent,
-        canActivate: [authGuard]
-    },
-    {
-        path: 'admin/packtype/add',
-        component: AddPacktypeComponent,
-        canActivate: [authGuard]
-    },
-    {
-        path: 'admin/packtype/:id',
-        component: EditPacktypeComponent,
-        canActivate: [authGuard]
-    },
-    {
-        path: 'admin/products',
-        component: ProductListComponent,
-        canActivate: [authGuard]
-    },
-    {
-        path: 'admin/products/add',
-        component: AddProductComponent,
-        canActivate: [authGuard]
-    },
-    {
-        path: 'admin/products/:id',
-        component: EditProductComponent,
-        canActivate: [authGuard]
-    },
-    {
-        path: 'admin/viewproduct/:id',
-        component: ViewProductComponent,
-        canActivate: [authGuard]
-    },
-    { path: 'admin/permission-control', component: PermissionControlComponent },
-    {
-        path: 'login',
-        component: LoginComponent
-    },
-    {
-        path: 'register',
-        component: RegisterComponent
-    },
-    {
-        path: 'forgotpassword',
-        component: ForgotPasswordComponent
-    },
-    { path: 'reset-password', component: ResetPasswordComponent },
-
-
+  {
+    path: '',
+    redirectTo: 'login',
+    pathMatch: 'full',
+  },
+  {
+    path: 'admin/categories',
+    component: CategoryListComponent,
+    canActivate: [authGuard],
+  },
+  {
+    path: 'admin/categories/add',
+    component: AddCategoryComponent,
+    canActivate: [authGuard],
+  },
+  {
+    path: 'admin/categories/:id',
+    component: EditCategoryComponent,
+    canActivate: [authGuard],
+  },
+  {
+    path: 'admin/cylindercompany',
+    component: CylindercompanyListComponent,
+    canActivate: [authGuard],
+  },
+  {
+    path: 'admin/cylindercompany/add',
+    component: AddCylindercompanyComponent,
+    canActivate: [authGuard],
+  },
+  {
+    path: 'admin/cylindercompany/:id',
+    component: EditCylindercompanyComponent,
+    canActivate: [authGuard],
+  },
+  {
+    path: 'admin/printingcompany',
+    component: PrintingcompanyListComponent,
+    canActivate: [authGuard],
+  },
+  {
+    path: 'admin/printingcompany/add',
+    component: AddPrintingcompanyComponent,
+    canActivate: [authGuard],
+  },
+  {
+    path: 'admin/printingcompany/:id',
+    component: EditPrintingcompanyComponent,
+    canActivate: [authGuard],
+  },
+  {
+    path: 'admin/packtype',
+    component: PacktypeListComponent,
+    canActivate: [authGuard],
+  },
+  {
+    path: 'admin/packtype/add',
+    component: AddPacktypeComponent,
+    canActivate: [authGuard],
+  },
+  {
+    path: 'admin/packtype/:id',
+    component: EditPacktypeComponent,
+    canActivate: [authGuard],
+  },
+  {
+    path: 'admin/products',
+    component: ProductListComponent,
+    canActivate: [authGuard],
+  },
+  {
+    path: 'admin/products/add',
+    component: AddProductComponent,
+    canActivate: [authGuard],
+  },
+  {
+    path: 'admin/products/:id',
+    component: EditProductComponent,
+    canActivate: [authGuard],
+  },
+  {
+    path: 'admin/viewproduct/:id',
+    component: ViewProductComponent,
+    canActivate: [authGuard],
+  },
+  { path: 'admin/permission-control', component: PermissionControlComponent },
+  {
+    path: 'login',
+    component: LoginComponent,
+  },
+  {
+    path: 'register',
+    component: RegisterComponent,
+  },
+  {
+    path: 'forgotpassword',
+    component: ForgotPasswordComponent,
+  },
+  { path: 'reset-password', component: ResetPasswordComponent },
+  {
+    path: '**',
+    redirectTo: 'login', // Optional: catch-all route
+  },
 ];

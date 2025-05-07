@@ -160,7 +160,7 @@ export class AddProductComponent implements OnInit, OnDestroy {
       sku: ['', Validators.required],
       productcode: ['', Validators.required],
       version: ['', Validators.required],
-      barcode: ['', Validators.required],
+      barcode: ['', Validators.required, Validators.maxLength(13),Validators.minLength(13)],
       projectdate: ['', Validators.required],
       packtypeid: ['', Validators.required],
       cylindercompanyid: ['', Validators.required],

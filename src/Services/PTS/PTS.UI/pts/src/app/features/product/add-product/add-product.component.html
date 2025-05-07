@@ -27,7 +27,10 @@
               required
             >
             </ng-select>
-            <div *ngIf="form.submitted && form.controls['categoryid']?.invalid" class="text-danger">
+            <div
+              *ngIf="form.submitted && form.controls['categoryid']?.invalid"
+              class="text-danger"
+            >
               Category is required
             </div>
           </div>
@@ -54,8 +57,10 @@
                   {{ brand }}
                 </mat-option>
               </mat-autocomplete>
-               <!-- Validation error message -->
-               <mat-error *ngIf="form.submitted && form.controls['brand']?.invalid">
+              <!-- Validation error message -->
+              <mat-error
+                *ngIf="form.submitted && form.controls['brand']?.invalid"
+              >
                 Brand is required
               </mat-error>
             </mat-form-field>
@@ -83,8 +88,10 @@
                   {{ flavourtype }}
                 </mat-option>
               </mat-autocomplete>
-               <!-- Validation error message -->
-               <mat-error *ngIf="form.submitted && form.controls['flavourtype']?.invalid">
+              <!-- Validation error message -->
+              <mat-error
+                *ngIf="form.submitted && form.controls['flavourtype']?.invalid"
+              >
                 Flavour is required
               </mat-error>
             </mat-form-field>
@@ -114,8 +121,10 @@
                   {{ origin }}
                 </mat-option>
               </mat-autocomplete>
-               <!-- Validation error message -->
-               <mat-error *ngIf="form.submitted && form.controls['origin']?.invalid">
+              <!-- Validation error message -->
+              <mat-error
+                *ngIf="form.submitted && form.controls['origin']?.invalid"
+              >
                 Origin is required
               </mat-error>
             </mat-form-field>
@@ -141,10 +150,12 @@
                   {{ sku }}
                 </mat-option>
               </mat-autocomplete>
-               <!-- Validation error message -->
-               <mat-error *ngIf="form.submitted && form.controls['sku']?.invalid">
+              <!-- Validation error message -->
+              <mat-error
+                *ngIf="form.submitted && form.controls['sku']?.invalid"
+              >
                 SKU is required
-              </mat-error>              
+              </mat-error>
             </mat-form-field>
           </div>
         </div>
@@ -163,7 +174,10 @@
               required
             >
             </ng-select>
-            <div *ngIf="form.submitted && form.controls['packtypeid']?.invalid" class="text-danger">
+            <div
+              *ngIf="form.submitted && form.controls['packtypeid']?.invalid"
+              class="text-danger"
+            >
               Pack Type is required
             </div>
           </div>
@@ -195,7 +209,9 @@
                 </mat-option>
               </mat-autocomplete>
               <!-- Validation error message -->
-              <mat-error *ngIf="form.submitted && form.controls['productcode']?.invalid">
+              <mat-error
+                *ngIf="form.submitted && form.controls['productcode']?.invalid"
+              >
                 Product Code is required
               </mat-error>
             </mat-form-field>
@@ -225,12 +241,12 @@
                 </mat-option>
               </mat-autocomplete>
               <!-- Validation error message -->
-              <mat-error *ngIf="form.submitted && form.controls['version']?.invalid">
+              <mat-error
+                *ngIf="form.submitted && form.controls['version']?.invalid"
+              >
                 Version is required
               </mat-error>
-              <mat-error *ngIf="true">
-                Version Already Exists
-              </mat-error>
+              <mat-error *ngIf="true"> Version Already Exists </mat-error>
               <mat-error *ngIf="form.submitted && isVersionUnique === false">
                 Version Already Exists
               </mat-error>
@@ -248,6 +264,8 @@
                 placeholder=""
                 name="barcode"
                 class="form-control"
+                maxlength="13"
+                minlength="13"
                 (ngModelChange)="onSearchChangeBarcode($event)"
                 (keydown.space)="$event.preventDefault()"
                 required
@@ -261,8 +279,27 @@
                 </mat-option>
               </mat-autocomplete>
               <!-- Validation error message -->
-              <mat-error *ngIf="form.submitted && form.controls['barcode']?.invalid">
-                Barcode is required
+              <mat-error
+                *ngIf="form.submitted && form.controls['barcode']?.invalid"
+              >
+                13 Digit Barcode is required
+              </mat-error>
+              <mat-error
+                *ngIf="
+                  form.submitted &&
+                  form.controls['barcode']?.hasError('minlength')
+                "
+              >
+                Barcode must be at least 13 characters
+              </mat-error>
+
+              <mat-error
+                *ngIf="
+                  form.submitted &&
+                  form.controls['barcode']?.hasError('maxlength')
+                "
+              >
+                Barcode must not exceed 13 characters
               </mat-error>
             </mat-form-field>
           </div>
@@ -288,8 +325,10 @@
                 [for]="picker"
               ></mat-datepicker-toggle>
               <mat-datepicker #picker></mat-datepicker>
-               <!-- Validation error message -->
-               <mat-error *ngIf="form.submitted && form.controls['projectdate']?.invalid">
+              <!-- Validation error message -->
+              <mat-error
+                *ngIf="form.submitted && form.controls['projectdate']?.invalid"
+              >
                 Project Date is required
               </mat-error>
             </mat-form-field>
@@ -313,7 +352,12 @@
               required
             >
             </ng-select>
-            <div *ngIf="form.submitted && form.controls['cylindercompanyid']?.invalid" class="text-danger">
+            <div
+              *ngIf="
+                form.submitted && form.controls['cylindercompanyid']?.invalid
+              "
+              class="text-danger"
+            >
               Cylinder Company is required
             </div>
           </div>
@@ -335,7 +379,12 @@
               required
             >
             </ng-select>
-            <div *ngIf="form.submitted && form.controls['printingcompanyid']?.invalid" class="text-danger">
+            <div
+              *ngIf="
+                form.submitted && form.controls['printingcompanyid']?.invalid
+              "
+              class="text-danger"
+            >
               Printing Company is required
             </div>
           </div>
@@ -386,13 +435,12 @@
       </div>
     </div>
 
-   <!-- 🔍 Debug output here    
+    <!-- 🔍 Debug output here    
    <pre>{{ form.value | json }}</pre>
    <pre>Valid: {{ form.valid }}</pre>
    <pre>Is Version Unique: {{ isVersionUnique }}</pre>
     -->
   </form>
-  
 </div>
 <div
   class="images-container-modal"

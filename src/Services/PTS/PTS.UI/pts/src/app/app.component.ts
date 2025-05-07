@@ -13,6 +13,7 @@ import { CommonModule } from '@angular/common';
 export class AppComponent {
   title = 'pts';
   isHomePage = false;
+  
 
   constructor(private router: Router) {
     this.router.events.subscribe(event => {
