@@ -536,7 +536,7 @@ export class EditProductComponent implements OnInit, OnDestroy {
       brand: this.product?.brand,
       flavourtype: this.product?.flavourType,
       origin: this.product?.origin,
-      sku: this.product?.origin,
+      sku: this.product?.sku,
       productcode: this.product?.productCode,
       version: this.product?.version,
       projectdate: this.product?.projectDate,
