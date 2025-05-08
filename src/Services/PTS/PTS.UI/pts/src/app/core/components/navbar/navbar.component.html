@@ -109,8 +109,8 @@
           >
         </ng-container>
         <ng-template #showLogout>
-          <div *ngIf="user !== undefined && !isLoginPage" class="d-flex align-items-center">
-            <span>{{ user?.email }}</span>
+          <div *ngIf="user != null && !isLoginPage" class="d-flex align-items-center">
+            <span>{{ user.email }}</span>
             <button class="btn btn-primary ms-3" (click)="onLogout()">
               Logout
             </button>
