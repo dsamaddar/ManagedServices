@@ -211,3 +211,40 @@ Report
 -- initial page should be login page (done)
 -- Origin and SKU got same value after save in edit page.
 -- no space in: Barcode (13 digit must) (done)
+
+### UAT-05
+view -- > on the same page
+search box ->> not working properly
+Clean button ->> to reset all filters
+After edit --> Version code not showing/ need to discuss
+cascading dropdowns -> beverage (category) >> Clearup (brand)
+dropdown items -->> exceeding width (need to show full text)
+dropdown items ->> multi selection
+description box ->> remove (.)
+previous versions list ->> not ordered
+ 
+add version  ->> add columns printing company + cylinder company
+session ->> 15 min
+if session out ->> logout from every page
+ 
+filter page size defaut -> 1000
+page size -> (need to choose a name) e.g. return rows
+barcode -> must only be digits
+ 
+---------------------------------------
+product wise barcode can be multiple.
+product code --> duplicate warning
+---------------------------------------
+show (product code & barcode) wise full product details while (add/edit product)
+ 
+------------------- admin page ---------------------
+capitalize all fields except remarks/description fields
+ 
+------------------- filter/table --------------------
+maintain alphabetical sequence
+ 
+-----------------------------------------------------
+[Add Product] -> show it in new tab
+ 
+------------------- product list page ---------------
+remove project date, show version date instead
