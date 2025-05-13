@@ -192,6 +192,13 @@ export class EditProductComponent implements OnInit, OnDestroy {
     }
   }
 
+  allowOnlyDigits(event: KeyboardEvent) {
+    const charCode = event.key.charCodeAt(0);
+    if (charCode < 48 || charCode > 57) {
+      event.preventDefault(); // block non-digit
+    }
+  }
+
   onProjectDateChange(event: MatDatepickerInputEvent<Date>) {
     console.log(event);
     if (event.value && this.product) {

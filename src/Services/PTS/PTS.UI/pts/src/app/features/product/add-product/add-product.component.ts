@@ -450,6 +450,13 @@ export class AddProductComponent implements OnInit, OnDestroy {
     }
   }
 
+  allowOnlyDigits(event: KeyboardEvent) {
+    const charCode = event.key.charCodeAt(0);
+    if (charCode < 48 || charCode > 57) {
+      event.preventDefault(); // block non-digit
+    }
+  }
+
   onFormSubmit(form: NgForm) {
     if (form.invalid || this.isVersionUnique === false) {
       this.ngForm.markAllAsTouched();

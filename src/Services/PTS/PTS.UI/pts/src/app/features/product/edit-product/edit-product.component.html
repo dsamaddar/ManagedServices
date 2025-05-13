@@ -350,6 +350,7 @@
                 minlength="13"
                 (ngModelChange)="onSearchChangeBarcode($event)"
                 (keydown.space)="$event.preventDefault()"
+                (keypress)="allowOnlyDigits($event)"
                 required
               />
               <mat-autocomplete #autoBarcode="matAutocomplete">

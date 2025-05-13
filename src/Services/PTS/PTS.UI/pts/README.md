@@ -226,10 +226,10 @@ previous versions list ->> not ordered
 add version  ->> add columns printing company + cylinder company
 session ->> 15 min
 if session out ->> logout from every page
- 
-filter page size defaut -> 1000
-page size -> (need to choose a name) e.g. return rows
-barcode -> must only be digits
+
+filter page size defaut -> 1000 (done)
+page size -> (need to choose a name) e.g. return rows (done)
+barcode -> must only be digits (done)
  
 ---------------------------------------
 product wise barcode can be multiple.
