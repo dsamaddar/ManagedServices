@@ -17,7 +17,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { AddProductVersionRequest } from '../../../features/productversion/models/add-productversion.model';
-import { Subject, Subscription } from 'rxjs';
+import { Observable, Subject, Subscription } from 'rxjs';
 import { ProductversionService } from '../../../features/productversion/services/productversion.service';
 import { HttpEvent, HttpEventType } from '@angular/common/http';
 import { ProductService } from '../../../features/product/services/product.service';
@@ -34,6 +34,10 @@ import { MatDatepickerInputEvent, MatDatepickerModule } from '@angular/material/
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FileSelectorComponent } from '../file-selector/file-selector.component';
 import { MatNativeDateModule } from '@angular/material/core';
+import { CylinderCompany } from '../../../features/cylinderCompany/models/CylinderCompany.model';
+import { PrintingCompany } from '../../../features/printingCompany/models/printingcompany.model';
+import { CylindercompanyService } from '../../../features/cylinderCompany/services/cylindercompany.service';
+import { PrintingcompanyService } from '../../../features/printingCompany/services/printingcompany.service';
 
 @Component({
   selector: 'app-add-productversion',
@@ -72,6 +76,11 @@ export class AddProductversionComponent implements OnInit, OnDestroy {
   private searchVersions = new Subject<string>();
   suggestions_version: string[] = [];
 
+  cylinderCompanies$?: Observable<CylinderCompany[]>;
+  printingCompanies$?: Observable<PrintingCompany[]>;
+  cylindercompanyid?: number;
+  printingcompanyid?: number;
+
   myDate = new Date();
 
   constructor(
@@ -80,7 +89,9 @@ export class AddProductversionComponent implements OnInit, OnDestroy {
     private productService: ProductService,
     private suggestionService: SuggestionService,
     private router: Router,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private cylinderCompanyService: CylindercompanyService,
+    private printingCompanyService: PrintingcompanyService,
   ) {
     this.ngForm = this.fb.group({
       version: ['', Validators.required],
@@ -91,13 +102,18 @@ export class AddProductversionComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.attachmentBaseUrl = `${environment.attachmentBaseUrl}`;
 
+    this.cylinderCompanies$ =
+      this.cylinderCompanyService.getAllCylinderCompanies();
+    this.printingCompanies$ =
+      this.printingCompanyService.getAllPrintingCompanies();
+
     const formatted = this.datepipe.transform(this.myDate, 'yyyy-MM-dd');
 
     //console.log(this.data);
     this.productVersion = {
       version: '',
       versionDate: this.myDate || '',
-      description: '.',
+      description: '',
       productId: this.data,
       userId: String(localStorage.getItem('user-id')),
     };
