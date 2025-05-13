@@ -56,10 +56,10 @@ export class ProductListComponent implements OnInit {
   product_version_id: number = 0;
   user?: User;
 
-  filtered_brand: string | undefined = undefined;
-  filtered_flavourtype: string | undefined = undefined;
-  filtered_origin: string | undefined = undefined;
-  filtered_sku: string | undefined = undefined;
+  filtered_brand: string[] | undefined = undefined;
+  filtered_flavourtype: string[] | undefined = undefined;
+  filtered_origin: string[] | undefined = undefined;
+  filtered_sku: string[] | undefined = undefined;
 
   // observable array
   categories$?: Observable<Category[]>;
@@ -68,9 +68,9 @@ export class ProductListComponent implements OnInit {
   printingCompanies$?: Observable<PrintingCompany[]>;
 
   categoryid?: number[];
-  packtypeid?: number;
-  cylindercompanyid?: number;
-  printingcompanyid?: number;
+  packtypeid?: number[];
+  cylindercompanyid?: number[];
+  printingcompanyid?: number[];
 
   private deleteProductVersionSubscription?: Subscription;
 

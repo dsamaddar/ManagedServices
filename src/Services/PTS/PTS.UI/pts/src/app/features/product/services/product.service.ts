@@ -42,13 +42,13 @@ export class ProductService {
     pageNumber?: number,
     pageSize?: number,
     categoryid?: number[],
-    brand?: string,
-    flavour?: string,
-    origin?: string,
-    sku?: string,
-    packtypeid?: number,
-    cylindercompanyid?: number,
-    printingcompanyid?: number
+    brand?: string[],
+    flavour?: string[],
+    origin?: string[],
+    sku?: string[],
+    packtypeid?: number[],
+    cylindercompanyid?: number[],
+    printingcompanyid?: number[]
   ): Observable<AllProduct[]> {
     let params = new HttpParams();
 
@@ -70,32 +70,46 @@ export class ProductService {
       });
     }
 
-    if (brand) {
-      params = params.set('brand', brand);
+        if (brand) {
+      brand.forEach((brand) => {
+        params = params.append('brand', brand);
+      });
     }
 
     if (flavour) {
-      params = params.set('flavour', flavour);
+      flavour.forEach((flavour) => {
+        params = params.set('flavour', flavour);
+      });
     }
 
     if (origin) {
-      params = params.set('origin', origin);
+      origin.forEach((origin) => {
+        params = params.set('origin', origin);
+      });
     }
 
     if (sku) {
-      params = params.set('sku', sku);
+      sku.forEach((sku) => {
+        params = params.set('sku', sku);
+      });
     }
 
     if (packtypeid) {
-      params = params.set('packtypeid', packtypeid);
+      packtypeid.forEach((id) => {
+        params = params.set('packtypeid', id);
+      });
     }
 
     if (cylindercompanyid) {
-      params = params.set('cylindercompanyid', cylindercompanyid);
+      cylindercompanyid.forEach((id) => {
+        params = params.set('cylindercompanyid', id);
+      });
     }
 
     if (printingcompanyid) {
-      params = params.set('printingcompanyid', printingcompanyid);
+      printingcompanyid.forEach((id) => {
+        params = params.set('printingcompanyid', id);
+      });
     }
 
     return this.http.get<AllProduct[]>(
@@ -121,13 +135,13 @@ export class ProductService {
   getProductCount(
     query?: string,
     categoryid?: number[],
-    brand?: string,
-    flavour?: string,
-    origin?: string,
-    sku?: string,
-    packtypeid?: number,
-    cylindercompanyid?: number,
-    printingcompanyid?: number
+    brand?: string[],
+    flavour?: string[],
+    origin?: string[],
+    sku?: string[],
+    packtypeid?: number[],
+    cylindercompanyid?: number[],
+    printingcompanyid?: number[]
   ): Observable<number> {
     let params = new HttpParams();
 
@@ -142,31 +156,45 @@ export class ProductService {
     }
 
     if (brand) {
-      params = params.set('brand', brand);
+      brand.forEach((brand) => {
+        params = params.append('brand', brand);
+      });
     }
 
     if (flavour) {
-      params = params.set('flavour', flavour);
+      flavour.forEach((flavour) => {
+        params = params.set('flavour', flavour);
+      });
     }
 
     if (origin) {
-      params = params.set('origin', origin);
+      origin.forEach((origin) => {
+        params = params.set('origin', origin);
+      });
     }
 
     if (sku) {
-      params = params.set('sku', sku);
+      sku.forEach((sku) => {
+        params = params.set('sku', sku);
+      });
     }
 
     if (packtypeid) {
-      params = params.set('packtypeid', packtypeid);
+      packtypeid.forEach((id) => {
+        params = params.set('packtypeid', id);
+      });
     }
 
     if (cylindercompanyid) {
-      params = params.set('cylindercompanyid', cylindercompanyid);
+      cylindercompanyid.forEach((id) => {
+        params = params.set('cylindercompanyid', id);
+      });
     }
 
     if (printingcompanyid) {
-      params = params.set('printingcompanyid', printingcompanyid);
+      printingcompanyid.forEach((id) => {
+        params = params.set('printingcompanyid', id);
+      });
     }
 
     return this.http.get<number>(

@@ -6,6 +6,7 @@ using PTS.API.Data;
 using PTS.API.Models.Domain;
 using PTS.API.Repositories.Exceptions;
 using PTS.API.Repositories.Interface;
+using System.Runtime.CompilerServices;
 
 namespace PTS.API.Repositories.Implementation
 {
@@ -51,17 +52,18 @@ namespace PTS.API.Repositories.Implementation
             return existingProduct;
         }
 
-        public async Task<IEnumerable<Product>> GetAllAsync(string? query = null, int? pageNumber = 1, int? pageSize = 5, int[]? categoryid = null, string? brand = null, string? flavour = null, string? origin = null, string? sku = null, int? packtypeid = null, int? cylindercompanyid = null, int? printingcompanyid = null)
+        public async Task<IEnumerable<Product>> GetAllAsync(string? query = null, int? pageNumber = 1, int? pageSize = 5, int[]? categoryid = null, string[]? brand = null, string[]? flavour = null, string[]? origin = null, string[]? sku = null, int[]? packtypeid = null, int[]? cylindercompanyid = null, int[]? printingcompanyid = null)
         {
+
             // Query the database not actually retrieving anything
             var products = dbContext.Products
-                .Include(x => x.CylinderCompany)
-                .Include(x => x.PrintingCompany)
-                .Include(x => x.PackType)
-                .Include(x => x.Category)
-                .Include(x => x.ProductVersions)
-                    .ThenInclude(pv => pv.Attachments)
-                .AsQueryable();
+            .Include(x => x.CylinderCompany)
+            .Include(x => x.PrintingCompany)
+            .Include(x => x.PackType)
+            .Include(x => x.Category)
+            .Include(x => x.ProductVersions)
+                .ThenInclude(pv => pv.Attachments)
+            .AsQueryable();
 
             // Filtering
 
@@ -75,43 +77,64 @@ namespace PTS.API.Repositories.Implementation
                 products = products
                             .Where(x =>
                             // OR-based query search
-                            (string.IsNullOrWhiteSpace(query) || (
-                            (x.Barcode != null && x.Barcode.Contains(query)) ||
-                            (x.Brand != null && x.Brand.Contains(query)) ||
-                            (x.FlavourType != null && x.FlavourType.Contains(query)) ||
-                            (x.Origin != null && x.Origin.Contains(query)) ||
-                            (x.SKU != null && x.SKU.Contains(query)) ||
-                            (x.ProductCode != null && x.ProductCode.Contains(query)) ||
-                            (x.Version != null && x.Version.Contains(query)) ||
-                            (x.Category != null && x.Category.Name != null && x.Category.Name.Contains(query)) ||
-                            (x.PrintingCompany != null && x.PrintingCompany.Name != null && x.PrintingCompany.Name.Contains(query)) ||
-                            (x.CylinderCompany != null && x.CylinderCompany.Name != null && x.CylinderCompany.Name.Contains(query)) ||
-                            (x.PackType != null && x.PackType.Name != null && x.PackType.Name.Contains(query)) ||
-                            //(x.CategoryId != null && x.CategoryId == categoryid) ||
-                            //(x.CategoryId != null && categoryid.Contains(x.CategoryId.Value)) ||
-                            (x.PackTypeId != null && x.PackTypeId == packtypeid) ||
-                            (x.CylinderCompanyId != null && x.CylinderCompanyId == cylindercompanyid) ||
-                            (x.PrintingCompanyId != null && x.PrintingCompanyId == printingcompanyid)
+                            (string.IsNullOrWhiteSpace(query) ||
+                                (
+                                    (x.Barcode != null && x.Barcode.Contains(query)) ||
+                                    (x.Brand != null && x.Brand.Contains(query)) ||
+                                    (x.FlavourType != null && x.FlavourType.Contains(query)) ||
+                                    (x.Origin != null && x.Origin.Contains(query)) ||
+                                    (x.SKU != null && x.SKU.Contains(query)) ||
+                                    (x.ProductCode != null && x.ProductCode.Contains(query)) ||
+                                    (x.Version != null && x.Version.Contains(query)) ||
+                                    (x.Category != null && x.Category.Name != null && x.Category.Name.Contains(query)) ||
+                                    (x.PrintingCompany != null && x.PrintingCompany.Name != null && x.PrintingCompany.Name.Contains(query)) ||
+                                    (x.CylinderCompany != null && x.CylinderCompany.Name != null && x.CylinderCompany.Name.Contains(query)) ||
+                                    (x.PackType != null && x.PackType.Name != null && x.PackType.Name.Contains(query))
+                                )
                             )
-                            ) &&
-                            // AND-based filters (apply only if filter has value)
-                            //(categoryid == null || x.CategoryId == categoryid) &&
-                            //(x.CategoryId == null || categoryid.Contains(x.CategoryId.Value)) &&
-                            (brand == null || x.Brand == brand) &&
-                            (flavour == null || x.FlavourType == flavour) &&
-                            (origin == null || x.Origin == origin) &&
-                            (sku == null || x.SKU == sku) &&
-                            (packtypeid == null || x.PackTypeId == packtypeid) &&
-                            (cylindercompanyid == null || x.CylinderCompanyId == cylindercompanyid) &&
-                            (printingcompanyid == null || x.PrintingCompanyId == printingcompanyid)
                             );
-
-
             }
+
+            // more filtering options
 
             if (categoryid != null && categoryid.Length > 0)
             {
                 products = products.Where(x => x.CategoryId.HasValue && categoryid.Contains(x.CategoryId.Value));
+            }
+
+            if (packtypeid != null && packtypeid.Length > 0)
+            {
+                products = products.Where(x => x.PackTypeId.HasValue && packtypeid.Contains(x.PackTypeId.Value));
+            }
+
+            if (cylindercompanyid != null && cylindercompanyid.Length > 0)
+            {
+                products = products.Where(x => x.CylinderCompanyId.HasValue && cylindercompanyid.Contains(x.CylinderCompanyId.Value));
+            }
+
+            if (printingcompanyid != null && printingcompanyid.Length > 0)
+            {
+                products = products.Where(x => x.PrintingCompanyId.HasValue && printingcompanyid.Contains(x.PrintingCompanyId.Value));
+            }
+
+            if (brand != null && brand.Length > 0)
+            {
+                products = products.Where(x => brand.Contains(x.Brand));
+            }
+
+            if (flavour != null && flavour.Length > 0)
+            {
+                products = products.Where(x => flavour.Contains(x.FlavourType));
+            }
+
+            if (origin != null && origin.Length > 0)
+            {
+                products = products.Where(x => origin.Contains(x.Origin));
+            }
+
+            if (sku != null && sku.Length > 0)
+            {
+                products = products.Where(x => sku.Contains(x.SKU));
             }
 
             // Ordering
@@ -135,11 +158,13 @@ namespace PTS.API.Repositories.Implementation
             // pageNumber 3 pageSize 5 - skip 10 take 5
 
             var skipResults = (pageNumber - 1) * pageSize;
-            products = products.Skip(skipResults ?? 0).Take(pageSize ?? 5); 
+            products = products.Skip(skipResults ?? 0).Take(pageSize ?? 5);
 
             // Return the list of products
 
-            return await products.ToListAsync();
+            var productsList = await products.ToListAsync();
+            return productsList;
+            //return await products.ToListAsync();
 
 
             /*
@@ -165,7 +190,7 @@ namespace PTS.API.Repositories.Implementation
                 .FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public async Task<int> GetCount(string? query = null, int[] ? categoryid = null, string? brand = null, string? flavour = null, string? origin = null, string? sku = null, int? packtypeid = null, int? cylindercompanyid = null, int? printingcompanyid = null)
+        public async Task<int> GetCount(string? query = null, int[] ? categoryid = null, string[]? brand = null, string[]? flavour = null, string[]? origin = null, string[]? sku = null, int[]? packtypeid = null, int[]? cylindercompanyid = null, int[]? printingcompanyid = null)
         {
             // Query the database not actually retrieving anything
             var products = dbContext.Products
@@ -192,22 +217,50 @@ namespace PTS.API.Repositories.Implementation
                             (x.ProductCode != null && x.ProductCode.Contains(query)) ||
                             (x.Version != null && x.Version.Contains(query))
                             )
-                            ) &&
-                            // AND-based filters (apply only if filter has value)
-                            //(categoryid == null || x.CategoryId == categoryid) &&
-                            (brand == null || x.Brand == brand) &&
-                            (flavour == null || x.FlavourType == flavour) &&
-                            (origin == null || x.Origin == origin) &&
-                            (sku == null || x.SKU == sku) &&
-                            (packtypeid == null || x.PackTypeId == packtypeid) &&
-                            (cylindercompanyid == null || x.CylinderCompanyId == cylindercompanyid) &&
-                            (printingcompanyid == null || x.PrintingCompanyId == printingcompanyid)
+                            )
                             );
             }
+
+            // more filtering options
 
             if (categoryid != null && categoryid.Length > 0)
             {
                 products = products.Where(x => x.CategoryId.HasValue && categoryid.Contains(x.CategoryId.Value));
+            }
+
+            if (packtypeid != null && packtypeid.Length > 0)
+            {
+                products = products.Where(x => x.PackTypeId.HasValue && packtypeid.Contains(x.PackTypeId.Value));
+            }
+
+            if (cylindercompanyid != null && cylindercompanyid.Length > 0)
+            {
+                products = products.Where(x => x.CylinderCompanyId.HasValue && cylindercompanyid.Contains(x.CylinderCompanyId.Value));
+            }
+
+            if (printingcompanyid != null && printingcompanyid.Length > 0)
+            {
+                products = products.Where(x => x.PrintingCompanyId.HasValue && printingcompanyid.Contains(x.PrintingCompanyId.Value));
+            }
+
+            if (brand != null && brand.Length > 0)
+            {
+                products = products.Where(x => brand.Contains(x.Brand));
+            }
+
+            if (flavour != null && flavour.Length > 0)
+            {
+                products = products.Where(x => flavour.Contains(x.FlavourType));
+            }
+
+            if (origin != null && origin.Length > 0)
+            {
+                products = products.Where(x => origin.Contains(x.Origin));
+            }
+
+            if (sku != null && sku.Length > 0)
+            {
+                products = products.Where(x => sku.Contains(x.SKU));
             }
 
             return await products.CountAsync();
