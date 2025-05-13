@@ -227,6 +227,9 @@ export class ProductListComponent implements OnInit {
   
 
   onSearch(query: string) {
+
+    console.log('Selected Category Id: ' + this.categoryid);
+
     this.products$ = this.productService.getAllProducts(
       query,
       this.pageNumber,

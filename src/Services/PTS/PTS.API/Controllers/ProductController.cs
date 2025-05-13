@@ -77,7 +77,7 @@ namespace PTS.API.Controllers
             [FromQuery] string? query,
             [FromQuery] int? pageNumber,
             [FromQuery] int? pageSize,
-            [FromQuery] int? categoryid,
+            [FromQuery] int[]? categoryid,
             [FromQuery] string? brand,
             [FromQuery] string? flavour,
             [FromQuery] string? origin,

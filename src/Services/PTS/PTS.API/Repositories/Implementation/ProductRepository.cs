@@ -51,7 +51,7 @@ namespace PTS.API.Repositories.Implementation
             return existingProduct;
         }
 
-        public async Task<IEnumerable<Product>> GetAllAsync(string? query = null, int? pageNumber = 1, int? pageSize = 5, int? categoryid = null, string? brand = null, string? flavour = null, string? origin = null, string? sku = null, int? packtypeid = null, int? cylindercompanyid = null, int? printingcompanyid = null)
+        public async Task<IEnumerable<Product>> GetAllAsync(string? query = null, int? pageNumber = 1, int? pageSize = 5, int[]? categoryid = null, string? brand = null, string? flavour = null, string? origin = null, string? sku = null, int? packtypeid = null, int? cylindercompanyid = null, int? printingcompanyid = null)
         {
             // Query the database not actually retrieving anything
             var products = dbContext.Products
@@ -80,7 +80,7 @@ namespace PTS.API.Repositories.Implementation
                 query = "";
             }
 
-            if (string.IsNullOrWhiteSpace(query) == false || categoryid != null  || brand != null || flavour != null || origin != null || sku != null || packtypeid != null || cylindercompanyid != null || printingcompanyid != null)
+            if (string.IsNullOrWhiteSpace(query) == false || categoryid != null || brand != null || flavour != null || origin != null || sku != null || packtypeid != null || cylindercompanyid != null || printingcompanyid != null)
             {
                 products = products
                             .Where(x =>
@@ -97,14 +97,16 @@ namespace PTS.API.Repositories.Implementation
                             (x.PrintingCompany != null && x.PrintingCompany.Name != null && x.PrintingCompany.Name.Contains(query)) ||
                             (x.CylinderCompany != null && x.CylinderCompany.Name != null && x.CylinderCompany.Name.Contains(query)) ||
                             (x.PackType != null && x.PackType.Name != null && x.PackType.Name.Contains(query)) ||
-                            (x.CategoryId != null && x.CategoryId == categoryid) ||
+                            //(x.CategoryId != null && x.CategoryId == categoryid) ||
+                            //(x.CategoryId != null && categoryid.Contains(x.CategoryId.Value)) ||
                             (x.PackTypeId != null && x.PackTypeId == packtypeid) ||
                             (x.CylinderCompanyId != null && x.CylinderCompanyId == cylindercompanyid) ||
                             (x.PrintingCompanyId != null && x.PrintingCompanyId == printingcompanyid)
                             )
                             ) &&
                             // AND-based filters (apply only if filter has value)
-                            (categoryid == null || x.CategoryId == categoryid) &&
+                            //(categoryid == null || x.CategoryId == categoryid) &&
+                            //(x.CategoryId == null || categoryid.Contains(x.CategoryId.Value)) &&
                             (brand == null || x.Brand == brand) &&
                             (flavour == null || x.FlavourType == flavour) &&
                             (origin == null || x.Origin == origin) &&
@@ -125,6 +127,21 @@ namespace PTS.API.Repositories.Implementation
                             .ThenBy(x => x.PrintingCompany.Name);
 
 
+            }
+
+            if (categoryid != null && categoryid.Length > 0)
+            {
+                products = products.Where(x => x.CategoryId.HasValue && categoryid.Contains(x.CategoryId.Value))
+                            .OrderBy(x => x.Category.Name)
+                            .ThenBy(x => x.Brand)
+                            .ThenBy(x => x.FlavourType)
+                            .ThenBy(x => x.Origin)
+                            .ThenBy(x => x.SKU)
+                            .ThenBy(x => x.ProductCode)
+                            .ThenBy(x => x.PackType.Name)
+                            .ThenBy(x => x.Barcode)
+                            .ThenBy(x => x.CylinderCompany.Name)
+                            .ThenBy(x => x.PrintingCompany.Name);
             }
 
             // Sorting
