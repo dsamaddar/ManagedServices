@@ -61,7 +61,16 @@ namespace PTS.API.Repositories.Implementation
                 .Include(x => x.Category)
                 .Include(x => x.ProductVersions)
                     .ThenInclude(pv => pv.Attachments)
-                .OrderByDescending(x => x.ProjectDate)
+                .OrderBy(x => x.Category.Name)
+                .ThenBy(x => x.Brand)
+                .ThenBy(x => x.FlavourType)
+                .ThenBy(x => x.Origin)
+                .ThenBy(x => x.SKU)
+                .ThenBy(x => x.ProductCode)
+                .ThenBy(x => x.PackType.Name)
+                .ThenBy(x => x.Barcode)
+                .ThenBy(x => x.CylinderCompany.Name)
+                .ThenBy(x => x.PrintingCompany.Name)
                 .AsQueryable();
 
             // Filtering
@@ -104,7 +113,18 @@ namespace PTS.API.Repositories.Implementation
                             (cylindercompanyid == null || x.CylinderCompanyId == cylindercompanyid) &&
                             (printingcompanyid == null || x.PrintingCompanyId == printingcompanyid)
                             )
-                            .OrderByDescending(x => x.ProjectDate);
+                            .OrderBy(x => x.Category.Name)
+                            .ThenBy(x => x.Brand)
+                            .ThenBy(x => x.FlavourType)
+                            .ThenBy(x => x.Origin)
+                            .ThenBy(x => x.SKU)
+                            .ThenBy(x => x.ProductCode)
+                            .ThenBy(x => x.PackType.Name)
+                            .ThenBy(x => x.Barcode)
+                            .ThenBy(x => x.CylinderCompany.Name)
+                            .ThenBy(x => x.PrintingCompany.Name);
+
+
             }
 
             // Sorting

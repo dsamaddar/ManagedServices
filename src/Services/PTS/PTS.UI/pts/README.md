@@ -247,4 +247,4 @@ maintain alphabetical sequence
 [Add Product] -> show it in new tab
  
 ------------------- product list page ---------------
-remove project date, show version date instead
+remove project date, show version date instead (done)

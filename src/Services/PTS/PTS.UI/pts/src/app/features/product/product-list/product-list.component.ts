@@ -50,7 +50,7 @@ export class ProductListComponent implements OnInit {
   totalProductCount?: number;
   page_list: number[] = [];
   pageNumber = 1;
-  pageSize = 5;
+  pageSize = 50;
   global_query?: string;
   master_product_id: number = 0;
   product_version_id: number = 0;
