@@ -323,7 +323,7 @@ namespace PTS.API.Controllers
         [Authorize(Roles = "READER,MANAGER,ADMIN")]
         public async Task<IActionResult> GetProductCount(
             [FromQuery] string? query, 
-            [FromQuery] int? categoryid,
+            [FromQuery] int[]? categoryid,
             [FromQuery] string? brand,
             [FromQuery] string? flavour,
             [FromQuery] string? origin,

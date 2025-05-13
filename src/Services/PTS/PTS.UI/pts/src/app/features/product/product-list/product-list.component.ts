@@ -67,7 +67,7 @@ export class ProductListComponent implements OnInit {
   cylinderCompanies$?: Observable<CylinderCompany[]>;
   printingCompanies$?: Observable<PrintingCompany[]>;
 
-  categoryid?: number;
+  categoryid?: number[];
   packtypeid?: number;
   cylindercompanyid?: number;
   printingcompanyid?: number;
@@ -169,7 +169,10 @@ export class ProductListComponent implements OnInit {
             : '',
           CylinderCompany: p.cylinderCompany.name,
           PrintingCompany: p.printingCompany.name,
-          ProductVersions: p.productVersions ?.map((v) => v.version + ' [' + v.versionDate + ']').join(', ') || ''
+          ProductVersions:
+            p.productVersions
+              ?.map((v) => v.version + ' [' + v.versionDate + ']')
+              .join(', ') || '',
         }));
 
         this.excelService.exportAsExcelFile(exportData, 'ProductList');
@@ -224,11 +227,9 @@ export class ProductListComponent implements OnInit {
 
     return pages;
   }
-  
 
   onSearch(query: string) {
-
-    console.log('Selected Category Id: ' + this.categoryid);
+    //console.log('Selected Category Id: ' + this.categoryid);
 
     this.products$ = this.productService.getAllProducts(
       query,
@@ -264,7 +265,7 @@ export class ProductListComponent implements OnInit {
           this.page_list = new Array(
             Math.ceil(this.totalProductCount / this.pageSize)
           );
-          console.log('Number of products:', this.totalProductCount);
+          //console.log('Number of products:', this.totalProductCount);
         },
       });
     /*
@@ -276,7 +277,7 @@ export class ProductListComponent implements OnInit {
   }
 
   getPage(pageNumber: number) {
-    console.log(pageNumber);
+    //console.log(pageNumber);
     this.pageNumber = pageNumber;
     this.products$ = this.productService.getAllProducts(
       this.global_query,

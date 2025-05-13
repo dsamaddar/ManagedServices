@@ -61,16 +61,6 @@ namespace PTS.API.Repositories.Implementation
                 .Include(x => x.Category)
                 .Include(x => x.ProductVersions)
                     .ThenInclude(pv => pv.Attachments)
-                .OrderBy(x => x.Category.Name)
-                .ThenBy(x => x.Brand)
-                .ThenBy(x => x.FlavourType)
-                .ThenBy(x => x.Origin)
-                .ThenBy(x => x.SKU)
-                .ThenBy(x => x.ProductCode)
-                .ThenBy(x => x.PackType.Name)
-                .ThenBy(x => x.Barcode)
-                .ThenBy(x => x.CylinderCompany.Name)
-                .ThenBy(x => x.PrintingCompany.Name)
                 .AsQueryable();
 
             // Filtering
@@ -114,25 +104,18 @@ namespace PTS.API.Repositories.Implementation
                             (packtypeid == null || x.PackTypeId == packtypeid) &&
                             (cylindercompanyid == null || x.CylinderCompanyId == cylindercompanyid) &&
                             (printingcompanyid == null || x.PrintingCompanyId == printingcompanyid)
-                            )
-                            .OrderBy(x => x.Category.Name)
-                            .ThenBy(x => x.Brand)
-                            .ThenBy(x => x.FlavourType)
-                            .ThenBy(x => x.Origin)
-                            .ThenBy(x => x.SKU)
-                            .ThenBy(x => x.ProductCode)
-                            .ThenBy(x => x.PackType.Name)
-                            .ThenBy(x => x.Barcode)
-                            .ThenBy(x => x.CylinderCompany.Name)
-                            .ThenBy(x => x.PrintingCompany.Name);
+                            );
 
 
             }
 
             if (categoryid != null && categoryid.Length > 0)
             {
-                products = products.Where(x => x.CategoryId.HasValue && categoryid.Contains(x.CategoryId.Value))
-                            .OrderBy(x => x.Category.Name)
+                products = products.Where(x => x.CategoryId.HasValue && categoryid.Contains(x.CategoryId.Value));
+            }
+
+            // Ordering
+            products = products.OrderBy(x => x.Category.Name)
                             .ThenBy(x => x.Brand)
                             .ThenBy(x => x.FlavourType)
                             .ThenBy(x => x.Origin)
@@ -142,7 +125,7 @@ namespace PTS.API.Repositories.Implementation
                             .ThenBy(x => x.Barcode)
                             .ThenBy(x => x.CylinderCompany.Name)
                             .ThenBy(x => x.PrintingCompany.Name);
-            }
+
 
             // Sorting
 
@@ -182,7 +165,7 @@ namespace PTS.API.Repositories.Implementation
                 .FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public async Task<int> GetCount(string? query = null, int ? categoryid = null, string? brand = null, string? flavour = null, string? origin = null, string? sku = null, int? packtypeid = null, int? cylindercompanyid = null, int? printingcompanyid = null)
+        public async Task<int> GetCount(string? query = null, int[] ? categoryid = null, string? brand = null, string? flavour = null, string? origin = null, string? sku = null, int? packtypeid = null, int? cylindercompanyid = null, int? printingcompanyid = null)
         {
             // Query the database not actually retrieving anything
             var products = dbContext.Products
@@ -197,8 +180,7 @@ namespace PTS.API.Repositories.Implementation
 
             if (string.IsNullOrWhiteSpace(query) == false || categoryid != null || brand != null || flavour != null || origin != null || sku != null || packtypeid != null || cylindercompanyid != null || printingcompanyid != null)
             {
-                products = products
-                            
+                products = products                            
                             .Where(x =>
                             // OR-based query search
                             (string.IsNullOrWhiteSpace(query) || (
@@ -212,7 +194,7 @@ namespace PTS.API.Repositories.Implementation
                             )
                             ) &&
                             // AND-based filters (apply only if filter has value)
-                            (categoryid == null || x.CategoryId == categoryid) &&
+                            //(categoryid == null || x.CategoryId == categoryid) &&
                             (brand == null || x.Brand == brand) &&
                             (flavour == null || x.FlavourType == flavour) &&
                             (origin == null || x.Origin == origin) &&
@@ -220,8 +202,12 @@ namespace PTS.API.Repositories.Implementation
                             (packtypeid == null || x.PackTypeId == packtypeid) &&
                             (cylindercompanyid == null || x.CylinderCompanyId == cylindercompanyid) &&
                             (printingcompanyid == null || x.PrintingCompanyId == printingcompanyid)
-                            )
-                            .OrderByDescending(x => x.ProjectDate);
+                            );
+            }
+
+            if (categoryid != null && categoryid.Length > 0)
+            {
+                products = products.Where(x => x.CategoryId.HasValue && categoryid.Contains(x.CategoryId.Value));
             }
 
             return await products.CountAsync();

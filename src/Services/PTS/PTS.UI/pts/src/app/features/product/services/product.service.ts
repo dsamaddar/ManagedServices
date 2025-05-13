@@ -41,7 +41,7 @@ export class ProductService {
     query?: string,
     pageNumber?: number,
     pageSize?: number,
-    categoryid?: number,
+    categoryid?: number[],
     brand?: string,
     flavour?: string,
     origin?: string,
@@ -65,7 +65,9 @@ export class ProductService {
     }
 
     if (categoryid) {
-      params = params.set('categoryid', categoryid);
+      categoryid.forEach((id) => {
+        params = params.append('categoryid', id);
+      });
     }
 
     if (brand) {
@@ -118,7 +120,7 @@ export class ProductService {
 
   getProductCount(
     query?: string,
-    categoryid?: number,
+    categoryid?: number[],
     brand?: string,
     flavour?: string,
     origin?: string,
@@ -134,7 +136,9 @@ export class ProductService {
     }
 
     if (categoryid) {
-      params = params.set('categoryid', categoryid);
+      categoryid.forEach((id) => {
+        params = params.append('categoryid', id);
+      });
     }
 
     if (brand) {
