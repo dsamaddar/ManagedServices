@@ -263,6 +263,17 @@ export class AddProductversionComponent implements OnInit, OnDestroy {
       return;
     }
 
+    this.productVersion.cylinderCompanyId = this.cylindercompanyid || 0;
+    this.productVersion.printingCompanyId = this.printingcompanyid || 0;
+
+    if (this.productVersion.cylinderCompanyId == 0 || this.productVersion.printingCompanyId == 0) {
+      //alert('Missing: Category/Project/Cylinder Company/Printing Company');
+      ToastrUtils.showErrorToast(
+        'Missing: Cylinder Company/Printing Company'
+      );
+      return;
+    }
+
     this.addProductVersionSubscription = this.productVersionService
       .addProductVersion(this.productVersion)
       .subscribe({
