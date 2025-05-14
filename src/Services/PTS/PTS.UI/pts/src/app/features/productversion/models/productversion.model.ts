@@ -6,6 +6,8 @@ export interface ProductVersion{
     versionDate: string,
     description: string,
     productId: number,
+    cylinderCompanyId: number,
+    printingCompanyId: number,
     userId: string,
     attachments: Attachment[];
 }

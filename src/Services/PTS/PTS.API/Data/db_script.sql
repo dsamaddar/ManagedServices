@@ -99,8 +99,8 @@ BEGIN
 		select * from ProductVersions where Version = @prodVersion
 		)
 		begin
-			insert into ProductVersions([Version],VersionDate,Description,ProductId,UserId)
-			values(@prodVersion, ISNULL(@ProjectDt,GETDATE()), '', @ProductId, @UserId);
+			insert into ProductVersions([Version],VersionDate,Description,ProductId,CylinderCompanyId,PrintingCompanyId,UserId)
+			values(@prodVersion, ISNULL(@ProjectDt,GETDATE()), '', @ProductId,@CylinderCompanyId,@PrintingCompanyId, @UserId);
 		end
 	end
 

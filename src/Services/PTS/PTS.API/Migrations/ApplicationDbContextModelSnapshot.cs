@@ -8,7 +8,7 @@ using PTS.API.Data;
 
 #nullable disable
 
-namespace PTS.API.Migrations.ApplicationDb
+namespace PTS.API.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     partial class ApplicationDbContextModelSnapshot : ModelSnapshot
@@ -215,21 +215,21 @@ namespace PTS.API.Migrations.ApplicationDb
                         {
                             Id = 1,
                             Description = ".",
-                            Name = "BANGLA - SHANGHAI PLATE MAKING LTD",
+                            Name = "BANGLA - SHANGHAI PLATE MAKING LTD.",
                             UserId = "e07b4029-5a27-491d-9fc5-7043e22ae5eb"
                         },
                         new
                         {
                             Id = 2,
                             Description = ".",
-                            Name = "DIGITAL ENGRAVERS LTD",
+                            Name = "DIGITAL ENGRAVERS LTD.",
                             UserId = "e07b4029-5a27-491d-9fc5-7043e22ae5eb"
                         },
                         new
                         {
                             Id = 3,
                             Description = ".",
-                            Name = "MASTER PLATE MAKING(BD) CO.LTD",
+                            Name = "MASTER PLATE MAKING(BD) CO.LTD.",
                             UserId = "e07b4029-5a27-491d-9fc5-7043e22ae5eb"
                         },
                         new
@@ -648,9 +648,17 @@ namespace PTS.API.Migrations.ApplicationDb
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int?>("CylinderCompanyId")
+                        .HasColumnType("int")
+                        .HasColumnOrder(5);
+
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)")
                         .HasColumnOrder(3);
+
+                    b.Property<int?>("PrintingCompanyId")
+                        .HasColumnType("int")
+                        .HasColumnOrder(6);
 
                     b.Property<int>("ProductId")
                         .HasColumnType("int")
@@ -658,7 +666,7 @@ namespace PTS.API.Migrations.ApplicationDb
 
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(max)")
-                        .HasColumnOrder(5);
+                        .HasColumnOrder(7);
 
                     b.Property<string>("Version")
                         .HasColumnType("nvarchar(450)")

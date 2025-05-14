@@ -32,6 +32,8 @@ namespace PTS.API.Controllers
                 VersionDate = request.VersionDate,
                 Description = request.Description,
                 ProductId = request.ProductId,
+                CylinderCompanyId = request.CylinderCompanyId,
+                PrintingCompanyId = request.PrintingCompanyId,
                 UserId = request.UserId,
             };
 
@@ -45,6 +47,8 @@ namespace PTS.API.Controllers
                 VersionDate = productVersion.VersionDate,
                 Description= productVersion.Description,
                 ProductId = productVersion.ProductId,
+                CylinderCompanyId= productVersion.CylinderCompanyId,
+                PrintingCompanyId= productVersion.PrintingCompanyId,
                 UserId= productVersion.UserId,
             };
 
@@ -74,6 +78,8 @@ namespace PTS.API.Controllers
                 VersionDate = productVersion.VersionDate,
                 Description = productVersion.Description,
                 ProductId = productVersion.ProductId,
+                CylinderCompanyId = productVersion.CylinderCompanyId,
+                PrintingCompanyId = productVersion.PrintingCompanyId,
                 UserId = productVersion.UserId,
             };
 
@@ -103,6 +109,8 @@ namespace PTS.API.Controllers
                     VersionDate = productVersion.VersionDate,
                     Description = productVersion.Description,
                     ProductId = productVersion.ProductId,
+                    CylinderCompanyId = productVersion.CylinderCompanyId,
+                    PrintingCompanyId = productVersion.PrintingCompanyId,
                     UserId = productVersion.UserId,
                     Attachments = productVersion.Attachments?.Select(a => new AttachmentDto
                     {
@@ -153,9 +161,9 @@ namespace PTS.API.Controllers
                     VersionDate = x.VersionDate,
                     Description = x.Description,
                     ProductId = x.ProductId,
+                    CylinderCompanyId= x.CylinderCompanyId,
+                    PrintingCompanyId= x.PrintingCompanyId,
                     UserId = x.UserId,
-
-
                     Attachments = x.Attachments?.Select(a => new AttachmentDto
                     {
                         Id = a.Id,

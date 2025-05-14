@@ -112,6 +112,8 @@ namespace PTS.API.Controllers
                         Version = x.Version,
                         VersionDate = x.VersionDate,
                         ProductId = x.ProductId,
+                        CylinderCompanyId = x.CylinderCompanyId,
+                        PrintingCompanyId = x.PrintingCompanyId,
                         UserId = x.UserId,
 
                         Attachments = x.Attachments?.Select(a => new AttachmentDto
@@ -187,8 +189,8 @@ namespace PTS.API.Controllers
                     Version = x.Version,
                     VersionDate = x.VersionDate,
                     ProductId = x.ProductId,
-
-
+                    CylinderCompanyId = x.CylinderCompanyId,
+                    PrintingCompanyId=x.PrintingCompanyId,
                     Attachments = x.Attachments?.Select(a => new AttachmentDto
                     {
                         Id = a.Id,

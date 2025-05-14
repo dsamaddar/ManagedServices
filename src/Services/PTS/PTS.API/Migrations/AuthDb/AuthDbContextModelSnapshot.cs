@@ -8,7 +8,7 @@ using PTS.API.Data;
 
 #nullable disable
 
-namespace PTS.API.Migrations
+namespace PTS.API.Migrations.AuthDb
 {
     [DbContext(typeof(AuthDbContext))]
     partial class AuthDbContextModelSnapshot : ModelSnapshot
@@ -174,7 +174,7 @@ namespace PTS.API.Migrations
                             NormalizedUserName = "DEBAYAN.SAMADDAR@NEOSCODER.COM",
                             PasswordHash = "AQAAAAIAAYagAAAAEBZYK2AcpnXFPESoUdcPjsppX7q80XnHNd5x5mBHfvYDB0/qzdtBkpvb98FfscgIig==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "fea235bf-f213-4bec-b544-d551e1ded207",
+                            SecurityStamp = "ca10fdb2-3fa9-44fb-a7fd-d7ed58c975a9",
                             TwoFactorEnabled = false,
                             UserName = "debayan.samaddar@neoscoder.com"
                         });

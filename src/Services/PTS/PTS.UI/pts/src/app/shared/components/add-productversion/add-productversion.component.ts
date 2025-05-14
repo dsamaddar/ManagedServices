@@ -115,6 +115,8 @@ export class AddProductversionComponent implements OnInit, OnDestroy {
       versionDate: this.myDate || '',
       description: '',
       productId: this.data,
+      cylinderCompanyId: 0,
+      printingCompanyId: 0,
       userId: String(localStorage.getItem('user-id')),
     };
 

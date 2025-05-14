@@ -3,5 +3,7 @@ export interface AddProductVersionRequest{
     versionDate: Date,
     description: string,
     productId: number,
+    cylinderCompanyId: number,
+    printingCompanyId: number,
     userId: string,
 }

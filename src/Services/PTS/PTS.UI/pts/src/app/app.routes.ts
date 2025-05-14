@@ -111,6 +111,7 @@ export const routes: Routes = [
       {
         path: 'admin/permission-control',
         component: PermissionControlComponent,
+        canActivate: [authGuard],
       },
       {
         path: 'login',

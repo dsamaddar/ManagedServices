@@ -10,6 +10,8 @@
 
         public string? Description { get; set; }
         public int ProductId { get; set; }
+        public int? CylinderCompanyId { get; set; }
+        public int? PrintingCompanyId { get; set; }
         public string? UserId { get; set; }
     }
 }

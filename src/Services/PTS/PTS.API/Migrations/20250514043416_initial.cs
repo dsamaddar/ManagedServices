@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
 
-namespace PTS.API.Migrations.ApplicationDb
+namespace PTS.API.Migrations
 {
     /// <inheritdoc />
     public partial class initial : Migration
@@ -128,6 +128,8 @@ namespace PTS.API.Migrations.ApplicationDb
                     VersionDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ProductId = table.Column<int>(type: "int", nullable: false),
+                    CylinderCompanyId = table.Column<int>(type: "int", nullable: true),
+                    PrintingCompanyId = table.Column<int>(type: "int", nullable: true),
                     UserId = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
@@ -188,9 +190,9 @@ namespace PTS.API.Migrations.ApplicationDb
                 columns: new[] { "Id", "Description", "Name", "UserId" },
                 values: new object[,]
                 {
-                    { 1, ".", "BANGLA - SHANGHAI PLATE MAKING LTD", "e07b4029-5a27-491d-9fc5-7043e22ae5eb" },
-                    { 2, ".", "DIGITAL ENGRAVERS LTD", "e07b4029-5a27-491d-9fc5-7043e22ae5eb" },
-                    { 3, ".", "MASTER PLATE MAKING(BD) CO.LTD", "e07b4029-5a27-491d-9fc5-7043e22ae5eb" },
+                    { 1, ".", "BANGLA - SHANGHAI PLATE MAKING LTD.", "e07b4029-5a27-491d-9fc5-7043e22ae5eb" },
+                    { 2, ".", "DIGITAL ENGRAVERS LTD.", "e07b4029-5a27-491d-9fc5-7043e22ae5eb" },
+                    { 3, ".", "MASTER PLATE MAKING(BD) CO.LTD.", "e07b4029-5a27-491d-9fc5-7043e22ae5eb" },
                     { 4, ".", "PRINTO PACK SYNDICATE", "e07b4029-5a27-491d-9fc5-7043e22ae5eb" }
                 });
 

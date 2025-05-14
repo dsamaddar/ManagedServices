@@ -192,6 +192,8 @@ export class AddProductComponent implements OnInit, OnDestroy {
       versionDate: myDate || '',
       description: '',
       productId: 0,
+      cylinderCompanyId: 0,
+      printingCompanyId: 0,
       userId: '',
     };
   }
@@ -504,6 +506,8 @@ export class AddProductComponent implements OnInit, OnDestroy {
             versionDate: this.product.projectdate,
             description: '',
             productId: this.product.id,
+            cylinderCompanyId: this.cylindercompanyid ?? 0,
+            printingCompanyId: this.printingcompanyid ?? 0,
             userId: String(localStorage.getItem('user-id')),
           };
 
