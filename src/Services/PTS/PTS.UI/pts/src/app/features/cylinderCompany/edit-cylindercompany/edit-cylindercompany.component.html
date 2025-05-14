@@ -9,7 +9,7 @@
     <form #form="ngForm" (ngSubmit)="onFormSubmit()">
       <div class="" *ngIf="show_internal_id == true">
         <div class="mt-3">
-          <label class="form-label" for="categoryId">Category Id</label>
+          <label class="form-label" for="categoryId">Cylinder Company Id</label>
           <input
             type="text"
             disabled
@@ -30,6 +30,7 @@
           class="form-control"
           name="categoryName"
           [(ngModel)]="cylindercompany.name"
+          (ngModelChange)="cylindercompany.name = cylindercompany.name.toUpperCase()"
           style="text-transform: uppercase;"
           required
         />

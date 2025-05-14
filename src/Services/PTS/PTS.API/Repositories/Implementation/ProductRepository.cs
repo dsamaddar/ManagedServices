@@ -40,12 +40,16 @@ namespace PTS.API.Repositories.Implementation
         public async Task<Product?> DeleteAsync(int id)
         {
             var existingProduct = await dbContext.Products
+                .Include(p => p.ProductVersions)
+                    .ThenInclude(pv => pv.CylinderCompany)
+                .Include(p => p.ProductVersions)
+                    .ThenInclude(pv => pv.PrintingCompany)
+                .Include(p => p.ProductVersions)
+                    .ThenInclude(pv => pv.Attachments)
                 .Include(x => x.CylinderCompany)
                 .Include(x => x.PrintingCompany)
                 .Include(x => x.PackType)
                 .Include(x => x.Category)
-                .Include(x => x.ProductVersions)
-                .ThenInclude(pv => pv.Attachments)
                 .FirstOrDefaultAsync(x => x.Id == id);
 
             if(existingProduct == null)
@@ -80,13 +84,17 @@ namespace PTS.API.Repositories.Implementation
 
             // Query the database not actually retrieving anything
             var products = dbContext.Products
-            .Include(x => x.CylinderCompany)
-            .Include(x => x.PrintingCompany)
-            .Include(x => x.PackType)
-            .Include(x => x.Category)
-            .Include(x => x.ProductVersions)
-                .ThenInclude(pv => pv.Attachments)
-            .AsQueryable();
+                .Include(p => p.ProductVersions)
+                    .ThenInclude(pv => pv.CylinderCompany)
+                .Include(p => p.ProductVersions)
+                    .ThenInclude(pv => pv.PrintingCompany)
+                .Include(p => p.ProductVersions)
+                    .ThenInclude(pv => pv.Attachments)
+                .Include(x => x.CylinderCompany)
+                .Include(x => x.PrintingCompany)
+                .Include(x => x.PackType)
+                .Include(x => x.Category)
+                .AsQueryable();
 
             // Filtering
             if (string.IsNullOrWhiteSpace(query) == false || categoryid != null || brand != null || flavour != null || origin != null || sku != null || packtypeid != null || cylindercompanyid != null || printingcompanyid != null)
@@ -182,14 +190,27 @@ namespace PTS.API.Repositories.Implementation
 
         public async Task<Product?> GetByIdAsync(int id)
         {
-            return await dbContext.Products
+            var product = await dbContext.Products
+                .Include(p => p.ProductVersions)
+                    .ThenInclude(pv => pv.CylinderCompany)
+                .Include(p => p.ProductVersions)
+                    .ThenInclude(pv => pv.PrintingCompany)
+                .Include(p => p.ProductVersions)
+                    .ThenInclude(pv => pv.Attachments)
                 .Include(x => x.CylinderCompany)
                 .Include(x => x.PrintingCompany)
                 .Include(x => x.PackType)
                 .Include(x => x.Category)
-                .Include(x => x.ProductVersions)
-                    .ThenInclude(pv => pv.Attachments)
                 .FirstOrDefaultAsync(x => x.Id == id);
+
+            if (product != null)
+            {
+                product.ProductVersions = product.ProductVersions
+                    .OrderByDescending(pv => pv.VersionDate) // or .Version
+                    .ToList();
+            }
+
+            return product;
         }
 
         public async Task<int> GetCount(string? query = null, int[] ? categoryid = null, string[]? brand = null, string[]? flavour = null, string[]? origin = null, string[]? sku = null, int[]? packtypeid = null, int[]? cylindercompanyid = null, int[]? printingcompanyid = null)

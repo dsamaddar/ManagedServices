@@ -31,6 +31,8 @@
           class="form-control"
           name="categoryName"
           [(ngModel)]="printingCompany.name"
+          (ngModelChange)="printingCompany.name = printingCompany.name.toUpperCase()"
+          required
         />
       </div>
       <div class="mt-3">

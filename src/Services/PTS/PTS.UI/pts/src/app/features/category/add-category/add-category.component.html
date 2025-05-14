@@ -15,6 +15,7 @@
           class="form-control"
           name="categoryName"
           [(ngModel)]="model.name"
+          (ngModelChange)="model.name = model.name.toUpperCase()"
           style="text-transform: uppercase"
           required
         />

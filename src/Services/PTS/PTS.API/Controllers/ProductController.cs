@@ -115,7 +115,16 @@ namespace PTS.API.Controllers
                         CylinderCompanyId = x.CylinderCompanyId,
                         PrintingCompanyId = x.PrintingCompanyId,
                         UserId = x.UserId,
-
+                        CylinderCompany = new CylinderCompanyDto
+                        {
+                            Id = x.CylinderCompany?.Id ?? 0,
+                            Name = x.CylinderCompany?.Name
+                        },
+                        PrintingCompany = new PrintingCompanyDto
+                        {
+                            Id = x.PrintingCompany?.Id ?? 0,
+                            Name = x.PrintingCompany?.Name
+                        },
                         Attachments = x.Attachments?.Select(a => new AttachmentDto
                         {
                             Id = a.Id,
@@ -156,7 +165,7 @@ namespace PTS.API.Controllers
         // GET: {apiBaseUrl}/api/product/{id}
         [HttpGet]
         [Route("{id:int}")]
-        [Authorize(Roles = "READER,MANAGER,ADMIN")]
+        //[Authorize(Roles = "READER,MANAGER,ADMIN")]
         public async Task<IActionResult> GetProductById([FromRoute] int id)
         {
             // Get the product from the repository
@@ -191,6 +200,20 @@ namespace PTS.API.Controllers
                     ProductId = x.ProductId,
                     CylinderCompanyId = x.CylinderCompanyId,
                     PrintingCompanyId=x.PrintingCompanyId,
+                    CylinderCompany = new CylinderCompanyDto
+                    {
+                        Id = x.CylinderCompany?.Id ?? 0,
+                        Name = x.CylinderCompany?.Name,
+                        Description = x.CylinderCompany?.Description,
+                        UserId = x.CylinderCompany?.UserId,
+                    },
+                    PrintingCompany = new PrintingCompanyDto
+                    {
+                        Id = x.PrintingCompany?.Id ?? 0,
+                        Name = x.PrintingCompany?.Name,
+                        Description = x.PrintingCompany?.Description,
+                        UserId = x.PrintingCompany?.UserId,
+                    },
                     Attachments = x.Attachments?.Select(a => new AttachmentDto
                     {
                         Id = a.Id,

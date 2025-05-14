@@ -28,6 +28,7 @@
             class="form-control"
             name="packType"
             [(ngModel)]="packtype.name"
+            (ngModelChange)="packtype.name = packtype.name.toUpperCase()"
             style="text-transform: uppercase;"
           />
         </div>
