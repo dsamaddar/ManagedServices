@@ -52,7 +52,7 @@ namespace PTS.API.Repositories.Implementation
 
         public async Task<IEnumerable<PrintingCompany>> GetAllAsync()
         {
-            return await dbContext.PrintingCompanies.ToListAsync();
+            return await dbContext.PrintingCompanies.OrderBy(x => x.Name).ToListAsync();
         }
 
         public async Task<PrintingCompany?> GetById(int id)

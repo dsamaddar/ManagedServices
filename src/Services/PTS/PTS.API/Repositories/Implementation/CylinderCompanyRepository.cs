@@ -52,7 +52,7 @@ namespace PTS.API.Repositories.Implementation
 
         public async Task<IEnumerable<CylinderCompany>> GetAllAsync()
         {
-            return await dbContext.CylinderCompanies.ToListAsync();
+            return await dbContext.CylinderCompanies.OrderBy(x=> x.Name).ToListAsync();
         }
 
         public async Task<CylinderCompany?> GetById(int id)

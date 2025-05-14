@@ -55,7 +55,7 @@ namespace PTS.API.Repositories.Implementation
 
         public async Task<IEnumerable<Category>> GetAllAsync()
         {
-            return await dbContext.Categories.ToListAsync();
+            return await dbContext.Categories.OrderBy(x => x.Name).ToListAsync();
         }
 
         public async Task<Category?> GetById(int id)

@@ -54,7 +54,7 @@ namespace PTS.API.Repositories.Implementation
 
         public async Task<IEnumerable<PackType>> GetAllAsync()
         {
-            return await dbContext.PackTypes.ToListAsync();
+            return await dbContext.PackTypes.OrderBy(x => x.Name).ToListAsync();
         }
 
         public async Task<PackType?> GetByIdAsync(int id)

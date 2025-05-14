@@ -66,12 +66,6 @@ namespace PTS.API.Repositories.Implementation
             .AsQueryable();
 
             // Filtering
-
-            //if (string.IsNullOrWhiteSpace(query) == false)
-            //{
-            //    query = "";
-            //}
-
             if (string.IsNullOrWhiteSpace(query) == false || categoryid != null || brand != null || flavour != null || origin != null || sku != null || packtypeid != null || cylindercompanyid != null || printingcompanyid != null)
             {
                 products = products
@@ -274,7 +268,6 @@ namespace PTS.API.Repositories.Implementation
             var results = await dbContext.Products
                 .Where(f => 
                     (f.Brand != null && EF.Functions.Like(f.Brand, $"%{query}%")))
-                .OrderBy(f => f.Brand)
                 .Select(f => f.Brand!.ToUpper()) //null-forgiving operator (!)
                 .Distinct()
                 .OrderBy(b => b)
@@ -291,7 +284,6 @@ namespace PTS.API.Repositories.Implementation
             var results = await dbContext.Products
                 .Where(f =>
                     (f.FlavourType != null && EF.Functions.Like(f.FlavourType, $"%{query}%")))
-                .OrderBy(f => f.FlavourType)
                 .Select(f => f.FlavourType!.ToUpper()) //null-forgiving operator (!)
                 .Distinct()
                 .OrderBy(b => b)
@@ -308,7 +300,6 @@ namespace PTS.API.Repositories.Implementation
             var results = await dbContext.Products
                 .Where(f =>
                     (f.Origin != null && EF.Functions.Like(f.Origin, $"%{query}%")))
-                .OrderBy(f => f.Origin)
                 .Select(f => f.Origin!.ToUpper()) //null-forgiving operator (!)
                 .Distinct()
                 .OrderBy(b => b)
@@ -325,7 +316,6 @@ namespace PTS.API.Repositories.Implementation
             var results = await dbContext.Products
                 .Where(f =>
                     (f.SKU != null && EF.Functions.Like(f.SKU, $"%{query}%")))
-                .OrderBy(f => f.SKU)
                 .Select(f => f.SKU!.ToUpper()) //null-forgiving operator (!)
                 .Distinct()
                 .OrderBy(b => b)
@@ -342,7 +332,6 @@ namespace PTS.API.Repositories.Implementation
             var results = await dbContext.Products
                 .Where(f =>
                     (f.ProductCode != null && EF.Functions.Like(f.ProductCode, $"%{query}%")))
-                .OrderBy(f => f.ProductCode)
                 .Select(f => f.ProductCode!) //null-forgiving operator (!)
                 .Distinct()
                 .OrderBy(b => b)
@@ -359,7 +348,6 @@ namespace PTS.API.Repositories.Implementation
             var results = await dbContext.Products
                 .Where(f =>
                     (f.Version != null && EF.Functions.Like(f.Version, $"%{query}%")))
-                .OrderBy(f => f.Version)
                 .Select(f => f.Version!) //null-forgiving operator (!)
                 .Distinct()
                 .OrderBy(b => b)
@@ -392,7 +380,6 @@ namespace PTS.API.Repositories.Implementation
             var results = await dbContext.Products
                 .Where(f =>
                     (f.Barcode != null && EF.Functions.Like(f.Barcode, $"%{query}%")))
-                .OrderBy(f => f.Barcode)
                 .Select(f => f.Barcode!) //null-forgiving operator (!)
                 .Distinct()
                 .OrderBy(b => b)

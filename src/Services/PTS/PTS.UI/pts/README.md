@@ -215,7 +215,7 @@ Report
 ### UAT-05
 view -- > on the same page
 search box ->> not working properly (done)
-Clean button ->> to reset all filters
+Clean button ->> to reset all filters (done)
 After edit --> Version code not showing/ need to discuss
 cascading dropdowns -> beverage (category) >> Clearup (brand)
 dropdown items -->> exceeding width (need to show full text)

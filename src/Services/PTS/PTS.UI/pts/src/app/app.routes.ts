@@ -24,107 +24,128 @@ import { PacktypeListComponent } from './features/packtype/packtype-list/packtyp
 import { AddPacktypeComponent } from './features/packtype/add-packtype/add-packtype.component';
 import { EditPacktypeComponent } from './features/packtype/edit-packtype/edit-packtype.component';
 import { ViewProductComponent } from './features/product/view-product/view-product.component';
+import { NoLayoutComponent } from './layouts/no-layout/no-layout.component';
+import { DefaultLayoutComponent } from './layouts/default-layout/default-layout.component';
 
 export const routes: Routes = [
+  // Layout with header/footer
   {
     path: '',
-    redirectTo: 'login',
-    pathMatch: 'full',
+    component: DefaultLayoutComponent,
+    children: [
+      {
+        path: 'admin/categories',
+        component: CategoryListComponent,
+        canActivate: [authGuard],
+      },
+      {
+        path: 'admin/categories/add',
+        component: AddCategoryComponent,
+        canActivate: [authGuard],
+      },
+      {
+        path: 'admin/categories/:id',
+        component: EditCategoryComponent,
+        canActivate: [authGuard],
+      },
+      {
+        path: 'admin/cylindercompany',
+        component: CylindercompanyListComponent,
+        canActivate: [authGuard],
+      },
+      {
+        path: 'admin/cylindercompany/add',
+        component: AddCylindercompanyComponent,
+        canActivate: [authGuard],
+      },
+      {
+        path: 'admin/cylindercompany/:id',
+        component: EditCylindercompanyComponent,
+        canActivate: [authGuard],
+      },
+      {
+        path: 'admin/printingcompany',
+        component: PrintingcompanyListComponent,
+        canActivate: [authGuard],
+      },
+      {
+        path: 'admin/printingcompany/add',
+        component: AddPrintingcompanyComponent,
+        canActivate: [authGuard],
+      },
+      {
+        path: 'admin/printingcompany/:id',
+        component: EditPrintingcompanyComponent,
+        canActivate: [authGuard],
+      },
+      {
+        path: 'admin/packtype',
+        component: PacktypeListComponent,
+        canActivate: [authGuard],
+      },
+      {
+        path: 'admin/packtype/add',
+        component: AddPacktypeComponent,
+        canActivate: [authGuard],
+      },
+      {
+        path: 'admin/packtype/:id',
+        component: EditPacktypeComponent,
+        canActivate: [authGuard],
+      },
+      {
+        path: 'admin/products',
+        component: ProductListComponent,
+        canActivate: [authGuard],
+      },
+      {
+        path: 'admin/products/add',
+        component: AddProductComponent,
+        canActivate: [authGuard],
+      },
+      {
+        path: 'admin/products/:id',
+        component: EditProductComponent,
+        canActivate: [authGuard],
+      },
+      {
+        path: 'admin/permission-control',
+        component: PermissionControlComponent,
+      },
+      {
+        path: 'login',
+        component: LoginComponent,
+      },
+      {
+        path: 'register',
+        component: RegisterComponent,
+      },
+      {
+        path: 'forgotpassword',
+        component: ForgotPasswordComponent,
+      },
+      { path: 'reset-password', component: ResetPasswordComponent },
+      {
+        path: '',
+        redirectTo: 'login',
+        pathMatch: 'full',
+      },
+    ],
   },
-  {
-    path: 'admin/categories',
-    component: CategoryListComponent,
-    canActivate: [authGuard],
-  },
-  {
-    path: 'admin/categories/add',
-    component: AddCategoryComponent,
-    canActivate: [authGuard],
-  },
-  {
-    path: 'admin/categories/:id',
-    component: EditCategoryComponent,
-    canActivate: [authGuard],
-  },
-  {
-    path: 'admin/cylindercompany',
-    component: CylindercompanyListComponent,
-    canActivate: [authGuard],
-  },
-  {
-    path: 'admin/cylindercompany/add',
-    component: AddCylindercompanyComponent,
-    canActivate: [authGuard],
-  },
-  {
-    path: 'admin/cylindercompany/:id',
-    component: EditCylindercompanyComponent,
-    canActivate: [authGuard],
-  },
-  {
-    path: 'admin/printingcompany',
-    component: PrintingcompanyListComponent,
-    canActivate: [authGuard],
-  },
-  {
-    path: 'admin/printingcompany/add',
-    component: AddPrintingcompanyComponent,
-    canActivate: [authGuard],
-  },
-  {
-    path: 'admin/printingcompany/:id',
-    component: EditPrintingcompanyComponent,
-    canActivate: [authGuard],
-  },
-  {
-    path: 'admin/packtype',
-    component: PacktypeListComponent,
-    canActivate: [authGuard],
-  },
-  {
-    path: 'admin/packtype/add',
-    component: AddPacktypeComponent,
-    canActivate: [authGuard],
-  },
-  {
-    path: 'admin/packtype/:id',
-    component: EditPacktypeComponent,
-    canActivate: [authGuard],
-  },
-  {
-    path: 'admin/products',
-    component: ProductListComponent,
-    canActivate: [authGuard],
-  },
-  {
-    path: 'admin/products/add',
-    component: AddProductComponent,
-    canActivate: [authGuard],
-  },
-  {
-    path: 'admin/products/:id',
-    component: EditProductComponent,
-    canActivate: [authGuard],
-  },
+
+  // Layout without header/footer
   {
     path: 'admin/viewproduct/:id',
-    component: ViewProductComponent,
+    component: NoLayoutComponent,
     canActivate: [authGuard],
+    children: [
+      {
+        path: '',
+        component: ViewProductComponent,
+      },
+    ],
   },
-  { path: 'admin/permission-control', component: PermissionControlComponent },
-  {
-    path: 'login',
-    component: LoginComponent,
-  },
-  {
-    path: 'register',
-    component: RegisterComponent,
-  },
-  {
-    path: 'forgotpassword',
-    component: ForgotPasswordComponent,
-  },
-  { path: 'reset-password', component: ResetPasswordComponent },
+
   {
     path: '**',
     redirectTo: 'login', // Optional: catch-all route
