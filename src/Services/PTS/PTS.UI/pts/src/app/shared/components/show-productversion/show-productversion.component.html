@@ -92,6 +92,19 @@
                     </div>
                   </td>
                 </tr>
+                <tr>
+                  <td class="text-dark">Cylinder Company</td>
+                  <td><div *ngIf="product?.cylinderCompany">
+                    {{ product?.productVersions?.[0]?.cylinderCompany?.name }}
+                  </div></td>
+                  <td></td>
+                  <td class="text-dark">Printing Company</td>
+                  <td>
+                    <div *ngIf="product?.printingCompany">
+                      {{ product?.productVersions?.[0]?.printingCompany?.name }}
+                    </div>
+                  </td>
+                </tr>
               </tbody>
             </table>
           </div>

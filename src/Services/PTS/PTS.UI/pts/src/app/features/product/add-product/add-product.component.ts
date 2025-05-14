@@ -381,8 +381,9 @@ export class AddProductComponent implements OnInit, OnDestroy {
           this.isVersionUnique = response;
           if(this.isVersionUnique === false){
             console.log(this.isVersionUnique);
+            
+            ToastrUtils.showErrorToast('Version Already Exists : ' + this.product.version);
             this.product.version = "";
-            ToastrUtils.showErrorToast('Version Already Exists');
           }
           
         },
