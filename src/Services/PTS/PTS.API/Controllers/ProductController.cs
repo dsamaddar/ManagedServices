@@ -283,7 +283,7 @@ namespace PTS.API.Controllers
 
         [HttpDelete]
         [Route("{id:int}")]
-        [Authorize(Roles = "MANAGER,ADMIN")]
+        //[Authorize(Roles = "MANAGER,ADMIN")]
         public async Task<IActionResult> DeleteProduct([FromRoute] int id)
         {
             var product = await productRepository.DeleteAsync(id);
@@ -294,7 +294,7 @@ namespace PTS.API.Controllers
             }
             
             // delete related attachments
-            await attachmentRepository.DeleteByProductIdAsync(product.Id);
+            // await attachmentRepository.DeleteByProductIdAsync(product.Id);
 
             // Convert Domain Model to DTO
 
@@ -355,7 +355,7 @@ namespace PTS.API.Controllers
 
         [HttpGet]
         [Route("suggestions-flavourtype")]
-        //[Authorize(Roles = "READER,MANAGER,ADMIN")]
+        [Authorize(Roles = "READER,MANAGER,ADMIN")]
         public async Task<ActionResult> GetSuggestionsFlavourType([FromQuery] string? query)
         {
             if (string.IsNullOrWhiteSpace(query))

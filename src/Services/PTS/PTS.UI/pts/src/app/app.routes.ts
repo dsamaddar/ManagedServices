@@ -143,6 +143,7 @@ export const routes: Routes = [
       {
         path: '',
         component: ViewProductComponent,
+        canActivate: [authGuard],
       },
     ],
   },

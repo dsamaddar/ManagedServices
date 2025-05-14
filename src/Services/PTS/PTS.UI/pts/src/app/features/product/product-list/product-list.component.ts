@@ -47,7 +47,6 @@ import { ViewProductComponent } from '../view-product/view-product.component';
   styleUrl: './product-list.component.css',
 })
 export class ProductListComponent implements OnInit {
-
   @ViewChild('queryText') queryText!: ElementRef<HTMLInputElement>;
   @ViewChild('selectPageSize') selectPageSize!: ElementRef<HTMLSelectElement>;
 
@@ -234,11 +233,11 @@ export class ProductListComponent implements OnInit {
     return pages;
   }
 
-  onResetFilters(){
+  onResetFilters() {
     this.pageNumber = 1;
     this.pageSize = 50;
     this.categoryid = [];
-    this.filtered_brand  = [];
+    this.filtered_brand = [];
     this.filtered_flavourtype = [];
     this.filtered_origin = [];
     this.filtered_sku = [];
@@ -356,8 +355,9 @@ export class ProductListComponent implements OnInit {
 
   openViewProduct(productid: number) {
     this.dialog.open(ViewProductComponent, {
-      width: '800px',
-      data: { productid }
+      width: '70vw', // or '1000px' or '95%' — your choice
+      maxWidth: '75vw', // prevents Angular Material default max width (80vw)
+      data: { productid },
     });
   }
 

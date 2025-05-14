@@ -87,7 +87,7 @@ namespace PTS.API.Controllers
         }
 
         [HttpGet("showprodversionbyprodid/{productId:int}")]
-        //[Authorize(Roles = "READER,MANAGER,ADMIN")]
+        [Authorize(Roles = "READER,MANAGER,ADMIN")]
         public async Task<IActionResult> ShowProdVersionbyprodId([FromRoute] int productId)
         {
             var productVersions = await productVersionRepository.GetProductVersionsByProductId(productId);

@@ -39,13 +39,36 @@ namespace PTS.API.Repositories.Implementation
 
         public async Task<Product?> DeleteAsync(int id)
         {
-            var existingProduct = await dbContext.Products.FirstOrDefaultAsync(x => x.Id == id);
+            var existingProduct = await dbContext.Products
+                .Include(x => x.CylinderCompany)
+                .Include(x => x.PrintingCompany)
+                .Include(x => x.PackType)
+                .Include(x => x.Category)
+                .Include(x => x.ProductVersions)
+                .ThenInclude(pv => pv.Attachments)
+                .FirstOrDefaultAsync(x => x.Id == id);
 
             if(existingProduct == null)
             {
                 return null;
             }
 
+            // Remove attachments
+            foreach (var version in existingProduct.ProductVersions)
+            {
+                if (version.Attachments != null && version.Attachments.Any())
+                {
+                    dbContext.Attachments.RemoveRange(version.Attachments);
+                    await dbContext.SaveChangesAsync();
+                }
+            }
+
+            // Remove ProductVersion
+            if (existingProduct.ProductVersions != null && existingProduct.ProductVersions.Any()) {
+                dbContext.ProductVersions.RemoveRange(existingProduct.ProductVersions);
+                await dbContext.SaveChangesAsync();
+            }
+            
             dbContext.Products.Remove(existingProduct);
             await dbContext.SaveChangesAsync();
 
