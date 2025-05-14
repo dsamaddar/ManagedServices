@@ -214,7 +214,7 @@ Report
 
 ### UAT-05
 view -- > on the same page
-search box ->> not working properly
+search box ->> not working properly (done)
 Clean button ->> to reset all filters
 After edit --> Version code not showing/ need to discuss
 cascading dropdowns -> beverage (category) >> Clearup (brand)

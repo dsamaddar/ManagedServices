@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import {
   FormsModule,
@@ -46,6 +46,10 @@ import { SuggestionService } from '../services/suggestion.service';
   styleUrl: './product-list.component.css',
 })
 export class ProductListComponent implements OnInit {
+
+  @ViewChild('queryText') queryText!: ElementRef<HTMLInputElement>;
+  @ViewChild('selectPageSize') selectPageSize!: ElementRef<HTMLSelectElement>;
+
   products$?: Observable<AllProduct[]>;
   totalProductCount?: number;
   page_list: number[] = [];
@@ -226,6 +230,22 @@ export class ProductListComponent implements OnInit {
     pages.push(total);
 
     return pages;
+  }
+
+  onResetFilters(){
+    this.pageNumber = 1;
+    this.pageSize = 50;
+    this.categoryid = [];
+    this.filtered_brand  = [];
+    this.filtered_flavourtype = [];
+    this.filtered_origin = [];
+    this.filtered_sku = [];
+    this.packtypeid = [];
+    this.cylindercompanyid = [];
+    this.printingcompanyid = [];
+    this.queryText.nativeElement.value = '';
+    this.selectPageSize.nativeElement.selectedIndex = 0;
+    this.onSearch('');
   }
 
   onSearch(query: string) {

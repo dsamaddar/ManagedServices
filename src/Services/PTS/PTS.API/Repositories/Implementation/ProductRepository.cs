@@ -67,10 +67,10 @@ namespace PTS.API.Repositories.Implementation
 
             // Filtering
 
-            if (string.IsNullOrWhiteSpace(query) == false)
-            {
-                query = "";
-            }
+            //if (string.IsNullOrWhiteSpace(query) == false)
+            //{
+            //    query = "";
+            //}
 
             if (string.IsNullOrWhiteSpace(query) == false || categoryid != null || brand != null || flavour != null || origin != null || sku != null || packtypeid != null || cylindercompanyid != null || printingcompanyid != null)
             {
@@ -149,9 +149,6 @@ namespace PTS.API.Repositories.Implementation
                             .ThenBy(x => x.CylinderCompany.Name)
                             .ThenBy(x => x.PrintingCompany.Name);
 
-
-            // Sorting
-
             // Pagination
             // pageNumber 1 pageSize 5 - skip 0, take 5
             // pageNumber 2 pageSize 5 - skip 5 take 5
@@ -161,21 +158,9 @@ namespace PTS.API.Repositories.Implementation
             products = products.Skip(skipResults ?? 0).Take(pageSize ?? 5);
 
             // Return the list of products
-
             var productsList = await products.ToListAsync();
             return productsList;
-            //return await products.ToListAsync();
 
-
-            /*
-            return await dbContext.Products
-                .Include(x => x.CylinderCompany)
-                .Include(x => x.PrintingCompany)
-                .Include(x => x.Project)
-                .Include(x => x.Category)
-                .Include(x => x.Attachments)
-                .ToListAsync();
-            */
         }
 
         public async Task<Product?> GetByIdAsync(int id)
