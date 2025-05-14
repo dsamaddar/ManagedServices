@@ -30,6 +30,7 @@ import { PacktypeService } from '../../packtype/services/packtype.service';
 import { CylindercompanyService } from '../../cylinderCompany/services/cylindercompany.service';
 import { PrintingcompanyService } from '../../printingCompany/services/printingcompany.service';
 import { SuggestionService } from '../services/suggestion.service';
+import { ViewProductComponent } from '../view-product/view-product.component';
 
 @Component({
   selector: 'app-product-list',
@@ -101,7 +102,8 @@ export class ProductListComponent implements OnInit {
     private packTypeService: PacktypeService,
     private cylinderCompanyService: CylindercompanyService,
     private printingCompanyService: PrintingcompanyService,
-    private suggestionService: SuggestionService
+    private suggestionService: SuggestionService,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -346,10 +348,17 @@ export class ProductListComponent implements OnInit {
     this.pageSize = Number(value);
   }
 
+  // openViewProduct(productid: number) {
+  //   //this.router.navigateByUrl(`/admin/viewproduct/${productid}`);
+  //   const url = `/admin/viewproduct/${productid}`;
+  //   window.open(url, '_blank'); // opens in new tab
+  // }
+
   openViewProduct(productid: number) {
-    //this.router.navigateByUrl(`/admin/viewproduct/${productid}`);
-    const url = `/admin/viewproduct/${productid}`;
-    window.open(url, '_blank'); // opens in new tab
+    this.dialog.open(ViewProductComponent, {
+      width: '800px',
+      data: { productid }
+    });
   }
 
   openProductVersionModal(productid: number) {

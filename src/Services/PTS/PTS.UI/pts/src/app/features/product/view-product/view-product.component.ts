@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { AllProduct } from '../models/all-product.model';
 import { ProductService } from '../services/product.service';
 import { Subscription } from 'rxjs';
@@ -6,10 +6,19 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { environment } from '../../../../environments/environment';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-view-product',
-  imports: [CommonModule, ReactiveFormsModule, RouterModule],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    RouterModule,
+    MatDialogModule,
+    MatButtonModule,
+  ],
   templateUrl: './view-product.component.html',
   styleUrl: './view-product.component.css',
 })
@@ -23,26 +32,44 @@ export class ViewProductComponent implements OnInit {
   constructor(
     private productService: ProductService,
     private router: Router,
-    private route: ActivatedRoute
-  ) {}
+    private route: ActivatedRoute,
+    private dialogRef: MatDialogRef<ViewProductComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: { productid: number }
+  ) {
+    //console.log('product id: ' + data.productid.toString())
+    this.productId = data.productid;
+  }
+
+  close() {
+    this.dialogRef.close();
+  }
 
   ngOnInit(): void {
     this.attachmentBaseUrl = `${environment.attachmentBaseUrl}`;
 
-    this.paramsSubscription = this.route.paramMap.subscribe({
-      next: (params) => {
-        this.productId = Number(params.get('id'));
-        if (this.productId) {
-          // get the data from the api for this category id
-          this.productService.getProductById(this.productId).subscribe({
-            next: (response) => {
-              this.product = response;
-              console.log(this.product);
-            },
-          });
-        }
-      },
-    });
+    if ((this.productId ?? 0) > 0) {
+      this.productService.getProductById(this.productId ?? 0).subscribe({
+        next: (response) => {
+          this.product = response;
+          console.log(this.product);
+        },
+      });
+    } else {
+      this.paramsSubscription = this.route.paramMap.subscribe({
+        next: (params) => {
+          this.productId = Number(params.get('id'));
+          if (this.productId) {
+            // get the data from the api for this category id
+            this.productService.getProductById(this.productId).subscribe({
+              next: (response) => {
+                this.product = response;
+                console.log(this.product);
+              },
+            });
+          }
+        },
+      });
+    }
   }
 
   iconList = [
