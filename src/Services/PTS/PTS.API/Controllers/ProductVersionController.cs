@@ -112,6 +112,16 @@ namespace PTS.API.Controllers
                     CylinderCompanyId = productVersion.CylinderCompanyId,
                     PrintingCompanyId = productVersion.PrintingCompanyId,
                     UserId = productVersion.UserId,
+                    CylinderCompany = new CylinderCompanyDto
+                    {
+                        Id = productVersion.CylinderCompany?.Id ?? 0,
+                        Name = productVersion.CylinderCompany?.Name
+                    },
+                    PrintingCompany = new PrintingCompanyDto
+                    {
+                        Id = productVersion.PrintingCompany?.Id ?? 0,
+                        Name = productVersion.PrintingCompany?.Name
+                    },
                     Attachments = productVersion.Attachments?.Select(a => new AttachmentDto
                     {
                         Id = a.Id,

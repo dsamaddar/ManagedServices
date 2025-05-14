@@ -73,6 +73,8 @@ namespace PTS.API.Repositories.Implementation
         public async Task<IEnumerable<ProductVersion>> GetProductVersionsByProductId(int productId)
         {
             return await dbContext.ProductVersions
+                .Include(x => x.CylinderCompany)
+                .Include(x => x.PrintingCompany)
                 .Include(x => x.Attachments)
                 .Where(x => x.ProductId == productId)
                 .OrderByDescending(x => x.VersionDate)

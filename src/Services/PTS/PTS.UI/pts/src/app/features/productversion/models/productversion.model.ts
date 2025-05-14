@@ -1,3 +1,5 @@
+import { CylinderCompany } from "../../cylinderCompany/models/CylinderCompany.model";
+import { PrintingCompany } from "../../printingCompany/models/printingcompany.model";
 import { Attachment } from "../../product/models/attachment.model";
 
 export interface ProductVersion{
@@ -10,4 +12,6 @@ export interface ProductVersion{
     printingCompanyId: number,
     userId: string,
     attachments: Attachment[];
+    cylinderCompany: CylinderCompany;
+    printingCompany: PrintingCompany;
 }

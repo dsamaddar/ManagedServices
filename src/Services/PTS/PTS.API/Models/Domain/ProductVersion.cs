@@ -35,6 +35,8 @@ namespace PTS.API.Models.Domain
 
         // Navigation property (many-to-one)
         public Product? Product { get; set; }
+        public CylinderCompany? CylinderCompany { get; set; }  // Navigation property
+        public PrintingCompany? PrintingCompany { get; set; } // Navigation property
 
         // Navigation property (one-to-many)
         public ICollection<Attachment>? Attachments { get; set; } = new List<Attachment>();

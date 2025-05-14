@@ -180,6 +180,7 @@ export class AddProductversionComponent implements OnInit, OnDestroy {
   getPrevProductVersions(productid: number) {
     this.productVersionService.getProdVersionsByProdId(productid).subscribe({
       next: (response) => {
+        console.log(response);
         this.prevProdVersions = response;
       },
       error: (error) => {

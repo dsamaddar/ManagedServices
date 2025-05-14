@@ -25,6 +25,8 @@
                 <th>Version</th>
                 <th>Version Dt</th>
                 <th>Description</th>
+                <th>Cylinder Company</th>
+                <th>Printing Company</th>
                 <th>Attachments</th>
               </thead>
               <tr *ngFor="let prevProdVersion of prevProdVersions">
@@ -34,8 +36,8 @@
                 <td>{{ prevProdVersion.version }}</td>
                 <td>{{ prevProdVersion.versionDate | date : "mediumDate" }}</td>
                 <td>{{ prevProdVersion.description }}</td>
-                <td>{{ prevProdVersion.cylinderCompanyId }}</td>
-                <td>{{ prevProdVersion.printingCompanyId }}</td>
+                <td>{{ prevProdVersion.cylinderCompany.name }}</td>
+                <td>{{ prevProdVersion.printingCompany.name }}</td>
                 <td>
                   <div
                     class=""

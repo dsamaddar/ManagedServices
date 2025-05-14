@@ -20,6 +20,8 @@ namespace PTS.API.Models.DTO
 
         // Navigation property (many-to-one)
         public ProductDto? Product { get; set; }
+        public CylinderCompanyDto? CylinderCompany { get; set; }
+        public PrintingCompanyDto? PrintingCompany { get; set; }
 
         // Navigation property (one-to-many)
         public ICollection<AttachmentDto>? Attachments { get; set; } = new List<AttachmentDto>();
