@@ -131,7 +131,10 @@ export class ProductListComponent implements OnInit {
     });
 
     // load brands
-    this.brands$ = this.suggestionService.getSuggestionsBrand('%',this.categoryid);
+    this.brands$ = this.suggestionService.getSuggestionsBrand(
+      '%',
+      this.categoryid
+    );
 
     // load flavoour type
     this.flavourtypes$ = this.suggestionService.getSuggestionsFlavourType('%');
@@ -268,16 +271,17 @@ export class ProductListComponent implements OnInit {
     );
 
     // load brands
-    console.log('Selected Categories: ' + this.categoryid);    
-    if(this.categoryid){
-      
-      this.brands$ = this.suggestionService.getSuggestionsBrand('%',this.categoryid);
-      
-      this.brands$.subscribe(brands => {
+    console.log('Selected Categories: ' + this.categoryid);
+    if (this.categoryid) {
+      this.brands$ = this.suggestionService.getSuggestionsBrand(
+        '%',
+        this.categoryid
+      );
+
+      this.brands$.subscribe((brands) => {
         console.log('Category Filter Added : Brands ->', brands);
       });
     }
-    
 
     this.global_query = query;
 
