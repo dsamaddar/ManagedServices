@@ -1,19 +1,20 @@
 <div class="container-fluid">
-    <h5 class="mt-3">Cylinder Company List</h5>
-    <div class="d-flex justify-content-end mt-3">
-      <a
-        [routerLink]="['/admin/cylindercompany/add']"
-        routerLinkActive="router-link-active"
-        class="btn btn-primary"
-        >Add Cylinder Company</a
-      >
-    </div>
-  
-    <ng-container *ngIf="cylinderCompanies$ | async as cylinderCompanies">
-      <table class="table table-bordered mt-3">
+  <h5 class="mt-3">Cylinder Company List</h5>
+  <div class="d-flex justify-content-end mt-3">
+    <a
+      [routerLink]="['/admin/cylindercompany/add']"
+      routerLinkActive="router-link-active"
+      class="btn btn-primary"
+      >Add Cylinder Company</a
+    >
+  </div>
+
+  <ng-container *ngIf="cylinderCompanies$ | async as cylinderCompanies">
+    <div class="table-container mt-3">
+      <table class="table table-bordered">
         <thead>
           <tr>
-            <th style="display: none;">Id</th>
+            <th style="display: none">Id</th>
             <th>Name</th>
             <th>Description</th>
             <th></th>
@@ -21,20 +22,20 @@
         </thead>
         <tbody>
           <tr *ngFor="let company of cylinderCompanies">
-            <td style="display: none;">{{ company.id }}</td>
+            <td style="display: none">{{ company.id }}</td>
             <td>{{ company.name }}</td>
             <td>{{ company.description }}</td>
             <td>
               <a
                 class="btn btn-light"
                 [routerLink]="['/admin/cylindercompany', company.id]"
-                >
+              >
                 <i class="bi bi-pencil-square"></i>
               </a>
             </td>
           </tr>
         </tbody>
       </table>
-    </ng-container>
-  </div>
-  
+    </div>
+  </ng-container>
+</div>

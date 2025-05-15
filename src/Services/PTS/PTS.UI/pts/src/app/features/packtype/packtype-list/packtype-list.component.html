@@ -1,19 +1,20 @@
 <div class="container-fluid">
-    <h5 class="mt-3">Packtype List</h5>
-    <div class="d-flex justify-content-end mt-3">
-      <a
-        [routerLink]="['/admin/packtype/add']"
-        routerLinkActive="router-link-active"
-        class="btn btn-primary"
-        >Add Packtype</a
-      >
-    </div>
-  
-    <ng-container *ngIf="packtypes$ | async as packtypes">
-      <table class="table table-bordered mt-3">
+  <h5 class="mt-3">Packtype List</h5>
+  <div class="d-flex justify-content-end mt-3">
+    <a
+      [routerLink]="['/admin/packtype/add']"
+      routerLinkActive="router-link-active"
+      class="btn btn-primary"
+      >Add Packtype</a
+    >
+  </div>
+
+  <ng-container *ngIf="packtypes$ | async as packtypes">
+    <div class="table-container mt-3">
+      <table class="table table-bordered">
         <thead>
           <tr>
-            <th style="display: none;">Id</th>
+            <th style="display: none">Id</th>
             <th>Name</th>
             <th>Description</th>
             <th></th>
@@ -21,20 +22,20 @@
         </thead>
         <tbody>
           <tr *ngFor="let packtype of packtypes">
-            <td style="display: none;">{{ packtype.id }}</td>
+            <td style="display: none">{{ packtype.id }}</td>
             <td>{{ packtype.name }}</td>
             <td>{{ packtype.description }}</td>
             <td>
               <a
                 class="btn btn-light"
                 [routerLink]="['/admin/packtype', packtype.id]"
-                >
+              >
                 <i class="bi bi-pencil-square"></i>
               </a>
             </td>
           </tr>
         </tbody>
       </table>
-    </ng-container>
-  </div>
-  
+    </div>
+  </ng-container>
+</div>

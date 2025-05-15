@@ -1,19 +1,20 @@
 <div class="container-fluid">
-    <h5 class="mt-3">Printing Company List</h5>
-    <div class="d-flex justify-content-end mt-3">
-      <a
-        [routerLink]="['/admin/printingcompany/add']"
-        routerLinkActive="router-link-active"
-        class="btn btn-primary"
-        >Add Printing Company</a
-      >
-    </div>
-  
-    <ng-container *ngIf="printingcompanies$ | async as printingcompanies">
+  <h5 class="mt-3">Printing Company List</h5>
+  <div class="d-flex justify-content-end mt-3">
+    <a
+      [routerLink]="['/admin/printingcompany/add']"
+      routerLinkActive="router-link-active"
+      class="btn btn-primary"
+      >Add Printing Company</a
+    >
+  </div>
+
+  <ng-container *ngIf="printingcompanies$ | async as printingcompanies">
+    <div class="table-container mt-3">
       <table class="table table-bordered mt-3">
         <thead>
           <tr>
-            <th style="display: none;">Id</th>
+            <th style="display: none">Id</th>
             <th>Name</th>
             <th>Description</th>
             <th></th>
@@ -21,20 +22,20 @@
         </thead>
         <tbody>
           <tr *ngFor="let printingcompany of printingcompanies">
-            <td style="display: none;">{{ printingcompany.id }}</td>
+            <td style="display: none">{{ printingcompany.id }}</td>
             <td>{{ printingcompany.name }}</td>
             <td>{{ printingcompany.description }}</td>
             <td>
               <a
                 class="btn btn-light"
                 [routerLink]="['/admin/printingcompany', printingcompany.id]"
-                >
+              >
                 <i class="bi bi-pencil-square"></i>
               </a>
             </td>
           </tr>
         </tbody>
       </table>
-    </ng-container>
-  </div>
-  
+    </div>
+  </ng-container>
+</div>

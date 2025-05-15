@@ -127,7 +127,6 @@ export class ProductListComponent implements OnInit {
         this.page_list = new Array(
           Math.ceil(this.totalProductCount / this.pageSize)
         );
-        //console.log('Number of products:', this.totalProductCount);
       },
     });
 
@@ -250,8 +249,6 @@ export class ProductListComponent implements OnInit {
   }
 
   onSearch(query: string) {
-    //console.log('Selected Category Id: ' + this.categoryid);
-
     this.products$ = this.productService.getAllProducts(
       query,
       this.pageNumber,
@@ -286,19 +283,11 @@ export class ProductListComponent implements OnInit {
           this.page_list = new Array(
             Math.ceil(this.totalProductCount / this.pageSize)
           );
-          //console.log('Number of products:', this.totalProductCount);
         },
       });
-    /*
-    this.products$?.subscribe(products => {
-      this.totalProductCount = products.length;
-      console.log('Number of products:', this.totalProductCount);
-    });
-    */
   }
 
   getPage(pageNumber: number) {
-    //console.log(pageNumber);
     this.pageNumber = pageNumber;
     this.products$ = this.productService.getAllProducts(
       this.global_query,
@@ -355,12 +344,6 @@ export class ProductListComponent implements OnInit {
     this.pageSize = Number(value);
   }
 
-  // openViewProduct(productid: number) {
-  //   //this.router.navigateByUrl(`/admin/viewproduct/${productid}`);
-  //   const url = `/admin/viewproduct/${productid}`;
-  //   window.open(url, '_blank'); // opens in new tab
-  // }
-
   openViewProduct(productid: number) {
     this.dialog.open(ViewProductComponent, {
       width: '70vw', // or '1000px' or '95%' — your choice
@@ -379,13 +362,9 @@ export class ProductListComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        console.log('modal closed' + result);
         this.loadData(); // 👈 Call your data-loading method here
       }
     });
-    //console.log('Transferred ID ->' + productid.toString());
-    //this.master_product_id = productid;
-    //this.isProductVersionModalVisible = true;
   }
 
   openShowProductVersionModal(productversionid: number) {
@@ -396,20 +375,10 @@ export class ProductListComponent implements OnInit {
       height: '80vh',
       data: { productversionid },
     });
-
-    // console.log('Product Version ID ->' + productversionid.toString());
-    // this.product_version_id = productversionid;
-    // this.isShowProductVersionModalVisible = true;
   }
 
   deleteProductVersion(productversionid: number) {
     this.isShowProductVersionModalVisible = false;
-    /*
-    if(this.isShowProductVersionModalVisible == true){
-      console.log('showing is true');
-    }
-    this.closeShowProductVersionModal();
-    */
 
     Swal.fire({
       title: 'Are you sure?',
@@ -428,7 +397,6 @@ export class ProductListComponent implements OnInit {
           .subscribe({
             next: (response) => {
               Swal.fire('Deleted!', 'Your item has been deleted.', 'success');
-              //this.router.navigateByUrl('/admin/products');
               this.loadData();
             },
             error: (error) => {

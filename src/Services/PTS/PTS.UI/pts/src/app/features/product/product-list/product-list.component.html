@@ -202,9 +202,9 @@
             <th>Code</th>
             <th>Pack Type</th>
             <th>Barcode</th>
-            <th style="display: none">Date</th>
-            <th>Cylinder</th>
-            <th>Printing</th>
+            <th style="display: none;">Date</th>
+            <th style="display: none;">Cylinder</th>
+            <th style="display: none;">Printing</th>
             <th style="min-width: 200px">Versions</th>
             <th style="min-width: 150px">Action</th>
           </tr>
@@ -235,10 +235,10 @@
             <td style="display: none">
               {{ product.projectDate | date : "mediumDate" }}
             </td>
-            <td>
+            <td style="display: none;">
               {{ product.cylinderCompany.name }}
             </td>
-            <td>
+            <td style="display: none;">
               {{ product.printingCompany.name }}
             </td>
             <td>
