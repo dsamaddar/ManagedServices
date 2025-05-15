@@ -36,7 +36,7 @@ namespace PTS.API.Repositories.Implementation
                 issuer: configuration["Jwt:Issuer"],
                 audience: configuration["Jwt:Audiance"],
                 claims: claims,
-                expires: DateTime.Now.AddMinutes(15),
+                expires: DateTime.Now.AddMinutes(1440),
                 signingCredentials: credentials
             );
 

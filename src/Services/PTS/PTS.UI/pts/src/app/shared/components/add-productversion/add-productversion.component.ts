@@ -4,6 +4,7 @@ import { parseISO, format } from 'date-fns';
 import {
   Component,
   EventEmitter,
+  Inject,
   Input,
   OnDestroy,
   OnInit,
@@ -38,6 +39,9 @@ import { CylinderCompany } from '../../../features/cylinderCompany/models/Cylind
 import { PrintingCompany } from '../../../features/printingCompany/models/printingcompany.model';
 import { CylindercompanyService } from '../../../features/cylinderCompany/services/cylindercompany.service';
 import { PrintingcompanyService } from '../../../features/printingCompany/services/printingcompany.service';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-add-productversion',
@@ -51,13 +55,13 @@ import { PrintingcompanyService } from '../../../features/printingCompany/servic
     MatDatepickerModule,
     NgSelectModule,
     MatNativeDateModule,
-
+    MatDialogModule, MatButtonModule
   ],
   templateUrl: './add-productversion.component.html',
   styleUrl: './add-productversion.component.css',
 })
 export class AddProductversionComponent implements OnInit, OnDestroy {
-  @Input() data!: number;
+  @Input() data_path!: number;
   @Output() refreshParent = new EventEmitter<void>();
   progress = 0;
 
@@ -92,6 +96,8 @@ export class AddProductversionComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private cylinderCompanyService: CylindercompanyService,
     private printingCompanyService: PrintingcompanyService,
+    private dialogRef: MatDialogRef<AddProductversionComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: { productversionid: number }
   ) {
     this.ngForm = this.fb.group({
       version: ['', Validators.required],
@@ -99,6 +105,7 @@ export class AddProductversionComponent implements OnInit, OnDestroy {
       description: ['', Validators.required],
     });
   }
+
   ngOnInit(): void {
     this.attachmentBaseUrl = `${environment.attachmentBaseUrl}`;
 
@@ -114,7 +121,7 @@ export class AddProductversionComponent implements OnInit, OnDestroy {
       version: '',
       versionDate: this.myDate || '',
       description: '',
-      productId: this.data,
+      productId: this.data_path,
       cylinderCompanyId: 0,
       printingCompanyId: 0,
       userId: String(localStorage.getItem('user-id')),
@@ -134,7 +141,11 @@ export class AddProductversionComponent implements OnInit, OnDestroy {
         console.log(this.suggestions_version);
       });
 
-    this.getPrevProductVersions(this.data);
+    this.getPrevProductVersions(this.data_path);
+  }
+
+  close() {
+    this.dialogRef.close();
   }
 
   onSearchChangeVersion(value: string) {
