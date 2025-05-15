@@ -376,7 +376,7 @@
   </button>
   <app-add-productversion
     *ngIf="isProductVersionModalVisible"
-    [data]="master_product_id"
+    [data_path]="master_product_id"
     (refreshParent)="loadData()"
   ></app-add-productversion>
 </div>
