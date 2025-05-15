@@ -324,14 +324,17 @@ namespace PTS.API.Repositories.Implementation
             return results;
         }
 
-        public async Task<IEnumerable<string>> GetSuggestionsFlavourType(string query)
+        public async Task<IEnumerable<string>> GetSuggestionsFlavourType(string? query, int[]? categoryId, string[]? brand)
         {
             if (string.IsNullOrWhiteSpace(query))
                 return new List<string>();
 
             var results = await dbContext.Products
                 .Where(f =>
-                    (f.FlavourType != null && EF.Functions.Like(f.FlavourType, $"%{query}%")))
+                    f.FlavourType != null && EF.Functions.Like(f.FlavourType, $"%{query}%") &&
+                    (categoryId == null || categoryId.Length == 0 || (f.CategoryId.HasValue && categoryId.Contains(f.CategoryId.Value))) && 
+                    (brand == null || brand.Length == 0 || (f.Brand != null && brand.Contains(f.Brand)))
+                 )
                 .Select(f => f.FlavourType!.ToUpper()) //null-forgiving operator (!)
                 .Distinct()
                 .OrderBy(b => b)

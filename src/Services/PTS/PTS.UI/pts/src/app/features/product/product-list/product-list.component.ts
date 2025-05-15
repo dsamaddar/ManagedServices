@@ -283,6 +283,20 @@ export class ProductListComponent implements OnInit {
       });
     }
 
+    // load flavoour type
+    console.log('Selected Brands: ' + this.filtered_brand);
+    if (this.categoryid || this.filtered_brand) {
+      this.flavourtypes$ = this.suggestionService.getSuggestionsFlavourType(
+        '%',
+        this.categoryid,
+        this.filtered_brand
+      );
+
+      this.flavourtypes$.subscribe((flavourtype) => {
+        console.log('Filtered: Flavour Types ->', flavourtype);
+      });
+    }
+
     this.global_query = query;
 
     this.productService

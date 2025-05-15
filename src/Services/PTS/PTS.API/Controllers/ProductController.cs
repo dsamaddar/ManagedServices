@@ -379,12 +379,12 @@ namespace PTS.API.Controllers
         [HttpGet]
         [Route("suggestions-flavourtype")]
         [Authorize(Roles = "READER,MANAGER,ADMIN")]
-        public async Task<ActionResult> GetSuggestionsFlavourType([FromQuery] string? query)
+        public async Task<ActionResult> GetSuggestionsFlavourType([FromQuery] string? query, [FromQuery] int[]? categoryId, [FromQuery] string[]? brand)
         {
             if (string.IsNullOrWhiteSpace(query))
                 return Ok(null);
 
-            var results = await productRepository.GetSuggestionsFlavourType(query);
+            var results = await productRepository.GetSuggestionsFlavourType(query, categoryId, brand);
 
             return Ok(results);
         }

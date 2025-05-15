@@ -13,7 +13,7 @@ namespace PTS.API.Repositories.Interface
         Task<Product?> DeleteAsync(int id);
         Task<int> GetCount(string? query = null, int[] ? categoryid = null, string[]? brand = null, string[]? flavour = null, string[]? origin = null, string[]? sku = null, int[]? packtypeid = null, int[]? cylindercompanyid = null, int[]? printingcompanyid = null);
         Task<IEnumerable<string>> GetSuggestionsBrand(string? query, int[]? categoryId);
-        Task<IEnumerable<string>> GetSuggestionsFlavourType(string query);
+        Task<IEnumerable<string>> GetSuggestionsFlavourType(string? query, int[]? categoryId, string[]? brand);
         Task<IEnumerable<string>> GetSuggestionsOrigin(string query);
         Task<IEnumerable<string>> GetSuggestionsSKU(string query);
         Task<IEnumerable<string>> GetSuggestionsProductCode(string query);
