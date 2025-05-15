@@ -1,138 +1,141 @@
-<div class="card h-100">
-  <div class="card-header">
-    <h3 class="card-title">View Product Version</h3>
-  </div>
-  <div class="card-body">
-    <div class="d-flex flex-md-row flex-sm-column">
-      <div class="col-8 p-4 --bs-warning-bg-subtle">
-        <h6>Information</h6>
-        <div class="card border-info mb-3" style="max-width: 100%">
-          <div class="card-header">Product Master Information</div>
-          <div class="card-body text-info">
-            <table>
-              <thead>
-                <th></th>
-                <th></th>
-                <th style="min-width: 100px"></th>
-                <th></th>
-                <th></th>
-              </thead>
-              <tbody>
-                <tr>
-                  <td class="text-dark">Category</td>
-                  <td>{{ product?.category?.name }}</td>
-                  <td></td>
-                  <td class="text-dark">Brand</td>
-                  <td>{{ product?.brand }}</td>
-                </tr>
-                <tr>
-                  <td class="text-dark">Flavour</td>
-                  <td>{{ product?.flavourType }}</td>
-                  <td></td>
-                  <td class="text-dark">Origin</td>
-                  <td>{{ product?.origin }}</td>
-                </tr>
-                <tr>
-                  <td class="text-dark">SKU</td>
-                  <td>{{ product?.sku }}</td>
-                  <td></td>
-                  <td class="text-dark">Bar Code</td>
-                  <td>{{ product?.barcode }}</td>
-                </tr>
-                <tr>
-                  <td class="text-dark">Project Date</td>
-                  <td>{{ product?.projectDate | date : "mediumDate" }}</td>
-                  <td></td>
-                  <td class="text-dark">Printing Company</td>
-                  <td>{{ product?.printingCompany?.name }}</td>
-                </tr>
-                <tr>
-                  <td class="text-dark">Cylinder Company</td>
-                  <td>{{ product?.cylinderCompany?.name }}</td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                </tr>
-              </tbody>
-            </table>
+<h2 mat-dialog-title>View Product Version</h2>
+<mat-dialog-content>
+  <!-- <div class="card h-100"> -->
+    <div class="card-body">
+      <div class="d-flex flex-md-row flex-sm-column">
+        <div class="col-8 --bs-warning-bg-subtle">
+          <div class="card border-info mb-3" style="max-width: 100%">
+            <div class="card-header">Product Master Information</div>
+            <div class="card-body text-info">
+              <table>
+                <thead>
+                  <th></th>
+                  <th></th>
+                  <th style="min-width: 100px"></th>
+                  <th></th>
+                  <th></th>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="text-dark">Category</td>
+                    <td>{{ product?.category?.name }}</td>
+                    <td></td>
+                    <td class="text-dark">Brand</td>
+                    <td>{{ product?.brand }}</td>
+                  </tr>
+                  <tr>
+                    <td class="text-dark">Flavour</td>
+                    <td>{{ product?.flavourType }}</td>
+                    <td></td>
+                    <td class="text-dark">Origin</td>
+                    <td>{{ product?.origin }}</td>
+                  </tr>
+                  <tr>
+                    <td class="text-dark">SKU</td>
+                    <td>{{ product?.sku }}</td>
+                    <td></td>
+                    <td class="text-dark">Bar Code</td>
+                    <td>{{ product?.barcode }}</td>
+                  </tr>
+                  <tr>
+                    <td class="text-dark">Project Date</td>
+                    <td>{{ product?.projectDate | date : "mediumDate" }}</td>
+                    <td></td>
+                    <td class="text-dark">Printing Company</td>
+                    <td>{{ product?.printingCompany?.name }}</td>
+                  </tr>
+                  <tr>
+                    <td class="text-dark">Cylinder Company</td>
+                    <td>{{ product?.cylinderCompany?.name }}</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="card border-info mb-3" style="max-width: 100%">
+            <div class="card-header">Product Version Information</div>
+            <div class="card-body text-info">
+              <table>
+                <thead>
+                  <th></th>
+                  <th></th>
+                  <th style="min-width: 100px"></th>
+                  <th></th>
+                  <th></th>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="text-dark">Version</td>
+                    <td>
+                      <div *ngIf="product?.productVersions">
+                        {{ product?.productVersions?.[0]?.version }}
+                      </div>
+                    </td>
+                    <td></td>
+                    <td class="text-dark">Version Date</td>
+                    <td>
+                      <div *ngIf="product?.productVersions">
+                        {{ product?.productVersions?.[0]?.versionDate | date : "mediumDate" }}
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="text-dark">Description</td>
+                    <td colspan="4">
+                      <div *ngIf="product?.productVersions">
+                        {{ product?.productVersions?.[0]?.description }}
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="text-dark">Cylinder Company</td>
+                    <td>
+                      <div *ngIf="product?.cylinderCompany">
+                        {{ product?.productVersions?.[0]?.cylinderCompany?.name }}
+                      </div>
+                    </td>
+                    <td></td>
+                    <td class="text-dark">Printing Company</td>
+                    <td>
+                      <div *ngIf="product?.printingCompany">
+                        {{ product?.productVersions?.[0]?.printingCompany?.name }}
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
-        <div class="card border-info mb-3" style="max-width: 100%">
-          <div class="card-header">Product Version Information</div>
-          <div class="card-body text-info">
-            <table>
-              <thead>
-                <th></th>
-                <th></th>
-                <th style="min-width: 100px"></th>
-                <th></th>
-                <th></th>
-              </thead>
-              <tbody>
-                <tr>
-                  <td class="text-dark">Version</td>
-                  <td>
-                    <div *ngIf="product?.productVersions">
-                      {{ product?.productVersions?.[0]?.version }}
-                    </div>
-                  </td>
-                  <td></td>
-                  <td class="text-dark">Version Date</td>
-                  <td>
-                    <div *ngIf="product?.productVersions">
-                      {{ product?.productVersions?.[0]?.versionDate | date : "mediumDate" }}
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td class="text-dark">Description</td>
-                  <td colspan="4">
-                    <div *ngIf="product?.productVersions">
-                      {{ product?.productVersions?.[0]?.description }}
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td class="text-dark">Cylinder Company</td>
-                  <td><div *ngIf="product?.cylinderCompany">
-                    {{ product?.productVersions?.[0]?.cylinderCompany?.name }}
-                  </div></td>
-                  <td></td>
-                  <td class="text-dark">Printing Company</td>
-                  <td>
-                    <div *ngIf="product?.printingCompany">
-                      {{ product?.productVersions?.[0]?.printingCompany?.name }}
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-      <div class="col-4 p-4 bg-light">
-        <h6>Attachments</h6>
-        <div class="card border-info mb-3" style="max-width: 100%">
-          <div class="card-header"></div>
-          <div class="card-body text-info">
-            <ng-container>
-              <div *ngFor="let attachment of attachment_list">
-                <a
-                  href="{{ attachmentBaseUrl }}{{ attachment.name }}"
-                  target="_blank"
-                >
-                  <i
-                    class="{{ getFileExtension(attachment.name) }}"
-                    style="color: #5cb85c"
-                    aria-hidden="true"
-                  ></i>
-                  {{ attachment.name }}
-                </a>
-              </div>
-            </ng-container>
+        <div class="col-4 bg-light">
+          <div class="card border-info mb-3" style="max-width: 100%">
+            <div class="card-header">Attachments</div>
+            <div class="card-body text-info">
+              <ng-container>
+                <div *ngFor="let attachment of attachment_list">
+                  <a
+                    href="{{ attachmentBaseUrl }}{{ attachment.name }}"
+                    target="_blank"
+                  >
+                    <i
+                      class="{{ getFileExtension(attachment.name) }}"
+                      style="color: #5cb85c"
+                      aria-hidden="true"
+                    ></i>
+                    {{ attachment.name }}
+                  </a>
+                </div>
+              </ng-container>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-</div>
+  <!-- </div> -->
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button (click)="close()">Close</button>
+</mat-dialog-actions>

@@ -362,15 +362,24 @@ export class ProductListComponent implements OnInit {
   }
 
   openProductVersionModal(productid: number) {
+   
     //console.log('Transferred ID ->' + productid.toString());
     this.master_product_id = productid;
     this.isProductVersionModalVisible = true;
   }
 
   openShowProductVersionModal(productversionid: number) {
-    console.log('Product Version ID ->' + productversionid.toString());
-    this.product_version_id = productversionid;
-    this.isShowProductVersionModalVisible = true;
+    console.log('tester : ' + productversionid.toString());
+    this.dialog.open(ShowProductversionComponent, {
+      width: '70vw', // or '1000px' or '95%' — your choice
+      maxWidth: '80vw', // prevents Angular Material default max width (80vw)
+      height: '80vh',
+      data: { productversionid },
+    });
+
+    // console.log('Product Version ID ->' + productversionid.toString());
+    // this.product_version_id = productversionid;
+    // this.isShowProductVersionModalVisible = true;
   }
 
   deleteProductVersion(productversionid: number) {

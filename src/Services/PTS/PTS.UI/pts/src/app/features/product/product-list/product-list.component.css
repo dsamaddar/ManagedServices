@@ -1,5 +1,5 @@
 .table-container {
-  max-height: 58vh; /* or whatever height you want */
+  max-height: 53vh; /* or whatever height you want */
   overflow-y: auto;
   border: 1px solid #ccc;
 }
