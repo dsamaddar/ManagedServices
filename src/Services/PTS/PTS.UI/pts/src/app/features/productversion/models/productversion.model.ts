@@ -7,6 +7,8 @@ export interface ProductVersion{
     version: string,
     versionDate: string,
     description: string,
+    prno: string,
+    pono: string,
     productId: number,
     cylinderCompanyId: number,
     printingCompanyId: number,

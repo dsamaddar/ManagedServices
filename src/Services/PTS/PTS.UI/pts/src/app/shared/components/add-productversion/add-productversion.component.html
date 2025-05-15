@@ -201,10 +201,28 @@
             </div>
             <div class="row">
               <div class="col-md-6">
-                <input type="text" placeholder="PR Number" required />
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>PR Number</mat-label>
+                  <input
+                    matInput
+                    [(ngModel)]="productVersion.prno"
+                    placeholder=""
+                    name="prno"
+                    class="form-control"
+                  />
+                </mat-form-field>
               </div>
               <div class="col-md-6">
-                <input type="text" placeholder="PO Number" required />
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>PO Number</mat-label>
+                  <input
+                    matInput
+                    [(ngModel)]="productVersion.pono"
+                    placeholder=""
+                    name="prno"
+                    class="form-control"
+                  />
+                </mat-form-field>
               </div>
             </div>
             <div class="row mt-2">
@@ -223,7 +241,7 @@
               </div>
             </div>
           </div>
-          
+
           <div class="col-md-4">
             <div *ngIf="progress > 0">
               Upload Progress: {{ progress }}%
@@ -236,7 +254,6 @@
           <pre>Is Version Unique: {{ isVersionUnique }}</pre>
            -->
         </form>
-        
       </div>
     </div>
     <div class="d-flex flex-md-row flex-sm-column">
