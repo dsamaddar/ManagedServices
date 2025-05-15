@@ -1,38 +1,42 @@
 <h2 mat-dialog-title>View Product</h2>
 <mat-dialog-content>
-  <div class="container-fluid">
+  <div class="container-fluid text-info">
     <div class="card mt-3">
       <div class="card-header">Product Master</div>
       <div class="card-body">
-        <div class="row">
-          <div class="col-md-2"><strong>Category</strong></div>
-          <div class="col-md-2">{{ product?.category?.name }}</div>
-          <div class="col-md-2"><strong>Brand</strong></div>
-          <div class="col-md-2">{{ product?.brand }}</div>
-          <div class="col-md-2"><strong>Flavour</strong></div>
-          <div class="col-md-2">{{ product?.flavourType }}</div>
-        </div>
-        <div class="row mt-3">
-          <div class="col-md-2"><strong>Origin</strong></div>
-          <div class="col-md-2">{{ product?.origin }}</div>
-          <div class="col-md-2"><strong>SKU</strong></div>
-          <div class="col-md-2">{{ product?.sku }}</div>
-          <div class="col-md-2"><strong>Pack Type</strong></div>
-          <div class="col-md-2">{{ product?.packType?.name }}</div>
-        </div>
-        <div class="row mt-3">
-          <div class="col-md-2"><strong>Product Code</strong></div>
-          <div class="col-md-2">{{ product?.productCode }}</div>
-          <div class="col-md-2"><strong>Barcode</strong></div>
-          <div class="col-md-2">{{ product?.barcode }}</div>
-        </div>
-        <div class="row mt-3">
-          <div class="col-md-2"><strong>Project Date</strong></div>
-          <div class="col-md-2">{{ product?.projectDate | date : "mediumDate"  }}</div>
-          <div class="col-md-2"><strong>Cylinder Company</strong></div>
-          <div class="col-md-2">{{ product?.cylinderCompany?.name }}</div>
-          <div class="col-md-2"><strong>Printing Company</strong></div>
-          <div class="col-md-2">{{ product?.printingCompany?.name }}</div>
+        <div class="container text-success">
+          <div class="row">
+            <div class="col-md-2 text-dark">Category</div>
+            <div class="col-md-2">{{ product?.category?.name }}</div>
+            <div class="col-md-2 text-dark">Brand</div>
+            <div class="col-md-2">{{ product?.brand }}</div>
+            <div class="col-md-2 text-dark">Flavour</div>
+            <div class="col-md-2">{{ product?.flavourType }}</div>
+          </div>
+          <div class="row">
+            <div class="col-md-2 text-dark">Origin</div>
+            <div class="col-md-2">{{ product?.origin }}</div>
+            <div class="col-md-2 text-dark">SKU</div>
+            <div class="col-md-2">{{ product?.sku }}</div>
+            <div class="col-md-2 text-dark">Pack Type</div>
+            <div class="col-md-2">{{ product?.packType?.name }}</div>
+          </div>
+          <div class="row">
+            <div class="col-md-2 text-dark">Product Code</div>
+            <div class="col-md-2">{{ product?.productCode }}</div>
+            <div class="col-md-2 text-dark">Barcode</div>
+            <div class="col-md-2">{{ product?.barcode }}</div>
+          </div>
+          <div class="row">
+            <div class="col-md-2 text-dark">Project Date</div>
+            <div class="col-md-2">
+              {{ product?.projectDate | date : "mediumDate" }}
+            </div>
+            <div class="col-md-2 text-dark">Cylinder Company</div>
+            <div class="col-md-2">{{ product?.cylinderCompany?.name }}</div>
+            <div class="col-md-2 text-dark">Printing Company</div>
+            <div class="col-md-2">{{ product?.printingCompany?.name }}</div>
+          </div>
         </div>
       </div>
     </div>

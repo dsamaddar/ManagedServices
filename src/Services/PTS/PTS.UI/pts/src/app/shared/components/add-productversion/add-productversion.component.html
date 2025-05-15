@@ -5,7 +5,7 @@
       <div class="col-8">
         <div class="card border-info mb-3" style="max-width: 100%">
           <div class="card-header">Selected Files</div>
-          <div class="card-body text-info">
+          <div class="card-body">
             <div *ngFor="let file of selectedFiles">
               <i
                 class="{{ getFileExtension(file.name) }}"
@@ -16,7 +16,7 @@
             </div>
           </div>
           <div class="card-header">Previous Versions</div>
-          <div class="card-body text-info">
+          <div class="card-body">
             <table class="table table-bordered table-responsive table-sm w-100">
               <thead>
                 <th style="display: none">Id</th>
