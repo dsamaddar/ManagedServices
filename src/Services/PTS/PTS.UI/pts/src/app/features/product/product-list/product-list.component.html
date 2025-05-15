@@ -27,6 +27,7 @@
         [searchable]="true"
         class="material-ng-select"
         (change)="onSearch(queryText.value)"
+        (search)="onFilterBrand($event.term)" 
         [multiple]="true"
       >
       </ng-select>

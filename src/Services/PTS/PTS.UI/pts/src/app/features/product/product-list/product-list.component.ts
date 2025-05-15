@@ -131,7 +131,7 @@ export class ProductListComponent implements OnInit {
     });
 
     // load brands
-    this.brands$ = this.suggestionService.getSuggestionsBrand('%');
+    this.brands$ = this.suggestionService.getSuggestionsBrand('%',this.categoryid);
 
     // load flavoour type
     this.flavourtypes$ = this.suggestionService.getSuggestionsFlavourType('%');
@@ -248,6 +248,10 @@ export class ProductListComponent implements OnInit {
     this.onSearch('');
   }
 
+  onFilterBrand(query: string): void {
+    console.log(query);
+  }
+
   onSearch(query: string) {
     this.products$ = this.productService.getAllProducts(
       query,
@@ -262,6 +266,18 @@ export class ProductListComponent implements OnInit {
       this.cylindercompanyid,
       this.printingcompanyid
     );
+
+    // load brands
+    console.log('Selected Categories: ' + this.categoryid);    
+    if(this.categoryid){
+      
+      this.brands$ = this.suggestionService.getSuggestionsBrand('%',this.categoryid);
+      
+      this.brands$.subscribe(brands => {
+        console.log('Category Filter Added : Brands ->', brands);
+      });
+    }
+    
 
     this.global_query = query;
 
@@ -353,14 +369,13 @@ export class ProductListComponent implements OnInit {
   }
 
   openProductVersionModal(productid: number) {
-   
     const dialogRef = this.dialog.open(AddProductversionComponent, {
       width: '70vw', // or '1000px' or '95%' — your choice
       maxWidth: '75vw', // prevents Angular Material default max width (80vw)
       data: { productid },
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         this.loadData(); // 👈 Call your data-loading method here
       }

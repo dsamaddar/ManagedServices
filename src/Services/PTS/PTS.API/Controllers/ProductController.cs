@@ -365,13 +365,13 @@ namespace PTS.API.Controllers
         // GET {apiBaseUrl}/api/suggestions? search = app
         [HttpGet]
         [Route("suggestions-brand")]
-        [Authorize(Roles = "READER,MANAGER,ADMIN")]
-        public async Task<ActionResult> GetSuggestionsBrand([FromQuery] string? query)
+        //[Authorize(Roles = "READER,MANAGER,ADMIN")]
+        public async Task<ActionResult> GetSuggestionsBrand([FromQuery] string? query, [FromQuery] int[]? categoryId)
         {
             if (string.IsNullOrWhiteSpace(query))
                 return Ok(null);
 
-            var results = await productRepository.GetSuggestionsBrand(query);
+            var results = await productRepository.GetSuggestionsBrand(query, categoryId);
 
             return Ok(results);
         }

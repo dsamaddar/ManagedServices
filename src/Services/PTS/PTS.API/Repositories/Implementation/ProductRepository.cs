@@ -7,6 +7,7 @@ using PTS.API.Models.Domain;
 using PTS.API.Repositories.Exceptions;
 using PTS.API.Repositories.Interface;
 using System.Runtime.CompilerServices;
+using System.Linq;
 
 namespace PTS.API.Repositories.Implementation
 {
@@ -304,15 +305,18 @@ namespace PTS.API.Repositories.Implementation
             return null;
         }
 
-        public async Task<IEnumerable<string>> GetSuggestionsBrand(string query)
+        public async Task<IEnumerable<string>> GetSuggestionsBrand(string? query, int[]? categoryId)
         {
             if (string.IsNullOrWhiteSpace(query))
                 return new List<string>();
 
             var results = await dbContext.Products
-                .Where(f => 
-                    (f.Brand != null && EF.Functions.Like(f.Brand, $"%{query}%")))
-                .Select(f => f.Brand!.ToUpper()) //null-forgiving operator (!)
+                .Where(f =>
+                    f.Brand != null &&
+                    EF.Functions.Like(f.Brand, $"%{query}%") &&
+                    (categoryId == null || categoryId.Length == 0 || (f.CategoryId.HasValue && categoryId.Contains(f.CategoryId.Value)))
+                )
+                .Select(f => f.Brand!.ToUpper())
                 .Distinct()
                 .OrderBy(b => b)
                 .ToListAsync();

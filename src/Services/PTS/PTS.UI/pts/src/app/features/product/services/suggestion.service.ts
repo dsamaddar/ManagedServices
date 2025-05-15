@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
@@ -10,8 +10,18 @@ export class SuggestionService {
 
   constructor(private http: HttpClient) {}
 
-  getSuggestionsBrand(query: string): Observable<string[]> {
-    return this.http.get<string[]>(`${environment.apiBaseUrl}/api/product/suggestions-brand?query=${query}`);
+  getSuggestionsBrand(query: string, categoryId?: number[]): Observable<string[]> {
+    let params = new HttpParams();
+
+    if (query) {
+      params = params.set('query', query);
+    }
+
+    if (categoryId && categoryId.length > 0) {
+      params = params.set('categoryId', categoryId?.join(',') ?? undefined);
+    }
+
+    return this.http.get<string[]>(`${environment.apiBaseUrl}/api/product/suggestions-brand`, { params });
   }
 
   getSuggestionsFlavourType(query: string): Observable<string[]> {
