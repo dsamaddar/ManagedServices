@@ -8,7 +8,7 @@ using PTS.API.Data;
 
 #nullable disable
 
-namespace PTS.API.Migrations
+namespace PTS.API.Migrations.ApplicationDb
 {
     [DbContext(typeof(ApplicationDbContext))]
     partial class ApplicationDbContextModelSnapshot : ModelSnapshot
@@ -650,23 +650,31 @@ namespace PTS.API.Migrations
 
                     b.Property<int?>("CylinderCompanyId")
                         .HasColumnType("int")
-                        .HasColumnOrder(5);
+                        .HasColumnOrder(7);
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)")
                         .HasColumnOrder(3);
 
+                    b.Property<string>("PoNo")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnOrder(5);
+
+                    b.Property<string>("PrNo")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnOrder(4);
+
                     b.Property<int?>("PrintingCompanyId")
                         .HasColumnType("int")
-                        .HasColumnOrder(6);
+                        .HasColumnOrder(8);
 
                     b.Property<int>("ProductId")
                         .HasColumnType("int")
-                        .HasColumnOrder(4);
+                        .HasColumnOrder(6);
 
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(max)")
-                        .HasColumnOrder(7);
+                        .HasColumnOrder(9);
 
                     b.Property<string>("Version")
                         .HasColumnType("nvarchar(450)")
@@ -677,6 +685,10 @@ namespace PTS.API.Migrations
                         .HasColumnOrder(2);
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CylinderCompanyId");
+
+                    b.HasIndex("PrintingCompanyId");
 
                     b.HasIndex("ProductId");
 
@@ -725,11 +737,23 @@ namespace PTS.API.Migrations
 
             modelBuilder.Entity("PTS.API.Models.Domain.ProductVersion", b =>
                 {
+                    b.HasOne("PTS.API.Models.Domain.CylinderCompany", "CylinderCompany")
+                        .WithMany()
+                        .HasForeignKey("CylinderCompanyId");
+
+                    b.HasOne("PTS.API.Models.Domain.PrintingCompany", "PrintingCompany")
+                        .WithMany()
+                        .HasForeignKey("PrintingCompanyId");
+
                     b.HasOne("PTS.API.Models.Domain.Product", "Product")
                         .WithMany("ProductVersions")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("CylinderCompany");
+
+                    b.Navigation("PrintingCompany");
 
                     b.Navigation("Product");
                 });

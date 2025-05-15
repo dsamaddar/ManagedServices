@@ -9,10 +9,10 @@ using PTS.API.Data;
 
 #nullable disable
 
-namespace PTS.API.Migrations.AuthDb
+namespace PTS.API.Migrations
 {
     [DbContext(typeof(AuthDbContext))]
-    [Migration("20250514043429_initial")]
+    [Migration("20250515121407_initial")]
     partial class initial
     {
         /// <inheritdoc />
@@ -177,7 +177,7 @@ namespace PTS.API.Migrations.AuthDb
                             NormalizedUserName = "DEBAYAN.SAMADDAR@NEOSCODER.COM",
                             PasswordHash = "AQAAAAIAAYagAAAAEBZYK2AcpnXFPESoUdcPjsppX7q80XnHNd5x5mBHfvYDB0/qzdtBkpvb98FfscgIig==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "ca10fdb2-3fa9-44fb-a7fd-d7ed58c975a9",
+                            SecurityStamp = "564c178b-88da-4433-b9fc-180ed701dfd7",
                             TwoFactorEnabled = false,
                             UserName = "debayan.samaddar@neoscoder.com"
                         });

@@ -9,6 +9,8 @@
         public DateTime VersionDate { get; set; }
 
         public string? Description { get; set; }
+        public string? PrNo { get; set; }
+        public string? PoNo { get; set; }
         public int ProductId { get; set; }
         public int? CylinderCompanyId { get; set; }
         public int? PrintingCompanyId { get; set; }

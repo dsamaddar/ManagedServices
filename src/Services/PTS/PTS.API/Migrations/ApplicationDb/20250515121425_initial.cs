@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
 
-namespace PTS.API.Migrations
+namespace PTS.API.Migrations.ApplicationDb
 {
     /// <inheritdoc />
     public partial class initial : Migration
@@ -127,6 +127,8 @@ namespace PTS.API.Migrations
                     Version = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     VersionDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PrNo = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PoNo = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ProductId = table.Column<int>(type: "int", nullable: false),
                     CylinderCompanyId = table.Column<int>(type: "int", nullable: true),
                     PrintingCompanyId = table.Column<int>(type: "int", nullable: true),
@@ -135,6 +137,16 @@ namespace PTS.API.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ProductVersions", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ProductVersions_CylinderCompanies_CylinderCompanyId",
+                        column: x => x.CylinderCompanyId,
+                        principalTable: "CylinderCompanies",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_ProductVersions_PrintingCompanies_PrintingCompanyId",
+                        column: x => x.PrintingCompanyId,
+                        principalTable: "PrintingCompanies",
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_ProductVersions_Products_ProductId",
                         column: x => x.ProductId,
@@ -295,6 +307,16 @@ namespace PTS.API.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Products_PrintingCompanyId",
                 table: "Products",
+                column: "PrintingCompanyId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProductVersions_CylinderCompanyId",
+                table: "ProductVersions",
+                column: "CylinderCompanyId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProductVersions_PrintingCompanyId",
+                table: "ProductVersions",
                 column: "PrintingCompanyId");
 
             migrationBuilder.CreateIndex(

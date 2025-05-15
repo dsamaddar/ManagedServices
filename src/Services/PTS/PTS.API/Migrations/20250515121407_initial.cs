@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
 
-namespace PTS.API.Migrations.AuthDb
+namespace PTS.API.Migrations
 {
     /// <inheritdoc />
     public partial class initial : Migration
@@ -171,7 +171,7 @@ namespace PTS.API.Migrations.AuthDb
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "e07b4029-5a27-491d-9fc5-7043e22ae5eb", 0, "8dc722aa-b923-4da8-8322-e2fe6267eeda", "debayan.samaddar@neoscoder.com", true, false, null, "DEBAYAN.SAMADDAR@NEOSCODER.COM", "DEBAYAN.SAMADDAR@NEOSCODER.COM", "AQAAAAIAAYagAAAAEBZYK2AcpnXFPESoUdcPjsppX7q80XnHNd5x5mBHfvYDB0/qzdtBkpvb98FfscgIig==", null, false, "ca10fdb2-3fa9-44fb-a7fd-d7ed58c975a9", false, "debayan.samaddar@neoscoder.com" });
+                values: new object[] { "e07b4029-5a27-491d-9fc5-7043e22ae5eb", 0, "8dc722aa-b923-4da8-8322-e2fe6267eeda", "debayan.samaddar@neoscoder.com", true, false, null, "DEBAYAN.SAMADDAR@NEOSCODER.COM", "DEBAYAN.SAMADDAR@NEOSCODER.COM", "AQAAAAIAAYagAAAAEBZYK2AcpnXFPESoUdcPjsppX7q80XnHNd5x5mBHfvYDB0/qzdtBkpvb98FfscgIig==", null, false, "564c178b-88da-4433-b9fc-180ed701dfd7", false, "debayan.samaddar@neoscoder.com" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
