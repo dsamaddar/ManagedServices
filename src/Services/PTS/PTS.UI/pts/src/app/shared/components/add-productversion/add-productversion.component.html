@@ -1,11 +1,8 @@
 <h2 mat-dialog-title>View Product Version</h2>
 <mat-dialog-content>
-  <div class="card-header">
-    <h3 class="card-title">Add Product Version</h3>
-  </div>
   <div class="card-body">
     <div class="d-flex flex-md-row flex-sm-column">
-      <div class="col-8 p-4">
+      <div class="col-8">
         <div class="card border-info mb-3" style="max-width: 100%">
           <div class="card-header">Selected Files</div>
           <div class="card-body text-info">
@@ -63,7 +60,7 @@
           </div>
         </div>
       </div>
-      <div class="col-4 p-4 bg-light">
+      <div class="col-4 bg-light">
         <form
           #form="ngForm"
           (ngSubmit)="onFormSubmit(form)"

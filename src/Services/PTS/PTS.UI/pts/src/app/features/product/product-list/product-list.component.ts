@@ -321,7 +321,15 @@ export class ProductListComponent implements OnInit {
     this.products$ = this.productService.getAllProducts(
       this.global_query,
       this.pageNumber,
-      this.pageSize
+      this.pageSize,
+      this.categoryid,
+      this.filtered_brand,
+      this.filtered_flavourtype,
+      this.filtered_origin,
+      this.filtered_sku,
+      this.packtypeid,
+      this.cylindercompanyid,
+      this.printingcompanyid
     );
   }
 
@@ -363,9 +371,21 @@ export class ProductListComponent implements OnInit {
 
   openProductVersionModal(productid: number) {
    
+    const dialogRef = this.dialog.open(AddProductversionComponent, {
+      width: '70vw', // or '1000px' or '95%' — your choice
+      maxWidth: '75vw', // prevents Angular Material default max width (80vw)
+      data: { productid },
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        console.log('modal closed' + result);
+        this.loadData(); // 👈 Call your data-loading method here
+      }
+    });
     //console.log('Transferred ID ->' + productid.toString());
-    this.master_product_id = productid;
-    this.isProductVersionModalVisible = true;
+    //this.master_product_id = productid;
+    //this.isProductVersionModalVisible = true;
   }
 
   openShowProductVersionModal(productversionid: number) {

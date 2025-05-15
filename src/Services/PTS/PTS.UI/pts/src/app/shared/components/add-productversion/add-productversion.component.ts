@@ -97,12 +97,17 @@ export class AddProductversionComponent implements OnInit, OnDestroy {
     private cylinderCompanyService: CylindercompanyService,
     private printingCompanyService: PrintingcompanyService,
     private dialogRef: MatDialogRef<AddProductversionComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { productversionid: number }
+    @Inject(MAT_DIALOG_DATA) public data: { productid: number }
   ) {
+
+    console.log(this.data.productid);
+
     this.ngForm = this.fb.group({
       version: ['', Validators.required],
       versionDate: [this.myDate, Validators.required],
       description: ['', Validators.required],
+      cylindercompanyid: ['', Validators.required],
+      printingcompanyid: ['', Validators.required],
     });
   }
 
@@ -121,7 +126,7 @@ export class AddProductversionComponent implements OnInit, OnDestroy {
       version: '',
       versionDate: this.myDate || '',
       description: '',
-      productId: this.data_path,
+      productId: this.data.productid,
       cylinderCompanyId: 0,
       printingCompanyId: 0,
       userId: String(localStorage.getItem('user-id')),
@@ -141,11 +146,11 @@ export class AddProductversionComponent implements OnInit, OnDestroy {
         console.log(this.suggestions_version);
       });
 
-    this.getPrevProductVersions(this.data_path);
+    this.getPrevProductVersions(this.data.productid);
   }
 
   close() {
-    this.dialogRef.close();
+    this.dialogRef.close(true);
   }
 
   onSearchChangeVersion(value: string) {
@@ -162,8 +167,8 @@ export class AddProductversionComponent implements OnInit, OnDestroy {
           this.isVersionUnique = response;
           if (this.isVersionUnique === false) {
             console.log(this.isVersionUnique);
+            ToastrUtils.showErrorToast('Version Already Exists : ' + this.productVersion.version);
             this.productVersion.version = "";
-            ToastrUtils.showErrorToast('Version Already Exists');
           }
         },
       });
@@ -313,6 +318,8 @@ export class AddProductversionComponent implements OnInit, OnDestroy {
                   break;
               }
             });
+
+            this.close();
         },
         error: (error) => {
           alert(error);
