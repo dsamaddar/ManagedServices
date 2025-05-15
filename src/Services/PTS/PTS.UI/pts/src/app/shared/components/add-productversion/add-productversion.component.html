@@ -66,178 +66,177 @@
           (ngSubmit)="onFormSubmit(form)"
           enctype="multipart/form-data"
         >
-          <div class="mt-1">
-            <mat-form-field appearance="outline" class="full-width">
-              <mat-label>Version</mat-label>
-              <input
-                matInput
-                [(ngModel)]="productVersion.version"
-                [matAutocomplete]="autoVersion"
-                placeholder=""
-                name="version"
-                class="form-control"
-                (ngModelChange)="onSearchChangeVersion($event)"
-                (keydown.space)="$event.preventDefault()"
-                required
-              />
-              <mat-autocomplete #autoVersion="matAutocomplete">
-                <mat-option
-                  *ngFor="let version of suggestions_version"
-                  [value]="version"
-                >
-                  {{ version }}
-                </mat-option>
-              </mat-autocomplete>
-              <!-- Validation error message -->
-              <mat-error
-                *ngIf="form.submitted && form.controls['version']?.invalid"
-              >
-                Version is required
-              </mat-error>
-              <mat-error *ngIf="true"> Version Already Exists </mat-error>
-              <mat-error *ngIf="form.submitted && isVersionUnique === false">
-                Version Already Exists
-              </mat-error>
-            </mat-form-field>
-            <!-- <input
-              type="text"
-              class="form-control"
-              placeholder="Version"
-              name="version"
-              id="version"
-              [(ngModel)]="productVersion.version"
-            /> -->
-          </div>
-          <div class="mt-1">
-            <mat-form-field appearance="outline" class="full-width">
-              <mat-label>Version Date</mat-label>
-              <input
-                matInput
-                [matDatepicker]="picker"
-                id="versionDate"
-                name="versionDate"
-                [(ngModel)]="productVersion.versionDate"
-                (dateChange)="onProductVersionDateChange($event)"
-                required
-              />
-              <mat-datepicker-toggle
-                matSuffix
-                [for]="picker"
-              ></mat-datepicker-toggle>
-              <mat-datepicker #picker></mat-datepicker>
-              <!-- Validation error message -->
-              <mat-error
-                *ngIf="form.submitted && form.controls['versionDate']?.invalid"
-              >
-                version Date is required
-              </mat-error>
-            </mat-form-field>
-
-            <!-- <input
-              type="date"
-              id="versionDate"
-              name="versionDate"
-              class="form-control"
-              [(ngModel)]="productVersionDateString"
-              (ngModelChange)="onProductVersionDateChange($event)"
-            /> -->
-          </div>
-          <div class="mt-1">
-            <mat-form-field appearance="outline" class="full-width">
-              <mat-label>Description</mat-label>
-              <textarea
-                matInput
-                placeholder=""
-                rows="2"
-                [(ngModel)]="productVersion.description"
-                name="desciption"
-                id="desciption"
-              ></textarea>
-            </mat-form-field>
-
-            <!-- <textarea
-              type="text"
-              class="form-control"
-              placeholder="Description"
-              name="desciption"
-              id="desciption"
-              [(ngModel)]="productVersion.description"
-            ></textarea> -->
-          </div>
-          <div class="mt-1">
-            <div class="form-group ng-wrapper" style="width: 300px">
-              <ng-select
-                name="cylindercompanyid"
-                [items]="cylinderCompanies$ | async"
-                bindLabel="name"
-                bindValue="id"
-                placeholder="Select Cylinder Company"
-                [(ngModel)]="cylindercompanyid"
-                [searchable]="true"
-                class="material-ng-select"
-                required
-              >
-              </ng-select>
-              <div
-                *ngIf="
-                  form.submitted && form.controls['cylindercompanyid']?.invalid
-                "
-                class="text-danger"
-              >
-                Cylinder Company is required
+          <div class="container">
+            <div class="row">
+              <div class="col-md-6">
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>Version</mat-label>
+                  <input
+                    matInput
+                    [(ngModel)]="productVersion.version"
+                    [matAutocomplete]="autoVersion"
+                    placeholder=""
+                    name="version"
+                    class="form-control"
+                    (ngModelChange)="onSearchChangeVersion($event)"
+                    (keydown.space)="$event.preventDefault()"
+                    required
+                  />
+                  <mat-autocomplete #autoVersion="matAutocomplete">
+                    <mat-option
+                      *ngFor="let version of suggestions_version"
+                      [value]="version"
+                    >
+                      {{ version }}
+                    </mat-option>
+                  </mat-autocomplete>
+                  <!-- Validation error message -->
+                  <mat-error
+                    *ngIf="form.submitted && form.controls['version']?.invalid"
+                  >
+                    Version is required
+                  </mat-error>
+                  <mat-error *ngIf="true"> Version Already Exists </mat-error>
+                  <mat-error
+                    *ngIf="form.submitted && isVersionUnique === false"
+                  >
+                    Version Already Exists
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-6">
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>Version Date</mat-label>
+                  <input
+                    matInput
+                    [matDatepicker]="picker"
+                    id="versionDate"
+                    name="versionDate"
+                    [(ngModel)]="productVersion.versionDate"
+                    (dateChange)="onProductVersionDateChange($event)"
+                    required
+                  />
+                  <mat-datepicker-toggle
+                    matSuffix
+                    [for]="picker"
+                  ></mat-datepicker-toggle>
+                  <mat-datepicker #picker></mat-datepicker>
+                  <!-- Validation error message -->
+                  <mat-error
+                    *ngIf="
+                      form.submitted && form.controls['versionDate']?.invalid
+                    "
+                  >
+                    version Date is required
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>Description</mat-label>
+                  <textarea
+                    matInput
+                    placeholder=""
+                    rows="2"
+                    [(ngModel)]="productVersion.description"
+                    name="desciption"
+                    id="desciption"
+                  ></textarea>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group ng-wrapper">
+                  <ng-select
+                    name="cylindercompanyid"
+                    [items]="cylinderCompanies$ | async"
+                    bindLabel="name"
+                    bindValue="id"
+                    placeholder="Select Cylinder Company"
+                    [(ngModel)]="cylindercompanyid"
+                    [searchable]="true"
+                    class="material-ng-select"
+                    required
+                  >
+                  </ng-select>
+                  <div
+                    *ngIf="
+                      form.submitted &&
+                      form.controls['cylindercompanyid']?.invalid
+                    "
+                    class="text-danger"
+                  >
+                    Cylinder Company is required
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group ng-wrapper">
+                  <ng-select
+                    name="printingcompanyid"
+                    [items]="printingCompanies$ | async"
+                    bindLabel="name"
+                    bindValue="id"
+                    placeholder="Select Printing Company"
+                    [(ngModel)]="printingcompanyid"
+                    [searchable]="true"
+                    class="material-ng-select"
+                    required
+                  >
+                  </ng-select>
+                  <div
+                    *ngIf="
+                      form.submitted &&
+                      form.controls['printingcompanyid']?.invalid
+                    "
+                    class="text-danger"
+                  >
+                    Printing Company is required
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <input type="text" placeholder="PR Number" required />
+              </div>
+              <div class="col-md-6">
+                <input type="text" placeholder="PO Number" required />
+              </div>
+            </div>
+            <div class="row mt-2">
+              <div class="col-md-12">
+                <input
+                  type="file"
+                  class="form-control w-100"
+                  multiple
+                  (change)="onFilesSelected($event)"
+                />
+              </div>
+            </div>
+            <div class="row mt-3">
+              <div class="col-md-12">
+                <button type="submit" class="btn btn-success w-100">Add</button>
               </div>
             </div>
           </div>
-
-          <div class="mt-1">
-            <div class="form-group ng-wrapper" style="width: 300px">
-              <ng-select
-                name="printingcompanyid"
-                [items]="printingCompanies$ | async"
-                bindLabel="name"
-                bindValue="id"
-                placeholder="Select Printing Company"
-                [(ngModel)]="printingcompanyid"
-                [searchable]="true"
-                class="material-ng-select"
-                required
-              >
-              </ng-select>
-              <div
-                *ngIf="
-                  form.submitted && form.controls['printingcompanyid']?.invalid
-                "
-                class="text-danger"
-              >
-                Printing Company is required
-              </div>
+          
+          <div class="col-md-4">
+            <div *ngIf="progress > 0">
+              Upload Progress: {{ progress }}%
+              <progress [value]="progress" max="100"></progress>
             </div>
           </div>
-
-          <div class="mt-1">
-            <input
-              type="file"
-              class="form-control full-width"
-              multiple
-              (change)="onFilesSelected($event)"
-            />
-          </div>
-          <div class="mt-1">
-            <button type="submit" class="btn btn-dark">Add</button>
-          </div>
-
           <!-- 🔍 Debug output here
           <pre>{{ form.value | json }}</pre>
           <pre>Valid: {{ form.valid }}</pre>
           <pre>Is Version Unique: {{ isVersionUnique }}</pre>
            -->
         </form>
-        <div class="col-md-4">
-          <div *ngIf="progress > 0">
-            Upload Progress: {{ progress }}%
-            <progress [value]="progress" max="100"></progress>
-          </div>
-        </div>
+        
       </div>
     </div>
     <div class="d-flex flex-md-row flex-sm-column">

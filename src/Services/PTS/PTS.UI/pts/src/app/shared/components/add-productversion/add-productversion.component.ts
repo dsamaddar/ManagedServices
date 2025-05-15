@@ -318,8 +318,8 @@ export class AddProductversionComponent implements OnInit, OnDestroy {
                   break;
               }
             });
-
             this.close();
+            
         },
         error: (error) => {
           alert(error);
