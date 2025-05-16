@@ -7,7 +7,7 @@ import { environment } from '../../../../environments/environment';
   providedIn: 'root',
 })
 export class SuggestionService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   getSuggestionsBrand(
     query: string,
@@ -59,15 +59,71 @@ export class SuggestionService {
     );
   }
 
-  getSuggestionsOrigin(query: string): Observable<string[]> {
+  getSuggestionsOrigin(query: string, categoryId?: number[],
+    brand?: string[], flavour?: string[]): Observable<string[]> {
+
+    let params = new HttpParams();
+    if (query) {
+      params = params.set('query', query);
+    }
+
+    if (categoryId && categoryId.length > 0) {
+      categoryId.forEach((id) => {
+        params = params.append('categoryId', id);
+      });
+    }
+
+    if (brand && brand.length > 0) {
+      brand.forEach((brand) => {
+        params = params.append('brand', brand);
+      });
+    }
+
+    if (flavour && flavour.length > 0) {
+      flavour.forEach((flavour) => {
+        params = params.append('flavour', flavour);
+      });
+    }
+
     return this.http.get<string[]>(
-      `${environment.apiBaseUrl}/api/product/suggestions-origin?query=${query}`
+      `${environment.apiBaseUrl}/api/product/suggestions-origin`, { params }
     );
   }
 
-  getSuggestionsSKU(query: string): Observable<string[]> {
+  getSuggestionsSKU(query: string, categoryId?: number[],
+    brand?: string[], flavour?: string[], origin?: string[]): Observable<string[]> {
+
+    let params = new HttpParams();
+    if (query) {
+      params = params.set('query', query);
+    }
+
+    if (categoryId && categoryId.length > 0) {
+      categoryId.forEach((id) => {
+        params = params.append('categoryId', id);
+      });
+    }
+
+    if (brand && brand.length > 0) {
+      brand.forEach((brand) => {
+        params = params.append('brand', brand);
+      });
+    }
+
+    if (flavour && flavour.length > 0) {
+      flavour.forEach((flavour) => {
+        params = params.append('flavour', flavour);
+      });
+    }
+
+    if (origin && origin.length > 0) {
+      origin.forEach((origin) => {
+        params = params.append('origin', origin);
+      });
+    }
+
     return this.http.get<string[]>(
-      `${environment.apiBaseUrl}/api/product/suggestions-sku?query=${query}`
+      `${environment.apiBaseUrl}/api/product/suggestions-sku`, { params }
     );
   }
 

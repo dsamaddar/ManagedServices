@@ -103,7 +103,7 @@ export class ProductListComponent implements OnInit {
     private printingCompanyService: PrintingcompanyService,
     private suggestionService: SuggestionService,
     private dialog: MatDialog
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.user = this.authService.getUser();
@@ -294,6 +294,33 @@ export class ProductListComponent implements OnInit {
 
       this.flavourtypes$.subscribe((flavourtype) => {
         console.log('Filtered: Flavour Types ->', flavourtype);
+      });
+    }
+
+    // load origin
+    console.log('Selected Flavours: ' + this.filtered_flavourtype);
+    if (this.categoryid || this.filtered_brand || this.filtered_flavourtype) {
+
+      this.origins$ = this.suggestionService.getSuggestionsOrigin('%',
+        this.categoryid,
+        this.filtered_brand,
+        this.filtered_flavourtype);
+
+      this.origins$.subscribe((origin) => {
+        console.log('Filtered: Origins ->', origin);
+      });
+
+    }
+
+    // load SKU
+    console.log('Selected Origins: ' + this.filtered_origin);
+    if (this.categoryid || this.filtered_brand || this.filtered_flavourtype || this.filtered_origin) {
+      this.skus$ = this.suggestionService.getSuggestionsSKU('%', this.categoryid,
+        this.filtered_brand,
+        this.filtered_flavourtype, this.filtered_origin);
+
+      this.skus$.subscribe((sku) => {
+        console.log('Filtered: SKU ->', sku);
       });
     }
 

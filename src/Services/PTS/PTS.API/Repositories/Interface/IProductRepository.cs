@@ -14,8 +14,8 @@ namespace PTS.API.Repositories.Interface
         Task<int> GetCount(string? query = null, int[] ? categoryid = null, string[]? brand = null, string[]? flavour = null, string[]? origin = null, string[]? sku = null, int[]? packtypeid = null, int[]? cylindercompanyid = null, int[]? printingcompanyid = null);
         Task<IEnumerable<string>> GetSuggestionsBrand(string? query, int[]? categoryId);
         Task<IEnumerable<string>> GetSuggestionsFlavourType(string? query, int[]? categoryId, string[]? brand);
-        Task<IEnumerable<string>> GetSuggestionsOrigin(string query);
-        Task<IEnumerable<string>> GetSuggestionsSKU(string query);
+        Task<IEnumerable<string>> GetSuggestionsOrigin(string query, int[]? categoryId, string[]? brand, string[]? flavour);
+        Task<IEnumerable<string>> GetSuggestionsSKU(string query, int[]? categoryId, string[]? brand, string[]? flavour, string[]? origin);
         Task<IEnumerable<string>> GetSuggestionsProductCode(string query);
         Task<IEnumerable<string>> GetSuggestionsVersion(string query);
         Task<Boolean> GetIsVersionUnique(string query);

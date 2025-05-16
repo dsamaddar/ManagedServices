@@ -392,12 +392,12 @@ namespace PTS.API.Controllers
         [HttpGet]
         [Route("suggestions-origin")]
         [Authorize(Roles = "READER,MANAGER,ADMIN")]
-        public async Task<ActionResult> GetSuggestionsOrigin([FromQuery] string? query)
+        public async Task<ActionResult> GetSuggestionsOrigin([FromQuery] string? query, [FromQuery] int[]? categoryId, [FromQuery] string[]? brand, [FromQuery] string[]? flavour)
         {
             if (string.IsNullOrWhiteSpace(query))
                 return Ok(null);
 
-            var results = await productRepository.GetSuggestionsOrigin(query);
+            var results = await productRepository.GetSuggestionsOrigin(query, categoryId, brand, flavour);
 
             return Ok(results);
         }
@@ -405,12 +405,12 @@ namespace PTS.API.Controllers
         [HttpGet]
         [Route("suggestions-sku")]
         [Authorize(Roles = "READER,MANAGER,ADMIN")]
-        public async Task<ActionResult> GetSuggestionsSKU([FromQuery] string? query)
+        public async Task<ActionResult> GetSuggestionsSKU([FromQuery] string? query, [FromQuery] int[]? categoryId, [FromQuery] string[]? brand, [FromQuery] string[]? flavour, [FromQuery] string[]? origin)
         {
             if (string.IsNullOrWhiteSpace(query))
                 return Ok(null);
 
-            var results = await productRepository.GetSuggestionsSKU(query);
+            var results = await productRepository.GetSuggestionsSKU(query, categoryId, brand, flavour, origin);
 
             return Ok(results);
         }

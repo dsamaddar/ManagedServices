@@ -343,14 +343,18 @@ namespace PTS.API.Repositories.Implementation
             return results;
         }
 
-        public async Task<IEnumerable<string>> GetSuggestionsOrigin(string query)
+        public async Task<IEnumerable<string>> GetSuggestionsOrigin(string query, int[]? categoryId, string[]? brand, string[]? flavour)
         {
             if (string.IsNullOrWhiteSpace(query))
                 return new List<string>();
 
             var results = await dbContext.Products
                 .Where(f =>
-                    (f.Origin != null && EF.Functions.Like(f.Origin, $"%{query}%")))
+                    (f.Origin != null && EF.Functions.Like(f.Origin, $"%{query}%")) &&
+                    (categoryId == null || categoryId.Length == 0 || (f.CategoryId.HasValue && categoryId.Contains(f.CategoryId.Value))) &&
+                    (brand == null || brand.Length == 0 || (f.Brand != null && brand.Contains(f.Brand))) &&
+                    (flavour == null || flavour.Length == 0 || (f.FlavourType != null && flavour.Contains(f.FlavourType)))
+                )
                 .Select(f => f.Origin!.ToUpper()) //null-forgiving operator (!)
                 .Distinct()
                 .OrderBy(b => b)
@@ -359,14 +363,19 @@ namespace PTS.API.Repositories.Implementation
             return results;
         }
 
-        public async Task<IEnumerable<string>> GetSuggestionsSKU(string query)
+        public async Task<IEnumerable<string>> GetSuggestionsSKU(string query, int[]? categoryId, string[]? brand, string[]? flavour, string[]? origin)
         {
             if (string.IsNullOrWhiteSpace(query))
                 return new List<string>();
 
             var results = await dbContext.Products
                 .Where(f =>
-                    (f.SKU != null && EF.Functions.Like(f.SKU, $"%{query}%")))
+                    (f.SKU != null && EF.Functions.Like(f.SKU, $"%{query}%")) &&
+                    (categoryId == null || categoryId.Length == 0 || (f.CategoryId.HasValue && categoryId.Contains(f.CategoryId.Value))) &&
+                    (brand == null || brand.Length == 0 || (f.Brand != null && brand.Contains(f.Brand))) &&
+                    (flavour == null || flavour.Length == 0 || (f.FlavourType != null && flavour.Contains(f.FlavourType))) &&
+                    (origin == null || origin.Length == 0 || (f.Origin != null && origin.Contains(f.Origin)))
+                 )
                 .Select(f => f.SKU!.ToUpper()) //null-forgiving operator (!)
                 .Distinct()
                 .OrderBy(b => b)
