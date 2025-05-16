@@ -45,6 +45,7 @@ export class ShowProductversionComponent implements OnInit, OnDestroy {
         .getProductByProductVersionId(this.data.productversionid)
         .subscribe({
           next: (response) => {
+            //console.log(response);
             this.product = response;
             this.attachment_list = this.product.productVersions[0].attachments;
             console.log(this.product);

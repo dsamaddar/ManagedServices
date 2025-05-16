@@ -164,7 +164,7 @@ namespace PTS.API.Repositories.Implementation
             }
 
             // Ordering
-            products = products.OrderBy(x => x.Category.Name)
+            products = products.OrderBy(x => x.Category != null ? x.Category.Name ?? "" : "")
                             .ThenBy(x => x.Brand)
                             .ThenBy(x => x.FlavourType)
                             .ThenBy(x => x.Origin)
@@ -421,15 +421,11 @@ namespace PTS.API.Repositories.Implementation
             if (string.IsNullOrWhiteSpace(query))
                 return true;
 
-            var results = await dbContext.Products
-                .Where(f =>
-                    (f.Version != null && f.Version == query))
-                .Select(f => f.Version!) //null-forgiving operator (!)
-                .ToListAsync();
+            var isVersionExists = await dbContext.Products
+                .SelectMany(x => x.ProductVersions)
+                .AnyAsync(pv => pv.Version == query);
 
-            if (results.Any()) return false;
-
-            return true;
+            return !isVersionExists;
         }
 
         public async Task<IEnumerable<string>> GetSuggestionsBarCode(string query)
