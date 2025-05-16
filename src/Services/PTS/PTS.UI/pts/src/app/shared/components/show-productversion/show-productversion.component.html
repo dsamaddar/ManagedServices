@@ -3,7 +3,7 @@
   <div class="card-body">
     <div class="d-flex flex-md-row flex-sm-column">
       <div class="col-8 --bs-warning-bg-subtle">
-        <div class="card border-info mb-3" style="max-width: 100%">
+        <div class="card border-info">
           <div class="card-header">Product Master Information</div>
           <div class="card-body text-success">
             <div class="container">
@@ -29,7 +29,7 @@
                 <div class="col-md-3 text-dark">Bar Code</div>
                 <div class="col-md-3">{{ product?.barcode }}</div>
               </div>
-              <div class="row">
+              <!-- <div class="row">
                 <div class="col-md-3 text-dark">Project Date</div>
                 <div class="col-md-3">
                   {{ product?.projectDate | date : "mediumDate" }}
@@ -42,7 +42,7 @@
                 <div class="col-md-3">{{ product?.cylinderCompany?.name }}</div>
                 <div class="col-md-3"></div>
                 <div class="col-md-3"></div>
-              </div>
+              </div> -->
             </div>
           </div>
         </div>
@@ -66,27 +66,36 @@
               </div>
               <div class="row">
                 <div class="col-md-3 text-dark">Description</div>
-                <div class="col-md-3">
+                <div class="col-md-9">
                   <div *ngIf="product?.productVersions">
                     {{ product?.productVersions?.[0]?.description }}
                   </div>
                 </div>
+                
+              </div>
+              <div class="row">
                 <div class="col-md-3 text-dark">Cylinder Company</div>
                 <div class="col-md-3">
                   <div *ngIf="product?.cylinderCompany">
                     {{ product?.productVersions?.[0]?.cylinderCompany?.name }}
                   </div>
                 </div>
-              </div>
-              <div class="row">
                 <div class="col-md-3 text-dark">Printing Company</div>
                 <div class="col-md-3">
                   <div *ngIf="product?.printingCompany">
                     {{ product?.productVersions?.[0]?.printingCompany?.name }}
                   </div>
                 </div>
-                <div class="col-md-3"></div>
-                <div class="col-md-3"></div>
+              </div>
+              <div class="row">
+                <div class="col-md-3 text-dark">PR No</div>
+                <div class="col-md-3"><div *ngIf="product?.productVersions">
+                    {{ product?.productVersions?.[0]?.prno }}
+                  </div></div>
+                <div class="col-md-3 text-dark">PO No</div>
+                <div class="col-md-3"><div *ngIf="product?.productVersions">
+                    {{ product?.productVersions?.[0]?.pono }}
+                  </div></div>
               </div>
             </div>
           </div>

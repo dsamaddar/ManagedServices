@@ -84,14 +84,18 @@ namespace PTS.API.Repositories.Implementation
         public async Task<Product?> GetShowProductVersionDetailById(int id)
         {
             return await dbContext.Products
-                 .Include(x => x.CylinderCompany)
-                 .Include(x => x.PrintingCompany)
-                 .Include(x => x.PackType)
-                 .Include(x => x.Category)
-                 .Include(x => x.ProductVersions)
-                     .ThenInclude(pv => pv.Attachments)
-                 .Where(x => x.ProductVersions.Any(pv => pv.Id == id))
-                 .FirstOrDefaultAsync();
+                .Include(p => p.ProductVersions)
+                    .ThenInclude(pv => pv.CylinderCompany)
+                .Include(p => p.ProductVersions)
+                    .ThenInclude(pv => pv.PrintingCompany)
+                .Include(p => p.ProductVersions)
+                    .ThenInclude(pv => pv.Attachments)
+                .Include(x => x.CylinderCompany)
+                .Include(x => x.PrintingCompany)
+                .Include(x => x.PackType)
+                .Include(x => x.Category)
+                .Where(x => x.ProductVersions.Any(pv => pv.Id == id))
+                .FirstOrDefaultAsync();
 
         }
 
