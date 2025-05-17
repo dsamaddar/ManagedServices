@@ -13,6 +13,7 @@ import { Product } from '../models/product.model';
 import { AllProduct } from '../models/all-product.model';
 import { Attachment } from '../models/attachment.model';
 import { UpdateProductRequest } from '../models/edit-product.model';
+import { ProductVersion } from '../../productversion/models/productversion.model';
 
 @Injectable({
   providedIn: 'root',
@@ -132,6 +133,15 @@ export class ProductService {
     );
   }
 
+  updateProductVersionInfo(id: number, prNo: string, poNo: string): Observable<ProductVersion> {
+    const body = { prNo, poNo };
+  
+    return this.http.put<ProductVersion>(
+      `${environment.apiBaseUrl}/api/productversion/updateproductversion/${id}`,
+      body
+    );
+  }
+
   getProductCount(
     query?: string,
     categoryid?: number[],
@@ -241,4 +251,6 @@ export class ProductService {
       `${environment.apiBaseUrl}/api/product/${id}`
     );
   }
+
+
 }

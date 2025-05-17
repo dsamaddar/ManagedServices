@@ -1,5 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, Inject, Input, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  Inject,
+  Input,
+  NgModule,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ProductService } from '../../../features/product/services/product.service';
 import { AllProduct } from '../../../features/product/models/all-product.model';
@@ -10,10 +17,20 @@ import { environment } from '../../../../environments/environment';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-show-productversion',
-  imports: [CommonModule, MatDialogModule, MatButtonModule],
+  imports: [
+    CommonModule,
+    MatDialogModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatInputModule,
+    FormsModule,
+  ],
   templateUrl: './show-productversion.component.html',
   styleUrl: './show-productversion.component.css',
 })
@@ -26,6 +43,9 @@ export class ShowProductversionComponent implements OnInit, OnDestroy {
   attachmentBaseUrl?: string;
   productVersionId?: number | 0;
 
+  prNo: string = '';
+  poNo: string = '';
+
   private showProductVersionSubscription?: Subscription;
   private deleteAttachmentSubscription?: Subscription;
 
@@ -33,8 +53,7 @@ export class ShowProductversionComponent implements OnInit, OnDestroy {
     private productService: ProductService,
     private dialogRef: MatDialogRef<ShowProductversionComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { productversionid: number }
-  ) 
-  {
+  ) {
     this.productVersionId = this.data.productversionid;
   }
   ngOnInit(): void {
@@ -48,6 +67,8 @@ export class ShowProductversionComponent implements OnInit, OnDestroy {
             //console.log(response);
             this.product = response;
             this.attachment_list = this.product.productVersions[0].attachments;
+            this.prNo = this.product.productVersions[0].prNo;
+            this.poNo = this.product.productVersions[0].poNo;
             console.log(this.product);
           },
         });
@@ -65,6 +86,23 @@ export class ShowProductversionComponent implements OnInit, OnDestroy {
           },
         });
     }
+  }
+
+  updateInfo() {
+    this.productService
+      .updateProductVersionInfo(
+        this.product?.productVersions[0].id ?? 0,
+        this.prNo,
+        this.poNo
+      )
+      .subscribe((updated) => {
+        if (this.product) {
+          this.product.productVersions[0].prNo = updated.prNo;
+          this.product.productVersions[0].poNo = updated.poNo;
+        }
+
+        ToastrUtils.showToast('Product Version Updated');
+      });
   }
 
   close() {

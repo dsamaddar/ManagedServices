@@ -71,7 +71,6 @@
                     {{ product?.productVersions?.[0]?.description }}
                   </div>
                 </div>
-                
               </div>
               <div class="row">
                 <div class="col-md-3 text-dark">Cylinder Company</div>
@@ -89,13 +88,17 @@
               </div>
               <div class="row">
                 <div class="col-md-3 text-dark">PR No</div>
-                <div class="col-md-3"><div *ngIf="product?.productVersions">
+                <div class="col-md-3">
+                  <div *ngIf="product?.productVersions">
                     {{ product?.productVersions?.[0]?.prNo }}
-                  </div></div>
+                  </div>
+                </div>
                 <div class="col-md-3 text-dark">PO No</div>
-                <div class="col-md-3"><div *ngIf="product?.productVersions">
+                <div class="col-md-3">
+                  <div *ngIf="product?.productVersions">
                     {{ product?.productVersions?.[0]?.poNo }}
-                  </div></div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -120,6 +123,46 @@
                 </a>
               </div>
             </ng-container>
+          </div>
+        </div>
+        <div class="card border-info mb-3" style="max-width: 100%">
+          <div class="card-header">Update PR/PO No</div>
+          <div class="card-body">
+            <div class="container">
+              <div class="row">
+                <div class="col-md-12">
+                  <mat-form-field appearance="outline">
+                    <mat-label>PR No</mat-label>
+                    <input
+                      matInput
+                      [(ngModel)]="prNo"
+                      name="prNo"
+                      class="form-control"
+                    />
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <mat-form-field appearance="outline">
+                    <mat-label>PO No</mat-label>
+                    <input
+                      matInput
+                      [(ngModel)]="poNo"
+                      name="poNo"
+                      class="form-control"
+                    />
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <button type="button" class="btn btn-success w-100" (click)="updateInfo()">
+                    Save
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

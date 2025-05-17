@@ -1,6 +1,9 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Azure.Core;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using PTS.API.Data;
 using PTS.API.Models.Domain;
 using PTS.API.Models.DTO;
 using PTS.API.Repositories.Implementation;
@@ -14,10 +17,12 @@ namespace PTS.API.Controllers
     public class ProductVersionController : ControllerBase
     {
         private readonly IProductVersionRepository productVersionRepository;
+        private readonly ApplicationDbContext dbContext;
 
-        public ProductVersionController(IProductVersionRepository productVersionRepository)
+        public ProductVersionController(IProductVersionRepository productVersionRepository, ApplicationDbContext dbContext)
         {
             this.productVersionRepository = productVersionRepository;
+            this.dbContext = dbContext;
         }
 
         // https://localhost:xxxx/api/productversion
@@ -234,6 +239,21 @@ namespace PTS.API.Controllers
             };
 
             return Ok(response);
+        }
+
+        [HttpPut("updateproductversion/{id}")]
+        //[Authorize(Roles = "READER,MANAGER,ADMIN")]
+        public IActionResult UpdateProductVersion(int id, [FromBody] UpdateProductVersionDto dto)
+        {
+            var productVersion = dbContext.ProductVersions.Find(id);
+
+            if (productVersion == null) return NotFound();
+
+            productVersion.PrNo = dto.prNo;
+            productVersion.PoNo = dto.poNo;
+            dbContext.SaveChanges();
+
+            return Ok(productVersion);
         }
     }
 }
