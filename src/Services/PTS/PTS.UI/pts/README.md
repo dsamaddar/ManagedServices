@@ -251,9 +251,9 @@ remove project date, show version date instead (done)
 
 ### UAT-06
 
-version list ordering in product list
-view product version close after save.
-product version (pr/po) not showing in view product
+version list ordering in product list (done)
+view product version close after save. (done)
+product version (pr/po) not showing in view product (done)
 product list -> on enter key -> search
 resolution wise heigh (if possible)
 tool tip option for drop downs.

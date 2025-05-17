@@ -100,7 +100,7 @@ export class ShowProductversionComponent implements OnInit, OnDestroy {
           this.product.productVersions[0].prNo = updated.prNo;
           this.product.productVersions[0].poNo = updated.poNo;
         }
-
+        this.close();
         ToastrUtils.showToast('Product Version Updated');
       });
   }

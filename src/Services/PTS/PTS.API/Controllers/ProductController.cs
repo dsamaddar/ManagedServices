@@ -114,6 +114,8 @@ namespace PTS.API.Controllers
                         ProductId = x.ProductId,
                         CylinderCompanyId = x.CylinderCompanyId,
                         PrintingCompanyId = x.PrintingCompanyId,
+                        PrNo = x.PrNo,
+                        PoNo = x.PoNo,
                         UserId = x.UserId,
                         CylinderCompany = new CylinderCompanyDto
                         {
@@ -200,6 +202,8 @@ namespace PTS.API.Controllers
                     ProductId = x.ProductId,
                     CylinderCompanyId = x.CylinderCompanyId,
                     PrintingCompanyId=x.PrintingCompanyId,
+                    PrNo = x.PrNo,
+                    PoNo = x.PoNo,
                     CylinderCompany = new CylinderCompanyDto
                     {
                         Id = x.CylinderCompany?.Id ?? 0,

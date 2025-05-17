@@ -179,8 +179,8 @@ namespace PTS.API.Repositories.Implementation
             foreach (var product in products)
             {
                 product.ProductVersions = product.ProductVersions
-                    .OrderBy(v => v.Version)
-                    .ThenBy(v => v.VersionDate)
+                    .OrderByDescending(v => v.VersionDate)
+                    .ThenBy(v => v.Version)
                     .ToList();
             }
 
