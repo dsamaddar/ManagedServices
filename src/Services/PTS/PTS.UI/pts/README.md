@@ -248,3 +248,24 @@ maintain alphabetical sequence
  
 ------------------- product list page ---------------
 remove project date, show version date instead (done)
+
+### UAT-06
+
+version list ordering in product list
+view product version close after save.
+product version (pr/po) not showing in view product
+product list -> on enter key -> search
+resolution wise heigh (if possible)
+tool tip option for drop downs.
+product code needs -> warning
+producte code -> wants to view details
+barcode code -> wants to view details
+version code -> wants to view details
+multiple barcode option
+Report-> include pr + po
+report -> remove time.
+Manager can not delete -> master product data on edit
+Reader can not edit/save PR/PO
+Edit master on full scale 
+Add product in modal popup style
+ 

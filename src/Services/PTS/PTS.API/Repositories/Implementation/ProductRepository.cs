@@ -175,6 +175,15 @@ namespace PTS.API.Repositories.Implementation
                             .ThenBy(x => x.CylinderCompany.Name)
                             .ThenBy(x => x.PrintingCompany.Name);
 
+            // Sort ProductVersions in place for each product
+            foreach (var product in products)
+            {
+                product.ProductVersions = product.ProductVersions
+                    .OrderBy(v => v.Version)
+                    .ThenBy(v => v.VersionDate)
+                    .ToList();
+            }
+
             // Pagination
             // pageNumber 1 pageSize 5 - skip 0, take 5
             // pageNumber 2 pageSize 5 - skip 5 take 5
