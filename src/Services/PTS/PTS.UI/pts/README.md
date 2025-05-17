@@ -254,7 +254,7 @@ remove project date, show version date instead (done)
 version list ordering in product list (done)
 view product version close after save. (done)
 product version (pr/po) not showing in view product (done)
-product list -> on enter key -> search
+product list -> on enter key -> search (done)
 resolution wise heigh (if possible)
 tool tip option for drop downs.
 product code needs -> warning
