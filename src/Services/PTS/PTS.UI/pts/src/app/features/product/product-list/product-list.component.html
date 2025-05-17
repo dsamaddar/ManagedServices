@@ -27,7 +27,7 @@
         [searchable]="true"
         class="material-ng-select"
         (change)="onSearch(queryText.value)"
-        (search)="onFilterBrand($event.term)" 
+        (search)="onFilterBrand($event.term)"
         [multiple]="true"
       >
       </ng-select>
@@ -96,7 +96,8 @@
             (user?.roles?.includes('MANAGER') || user?.roles?.includes('ADMIN'))
           "
         >
-          <a target="_blank"
+          <a
+            target="_blank"
             [routerLink]="['/admin/products/add']"
             class="btn btn-primary ms-2"
             routerLinkActive="router-link-active"
@@ -185,7 +186,13 @@
       </div>
     </div>
     <div class="col-md-2">
-      <button type="button" class="btn btn-success w-100" (click)="onResetFilters()">Clear Filters</button>
+      <button
+        type="button"
+        class="btn btn-success w-100"
+        (click)="onResetFilters()"
+      >
+        Clear Filters
+      </button>
     </div>
   </div>
   <div class="d-flex justify-content-between mt-1"></div>
@@ -203,9 +210,9 @@
             <th>Code</th>
             <th>Pack Type</th>
             <th>Barcode</th>
-            <th style="display: none;">Date</th>
-            <th style="display: none;">Cylinder</th>
-            <th style="display: none;">Printing</th>
+            <th style="display: none">Date</th>
+            <th style="display: none">Cylinder</th>
+            <th style="display: none">Printing</th>
             <th style="min-width: 200px">Versions</th>
             <th style="min-width: 150px">Action</th>
           </tr>
@@ -236,10 +243,10 @@
             <td style="display: none">
               {{ product.projectDate | date : "mediumDate" }}
             </td>
-            <td style="display: none;">
+            <td style="display: none">
               {{ product.cylinderCompany.name }}
             </td>
-            <td style="display: none;">
+            <td style="display: none">
               {{ product.printingCompany.name }}
             </td>
             <td>
