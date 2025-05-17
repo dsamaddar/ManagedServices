@@ -167,7 +167,7 @@ namespace PTS.API.Controllers
         // GET: {apiBaseUrl}/api/product/{id}
         [HttpGet]
         [Route("{id:int}")]
-        //[Authorize(Roles = "READER,MANAGER,ADMIN")]
+        [Authorize(Roles = "READER,MANAGER,ADMIN")]
         public async Task<IActionResult> GetProductById([FromRoute] int id)
         {
             // Get the product from the repository
@@ -310,7 +310,7 @@ namespace PTS.API.Controllers
 
         [HttpDelete]
         [Route("{id:int}")]
-        //[Authorize(Roles = "MANAGER,ADMIN")]
+        [Authorize(Roles = "MANAGER,ADMIN")]
         public async Task<IActionResult> DeleteProduct([FromRoute] int id)
         {
             var product = await productRepository.DeleteAsync(id);
@@ -369,7 +369,7 @@ namespace PTS.API.Controllers
         // GET {apiBaseUrl}/api/suggestions? search = app
         [HttpGet]
         [Route("suggestions-brand")]
-        //[Authorize(Roles = "READER,MANAGER,ADMIN")]
+        [Authorize(Roles = "READER,MANAGER,ADMIN")]
         public async Task<ActionResult> GetSuggestionsBrand([FromQuery] string? query, [FromQuery] int[]? categoryId)
         {
             if (string.IsNullOrWhiteSpace(query))
