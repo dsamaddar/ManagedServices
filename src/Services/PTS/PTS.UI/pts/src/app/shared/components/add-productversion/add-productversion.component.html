@@ -7,7 +7,11 @@
           <div class="card-header">Selected Files</div>
           <div class="card-body">
             <div *ngFor="let file of selectedFiles">
-              <i class="{{ getFileExtension(file.name) }}" style="color: #5cb85c" aria-hidden="true"></i>
+              <i
+                class="{{ getFileExtension(file.name) }}"
+                style="color: #5cb85c"
+                aria-hidden="true"
+              ></i>
               {{ file.name }} [{{ (file.size / 1048576).toFixed(2) }} MB]
             </div>
           </div>
@@ -37,9 +41,19 @@
                 <td>{{ prevProdVersion.prNo }}</td>
                 <td>{{ prevProdVersion.poNo }}</td>
                 <td>
-                  <div class="" *ngFor="let attachment of prevProdVersion.attachments">
-                    <a href="{{ attachmentBaseUrl }}{{ attachment.name }}" target="_blank">
-                      <i class="{{ getFileExtension(attachment.name) }}" style="color: #5cb85c" aria-hidden="true"></i>
+                  <div
+                    class=""
+                    *ngFor="let attachment of prevProdVersion.attachments"
+                  >
+                    <a
+                      href="{{ attachmentBaseUrl }}{{ attachment.name }}"
+                      target="_blank"
+                    >
+                      <i
+                        class="{{ getFileExtension(attachment.name) }}"
+                        style="color: #5cb85c"
+                        aria-hidden="true"
+                      ></i>
                       {{ attachment.name }}
                     </a>
                   </div>
@@ -51,81 +65,136 @@
         </div>
       </div>
       <div class="col-4 bg-light">
-        <form #form="ngForm" (ngSubmit)="onFormSubmit(form)" enctype="multipart/form-data">
+        <form
+          #form="ngForm"
+          (ngSubmit)="onFormSubmit(form)"
+          enctype="multipart/form-data"
+        >
           <div class="container">
             <div class="row">
               <div class="col-md-6">
                 <mat-form-field appearance="outline" class="full-width">
                   <mat-label>Version</mat-label>
-                  <input matInput [(ngModel)]="productVersion.version" [matAutocomplete]="autoVersion" placeholder=""
-                    name="version" class="form-control" (ngModelChange)="onSearchChangeVersion($event)"
-                    (keydown.space)="$event.preventDefault()" required />
+                  <input
+                    matInput
+                    #versionCtrl="ngModel"
+                    [(ngModel)]="productVersion.version"
+                    [matAutocomplete]="autoVersion"
+                    placeholder=""
+                    name="version"
+                    class="form-control"
+                    (ngModelChange)="onSearchChangeVersion($event)"
+                    (keydown.space)="$event.preventDefault()"
+                    (blur)="checkVersionUnique(versionCtrl)"
+                    required
+                  />
                   <mat-autocomplete #autoVersion="matAutocomplete">
-                    <mat-option *ngFor="let version of suggestions_version" [value]="version">
+                    <mat-option
+                      *ngFor="let version of suggestions_version"
+                      [value]="version"
+                    >
                       {{ version }}
                     </mat-option>
                   </mat-autocomplete>
                   <!-- Validation error message -->
-                  <mat-error *ngIf="form.submitted && form.controls['version']?.invalid">
+                  <mat-error
+                    *ngIf="form.submitted && form.controls['version']?.invalid"
+                  >
                     Version is required
                   </mat-error>
-                  <mat-error *ngIf="true"> Version Already Exists </mat-error>
-                  <mat-error *ngIf="form.submitted && isVersionUnique === false">
-                    Version Already Exists
-                  </mat-error>
+                  <mat-error *ngIf="isVersionUnique == false">Version Already Exists </mat-error>                  
                 </mat-form-field>
               </div>
               <div class="col-md-6">
                 <mat-form-field appearance="outline" class="full-width">
                   <mat-label>Version Date</mat-label>
-                  <input matInput [matDatepicker]="picker" id="versionDate" name="versionDate"
-                    [(ngModel)]="productVersion.versionDate" (dateChange)="onProductVersionDateChange($event)"
-                    required />
-                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                  <input
+                    matInput
+                    [matDatepicker]="picker"
+                    id="versionDate"
+                    name="versionDate"
+                    [(ngModel)]="productVersion.versionDate"
+                    (dateChange)="onProductVersionDateChange($event)"
+                    required
+                  />
+                  <mat-datepicker-toggle
+                    matSuffix
+                    [for]="picker"
+                  ></mat-datepicker-toggle>
                   <mat-datepicker #picker></mat-datepicker>
                   <!-- Validation error message -->
-                  <mat-error *ngIf="
+                  <mat-error
+                    *ngIf="
                       form.submitted && form.controls['versionDate']?.invalid
-                    ">
+                    "
+                  >
                     version Date is required
                   </mat-error>
                 </mat-form-field>
               </div>
             </div>
-            <div class="row">
+            <div class="row mt-3">
               <div class="col-md-12">
                 <mat-form-field appearance="outline" class="full-width">
                   <mat-label>Description</mat-label>
-                  <textarea matInput placeholder="" rows="2" [(ngModel)]="productVersion.description" name="desciption"
-                    id="desciption"></textarea>
+                  <textarea
+                    matInput
+                    placeholder=""
+                    rows="2"
+                    [(ngModel)]="productVersion.description"
+                    name="desciption"
+                    id="desciption"
+                  ></textarea>
                 </mat-form-field>
               </div>
             </div>
             <div class="row">
               <div class="col-md-6">
                 <div class="form-group ng-wrapper">
-                  <ng-select name="cylindercompanyid" [items]="cylinderCompanies$ | async" bindLabel="name"
-                    bindValue="id" placeholder="Select Cylinder Company" [(ngModel)]="cylindercompanyid"
-                    [searchable]="true" class="material-ng-select" required>
+                  <ng-select
+                    name="cylindercompanyid"
+                    [items]="cylinderCompanies$ | async"
+                    bindLabel="name"
+                    bindValue="id"
+                    placeholder="Select Cylinder Company"
+                    [(ngModel)]="cylindercompanyid"
+                    [searchable]="true"
+                    class="material-ng-select"
+                    required
+                  >
                   </ng-select>
-                  <div *ngIf="
+                  <div
+                    *ngIf="
                       form.submitted &&
                       form.controls['cylindercompanyid']?.invalid
-                    " class="text-danger">
+                    "
+                    class="text-danger"
+                  >
                     Cylinder Company is required
                   </div>
                 </div>
               </div>
               <div class="col-md-6">
                 <div class="form-group ng-wrapper">
-                  <ng-select name="printingcompanyid" [items]="printingCompanies$ | async" bindLabel="name"
-                    bindValue="id" placeholder="Select Printing Company" [(ngModel)]="printingcompanyid"
-                    [searchable]="true" class="material-ng-select" required>
+                  <ng-select
+                    name="printingcompanyid"
+                    [items]="printingCompanies$ | async"
+                    bindLabel="name"
+                    bindValue="id"
+                    placeholder="Select Printing Company"
+                    [(ngModel)]="printingcompanyid"
+                    [searchable]="true"
+                    class="material-ng-select"
+                    required
+                  >
                   </ng-select>
-                  <div *ngIf="
+                  <div
+                    *ngIf="
                       form.submitted &&
                       form.controls['printingcompanyid']?.invalid
-                    " class="text-danger">
+                    "
+                    class="text-danger"
+                  >
                     Printing Company is required
                   </div>
                 </div>
@@ -135,19 +204,36 @@
               <div class="col-md-6">
                 <mat-form-field appearance="outline" class="full-width">
                   <mat-label>PR Number</mat-label>
-                  <input matInput [(ngModel)]="productVersion.prno" placeholder="" name="prno" class="form-control" />
+                  <input
+                    matInput
+                    [(ngModel)]="productVersion.prno"
+                    placeholder=""
+                    name="prno"
+                    class="form-control"
+                  />
                 </mat-form-field>
               </div>
               <div class="col-md-6">
                 <mat-form-field appearance="outline" class="full-width">
                   <mat-label>PO Number</mat-label>
-                  <input matInput [(ngModel)]="productVersion.pono" placeholder="" name="prno" class="form-control" />
+                  <input
+                    matInput
+                    [(ngModel)]="productVersion.pono"
+                    placeholder=""
+                    name="prno"
+                    class="form-control"
+                  />
                 </mat-form-field>
               </div>
             </div>
             <div class="row mt-2">
               <div class="col-md-12">
-                <input type="file" class="form-control w-100" multiple (change)="onFilesSelected($event)" />
+                <input
+                  type="file"
+                  class="form-control w-100"
+                  multiple
+                  (change)="onFilesSelected($event)"
+                />
               </div>
             </div>
             <div class="row mt-3">

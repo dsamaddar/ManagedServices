@@ -255,6 +255,13 @@ version list ordering in product list (done)
 view product version close after save. (done)
 product version (pr/po) not showing in view product (done)
 product list -> on enter key -> search (done)
+Report-> include pr + po (done)
+report -> remove time. (done)
+Manager can not delete -> master product data on edit (done)
+Reader can not edit/save PR/PO (done)
+Add product in modal popup style (done)
+
+-- yet to resolve
 resolution wise heigh (if possible)
 tool tip option for drop downs.
 product code needs -> warning
@@ -262,10 +269,6 @@ producte code -> wants to view details
 barcode code -> wants to view details
 version code -> wants to view details
 multiple barcode option
-Report-> include pr + po
-report -> remove time.
-Manager can not delete -> master product data on edit (done)
-Reader can not edit/save PR/PO (done)
 Edit master on full scale 
-Add product in modal popup style (done)
+
  

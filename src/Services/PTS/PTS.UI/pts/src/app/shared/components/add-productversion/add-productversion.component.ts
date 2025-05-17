@@ -15,6 +15,7 @@ import {
   FormGroup,
   FormsModule,
   NgForm,
+  NgModel,
   Validators,
 } from '@angular/forms';
 import { AddProductVersionRequest } from '../../../features/productversion/models/add-productversion.model';
@@ -31,7 +32,10 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { SuggestionService } from '../../../features/product/services/suggestion.service';
-import { MatDatepickerInputEvent, MatDatepickerModule } from '@angular/material/datepicker';
+import {
+  MatDatepickerInputEvent,
+  MatDatepickerModule,
+} from '@angular/material/datepicker';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FileSelectorComponent } from '../file-selector/file-selector.component';
 import { MatNativeDateModule } from '@angular/material/core';
@@ -55,7 +59,8 @@ import { MatButtonModule } from '@angular/material/button';
     MatDatepickerModule,
     NgSelectModule,
     MatNativeDateModule,
-    MatDialogModule, MatButtonModule
+    MatDialogModule,
+    MatButtonModule,
   ],
   templateUrl: './add-productversion.component.html',
   styleUrl: './add-productversion.component.css',
@@ -99,7 +104,6 @@ export class AddProductversionComponent implements OnInit, OnDestroy {
     private dialogRef: MatDialogRef<AddProductversionComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { productid: number }
   ) {
-
     console.log(this.data.productid);
 
     this.ngForm = this.fb.group({
@@ -155,6 +159,33 @@ export class AddProductversionComponent implements OnInit, OnDestroy {
     this.dialogRef.close(true);
   }
 
+  checkVersionUnique(control: NgModel) {
+    const version = this.productVersion.version?.trim().toUpperCase();
+    if (!version) return;
+
+    this.suggestionService.getIsVersionUnique(version).subscribe({
+      next: (isUnique) => {
+        this.isVersionUnique = isUnique;
+
+        if (!isUnique) {
+          // Set a custom validation error
+          control.control.setErrors({ notUnique: true });
+        } else {
+          // Clear the custom error
+          const errors = control.errors;
+          if (errors) {
+            delete errors['notUnique'];
+            if (Object.keys(errors).length === 0) {
+              control.control.setErrors(null);
+            } else {
+              control.control.setErrors(errors);
+            }
+          }
+        }
+      },
+    });
+  }
+
   onSearchChangeVersion(value: string) {
     const upper = value.toUpperCase();
     this.productVersion.version = upper; // updates ngModel immediately
@@ -169,8 +200,9 @@ export class AddProductversionComponent implements OnInit, OnDestroy {
           this.isVersionUnique = response;
           if (this.isVersionUnique === false) {
             console.log(this.isVersionUnique);
-            ToastrUtils.showErrorToast('Version Already Exists : ' + this.productVersion.version);
-            this.productVersion.version = "";
+            // ToastrUtils.showErrorToast(
+            //   'Version Already Exists : ' + this.productVersion.version
+            // );
           }
         },
       });
@@ -284,11 +316,12 @@ export class AddProductversionComponent implements OnInit, OnDestroy {
     this.productVersion.cylinderCompanyId = this.cylindercompanyid || 0;
     this.productVersion.printingCompanyId = this.printingcompanyid || 0;
 
-    if (this.productVersion.cylinderCompanyId == 0 || this.productVersion.printingCompanyId == 0) {
+    if (
+      this.productVersion.cylinderCompanyId == 0 ||
+      this.productVersion.printingCompanyId == 0
+    ) {
       //alert('Missing: Category/Project/Cylinder Company/Printing Company');
-      ToastrUtils.showErrorToast(
-        'Missing: Cylinder Company/Printing Company'
-      );
+      ToastrUtils.showErrorToast('Missing: Cylinder Company/Printing Company');
       return;
     }
 
@@ -320,8 +353,7 @@ export class AddProductversionComponent implements OnInit, OnDestroy {
                   break;
               }
             });
-            this.close();
-            
+          this.close();
         },
         error: (error) => {
           alert(error);
