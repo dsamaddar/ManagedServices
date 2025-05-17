@@ -32,6 +32,7 @@ import { PrintingcompanyService } from '../../printingCompany/services/printingc
 import { SuggestionService } from '../services/suggestion.service';
 import { ViewProductComponent } from '../view-product/view-product.component';
 import { AddProductComponent } from '../add-product/add-product.component';
+import { ProductExport } from '../models/productexport.model';
 
 @Component({
   selector: 'app-product-list',
@@ -146,6 +147,75 @@ export class ProductListComponent implements OnInit {
     // load SKU
     this.skus$ = this.suggestionService.getSuggestionsSKU('%');
   }
+
+  exportToExcel2(query: string) {
+  this.productService
+    .getAllProducts(
+      query,
+      0,
+      10000000,
+      this.categoryid,
+      this.filtered_brand,
+      this.filtered_flavourtype,
+      this.filtered_origin,
+      this.filtered_sku,
+      this.packtypeid,
+      this.cylindercompanyid,
+      this.printingcompanyid
+    )
+    .subscribe((products) => {
+      const exportData: ProductExport[] = [];
+
+      products.forEach((p) => {
+        if (p.productVersions && p.productVersions.length > 0) {
+          p.productVersions.forEach((v) => {
+            exportData.push({
+              // Product info
+              Category: p.category?.name,
+              Brand: p.brand,
+              Flavour: p.flavourType,
+              Origin: p.origin,
+              SKU: p.sku,
+              ProductCode: p.productCode,
+              PackType: p.packType?.name,
+              BarCode: p.barcode,
+              // ProductVersion info
+              Version: v.version,
+              VersionDate: v.versionDate
+                ? new Date(v.versionDate).toISOString().slice(0, 10)
+                : '',
+              Description: v.description,
+              PR_No: v.prNo,
+              PO_No: v.poNo,
+              CylinderCompany: v.cylinderCompany?.name,
+              PrintingCompany: v.printingCompany?.name,
+            });
+          });
+        } else {
+          // Optional: handle products without versions
+          exportData.push({
+            Category: p.category?.name,
+            Brand: p.brand,
+            Flavour: p.flavourType,
+            Origin: p.origin,
+            SKU: p.sku,
+            ProductCode: p.productCode,
+            PackType: p.packType?.name,
+            BarCode: p.barcode,
+            Version: '',
+            VersionDate: '',
+            Description: '',
+            PR_No: '',
+            PO_No: '',
+            CylinderCompany: '',
+            PrintingCompany: '',
+          });
+        }
+      });
+
+      this.excelService.exportAsExcelFile(exportData, 'ProductList');
+    });
+}
 
   exportToExcel(query: string) {
     this.productService
