@@ -69,6 +69,7 @@
           class="form-control"
           placeholder="search content"
           #queryText
+          (keydown.enter)="onSearch(queryText.value)"
         />
         <button
           type="button"

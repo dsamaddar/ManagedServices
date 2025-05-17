@@ -242,7 +242,7 @@ namespace PTS.API.Controllers
         }
 
         [HttpPut("updateproductversion/{id}")]
-        //[Authorize(Roles = "READER,MANAGER,ADMIN")]
+        [Authorize(Roles = "MANAGER,ADMIN")]
         public IActionResult UpdateProductVersion(int id, [FromBody] UpdateProductVersionDto dto)
         {
             var productVersion = dbContext.ProductVersions.Find(id);
