@@ -97,13 +97,14 @@
             (user?.roles?.includes('MANAGER') || user?.roles?.includes('ADMIN'))
           "
         >
-          <a
+          <!-- <a
             target="_blank"
             [routerLink]="['/admin/products/add']"
             class="btn btn-primary ms-2"
             routerLinkActive="router-link-active"
             >Add Product</a
-          >
+          > -->
+          <a (click)="showAddProductModal()" class="btn btn-primary ms-2">Add Product</a>
         </ng-container>
       </div>
     </div>

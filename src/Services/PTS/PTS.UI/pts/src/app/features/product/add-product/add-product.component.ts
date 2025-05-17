@@ -46,6 +46,8 @@ import { AddProductVersionRequest } from '../../productversion/models/add-produc
 import { PackType } from '../../packtype/models/packtype.model';
 import { PacktypeService } from '../../packtype/services/packtype.service';
 import { SuggestionService } from '../services/suggestion.service';
+import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-add-product',
@@ -63,6 +65,8 @@ import { SuggestionService } from '../services/suggestion.service';
     FormsModule,
     FileSelectorComponent,
     MatNativeDateModule,
+    MatDialogModule,
+    MatButtonModule,
   ],
   templateUrl: './add-product.component.html',
   styleUrl: './add-product.component.css',
@@ -74,8 +78,8 @@ export class AddProductComponent implements OnInit, OnDestroy {
   selectedFiles: File[] = [];
   productVersionId: number = 0;
 
-  isVersionUnique:  boolean | null = null;
-  isBarCodeUnique:  boolean | null = null;
+  isVersionUnique: boolean | null = null;
+  isBarCodeUnique: boolean | null = null;
 
   ngForm: FormGroup;
 
@@ -150,7 +154,8 @@ export class AddProductComponent implements OnInit, OnDestroy {
     private router: Router,
     private datepipe: DatePipe,
     private http: HttpClient,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private dialogRef: MatDialogRef<AddProductComponent>
   ) {
     this.ngForm = this.fb.group({
       categoryid: ['', Validators.required],
@@ -160,7 +165,12 @@ export class AddProductComponent implements OnInit, OnDestroy {
       sku: ['', Validators.required],
       productcode: ['', Validators.required],
       version: ['', Validators.required],
-      barcode: ['', Validators.required, Validators.maxLength(13),Validators.minLength(13)],
+      barcode: [
+        '',
+        Validators.required,
+        Validators.maxLength(13),
+        Validators.minLength(13),
+      ],
       projectdate: ['', Validators.required],
       packtypeid: ['', Validators.required],
       cylindercompanyid: ['', Validators.required],
@@ -204,6 +214,10 @@ export class AddProductComponent implements OnInit, OnDestroy {
   packtypeid?: number;
   cylindercompanyid?: number;
   printingcompanyid?: number;
+
+  close() {
+    this.dialogRef.close(true);
+  }
 
   ngOnInit(): void {
     this.categories$ = this.categoryService.getAllCategories();
@@ -381,13 +395,14 @@ export class AddProductComponent implements OnInit, OnDestroy {
       this.suggestionService.getIsVersionUnique(upper).subscribe({
         next: (response) => {
           this.isVersionUnique = response;
-          if(this.isVersionUnique === false){
+          if (this.isVersionUnique === false) {
             console.log(this.isVersionUnique);
-            
-            ToastrUtils.showErrorToast('Version Already Exists : ' + this.product.version);
-            this.product.version = "";
+
+            ToastrUtils.showErrorToast(
+              'Version Already Exists : ' + this.product.version
+            );
+            this.product.version = '';
           }
-          
         },
       });
     } else {
@@ -406,11 +421,12 @@ export class AddProductComponent implements OnInit, OnDestroy {
       this.suggestionService.getIsBarCodeUnique(upper).subscribe({
         next: (response) => {
           this.isBarCodeUnique = response;
-          if(this.isBarCodeUnique === false){
+          if (this.isBarCodeUnique === false) {
             console.log(this.isBarCodeUnique);
-            ToastrUtils.showErrorToast('Barcode Already Exists (' + upper + ')' );
+            ToastrUtils.showErrorToast(
+              'Barcode Already Exists (' + upper + ')'
+            );
           }
-          
         },
       });
     } else {

@@ -267,5 +267,5 @@ report -> remove time.
 Manager can not delete -> master product data on edit
 Reader can not edit/save PR/PO
 Edit master on full scale 
-Add product in modal popup style
+Add product in modal popup style (done)
  

@@ -1,462 +1,467 @@
-<div class="container-fluid">
-  <h5 class="mt-3">Add Product</h5>
-  <div class="d-flex justify-content-end mt-3">
-    <a [routerLink]="['/admin/products']" class="btn btn-success"
-      ><i class="bi bi-house-gear-fill"></i
-    ></a>
-  </div>
-  <form
-    #form="ngForm"
-    (ngSubmit)="onFormSubmit(form)"
-    enctype="multipart/form-data"
-  >
-    <div class="mt-2">
-      <div class="row">
-        <div class="col-md-4">
-          <div class="mt-1 ng-wrapper">
-            <label for="categoryid" class="material-label">Category</label>
-            <ng-select
-              name="categoryid"
-              [items]="categories$ | async"
-              bindLabel="name"
-              bindValue="id"
-              placeholder="Select Category"
-              [(ngModel)]="categoryid"
-              [searchable]="true"
-              class="material-ng-select"
-              required
-            >
-            </ng-select>
-            <div
-              *ngIf="form.submitted && form.controls['categoryid']?.invalid"
-              class="text-danger"
-            >
-              Category is required
+<h2 mat-dialog-title>Add Product Version</h2>
+<mat-dialog-content>
+  <div class="container-fluid">
+    <form
+      #form="ngForm"
+      (ngSubmit)="onFormSubmit(form)"
+      enctype="multipart/form-data"
+    >
+      <div class="mt-2">
+        <div class="row">
+          <div class="col-md-4">
+            <div class="mt-1 ng-wrapper">
+              <label for="categoryid" class="material-label">Category</label>
+              <ng-select
+                name="categoryid"
+                [items]="categories$ | async"
+                bindLabel="name"
+                bindValue="id"
+                placeholder="Select Category"
+                [(ngModel)]="categoryid"
+                [searchable]="true"
+                class="material-ng-select"
+                required
+              >
+              </ng-select>
+              <div
+                *ngIf="form.submitted && form.controls['categoryid']?.invalid"
+                class="text-danger"
+              >
+                Category is required
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="mt-1 form-group">
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Brand</mat-label>
+                <input
+                  matInput
+                  [(ngModel)]="product.brand"
+                  [matAutocomplete]="autoBrand"
+                  placeholder=""
+                  name="brand"
+                  class="form-control"
+                  (ngModelChange)="onSearchChangeBrand($event)"
+                  required
+                />
+                <mat-autocomplete #autoBrand="matAutocomplete">
+                  <mat-option
+                    *ngFor="let brand of suggestions_brand"
+                    [value]="brand"
+                  >
+                    {{ brand }}
+                  </mat-option>
+                </mat-autocomplete>
+                <!-- Validation error message -->
+                <mat-error
+                  *ngIf="form.submitted && form.controls['brand']?.invalid"
+                >
+                  Brand is required
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="mt-1 form-group">
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Flavour Type</mat-label>
+                <input
+                  matInput
+                  [(ngModel)]="product.flavourtype"
+                  [matAutocomplete]="autoFlavourType"
+                  placeholder=""
+                  name="flavourtype"
+                  class="form-control"
+                  (ngModelChange)="onSearchChangeFlavourType($event)"
+                  required
+                />
+                <mat-autocomplete #autoFlavourType="matAutocomplete">
+                  <mat-option
+                    *ngFor="let flavourtype of suggestions_flavourtype"
+                    [value]="flavourtype"
+                  >
+                    {{ flavourtype }}
+                  </mat-option>
+                </mat-autocomplete>
+                <!-- Validation error message -->
+                <mat-error
+                  *ngIf="
+                    form.submitted && form.controls['flavourtype']?.invalid
+                  "
+                >
+                  Flavour is required
+                </mat-error>
+              </mat-form-field>
             </div>
           </div>
         </div>
-        <div class="col-md-4">
-          <div class="mt-1 form-group">
-            <mat-form-field appearance="outline" class="full-width">
-              <mat-label>Brand</mat-label>
-              <input
-                matInput
-                [(ngModel)]="product.brand"
-                [matAutocomplete]="autoBrand"
-                placeholder=""
-                name="brand"
-                class="form-control"
-                (ngModelChange)="onSearchChangeBrand($event)"
-                required
-              />
-              <mat-autocomplete #autoBrand="matAutocomplete">
-                <mat-option
-                  *ngFor="let brand of suggestions_brand"
-                  [value]="brand"
+        <div class="row">
+          <div class="col-md-4">
+            <div class="mt-1 form-group">
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Origin</mat-label>
+                <input
+                  matInput
+                  [(ngModel)]="product.origin"
+                  [matAutocomplete]="autoOrigin"
+                  placeholder=""
+                  name="origin"
+                  class="form-control"
+                  (ngModelChange)="onSearchChangeOrigin($event)"
+                  required
+                />
+                <mat-autocomplete #autoOrigin="matAutocomplete">
+                  <mat-option
+                    *ngFor="let origin of suggestions_origin"
+                    [value]="origin"
+                  >
+                    {{ origin }}
+                  </mat-option>
+                </mat-autocomplete>
+                <!-- Validation error message -->
+                <mat-error
+                  *ngIf="form.submitted && form.controls['origin']?.invalid"
                 >
-                  {{ brand }}
-                </mat-option>
-              </mat-autocomplete>
-              <!-- Validation error message -->
-              <mat-error
-                *ngIf="form.submitted && form.controls['brand']?.invalid"
-              >
-                Brand is required
-              </mat-error>
-            </mat-form-field>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="mt-1 form-group">
-            <mat-form-field appearance="outline" class="full-width">
-              <mat-label>Flavour Type</mat-label>
-              <input
-                matInput
-                [(ngModel)]="product.flavourtype"
-                [matAutocomplete]="autoFlavourType"
-                placeholder=""
-                name="flavourtype"
-                class="form-control"
-                (ngModelChange)="onSearchChangeFlavourType($event)"
-                required
-              />
-              <mat-autocomplete #autoFlavourType="matAutocomplete">
-                <mat-option
-                  *ngFor="let flavourtype of suggestions_flavourtype"
-                  [value]="flavourtype"
-                >
-                  {{ flavourtype }}
-                </mat-option>
-              </mat-autocomplete>
-              <!-- Validation error message -->
-              <mat-error
-                *ngIf="form.submitted && form.controls['flavourtype']?.invalid"
-              >
-                Flavour is required
-              </mat-error>
-            </mat-form-field>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-4">
-          <div class="mt-1 form-group">
-            <mat-form-field appearance="outline" class="full-width">
-              <mat-label>Origin</mat-label>
-              <input
-                matInput
-                [(ngModel)]="product.origin"
-                [matAutocomplete]="autoOrigin"
-                placeholder=""
-                name="origin"
-                class="form-control"
-                (ngModelChange)="onSearchChangeOrigin($event)"
-                required
-              />
-              <mat-autocomplete #autoOrigin="matAutocomplete">
-                <mat-option
-                  *ngFor="let origin of suggestions_origin"
-                  [value]="origin"
-                >
-                  {{ origin }}
-                </mat-option>
-              </mat-autocomplete>
-              <!-- Validation error message -->
-              <mat-error
-                *ngIf="form.submitted && form.controls['origin']?.invalid"
-              >
-                Origin is required
-              </mat-error>
-            </mat-form-field>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="mt-1 form-group">
-            <mat-form-field appearance="outline" class="full-width">
-              <mat-label>SKU</mat-label>
-              <input
-                matInput
-                [(ngModel)]="product.sku"
-                [matAutocomplete]="autoSKU"
-                placeholder=""
-                name="sku"
-                class="form-control"
-                (ngModelChange)="onSearchChangeSKU($event)"
-                (keydown.space)="$event.preventDefault()"
-                required
-              />
-              <mat-autocomplete #autoSKU="matAutocomplete">
-                <mat-option *ngFor="let sku of suggestions_sku" [value]="sku">
-                  {{ sku }}
-                </mat-option>
-              </mat-autocomplete>
-              <!-- Validation error message -->
-              <mat-error
-                *ngIf="form.submitted && form.controls['sku']?.invalid"
-              >
-                SKU is required
-              </mat-error>
-            </mat-form-field>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="mt-1 form-group ng-wrapper">
-            <label for="packtypeid" class="form-label">Pack Type</label>
-            <ng-select
-              name="packtypeid"
-              [items]="packtypes$ | async"
-              bindLabel="name"
-              bindValue="id"
-              placeholder="Select Pack Type"
-              [(ngModel)]="packtypeid"
-              [searchable]="true"
-              class="material-ng-select"
-              required
-            >
-            </ng-select>
-            <div
-              *ngIf="form.submitted && form.controls['packtypeid']?.invalid"
-              class="text-danger"
-            >
-              Pack Type is required
+                  Origin is required
+                </mat-error>
+              </mat-form-field>
             </div>
           </div>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col-md-4">
-          <div class="mt-1 form-group">
-            <mat-form-field appearance="outline" class="full-width">
-              <mat-label>Product Code</mat-label>
-              <input
-                matInput
-                [(ngModel)]="product.productcode"
-                [matAutocomplete]="autoProductCode"
-                placeholder=""
-                name="productcode"
-                class="form-control"
-                (ngModelChange)="onSearchChangeProductCode($event)"
-                (keydown.space)="$event.preventDefault()"
-                required
-              />
-              <mat-autocomplete #autoProductCode="matAutocomplete">
-                <mat-option
-                  *ngFor="let productcode of suggestions_productcode"
-                  [value]="productcode"
+          <div class="col-md-4">
+            <div class="mt-1 form-group">
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>SKU</mat-label>
+                <input
+                  matInput
+                  [(ngModel)]="product.sku"
+                  [matAutocomplete]="autoSKU"
+                  placeholder=""
+                  name="sku"
+                  class="form-control"
+                  (ngModelChange)="onSearchChangeSKU($event)"
+                  (keydown.space)="$event.preventDefault()"
+                  required
+                />
+                <mat-autocomplete #autoSKU="matAutocomplete">
+                  <mat-option *ngFor="let sku of suggestions_sku" [value]="sku">
+                    {{ sku }}
+                  </mat-option>
+                </mat-autocomplete>
+                <!-- Validation error message -->
+                <mat-error
+                  *ngIf="form.submitted && form.controls['sku']?.invalid"
                 >
-                  {{ productcode }}
-                </mat-option>
-              </mat-autocomplete>
-              <!-- Validation error message -->
-              <mat-error
-                *ngIf="form.submitted && form.controls['productcode']?.invalid"
-              >
-                Product Code is required
-              </mat-error>
-            </mat-form-field>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="mt-1 form-group">
-            <mat-form-field appearance="outline" class="full-width">
-              <mat-label>Version</mat-label>
-              <input
-                matInput
-                [(ngModel)]="product.version"
-                [matAutocomplete]="autoVersion"
-                placeholder=""
-                name="version"
-                class="form-control"
-                (ngModelChange)="onSearchChangeVersion($event)"
-                (keydown.space)="$event.preventDefault()"
-                required
-              />
-              <mat-autocomplete #autoVersion="matAutocomplete">
-                <mat-option
-                  *ngFor="let version of suggestions_version"
-                  [value]="version"
-                >
-                  {{ version }}
-                </mat-option>
-              </mat-autocomplete>
-              <!-- Validation error message -->
-              <mat-error
-                *ngIf="form.submitted && form.controls['version']?.invalid"
-              >
-                Version is required
-              </mat-error>
-              <mat-error *ngIf="true"> Version Already Exists </mat-error>
-              <mat-error *ngIf="form.submitted && isVersionUnique === false">
-                Version Already Exists
-              </mat-error>
-            </mat-form-field>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="mt-1 form-group">
-            <mat-form-field appearance="outline" class="full-width">
-              <mat-label>Barcode</mat-label>
-              <input
-                matInput
-                [(ngModel)]="product.barcode"
-                [matAutocomplete]="autoBarcode"
-                placeholder=""
-                name="barcode"
-                class="form-control"
-                maxlength="13"
-                minlength="13"
-                (ngModelChange)="onSearchChangeBarcode($event)"
-                (keydown.space)="$event.preventDefault()"
-                (keypress)="allowOnlyDigits($event)"
-                required
-              />
-              <mat-autocomplete #autoBarcode="matAutocomplete">
-                <mat-option
-                  *ngFor="let barcode of suggestions_barcode"
-                  [value]="barcode"
-                >
-                  {{ barcode }}
-                </mat-option>
-              </mat-autocomplete>
-              <!-- Validation error message -->
-              <mat-error
-                *ngIf="form.submitted && form.controls['barcode']?.invalid"
-              >
-                Barcode is required
-              </mat-error>
-              <mat-error
-                *ngIf="
-                  form.submitted &&
-                  form.controls['barcode']?.hasError('minlength')
-                "
-              >
-                Barcode must be at least 13 characters
-              </mat-error>
-
-              <mat-error
-                *ngIf="
-                  form.submitted &&
-                  form.controls['barcode']?.hasError('maxlength')
-                "
-              >
-                Barcode must not exceed 13 characters
-              </mat-error>
-            </mat-form-field>
-          </div>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col-md-4">
-          <div class="mt-1 form-group">
-            <mat-form-field appearance="outline" class="full-width">
-              <mat-label>Project Date</mat-label>
-              <input
-                matInput
-                [matDatepicker]="picker"
-                id="projectdate"
-                name="projectdate"
-                [(ngModel)]="product.projectdate"
-                (dateChange)="onProjectDateChange($event)"
-                required
-              />
-              <mat-datepicker-toggle
-                matSuffix
-                [for]="picker"
-              ></mat-datepicker-toggle>
-              <mat-datepicker #picker></mat-datepicker>
-              <!-- Validation error message -->
-              <mat-error
-                *ngIf="form.submitted && form.controls['projectdate']?.invalid"
-              >
-                Project Date is required
-              </mat-error>
-            </mat-form-field>
-          </div>
-        </div>
-
-        <div class="col-md-4">
-          <div class="mt-1 form-group ng-wrapper">
-            <label for="cylindercompanyid" class="form-label"
-              >Cylinder Company</label
-            >
-            <ng-select
-              name="cylindercompanyid"
-              [items]="cylinderCompanies$ | async"
-              bindLabel="name"
-              bindValue="id"
-              placeholder="Select Cylinder Company"
-              [(ngModel)]="cylindercompanyid"
-              [searchable]="true"
-              class="material-ng-select"
-              required
-            >
-            </ng-select>
-            <div
-              *ngIf="
-                form.submitted && form.controls['cylindercompanyid']?.invalid
-              "
-              class="text-danger"
-            >
-              Cylinder Company is required
+                  SKU is required
+                </mat-error>
+              </mat-form-field>
             </div>
           </div>
-        </div>
-        <div class="col-md-4">
-          <div class="mt-1 form-group ng-wrapper">
-            <label for="printingcompanyid" class="form-label"
-              >Printing Company</label
-            >
-            <ng-select
-              name="printingcompanyid"
-              [items]="printingCompanies$ | async"
-              bindLabel="name"
-              bindValue="id"
-              placeholder="Select Printing Company"
-              [(ngModel)]="printingcompanyid"
-              [searchable]="true"
-              class="material-ng-select"
-              required
-            >
-            </ng-select>
-            <div
-              *ngIf="
-                form.submitted && form.controls['printingcompanyid']?.invalid
-              "
-              class="text-danger"
-            >
-              Printing Company is required
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col-md-12">
-          <div class="mt-2">
-            <label for="cylindercompanyid" class="form-label"
-              >File Upload</label
-            >
-            <input
-              type="file"
-              class="form-control"
-              (change)="onFilesSelected($event)"
-              multiple
-            />
-          </div>
-        </div>
-      </div>
-
-      <div class="row mt-3">
-        <div class="col-md-6">
-          <div class="card border-info mb-3" style="max-width: 100%">
-            <div class="card-header">Selected Files</div>
-            <div class="card-body text-info">
-              <div *ngFor="let file of selectedFiles">
-                <i
-                  class="{{ getFileExtension(file.name) }}"
-                  style="color: #5cb85c"
-                  aria-hidden="true"
-                ></i>
-                {{ file.name }} [{{ (file.size / 1048576).toFixed(2) }} MB]
+          <div class="col-md-4">
+            <div class="mt-1 form-group ng-wrapper">
+              <label for="packtypeid" class="form-label">Pack Type</label>
+              <ng-select
+                name="packtypeid"
+                [items]="packtypes$ | async"
+                bindLabel="name"
+                bindValue="id"
+                placeholder="Select Pack Type"
+                [(ngModel)]="packtypeid"
+                [searchable]="true"
+                class="material-ng-select"
+                required
+              >
+              </ng-select>
+              <div
+                *ngIf="form.submitted && form.controls['packtypeid']?.invalid"
+                class="text-danger"
+              >
+                Pack Type is required
               </div>
             </div>
           </div>
         </div>
-        <div class="col-md-3">
-          <div *ngIf="progress > 0">
-            Upload Progress: {{ progress }}%
-            <progress [value]="progress" max="100"></progress>
+
+        <div class="row">
+          <div class="col-md-4">
+            <div class="mt-1 form-group">
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Product Code</mat-label>
+                <input
+                  matInput
+                  [(ngModel)]="product.productcode"
+                  [matAutocomplete]="autoProductCode"
+                  placeholder=""
+                  name="productcode"
+                  class="form-control"
+                  (ngModelChange)="onSearchChangeProductCode($event)"
+                  (keydown.space)="$event.preventDefault()"
+                  required
+                />
+                <mat-autocomplete #autoProductCode="matAutocomplete">
+                  <mat-option
+                    *ngFor="let productcode of suggestions_productcode"
+                    [value]="productcode"
+                  >
+                    {{ productcode }}
+                  </mat-option>
+                </mat-autocomplete>
+                <!-- Validation error message -->
+                <mat-error
+                  *ngIf="
+                    form.submitted && form.controls['productcode']?.invalid
+                  "
+                >
+                  Product Code is required
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="mt-1 form-group">
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Version</mat-label>
+                <input
+                  matInput
+                  [(ngModel)]="product.version"
+                  [matAutocomplete]="autoVersion"
+                  placeholder=""
+                  name="version"
+                  class="form-control"
+                  (ngModelChange)="onSearchChangeVersion($event)"
+                  (keydown.space)="$event.preventDefault()"
+                  required
+                />
+                <mat-autocomplete #autoVersion="matAutocomplete">
+                  <mat-option
+                    *ngFor="let version of suggestions_version"
+                    [value]="version"
+                  >
+                    {{ version }}
+                  </mat-option>
+                </mat-autocomplete>
+                <!-- Validation error message -->
+                <mat-error
+                  *ngIf="form.submitted && form.controls['version']?.invalid"
+                >
+                  Version is required
+                </mat-error>
+                <mat-error *ngIf="true"> Version Already Exists </mat-error>
+                <mat-error *ngIf="form.submitted && isVersionUnique === false">
+                  Version Already Exists
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="mt-1 form-group">
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Barcode</mat-label>
+                <input
+                  matInput
+                  [(ngModel)]="product.barcode"
+                  [matAutocomplete]="autoBarcode"
+                  placeholder=""
+                  name="barcode"
+                  class="form-control"
+                  maxlength="13"
+                  minlength="13"
+                  (ngModelChange)="onSearchChangeBarcode($event)"
+                  (keydown.space)="$event.preventDefault()"
+                  (keypress)="allowOnlyDigits($event)"
+                  required
+                />
+                <mat-autocomplete #autoBarcode="matAutocomplete">
+                  <mat-option
+                    *ngFor="let barcode of suggestions_barcode"
+                    [value]="barcode"
+                  >
+                    {{ barcode }}
+                  </mat-option>
+                </mat-autocomplete>
+                <!-- Validation error message -->
+                <mat-error
+                  *ngIf="form.submitted && form.controls['barcode']?.invalid"
+                >
+                  Barcode is required
+                </mat-error>
+                <mat-error
+                  *ngIf="
+                    form.submitted &&
+                    form.controls['barcode']?.hasError('minlength')
+                  "
+                >
+                  Barcode must be at least 13 characters
+                </mat-error>
+
+                <mat-error
+                  *ngIf="
+                    form.submitted &&
+                    form.controls['barcode']?.hasError('maxlength')
+                  "
+                >
+                  Barcode must not exceed 13 characters
+                </mat-error>
+              </mat-form-field>
+            </div>
           </div>
         </div>
-        <div class="col-md-3">
-          <button type="submit" class="btn btn-primary">Save Product</button>
+
+        <div class="row">
+          <div class="col-md-4">
+            <div class="mt-1 form-group">
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Project Date</mat-label>
+                <input
+                  matInput
+                  [matDatepicker]="picker"
+                  id="projectdate"
+                  name="projectdate"
+                  [(ngModel)]="product.projectdate"
+                  (dateChange)="onProjectDateChange($event)"
+                  required
+                />
+                <mat-datepicker-toggle
+                  matSuffix
+                  [for]="picker"
+                ></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+                <!-- Validation error message -->
+                <mat-error
+                  *ngIf="
+                    form.submitted && form.controls['projectdate']?.invalid
+                  "
+                >
+                  Project Date is required
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="mt-1 form-group ng-wrapper">
+              <label for="cylindercompanyid" class="form-label"
+                >Cylinder Company</label
+              >
+              <ng-select
+                name="cylindercompanyid"
+                [items]="cylinderCompanies$ | async"
+                bindLabel="name"
+                bindValue="id"
+                placeholder="Select Cylinder Company"
+                [(ngModel)]="cylindercompanyid"
+                [searchable]="true"
+                class="material-ng-select"
+                required
+              >
+              </ng-select>
+              <div
+                *ngIf="
+                  form.submitted && form.controls['cylindercompanyid']?.invalid
+                "
+                class="text-danger"
+              >
+                Cylinder Company is required
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="mt-1 form-group ng-wrapper">
+              <label for="printingcompanyid" class="form-label"
+                >Printing Company</label
+              >
+              <ng-select
+                name="printingcompanyid"
+                [items]="printingCompanies$ | async"
+                bindLabel="name"
+                bindValue="id"
+                placeholder="Select Printing Company"
+                [(ngModel)]="printingcompanyid"
+                [searchable]="true"
+                class="material-ng-select"
+                required
+              >
+              </ng-select>
+              <div
+                *ngIf="
+                  form.submitted && form.controls['printingcompanyid']?.invalid
+                "
+                class="text-danger"
+              >
+                Printing Company is required
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12">
+            <div class="mt-2">
+              <label for="cylindercompanyid" class="form-label"
+                >File Upload</label
+              >
+              <input
+                type="file"
+                class="form-control"
+                (change)="onFilesSelected($event)"
+                multiple
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="row mt-3">
+          <div class="col-md-6">
+            <div class="card border-info mb-3" style="max-width: 100%">
+              <div class="card-header">Selected Files</div>
+              <div class="card-body text-info">
+                <div *ngFor="let file of selectedFiles">
+                  <i
+                    class="{{ getFileExtension(file.name) }}"
+                    style="color: #5cb85c"
+                    aria-hidden="true"
+                  ></i>
+                  {{ file.name }} [{{ (file.size / 1048576).toFixed(2) }} MB]
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div *ngIf="progress > 0">
+              Upload Progress: {{ progress }}%
+              <progress [value]="progress" max="100"></progress>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <button type="submit" class="btn btn-primary">Save Product</button>
+          </div>
         </div>
       </div>
-    </div>
 
-    <!-- 🔍 Debug output here    
+      <!-- 🔍 Debug output here    
    <pre>{{ form.value | json }}</pre>
    <pre>Valid: {{ form.valid }}</pre>
    <pre>Is Version Unique: {{ isVersionUnique }}</pre>
-    -->
-  </form>
-</div>
-<div
-  class="images-container-modal"
-  [ngClass]="{
-    'd-block': isFileSelectorVisible,
-    'd-none': !isFileSelectorVisible
-  }"
->
-  <button
-    type="button"
-    class="btn btn-dark"
-    style="position: fixed; top: 60px; right: 10px"
-    (click)="closeFileSelector()"
+    --></form>
+  </div>
+  <div
+    class="images-container-modal"
+    [ngClass]="{
+      'd-block': isFileSelectorVisible,
+      'd-none': !isFileSelectorVisible
+    }"
   >
-    X
-  </button>
-  <app-file-selector></app-file-selector>
-</div>
+    <button
+      type="button"
+      class="btn btn-dark"
+      style="position: fixed; top: 60px; right: 10px"
+      (click)="closeFileSelector()"
+    >
+      X
+    </button>
+    <app-file-selector></app-file-selector>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button (click)="close()">Close</button>
+</mat-dialog-actions>

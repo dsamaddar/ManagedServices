@@ -31,6 +31,7 @@ import { CylindercompanyService } from '../../cylinderCompany/services/cylinderc
 import { PrintingcompanyService } from '../../printingCompany/services/printingcompany.service';
 import { SuggestionService } from '../services/suggestion.service';
 import { ViewProductComponent } from '../view-product/view-product.component';
+import { AddProductComponent } from '../add-product/add-product.component';
 
 @Component({
   selector: 'app-product-list',
@@ -424,6 +425,15 @@ export class ProductListComponent implements OnInit {
       if (result) {
         this.loadData(); // 👈 Call your data-loading method here
       }
+    });
+  }
+
+  showAddProductModal(){
+    this.dialog.open(AddProductComponent, {
+      width: '70vw', // or '1000px' or '95%' — your choice
+      maxWidth: '80vw', // prevents Angular Material default max width (80vw)
+      height: '80vh',
+      data: { },
     });
   }
 
