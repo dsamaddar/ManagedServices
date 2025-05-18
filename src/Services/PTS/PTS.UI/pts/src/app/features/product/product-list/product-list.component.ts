@@ -43,6 +43,7 @@ import { ProductExport } from '../models/productexport.model';
 import { PreviewCommonComponent } from '../preview-common/preview-common.component';
 import { Overlay, OverlayRef } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
+import { UpdateProductComponent } from '../update-product/update-product.component';
 
 @Component({
   selector: 'app-product-list',
@@ -509,6 +510,20 @@ export class ProductListComponent implements OnInit {
 
   openProductVersionModal(productid: number) {
     const dialogRef = this.dialog.open(AddProductversionComponent, {
+      width: '70vw', // or '1000px' or '95%' — your choice
+      maxWidth: '75vw', // prevents Angular Material default max width (80vw)
+      data: { productid },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.loadData(); // 👈 Call your data-loading method here
+      }
+    });
+  }
+
+  openEditProductModal(productid: number) {
+    const dialogRef = this.dialog.open(UpdateProductComponent, {
       width: '70vw', // or '1000px' or '95%' — your choice
       maxWidth: '75vw', // prevents Angular Material default max width (80vw)
       data: { productid },

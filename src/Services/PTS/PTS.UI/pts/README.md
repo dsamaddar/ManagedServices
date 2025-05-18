@@ -261,13 +261,12 @@ Manager can not delete -> master product data on edit (done)
 Reader can not edit/save PR/PO (done)
 Add product in modal popup style (done)
 product code needs -> warning (done)
+producte code -> wants to view details (done)
+barcode code -> wants to view details (done)
+version code -> wants to view details (done)
 
 -- yet to resolve
 resolution wise heigt (if possible)
-tool tip option for drop downs.
-producte code -> wants to view details
-barcode code -> wants to view details
-version code -> wants to view details
 multiple barcode option
 Edit master on full scale 
 
