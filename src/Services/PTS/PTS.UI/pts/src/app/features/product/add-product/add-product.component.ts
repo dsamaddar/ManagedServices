@@ -627,48 +627,7 @@ export class AddProductComponent implements OnInit, OnDestroy {
   }
 
   private overlayBarCodeRef: OverlayRef | null = null;
-  private overlayCommonRef: OverlayRef | null = null;
-
-  showCommonOverlay(event: MouseEvent, header: string ,option: any): void {
-    this.hideCommonOverlay(); // Close existing
-    console.log('common-overlay');
-    const dataToPass = {
-      header: header,
-      content: option,
-      meta: { id: 0 }
-    };
-
-    const positionStrategy = this.overlay
-      .position()
-      .flexibleConnectedTo({ x: event.clientX, y: event.clientY })
-      .withPositions([
-        {
-          originX: 'start',
-          originY: 'top',
-          overlayX: 'start',
-          overlayY: 'bottom',
-        },
-      ]);
-
-    this.overlayCommonRef = this.overlay.create({
-      positionStrategy,
-      hasBackdrop: false,
-      scrollStrategy: this.overlay.scrollStrategies.reposition(),
-    });
-
-    const injector = Injector.create({
-      providers: [{ provide: MAT_DIALOG_DATA, useValue: dataToPass }],
-      parent: this.injector,
-    });
-
-    const portal = new ComponentPortal(
-      PreviewCommonComponent,
-      this.viewContainerRef,
-      injector
-    );
-    this.overlayCommonRef.attach(portal);
-  }
-
+  
   showBarCodeOverlay(event: MouseEvent, option: any): void {
     this.hideBarCodeOverlay(); // Close existing
 
@@ -711,11 +670,5 @@ export class AddProductComponent implements OnInit, OnDestroy {
     }
   }
 
-  hideCommonOverlay(): void {
-    if (this.overlayCommonRef) {
-      this.overlayCommonRef.detach();
-      this.overlayCommonRef.dispose();
-      this.overlayCommonRef = null;
-    }
-  }
+  
 }

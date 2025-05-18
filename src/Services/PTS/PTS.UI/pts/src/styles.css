@@ -98,3 +98,16 @@ button {
 button:hover {
   background-color: #2563eb;
 }
+
+.custom-overlay-panel {
+  z-index: 2000 !important;
+  position: absolute !important;
+}
+
+.cdk-overlay-container {
+  z-index: 2000 !important;
+}
+
+.cdk-overlay-pane {
+  z-index: 2000 !important;
+}

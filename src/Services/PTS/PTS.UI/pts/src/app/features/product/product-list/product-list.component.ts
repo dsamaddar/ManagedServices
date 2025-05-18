@@ -1,5 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  Injector,
+  OnInit,
+  ViewChild,
+  ViewContainerRef,
+} from '@angular/core';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import {
   FormsModule,
@@ -12,7 +19,7 @@ import { Product } from '../models/product.model';
 import { map, Observable, Subject, Subscribable, Subscription } from 'rxjs';
 import { AllProduct } from '../models/all-product.model';
 import { AddProductversionComponent } from '../../../shared/components/add-productversion/add-productversion.component';
-import { MatDialog } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import Swal from 'sweetalert2';
 import { ProductversionService } from '../../productversion/services/productversion.service';
 import { ToastrUtils } from '../../../utils/toastr-utils';
@@ -33,6 +40,9 @@ import { SuggestionService } from '../services/suggestion.service';
 import { ViewProductComponent } from '../view-product/view-product.component';
 import { AddProductComponent } from '../add-product/add-product.component';
 import { ProductExport } from '../models/productexport.model';
+import { PreviewCommonComponent } from '../preview-common/preview-common.component';
+import { Overlay, OverlayRef } from '@angular/cdk/overlay';
+import { ComponentPortal } from '@angular/cdk/portal';
 
 @Component({
   selector: 'app-product-list',
@@ -104,8 +114,11 @@ export class ProductListComponent implements OnInit {
     private cylinderCompanyService: CylindercompanyService,
     private printingCompanyService: PrintingcompanyService,
     private suggestionService: SuggestionService,
-    private dialog: MatDialog
-  ) { }
+    private dialog: MatDialog,
+    private overlay: Overlay,
+    private injector: Injector,
+    private viewContainerRef: ViewContainerRef
+  ) {}
 
   ngOnInit(): void {
     this.user = this.authService.getUser();
@@ -149,28 +162,51 @@ export class ProductListComponent implements OnInit {
   }
 
   exportToExcel2(query: string) {
-  this.productService
-    .getAllProducts(
-      query,
-      0,
-      10000000,
-      this.categoryid,
-      this.filtered_brand,
-      this.filtered_flavourtype,
-      this.filtered_origin,
-      this.filtered_sku,
-      this.packtypeid,
-      this.cylindercompanyid,
-      this.printingcompanyid
-    )
-    .subscribe((products) => {
-      const exportData: ProductExport[] = [];
+    this.productService
+      .getAllProducts(
+        query,
+        0,
+        10000000,
+        this.categoryid,
+        this.filtered_brand,
+        this.filtered_flavourtype,
+        this.filtered_origin,
+        this.filtered_sku,
+        this.packtypeid,
+        this.cylindercompanyid,
+        this.printingcompanyid
+      )
+      .subscribe((products) => {
+        const exportData: ProductExport[] = [];
 
-      products.forEach((p) => {
-        if (p.productVersions && p.productVersions.length > 0) {
-          p.productVersions.forEach((v) => {
+        products.forEach((p) => {
+          if (p.productVersions && p.productVersions.length > 0) {
+            p.productVersions.forEach((v) => {
+              exportData.push({
+                // Product info
+                Category: p.category?.name,
+                Brand: p.brand,
+                Flavour: p.flavourType,
+                Origin: p.origin,
+                SKU: p.sku,
+                ProductCode: p.productCode,
+                PackType: p.packType?.name,
+                BarCode: p.barcode,
+                // ProductVersion info
+                Version: v.version,
+                VersionDate: v.versionDate
+                  ? new Date(v.versionDate).toISOString().slice(0, 10)
+                  : '',
+                Description: v.description,
+                PR_No: v.prNo,
+                PO_No: v.poNo,
+                CylinderCompany: v.cylinderCompany?.name,
+                PrintingCompany: v.printingCompany?.name,
+              });
+            });
+          } else {
+            // Optional: handle products without versions
             exportData.push({
-              // Product info
               Category: p.category?.name,
               Brand: p.brand,
               Flavour: p.flavourType,
@@ -179,43 +215,20 @@ export class ProductListComponent implements OnInit {
               ProductCode: p.productCode,
               PackType: p.packType?.name,
               BarCode: p.barcode,
-              // ProductVersion info
-              Version: v.version,
-              VersionDate: v.versionDate
-                ? new Date(v.versionDate).toISOString().slice(0, 10)
-                : '',
-              Description: v.description,
-              PR_No: v.prNo,
-              PO_No: v.poNo,
-              CylinderCompany: v.cylinderCompany?.name,
-              PrintingCompany: v.printingCompany?.name,
+              Version: '',
+              VersionDate: '',
+              Description: '',
+              PR_No: '',
+              PO_No: '',
+              CylinderCompany: '',
+              PrintingCompany: '',
             });
-          });
-        } else {
-          // Optional: handle products without versions
-          exportData.push({
-            Category: p.category?.name,
-            Brand: p.brand,
-            Flavour: p.flavourType,
-            Origin: p.origin,
-            SKU: p.sku,
-            ProductCode: p.productCode,
-            PackType: p.packType?.name,
-            BarCode: p.barcode,
-            Version: '',
-            VersionDate: '',
-            Description: '',
-            PR_No: '',
-            PO_No: '',
-            CylinderCompany: '',
-            PrintingCompany: '',
-          });
-        }
-      });
+          }
+        });
 
-      this.excelService.exportAsExcelFile(exportData, 'ProductList');
-    });
-}
+        this.excelService.exportAsExcelFile(exportData, 'ProductList');
+      });
+  }
 
   exportToExcel(query: string) {
     this.productService
@@ -327,6 +340,7 @@ export class ProductListComponent implements OnInit {
   }
 
   onSearch(query: string) {
+    this.hideCommonOverlay();
     this.products$ = this.productService.getAllProducts(
       query,
       this.pageNumber,
@@ -371,24 +385,33 @@ export class ProductListComponent implements OnInit {
     // load origin
     console.log('Selected Flavours: ' + this.filtered_flavourtype);
     if (this.categoryid || this.filtered_brand || this.filtered_flavourtype) {
-
-      this.origins$ = this.suggestionService.getSuggestionsOrigin('%',
+      this.origins$ = this.suggestionService.getSuggestionsOrigin(
+        '%',
         this.categoryid,
         this.filtered_brand,
-        this.filtered_flavourtype);
+        this.filtered_flavourtype
+      );
 
       this.origins$.subscribe((origin) => {
         console.log('Filtered: Origins ->', origin);
       });
-
     }
 
     // load SKU
     console.log('Selected Origins: ' + this.filtered_origin);
-    if (this.categoryid || this.filtered_brand || this.filtered_flavourtype || this.filtered_origin) {
-      this.skus$ = this.suggestionService.getSuggestionsSKU('%', this.categoryid,
+    if (
+      this.categoryid ||
+      this.filtered_brand ||
+      this.filtered_flavourtype ||
+      this.filtered_origin
+    ) {
+      this.skus$ = this.suggestionService.getSuggestionsSKU(
+        '%',
+        this.categoryid,
         this.filtered_brand,
-        this.filtered_flavourtype, this.filtered_origin);
+        this.filtered_flavourtype,
+        this.filtered_origin
+      );
 
       this.skus$.subscribe((sku) => {
         console.log('Filtered: SKU ->', sku);
@@ -498,12 +521,12 @@ export class ProductListComponent implements OnInit {
     });
   }
 
-  showAddProductModal(){
+  showAddProductModal() {
     this.dialog.open(AddProductComponent, {
       width: '70vw', // or '1000px' or '95%' — your choice
       maxWidth: '80vw', // prevents Angular Material default max width (80vw)
       height: '80vh',
-      data: { },
+      data: {},
     });
   }
 
@@ -555,5 +578,65 @@ export class ProductListComponent implements OnInit {
 
   closeShowProductVersionModal() {
     this.isShowProductVersionModalVisible = false;
+  }
+
+  private overlayCommonRef: OverlayRef | null = null;
+
+  showCommonOverlay(event: MouseEvent, header: string, option: any): void {
+    this.hideCommonOverlay(); // Close existing
+    console.log('common-overlay');
+    const dataToPass = {
+      header: header,
+      content: option,
+      meta: { id: 0 },
+    };
+
+    const positionStrategy = this.overlay
+      .position()
+      .flexibleConnectedTo({ x: event.clientX, y: event.clientY })
+      .withPositions([
+        {
+          originX: 'start',
+          originY: 'top',
+          overlayX: 'start',
+          overlayY: 'bottom',
+        },
+      ]);
+
+    // this.overlayCommonRef = this.overlay.create({
+    //   positionStrategy,
+    //   hasBackdrop: false,
+    //   scrollStrategy: this.overlay.scrollStrategies.reposition(),
+    // });
+
+    this.overlayCommonRef = this.overlay.create({
+      positionStrategy,
+      hasBackdrop: false,
+      scrollStrategy: this.overlay.scrollStrategies.reposition(),
+      panelClass: 'custom-overlay-panel',
+    });
+
+    const injector = Injector.create({
+      providers: [{ provide: MAT_DIALOG_DATA, useValue: dataToPass }],
+      parent: this.injector,
+    });
+
+    // 🟢 Delay attachment to come after ng-select DOM updates
+    setTimeout(() => {
+      const portal = new ComponentPortal(
+        PreviewCommonComponent,
+        this.viewContainerRef,
+        injector
+      );
+      this.overlayCommonRef!.attach(portal);
+    }, 0);
+  }
+
+  hideCommonOverlay(): void {
+    if (this.overlayCommonRef) {
+      this.overlayCommonRef.detach();
+      this.overlayCommonRef.dispose();
+      this.overlayCommonRef = null;
+    }
   }
 }
