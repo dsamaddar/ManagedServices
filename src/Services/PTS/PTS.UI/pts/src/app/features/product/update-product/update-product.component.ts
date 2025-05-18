@@ -1,5 +1,12 @@
 import { CommonModule, DatePipe } from '@angular/common';
-import { AfterViewInit, Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  Inject,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { parseISO, format } from 'date-fns';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import {
@@ -51,6 +58,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
+import { ProductVersion } from '../../productversion/models/productversion.model';
 
 @Component({
   selector: 'app-update-product',
@@ -171,10 +179,10 @@ export class UpdateProductComponent implements AfterViewInit {
     @Inject(MAT_DIALOG_DATA) public data: { productid: number }
   ) {
     this.productId = data.productid;
-    console.log(this.productId);
+    //console.log(this.productId);
 
     if (this.productId) {
-      this.loadAttachments();
+      //this.loadAttachments();
 
       // get the data from the api for this category id
       this.productService.getProductById(this.productId).subscribe({
@@ -182,6 +190,8 @@ export class UpdateProductComponent implements AfterViewInit {
           this.product = response;
           //console.log(this.product);
           this.existing_version = this.product.version;
+          this.dataSource_product_version.data = this.product.productVersions;
+          console.log(this.dataSource_product_version.data);
         },
       });
     }
@@ -702,13 +712,21 @@ export class UpdateProductComponent implements AfterViewInit {
     });
   }
 
-  displayedColumns: string[] = ['id', 'name', 'actions'];
-  dataSource_product_version = new MatTableDataSource([
-    { id: 1, name: 'Apple' },
-    { id: 2, name: 'Banana' },
-    { id: 3, name: 'Orange' },
-    // more rows...
-  ]);
+  displayedColumns: string[] = [
+    'id',
+    'version',
+    'versionDate',
+    'description',
+    'prNo',
+    'poNo',
+    'productId',
+    'cylinderCompanyId',
+    'printingCompanyId',
+    'userId',
+    'actions'
+  ];
+  dataSource_product_version = new MatTableDataSource<ProductVersion>();
+  editingRow: number | null = null;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -719,11 +737,23 @@ export class UpdateProductComponent implements AfterViewInit {
   }
 
   applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
+    const filterValue = (event.target as HTMLInputElement).value
+      .trim()
+      .toLowerCase();
     this.dataSource_product_version.filter = filterValue;
   }
 
-  edit(row: any) {
-    console.log('Edit row:', row);
+  editRow(row: ProductVersion) {
+    this.editingRow = row.id;
   }
+
+  saveRow(row: ProductVersion) {
+    // call your API to save the updated row here
+    this.editingRow = null;
+  }
+
+  cancelEdit() {
+    this.editingRow = null;
+  }
+
 }

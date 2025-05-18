@@ -355,29 +355,158 @@
             <table
               mat-table
               [dataSource]="dataSource_product_version"
-              matSort
               class="mat-elevation-z8"
+              matSort
             >
-              <!-- ID Column -->
+              <!-- ID -->
               <ng-container matColumnDef="id">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
-                <td mat-cell *matCellDef="let element">{{ element.id }}</td>
+                <th mat-header-cell *matHeaderCellDef>ID</th>
+                <td mat-cell *matCellDef="let row">{{ row.id }}</td>
               </ng-container>
 
-              <!-- Name Column -->
-              <ng-container matColumnDef="name">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
-                <td mat-cell *matCellDef="let element">{{ element.name }}</td>
-              </ng-container>
-
-              <!-- Actions Column (Optional) -->
-              <ng-container matColumnDef="actions">
-                <th mat-header-cell *matHeaderCellDef>Actions</th>
-                <td mat-cell *matCellDef="let element">
-                  <button mat-button (click)="edit(element)">Edit</button>
+              <!-- Version (editable) -->
+              <ng-container matColumnDef="version">
+                <th mat-header-cell *matHeaderCellDef>Version</th>
+                <td mat-cell *matCellDef="let row">
+                  <div *ngIf="editingRow !== row.id; else editVersion">
+                    {{ row.version }}
+                  </div>
+                  <ng-template #editVersion>
+                    <input
+                      [(ngModel)]="row.version"
+                      name="version_{{ row.id }}"
+                      class="editable-input"
+                    />
+                  </ng-template>
                 </td>
               </ng-container>
 
+              <!-- Version Date -->
+              <ng-container matColumnDef="versionDate">
+                <th mat-header-cell *matHeaderCellDef>Version Date</th>
+                <td mat-cell *matCellDef="let row">
+                  <!-- View mode -->
+                  <div *ngIf="editingRow !== row.id; else editVersionDate">
+                    {{ row.versionDate | date : "yyyy-MM-dd" }}
+                  </div>
+
+                  <!-- Edit mode -->
+                  <ng-template #editVersionDate>
+                    <input
+                      type="date"
+                      [(ngModel)]="row.versionDate"
+                      name="versionDate_{{ row.id }}"
+                      class="editable-input"
+                    />
+                  </ng-template>
+                </td>
+              </ng-container>
+
+              <!-- Description -->
+              <ng-container matColumnDef="description">
+                <th mat-header-cell *matHeaderCellDef>Description</th>
+                <td mat-cell *matCellDef="let row">
+                  <div *ngIf="editingRow !== row.id; else editDescription">
+                    {{ row.description }}
+                  </div>
+                  <ng-template #editDescription>
+                    <input
+                      [(ngModel)]="row.description"
+                      name="description_{{ row.id }}"
+                      class="editable-input"
+                    />
+                  </ng-template>
+                </td>
+              </ng-container>
+
+              <!-- PR No -->
+              <ng-container matColumnDef="prNo">
+                <th mat-header-cell *matHeaderCellDef>PR No</th>
+                <td mat-cell *matCellDef="let row">
+                  <div *ngIf="editingRow !== row.id; else editPrNo">
+                    {{ row.prNo }}
+                  </div>
+                  <ng-template #editPrNo>
+                    <input
+                      [(ngModel)]="row.prNo"
+                      name="prNo_{{ row.id }}"
+                      class="editable-input"
+                    />
+                  </ng-template>
+                </td>
+              </ng-container>
+
+              <!-- PO No -->
+              <ng-container matColumnDef="poNo">
+                <th mat-header-cell *matHeaderCellDef>PO No</th>
+                <td mat-cell *matCellDef="let row">
+                  <div *ngIf="editingRow !== row.id; else editPoNo">
+                    {{ row.poNo }}
+                  </div>
+                  <ng-template #editPoNo>
+                    <input
+                      [(ngModel)]="row.poNo"
+                      name="poNo_{{ row.id }}"
+                      class="editable-input"
+                    />
+                  </ng-template>
+                </td>
+              </ng-container>
+
+              <!-- Product ID -->
+              <ng-container matColumnDef="productId">
+                <th mat-header-cell *matHeaderCellDef>Product ID</th>
+                <td mat-cell *matCellDef="let row">{{ row.productId }}</td>
+              </ng-container>
+
+              <!-- Cylinder Company ID -->
+              <ng-container matColumnDef="cylinderCompanyId">
+                <th mat-header-cell *matHeaderCellDef>Cylinder Company ID</th>
+                <td mat-cell *matCellDef="let row">
+                  {{ row.cylinderCompanyId }}
+                </td>
+              </ng-container>
+
+              <!-- Printing Company ID -->
+              <ng-container matColumnDef="printingCompanyId">
+                <th mat-header-cell *matHeaderCellDef>Printing Company ID</th>
+                <td mat-cell *matCellDef="let row">
+                  {{ row.printingCompanyId }}
+                </td>
+              </ng-container>
+
+              <!-- User ID -->
+              <ng-container matColumnDef="userId">
+                <th mat-header-cell *matHeaderCellDef>User ID</th>
+                <td mat-cell *matCellDef="let row">{{ row.userId }}</td>
+              </ng-container>
+
+              <!-- Actions -->
+              <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef>Actions</th>
+                <td mat-cell *matCellDef="let row">
+                  <ng-container *ngIf="editingRow === row.id; else editBtn">
+                    <button
+                      type="button"
+                      mat-button
+                      color="primary"
+                      (click)="saveRow(row)"
+                    >
+                      Save
+                    </button>
+                    <button type="button" mat-button (click)="cancelEdit()">
+                      Cancel
+                    </button>
+                  </ng-container>
+                  <ng-template #editBtn>
+                    <button type="button" mat-button (click)="editRow(row)">
+                      Edit
+                    </button>
+                  </ng-template>
+                </td>
+              </ng-container>
+
+              <!-- Header & Row Declarations -->
               <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
               <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
             </table>
