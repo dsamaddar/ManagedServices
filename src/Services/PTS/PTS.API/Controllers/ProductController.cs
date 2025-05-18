@@ -342,7 +342,7 @@ namespace PTS.API.Controllers
 
         [HttpGet]
         [Route("product-productcode/{productcode}")]
-        //[Authorize(Roles = "READER,MANAGER,ADMIN")]
+        [Authorize(Roles = "READER,MANAGER,ADMIN")]
         public async Task<IActionResult> GetProductByProductCode([FromRoute] string productcode)
         {
             // Get the product from the repository
@@ -429,7 +429,7 @@ namespace PTS.API.Controllers
 
         [HttpGet]
         [Route("product-version/{version}")]
-        //[Authorize(Roles = "READER,MANAGER,ADMIN")]
+        [Authorize(Roles = "READER,MANAGER,ADMIN")]
         public async Task<IActionResult> GetProductByVersion([FromRoute] string version)
         {
             // Get the product from the repository
