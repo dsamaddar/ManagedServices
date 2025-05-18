@@ -139,6 +139,12 @@ export class ProductService {
     );
   }
 
+  getProductByVersion(version: string): Observable<AllProduct> {
+    return this.http.get<AllProduct>(
+      `${environment.apiBaseUrl}/api/product/product-version/${version}`
+    );
+  }
+
   getProductByProductVersionId(id: number): Observable<AllProduct> {
     return this.http.get<AllProduct>(
       `${environment.apiBaseUrl}/api/productversion/showproductversiondetail/${id}`

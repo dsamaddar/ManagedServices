@@ -63,6 +63,7 @@ import { PreviewBarcodeComponent } from '../preview-barcode/preview-barcode.comp
 import { ComponentPortal, PortalModule } from '@angular/cdk/portal';
 import { PreviewCommonComponent } from '../preview-common/preview-common.component';
 import { PreviewProductcodeComponent } from '../preview-productcode/preview-productcode.component';
+import { PreviewVersionComponent } from '../preview-version/preview-version.component';
 
 @Component({
   selector: 'app-add-product',
@@ -394,7 +395,7 @@ export class AddProductComponent implements OnInit, OnDestroy {
 
   onSearchChangeProductCode(value: string) {
     this.hideProductCodeOverlay();
-    const upper = value.toUpperCase();    
+    const upper = value.toUpperCase();
     this.product.productcode = upper; // updates ngModel immediately
 
     console.log('productcode->' + upper);
@@ -630,7 +631,7 @@ export class AddProductComponent implements OnInit, OnDestroy {
   }
 
   private overlayBarCodeRef: OverlayRef | null = null;
-  
+
   showBarCodeOverlay(event: MouseEvent, option: any): void {
     this.hideBarCodeOverlay(); // Close existing
 
@@ -674,7 +675,7 @@ export class AddProductComponent implements OnInit, OnDestroy {
   }
 
   private overlayProductCodeRef: OverlayRef | null = null;
-  
+
   showProductCodeOverlay(event: MouseEvent, option: any): void {
     this.hideProductCodeOverlay(); // Close existing
     console.log(option);
@@ -717,5 +718,47 @@ export class AddProductComponent implements OnInit, OnDestroy {
     }
   }
 
-  
+  private overlayVersionRef: OverlayRef | null = null;
+
+  showVersionOverlay(event: MouseEvent, option: any): void {
+    this.hideVersionOverlay(); // Close existing
+    console.log(option);
+    const positionStrategy = this.overlay
+      .position()
+      .flexibleConnectedTo({ x: event.clientX, y: event.clientY })
+      .withPositions([
+        {
+          originX: 'start',
+          originY: 'top',
+          overlayX: 'start',
+          overlayY: 'bottom',
+        },
+      ]);
+
+    this.overlayVersionRef = this.overlay.create({
+      positionStrategy,
+      hasBackdrop: false,
+      scrollStrategy: this.overlay.scrollStrategies.reposition(),
+    });
+
+    const injector = Injector.create({
+      providers: [{ provide: MAT_DIALOG_DATA, useValue: option }],
+      parent: this.injector,
+    });
+
+    const portal = new ComponentPortal(
+      PreviewVersionComponent,
+      this.viewContainerRef,
+      injector
+    );
+    this.overlayVersionRef.attach(portal);
+  }
+
+  hideVersionOverlay(): void {
+    if (this.overlayVersionRef) {
+      this.overlayVersionRef.detach();
+      this.overlayVersionRef.dispose();
+      this.overlayVersionRef = null;
+    }
+  }
 }

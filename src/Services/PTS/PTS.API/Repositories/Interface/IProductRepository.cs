@@ -12,6 +12,8 @@ namespace PTS.API.Repositories.Interface
         Task<Product?> GetByBarCodeAsync(string barcode);
 
         Task<Product?> GetByProductCodeAsync(string productcode);
+
+        Task<Product?> GetByVersionAsync(string version);
         Task<Product?> UpdateAsync(Product product);
         Task<Product?> DeleteAsync(int id);
         Task<int> GetCount(string? query = null, int[] ? categoryid = null, string[]? brand = null, string[]? flavour = null, string[]? origin = null, string[]? sku = null, int[]? packtypeid = null, int[]? cylindercompanyid = null, int[]? printingcompanyid = null);

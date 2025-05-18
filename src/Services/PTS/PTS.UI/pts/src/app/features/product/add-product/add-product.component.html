@@ -239,6 +239,8 @@
                   <mat-option
                     *ngFor="let version of suggestions_version"
                     [value]="version"
+                    (mouseenter)="showVersionOverlay($event, version)"
+                    (mouseleave)="hideVersionOverlay()"
                   >
                     {{ version }}
                   </mat-option>
