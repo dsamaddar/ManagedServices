@@ -1,7 +1,91 @@
-<div class="card text-bg-success mb-3" style="max-width: 18rem;">
-  <div class="card-header">Barcode Information</div>
-  <div class="card-body">
-    <h5 class="card-title"></h5>
-    <p class="card-text">{{ data }}</p>
+<div class="card text-bg-success mb-3">
+  <div class="container-fluid">
+    <div class="card mt-3">
+      <div class="card-header">Product Master</div>
+      <div class="card-body">
+        <div class="container text-success">
+          <div class="row">
+            <div class="col-md-2 text-dark">Category</div>
+            <div class="col-md-2">{{ product?.category?.name }}</div>
+            <div class="col-md-2 text-dark">Brand</div>
+            <div class="col-md-2">{{ product?.brand }}</div>
+            <div class="col-md-2 text-dark">Flavour</div>
+            <div class="col-md-2">{{ product?.flavourType }}</div>
+          </div>
+          <div class="row">
+            <div class="col-md-2 text-dark">Origin</div>
+            <div class="col-md-2">{{ product?.origin }}</div>
+            <div class="col-md-2 text-dark">SKU</div>
+            <div class="col-md-2">{{ product?.sku }}</div>
+            <div class="col-md-2 text-dark">Pack Type</div>
+            <div class="col-md-2">{{ product?.packType?.name }}</div>
+          </div>
+          <div class="row">
+            <div class="col-md-2 text-dark">Product Code</div>
+            <div class="col-md-2">{{ product?.productCode }}</div>
+            <div class="col-md-2 text-dark">Barcode</div>
+            <div class="col-md-2">{{ product?.barcode }}</div>
+          </div>
+          <!-- <div class="row">
+            <div class="col-md-2 text-dark">Project Date</div>
+            <div class="col-md-2">
+              {{ product?.projectDate | date : "mediumDate" }}
+            </div>
+            <div class="col-md-2 text-dark">Cylinder Company</div>
+            <div class="col-md-2">{{ product?.cylinderCompany?.name }}</div>
+            <div class="col-md-2 text-dark">Printing Company</div>
+            <div class="col-md-2">{{ product?.printingCompany?.name }}</div>
+          </div> -->
+        </div>
+      </div>
+    </div>
+    <div class="card mt-3">
+      <div class="card-header">Version Details</div>
+      <div class="card-body">
+        <table class="table table-responsive table-sm w-100">
+          <thead>
+            <th style="display: none">Id</th>
+            <th>Version</th>
+            <th>Version Dt</th>
+            <th>Description</th>
+            <th>Cylinder Company</th>
+            <th>Printing Company</th>
+            <th>Pr No</th>
+            <th>Po No</th>
+            <th>Attachments</th>
+          </thead>
+          <tr *ngFor="let prevProdVersion of product?.productVersions">
+            <td style="display: none">
+              {{ prevProdVersion.id }}
+            </td>
+            <td>{{ prevProdVersion.version }}</td>
+            <td>{{ prevProdVersion.versionDate | date : "mediumDate" }}</td>
+            <td>{{ prevProdVersion.description }}</td>
+            <td>{{ prevProdVersion.cylinderCompany.name }}</td>
+            <td>{{ prevProdVersion.printingCompany.name }}</td>
+            <td>{{ prevProdVersion.prNo || "" }}</td>
+            <td>{{ prevProdVersion.poNo || "" }}</td>
+            <td>
+              <div
+                class=""
+                *ngFor="let attachment of prevProdVersion.attachments"
+              >
+                <a
+                  href="{{ attachmentBaseUrl }}{{ attachment.name }}"
+                  target="_blank"
+                >
+                  <i
+                    class="{{ getFileExtension(attachment.name) }}"
+                    style="color: #5cb85c"
+                    aria-hidden="true"
+                  ></i>
+                  {{ attachment.name }}
+                </a>
+              </div>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
   </div>
 </div>

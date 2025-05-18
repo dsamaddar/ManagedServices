@@ -127,6 +127,12 @@ export class ProductService {
     );
   }
 
+  getProductByBarCode(barcode: string): Observable<AllProduct> {
+    return this.http.get<AllProduct>(
+      `${environment.apiBaseUrl}/api/product/product-barcode/${barcode}`
+    );
+  }
+
   getProductByProductVersionId(id: number): Observable<AllProduct> {
     return this.http.get<AllProduct>(
       `${environment.apiBaseUrl}/api/productversion/showproductversiondetail/${id}`

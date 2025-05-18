@@ -9,6 +9,7 @@ namespace PTS.API.Repositories.Interface
         Task<IEnumerable<Product>> GetAllAsync(string? query = null, int? pageNumber = 1, int? pageSize = 50,int[]? categoryid = null, string[]? brand = null, string[]? flavour = null, string[]? origin = null, string[]? sku = null, int[]? packtypeid = null, int[]? cylindercompanyid = null, int[]? printingcompanyid = null);
 
         Task<Product?> GetByIdAsync(int id);
+        Task<Product?> GetByBarCodeAsync(string barcode);
         Task<Product?> UpdateAsync(Product product);
         Task<Product?> DeleteAsync(int id);
         Task<int> GetCount(string? query = null, int[] ? categoryid = null, string[]? brand = null, string[]? flavour = null, string[]? origin = null, string[]? sku = null, int[]? packtypeid = null, int[]? cylindercompanyid = null, int[]? printingcompanyid = null);

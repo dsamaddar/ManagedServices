@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { AllProduct } from '../models/all-product.model';
 import { ProductService } from '../services/product.service';
 import { Subscription } from 'rxjs';
@@ -22,7 +22,7 @@ import { MatButtonModule } from '@angular/material/button';
   templateUrl: './view-product.component.html',
   styleUrl: './view-product.component.css',
 })
-export class ViewProductComponent implements OnInit {
+export class ViewProductComponent implements OnInit, OnDestroy {
   productId?: number = 0;
   product?: AllProduct;
   private paramsSubscription?: Subscription;
@@ -38,6 +38,11 @@ export class ViewProductComponent implements OnInit {
   ) {
     //console.log('product id: ' + data.productid.toString())
     this.productId = data.productid;
+  }
+  
+  ngOnDestroy(): void {
+    this.paramsSubscription?.unsubscribe();
+    this.viewProductSubscription?.unsubscribe();
   }
 
   close() {
