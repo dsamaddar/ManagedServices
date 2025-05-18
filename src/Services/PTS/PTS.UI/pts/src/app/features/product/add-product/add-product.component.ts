@@ -78,6 +78,7 @@ export class AddProductComponent implements OnInit, OnDestroy {
   selectedFiles: File[] = [];
   productVersionId: number = 0;
 
+  isProductCodeUnique: boolean | null = null;
   isVersionUnique: boolean | null = null;
   isBarCodeUnique: boolean | null = null;
 
@@ -375,9 +376,23 @@ export class AddProductComponent implements OnInit, OnDestroy {
     const upper = value.toUpperCase();
     this.product.productcode = upper; // updates ngModel immediately
 
-    //console.log('productcode->' + upper);
+    console.log('productcode->' + upper);
     if (value && value.length >= 1) {
       this.searchProductCodes.next(upper);
+      console.log('tester');
+      this.suggestionService.getIsProductCodeUnique(upper).subscribe({
+        next: (response) => {
+          console.log('response: ' + response);
+          this.isProductCodeUnique = response;
+          if (this.isProductCodeUnique === false) {
+            console.log('Is Product Code Unique?: ' + this.isProductCodeUnique);
+
+            ToastrUtils.showErrorToast(
+              'Product Code Already Exists : ' + this.product.productcode
+            );
+          }
+        },
+      });
     } else {
       this.suggestions_productcode = [];
     }
@@ -401,7 +416,6 @@ export class AddProductComponent implements OnInit, OnDestroy {
             ToastrUtils.showErrorToast(
               'Version Already Exists : ' + this.product.version
             );
-            this.product.version = '';
           }
         },
       });

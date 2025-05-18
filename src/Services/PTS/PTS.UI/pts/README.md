@@ -260,11 +260,11 @@ report -> remove time. (done)
 Manager can not delete -> master product data on edit (done)
 Reader can not edit/save PR/PO (done)
 Add product in modal popup style (done)
+product code needs -> warning (done)
 
 -- yet to resolve
-resolution wise heigh (if possible)
+resolution wise heigt (if possible)
 tool tip option for drop downs.
-product code needs -> warning
 producte code -> wants to view details
 barcode code -> wants to view details
 version code -> wants to view details

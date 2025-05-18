@@ -7,7 +7,7 @@ import { environment } from '../../../../environments/environment';
   providedIn: 'root',
 })
 export class SuggestionService {
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   getSuggestionsBrand(
     query: string,
@@ -59,9 +59,12 @@ export class SuggestionService {
     );
   }
 
-  getSuggestionsOrigin(query: string, categoryId?: number[],
-    brand?: string[], flavour?: string[]): Observable<string[]> {
-
+  getSuggestionsOrigin(
+    query: string,
+    categoryId?: number[],
+    brand?: string[],
+    flavour?: string[]
+  ): Observable<string[]> {
     let params = new HttpParams();
     if (query) {
       params = params.set('query', query);
@@ -86,13 +89,18 @@ export class SuggestionService {
     }
 
     return this.http.get<string[]>(
-      `${environment.apiBaseUrl}/api/product/suggestions-origin`, { params }
+      `${environment.apiBaseUrl}/api/product/suggestions-origin`,
+      { params }
     );
   }
 
-  getSuggestionsSKU(query: string, categoryId?: number[],
-    brand?: string[], flavour?: string[], origin?: string[]): Observable<string[]> {
-
+  getSuggestionsSKU(
+    query: string,
+    categoryId?: number[],
+    brand?: string[],
+    flavour?: string[],
+    origin?: string[]
+  ): Observable<string[]> {
     let params = new HttpParams();
     if (query) {
       params = params.set('query', query);
@@ -123,7 +131,8 @@ export class SuggestionService {
     }
 
     return this.http.get<string[]>(
-      `${environment.apiBaseUrl}/api/product/suggestions-sku`, { params }
+      `${environment.apiBaseUrl}/api/product/suggestions-sku`,
+      { params }
     );
   }
 
@@ -137,6 +146,14 @@ export class SuggestionService {
     return this.http
       .get<{ isUnique: boolean }>(
         `${environment.apiBaseUrl}/api/product/is-version-unique?query=${query}`
+      )
+      .pipe(map((response) => response.isUnique));
+  }
+
+  getIsProductCodeUnique(query: string): Observable<boolean> {
+    return this.http
+      .get<{ isUnique: boolean }>(
+        `${environment.apiBaseUrl}/api/product/is-productcode-unique?query=${query}`
       )
       .pipe(map((response) => response.isUnique));
   }

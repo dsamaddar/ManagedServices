@@ -446,6 +446,19 @@ namespace PTS.API.Controllers
         }
 
         [HttpGet]
+        [Route("suggestions-barcode")]
+        [Authorize(Roles = "READER,MANAGER,ADMIN")]
+        public async Task<ActionResult> GetSuggestionsBarCode([FromQuery] string? query)
+        {
+            if (string.IsNullOrWhiteSpace(query))
+                return Ok(null);
+
+            var results = await productRepository.GetSuggestionsBarCode(query);
+
+            return Ok(results);
+        }
+
+        [HttpGet]
         [Route("is-version-unique")]
         [Authorize(Roles = "READER,MANAGER,ADMIN")]
         public async Task<ActionResult> GetIsVersionUnique([FromQuery] string? query)
@@ -465,16 +478,22 @@ namespace PTS.API.Controllers
         }
 
         [HttpGet]
-        [Route("suggestions-barcode")]
-        [Authorize(Roles = "READER,MANAGER,ADMIN")]
-        public async Task<ActionResult> GetSuggestionsBarCode([FromQuery] string? query)
+        [Route("is-productcode-unique")]
+        //[Authorize(Roles = "READER,MANAGER,ADMIN")]
+        public async Task<ActionResult> GetIsProductCodeUnique([FromQuery] string? query)
         {
+            bool isUnique = true;
+
             if (string.IsNullOrWhiteSpace(query))
-                return Ok(null);
+            {
+                isUnique = true;
+            }
+            else
+            {
+                isUnique = await productRepository.GetIsProductCodeUnique(query);
+            }
 
-            var results = await productRepository.GetSuggestionsBarCode(query);
-
-            return Ok(results);
+            return Ok(new { isUnique });
         }
 
         [HttpGet]

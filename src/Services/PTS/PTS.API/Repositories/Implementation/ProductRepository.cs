@@ -425,17 +425,7 @@ namespace PTS.API.Repositories.Implementation
             return results;
         }
 
-        public async Task<Boolean> GetIsVersionUnique(string query)
-        {
-            if (string.IsNullOrWhiteSpace(query))
-                return true;
-
-            var isVersionExists = await dbContext.Products
-                .SelectMany(x => x.ProductVersions)
-                .AnyAsync(pv => pv.Version == query);
-
-            return !isVersionExists;
-        }
+        
 
         public async Task<IEnumerable<string>> GetSuggestionsBarCode(string query)
         {
@@ -451,6 +441,34 @@ namespace PTS.API.Repositories.Implementation
                 .ToListAsync();
 
             return results;
+        }
+
+        public async Task<Boolean> GetIsProductCodeUnique(string query)
+        {
+            if (string.IsNullOrWhiteSpace(query))
+                return true;
+
+            var results = await dbContext.Products
+                .Where(f =>
+                    (f.ProductCode != null && f.ProductCode == query))
+                .Select(f => f.ProductCode!) //null-forgiving operator (!)
+                .ToListAsync();
+
+            if (results.Any()) return false;
+
+            return true;
+        }
+
+        public async Task<Boolean> GetIsVersionUnique(string query)
+        {
+            if (string.IsNullOrWhiteSpace(query))
+                return true;
+
+            var isVersionExists = await dbContext.Products
+                .SelectMany(x => x.ProductVersions)
+                .AnyAsync(pv => pv.Version == query);
+
+            return !isVersionExists;
         }
 
         public async Task<Boolean> GetIsBarCodeUnique(string query)
@@ -469,5 +487,6 @@ namespace PTS.API.Repositories.Implementation
             return true;
         }
 
+        
     }
 }
