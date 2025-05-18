@@ -340,6 +340,93 @@ namespace PTS.API.Controllers
             return Ok(response);
         }
 
+        [HttpGet]
+        [Route("product-productcode/{productcode}")]
+        //[Authorize(Roles = "READER,MANAGER,ADMIN")]
+        public async Task<IActionResult> GetProductByProductCode([FromRoute] string productcode)
+        {
+            // Get the product from the repository
+            var product = await productRepository.GetByProductCodeAsync(productcode);
+
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+            // convert domain model to dto
+            var response = new ProductDto
+            {
+                Id = product.Id,
+                CategoryId = product.CategoryId,
+                ProductCode = product.ProductCode,
+                Brand = product.Brand,
+                Barcode = product.Barcode,
+                CylinderCompanyId = product.CylinderCompanyId,
+                FlavourType = product.FlavourType,
+                Origin = product.Origin,
+                PrintingCompanyId = product.PrintingCompanyId,
+                ProjectDate = product.ProjectDate,
+                SKU = product.SKU,
+                Version = product.Version,
+                PackTypeId = product.PackTypeId,
+                ProductVersions = product.ProductVersions?.Select(x => new ProductVersionDto
+                {
+                    Id = x.Id,
+                    Version = x.Version,
+                    VersionDate = x.VersionDate,
+                    ProductId = x.ProductId,
+                    CylinderCompanyId = x.CylinderCompanyId,
+                    PrintingCompanyId = x.PrintingCompanyId,
+                    PrNo = x.PrNo,
+                    PoNo = x.PoNo,
+                    CylinderCompany = new CylinderCompanyDto
+                    {
+                        Id = x.CylinderCompany?.Id ?? 0,
+                        Name = x.CylinderCompany?.Name,
+                        Description = x.CylinderCompany?.Description,
+                        UserId = x.CylinderCompany?.UserId,
+                    },
+                    PrintingCompany = new PrintingCompanyDto
+                    {
+                        Id = x.PrintingCompany?.Id ?? 0,
+                        Name = x.PrintingCompany?.Name,
+                        Description = x.PrintingCompany?.Description,
+                        UserId = x.PrintingCompany?.UserId,
+                    },
+                    Attachments = x.Attachments?.Select(a => new AttachmentDto
+                    {
+                        Id = a.Id,
+                        Name = a.Name,
+                        Description = a.Description,
+                        DateCreated = a.DateCreated,
+                    }).ToList(),
+                }).ToList(),
+                Category = new CategoryDto
+                {
+                    Id = product.Category?.Id ?? 0,
+                    Name = product.Category?.Name,
+                },
+                CylinderCompany = new CylinderCompanyDto
+                {
+                    Id = product.CylinderCompany?.Id ?? 0,
+                    Name = product.CylinderCompany?.Name
+                },
+                PrintingCompany = new PrintingCompanyDto
+                {
+                    Id = product.PrintingCompany?.Id ?? 0,
+                    Name = product.PrintingCompany?.Name
+                },
+                PackType = new PackTypeDto
+                {
+                    Id = product.PackType?.Id ?? 0,
+                    Name = product.PackType?.Name
+                },
+                UserId = product.UserId,
+            };
+
+            return Ok(response);
+        }
+
         // PUT: /api/product/{id}
         [HttpPut]
         [Route("{id:int}")]

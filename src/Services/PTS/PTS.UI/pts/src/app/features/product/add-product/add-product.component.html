@@ -203,6 +203,8 @@
                   <mat-option
                     *ngFor="let productcode of suggestions_productcode"
                     [value]="productcode"
+                    (mouseenter)="showProductCodeOverlay($event, productcode)"
+                    (mouseleave)="hideProductCodeOverlay()"
                   >
                     {{ productcode }}
                   </mat-option>

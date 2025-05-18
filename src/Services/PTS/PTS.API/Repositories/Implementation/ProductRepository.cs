@@ -248,6 +248,31 @@ namespace PTS.API.Repositories.Implementation
             return product;
         }
 
+        public async Task<Product?> GetByProductCodeAsync(string productcode)
+        {
+            var product = await dbContext.Products
+                .Include(p => p.ProductVersions)
+                    .ThenInclude(pv => pv.CylinderCompany)
+                .Include(p => p.ProductVersions)
+                    .ThenInclude(pv => pv.PrintingCompany)
+                .Include(p => p.ProductVersions)
+                    .ThenInclude(pv => pv.Attachments)
+                .Include(x => x.CylinderCompany)
+                .Include(x => x.PrintingCompany)
+                .Include(x => x.PackType)
+                .Include(x => x.Category)
+                .FirstOrDefaultAsync(x => x.ProductCode == productcode);
+
+            if (product != null)
+            {
+                product.ProductVersions = product.ProductVersions
+                    .OrderByDescending(pv => pv.VersionDate) // or .Version
+                    .ToList();
+            }
+
+            return product;
+        }
+
 
         public async Task<int> GetCount(string? query = null, int[] ? categoryid = null, string[]? brand = null, string[]? flavour = null, string[]? origin = null, string[]? sku = null, int[]? packtypeid = null, int[]? cylindercompanyid = null, int[]? printingcompanyid = null)
         {

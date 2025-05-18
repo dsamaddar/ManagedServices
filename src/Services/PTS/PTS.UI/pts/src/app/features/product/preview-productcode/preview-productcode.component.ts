@@ -1,20 +1,19 @@
-import { CommonModule } from '@angular/common';
-import { Component, Inject, Input, OnDestroy } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { ProductService } from '../services/product.service';
+import { Component, Inject, OnDestroy } from '@angular/core';
 import { AllProduct } from '../models/all-product.model';
 import { Subscription } from 'rxjs';
-import { isTemplateSpan } from 'typescript';
-import { environment } from '../../../../environments/environment';
+import { ProductService } from '../services/product.service';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
+import { environment } from '../../../../environments/environment';
+import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-preview-barcode',
+  selector: 'app-preview-productcode',
   imports: [CommonModule],
-  templateUrl: './preview-barcode.component.html',
-  styleUrl: './preview-barcode.component.css',
+  templateUrl: './preview-productcode.component.html',
+  styleUrl: './preview-productcode.component.css'
 })
-export class PreviewBarcodeComponent implements OnDestroy {
+export class PreviewProductcodeComponent implements OnDestroy {
   productId?: number = 0;
   product?: AllProduct;
   private paramsSubscription?: Subscription;
@@ -28,13 +27,16 @@ export class PreviewBarcodeComponent implements OnDestroy {
     private route: ActivatedRoute,
   ) {
     this.attachmentBaseUrl = `${environment.attachmentBaseUrl}`;
-
+    console.log('product code: -> '+ data);
 
     if (data) {
-      this.productService.getProductByBarCode(data ?? 0).subscribe({
+      this.productService.getProductByProductCode(data ?? 0).subscribe({
         next: (response) => {
           this.product = response;
         },
+        error: (error) =>{
+          console.log(error);
+        }
       });
     } else {
       this.paramsSubscription = this.route.paramMap.subscribe({
@@ -42,7 +44,7 @@ export class PreviewBarcodeComponent implements OnDestroy {
           this.productId = Number(params.get('id'));
           if (this.productId) {
             // get the data from the api for this category id
-            this.productService.getProductByBarCode(data).subscribe({
+            this.productService.getProductByProductCode(data).subscribe({
               next: (response) => {
                 this.product = response;
                 console.log(this.product);
