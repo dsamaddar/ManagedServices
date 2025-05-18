@@ -479,7 +479,7 @@ namespace PTS.API.Controllers
 
         [HttpGet]
         [Route("is-productcode-unique")]
-        //[Authorize(Roles = "READER,MANAGER,ADMIN")]
+        [Authorize(Roles = "READER,MANAGER,ADMIN")]
         public async Task<ActionResult> GetIsProductCodeUnique([FromQuery] string? query)
         {
             bool isUnique = true;

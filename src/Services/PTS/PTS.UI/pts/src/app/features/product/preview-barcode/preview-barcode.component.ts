@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, Inject, Input } from '@angular/core';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-preview-barcode',
@@ -8,6 +9,7 @@ import { Component, Input } from '@angular/core';
   styleUrl: './preview-barcode.component.css'
 })
 export class PreviewBarcodeComponent {
-  @Input() barcode!: string;
-  @Input() position!: { top: number; left: number };
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any) {
+    //console.log(data);
+  }
 }

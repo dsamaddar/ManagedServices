@@ -1,5 +1,11 @@
 import { CommonModule, DatePipe } from '@angular/common';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  Injector,
+  OnDestroy,
+  OnInit,
+  ViewContainerRef,
+} from '@angular/core';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import {
   MatDatepicker,
@@ -46,8 +52,16 @@ import { AddProductVersionRequest } from '../../productversion/models/add-produc
 import { PackType } from '../../packtype/models/packtype.model';
 import { PacktypeService } from '../../packtype/services/packtype.service';
 import { SuggestionService } from '../services/suggestion.service';
-import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import {
+  MAT_DIALOG_DATA,
+  MatDialogModule,
+  MatDialogRef,
+} from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
+import { Overlay, OverlayModule, OverlayRef } from '@angular/cdk/overlay';
+import { PreviewBarcodeComponent } from '../preview-barcode/preview-barcode.component';
+import { ComponentPortal, PortalModule } from '@angular/cdk/portal';
+import { PreviewCommonComponent } from '../preview-common/preview-common.component';
 
 @Component({
   selector: 'app-add-product',
@@ -67,6 +81,8 @@ import { MatButtonModule } from '@angular/material/button';
     MatNativeDateModule,
     MatDialogModule,
     MatButtonModule,
+    OverlayModule,
+    PortalModule,
   ],
   templateUrl: './add-product.component.html',
   styleUrl: './add-product.component.css',
@@ -156,7 +172,10 @@ export class AddProductComponent implements OnInit, OnDestroy {
     private datepipe: DatePipe,
     private http: HttpClient,
     private fb: FormBuilder,
-    private dialogRef: MatDialogRef<AddProductComponent>
+    private dialogRef: MatDialogRef<AddProductComponent>,
+    private overlay: Overlay,
+    private injector: Injector,
+    private viewContainerRef: ViewContainerRef
   ) {
     this.ngForm = this.fb.group({
       categoryid: ['', Validators.required],
@@ -425,6 +444,7 @@ export class AddProductComponent implements OnInit, OnDestroy {
   }
 
   onSearchChangeBarcode(value: string) {
+    this.hideBarCodeOverlay();
     const upper = value.toUpperCase();
     this.product.barcode = upper; // updates ngModel immediately
 
@@ -603,5 +623,99 @@ export class AddProductComponent implements OnInit, OnDestroy {
     this.addProductSubscription?.unsubscribe();
     this.uploadAttachmentSubscription?.unsubscribe();
     this.addProductVersionSubscription?.unsubscribe();
+    this.hideBarCodeOverlay();
+  }
+
+  private overlayBarCodeRef: OverlayRef | null = null;
+  private overlayCommonRef: OverlayRef | null = null;
+
+  showCommonOverlay(event: MouseEvent, header: string ,option: any): void {
+    this.hideCommonOverlay(); // Close existing
+    console.log('common-overlay');
+    const dataToPass = {
+      header: header,
+      content: option,
+      meta: { id: 0 }
+    };
+
+    const positionStrategy = this.overlay
+      .position()
+      .flexibleConnectedTo({ x: event.clientX, y: event.clientY })
+      .withPositions([
+        {
+          originX: 'start',
+          originY: 'top',
+          overlayX: 'start',
+          overlayY: 'bottom',
+        },
+      ]);
+
+    this.overlayCommonRef = this.overlay.create({
+      positionStrategy,
+      hasBackdrop: false,
+      scrollStrategy: this.overlay.scrollStrategies.reposition(),
+    });
+
+    const injector = Injector.create({
+      providers: [{ provide: MAT_DIALOG_DATA, useValue: dataToPass }],
+      parent: this.injector,
+    });
+
+    const portal = new ComponentPortal(
+      PreviewCommonComponent,
+      this.viewContainerRef,
+      injector
+    );
+    this.overlayCommonRef.attach(portal);
+  }
+
+  showBarCodeOverlay(event: MouseEvent, option: any): void {
+    this.hideBarCodeOverlay(); // Close existing
+
+    const positionStrategy = this.overlay
+      .position()
+      .flexibleConnectedTo({ x: event.clientX, y: event.clientY })
+      .withPositions([
+        {
+          originX: 'start',
+          originY: 'top',
+          overlayX: 'start',
+          overlayY: 'bottom',
+        },
+      ]);
+
+    this.overlayBarCodeRef = this.overlay.create({
+      positionStrategy,
+      hasBackdrop: false,
+      scrollStrategy: this.overlay.scrollStrategies.reposition(),
+    });
+
+    const injector = Injector.create({
+      providers: [{ provide: MAT_DIALOG_DATA, useValue: option }],
+      parent: this.injector,
+    });
+
+    const portal = new ComponentPortal(
+      PreviewBarcodeComponent,
+      this.viewContainerRef,
+      injector
+    );
+    this.overlayBarCodeRef.attach(portal);
+  }
+
+  hideBarCodeOverlay(): void {
+    if (this.overlayBarCodeRef) {
+      this.overlayBarCodeRef.detach();
+      this.overlayBarCodeRef.dispose();
+      this.overlayBarCodeRef = null;
+    }
+  }
+
+  hideCommonOverlay(): void {
+    if (this.overlayCommonRef) {
+      this.overlayCommonRef.detach();
+      this.overlayCommonRef.dispose();
+      this.overlayCommonRef = null;
+    }
   }
 }

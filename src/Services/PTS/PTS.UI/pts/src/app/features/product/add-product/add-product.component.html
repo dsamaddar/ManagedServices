@@ -80,6 +80,8 @@
                   <mat-option
                     *ngFor="let flavourtype of suggestions_flavourtype"
                     [value]="flavourtype"
+                    (mouseenter)="showCommonOverlay($event,'Flavour', flavourtype)"
+                    (mouseleave)="hideCommonOverlay()"
                   >
                     {{ flavourtype }}
                   </mat-option>
@@ -275,6 +277,8 @@
                   <mat-option
                     *ngFor="let barcode of suggestions_barcode"
                     [value]="barcode"
+                    (mouseenter)="showBarCodeOverlay($event, barcode)"
+                    (mouseleave)="hideBarCodeOverlay()"
                   >
                     {{ barcode }}
                   </mat-option>
