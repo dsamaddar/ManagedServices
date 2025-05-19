@@ -4,6 +4,7 @@ import { AddProductVersionRequest } from '../models/add-productversion.model';
 import { ProductVersion } from '../models/productversion.model';
 import { Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
+import { UpdateProductVersionRequest } from '../models/update-productversion-request.model';
 
 @Injectable({
   providedIn: 'root',
@@ -20,11 +21,21 @@ export class ProductversionService {
     );
   }
 
-    getProdVersionsByProdId(id: number): Observable<ProductVersion[]> {
-      return this.http.get<ProductVersion[]>(
-        `${environment.apiBaseUrl}/api/ProductVersion/showprodversionbyprodid/${id}`
-      );
-    }
+  updateProductVersion(
+    id: number,
+    productVersion: ProductVersion
+  ): Observable<ProductVersion> {
+    return this.http.put<ProductVersion>(
+      `${environment.apiBaseUrl}/api/productversion/update-productversion-mini/${id}`,
+      productVersion
+    );
+  }
+
+  getProdVersionsByProdId(id: number): Observable<ProductVersion[]> {
+    return this.http.get<ProductVersion[]>(
+      `${environment.apiBaseUrl}/api/ProductVersion/showprodversionbyprodid/${id}`
+    );
+  }
 
   deleteProductVersion(id: number): Observable<ProductVersion> {
     return this.http.delete<ProductVersion>(

@@ -59,6 +59,7 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { ProductVersion } from '../../productversion/models/productversion.model';
+import { ProductversionService } from '../../productversion/services/productversion.service';
 
 @Component({
   selector: 'app-update-product',
@@ -178,6 +179,7 @@ export class UpdateProductComponent implements AfterViewInit {
     private fb: FormBuilder,
     private suggestionService: SuggestionService,
     private dialogRef: MatDialogRef<UpdateProductComponent>,
+    private productVersionService: ProductversionService,
     @Inject(MAT_DIALOG_DATA) public data: { productid: number }
   ) {
     this.productId = data.productid;
@@ -192,6 +194,13 @@ export class UpdateProductComponent implements AfterViewInit {
           this.product = response;
           //console.log(this.product);
           this.existing_version = this.product.version;
+
+          this.product.productVersions.forEach(version => {
+            if (version.versionDate) {
+              version.versionDate = new Date(version.versionDate).toISOString().split('T')[0];
+            }
+          });
+
           this.dataSource_product_version.data = this.product.productVersions;
           console.log(this.dataSource_product_version.data);
         },
@@ -768,7 +777,16 @@ export class UpdateProductComponent implements AfterViewInit {
   }
 
   saveRow(row: ProductVersion) {
-    // call your API to save the updated row here
+    console.log(row);
+    this.productVersionService.updateProductVersion(row.id, row).subscribe({
+      next: (response) => {
+        console.log('updated');
+      },
+      error: (error) => {
+        console.log(error);
+      }
+
+    });
     this.editingRow = null;
   }
 

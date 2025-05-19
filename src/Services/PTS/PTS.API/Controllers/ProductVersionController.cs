@@ -241,6 +241,26 @@ namespace PTS.API.Controllers
             return Ok(response);
         }
 
+        [HttpPut("update-productversion-mini/{id}")]
+        [Authorize(Roles = "MANAGER,ADMIN")]
+        public IActionResult UpdateProductVersion(int id, [FromBody] UpdateProductVersionMiniDto dto)
+        {
+            var productVersion = dbContext.ProductVersions.Find(id);
+
+            if (productVersion == null) return NotFound();
+
+            productVersion.Version = dto.Version;
+            productVersion.VersionDate = dto.VersionDate;
+            productVersion.Description = dto.Description;
+            productVersion.PrNo = dto.PrNo;
+            productVersion.PoNo = dto.PoNo;
+            productVersion.CylinderCompanyId = dto.CylinderCompanyId;
+            productVersion.PrintingCompanyId = dto.PrintingCompanyId;
+            dbContext.SaveChanges();
+
+            return Ok(productVersion);
+        }
+
         [HttpPut("updateproductversion/{id}")]
         [Authorize(Roles = "MANAGER,ADMIN")]
         public IActionResult UpdateProductVersion(int id, [FromBody] UpdateProductVersionDto dto)
