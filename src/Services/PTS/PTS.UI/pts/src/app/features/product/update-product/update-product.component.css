@@ -1,0 +1,38 @@
+.size-100 {
+  width: 100px;
+}
+
+.size-120 {
+  width: 120px;
+}
+
+.size-150 {
+  width: 150px;
+}
+
+.editable-input {
+  font-size: 13px;
+  line-height: 1.2;
+
+  .mat-form-field-wrapper {
+    padding: 0 6px;
+  }
+
+  .mat-form-field-infix {
+    padding: 2px 0 !important;
+  }
+
+  input.mat-input-element {
+    height: 28px;
+    padding: 2px 4px;
+    font-size: 13px;
+  }
+
+  .mat-form-field-outline {
+    border-width: 1px;
+  }
+
+  .mat-form-field-outline-thick {
+    border-width: 1px;
+  }
+}

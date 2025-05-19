@@ -85,6 +85,7 @@ import { ProductversionService } from '../../productversion/services/productvers
   styleUrl: './update-product.component.css',
 })
 export class UpdateProductComponent implements AfterViewInit {
+
   productId: number = 0;
   paramsSubscription?: Subscription;
   editProductSubscription?: Subscription;
@@ -436,13 +437,25 @@ export class UpdateProductComponent implements AfterViewInit {
   }
 
   getCylinderCompanyName(id: number): string {
-    const company = this.cylinderCompanies.find(c => c.id === id);
-    return company ? company.name : id.toString();
+    if(id){
+      const company = this.cylinderCompanies.find(c => c.id === id);
+      return company ? company.name : id.toString();
+    }
+    else{
+      return '';
+    }
+    
   }
 
   getPrintingCompanyName(id: number): string {
-    const company = this.printingCompanies.find(c => c.id === id);
-    return company ? company.name : id.toString();
+    if(id){
+      const company = this.printingCompanies.find(c => c.id === id);
+      return company ? company.name : id.toString();
+    }
+    else{
+      return '';
+    }
+    
   }
 
   onSearchChangeBrand(value: string) {
@@ -744,7 +757,6 @@ export class UpdateProductComponent implements AfterViewInit {
   }
 
   displayedColumns: string[] = [
-    'id',
     'version',
     'versionDate',
     'description',
