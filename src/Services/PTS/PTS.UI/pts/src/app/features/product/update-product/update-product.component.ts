@@ -104,6 +104,8 @@ export class UpdateProductComponent implements AfterViewInit {
   packtypes$?: Observable<PackType[]>;
   cylinderCompanies$?: Observable<CylinderCompany[]>;
   printingCompanies$?: Observable<PrintingCompany[]>;
+  printingCompanies: PrintingCompany[] = [];
+  cylinderCompanies: CylinderCompany[] = [];
 
   private addProductSubscription?: Subscription;
   private uploadAttachmentSubscription?: Subscription;
@@ -316,10 +318,20 @@ export class UpdateProductComponent implements AfterViewInit {
 
     this.categories$ = this.categoryService.getAllCategories();
     this.packtypes$ = this.packTypeService.getAllPackTypes();
-    this.cylinderCompanies$ =
-      this.cylinderCompanyService.getAllCylinderCompanies();
-    this.printingCompanies$ =
-      this.printingCompanyService.getAllPrintingCompanies();
+    this.cylinderCompanies$ = this.cylinderCompanyService.getAllCylinderCompanies();
+    this.printingCompanies$ = this.printingCompanyService.getAllPrintingCompanies();
+
+    // converting to plain array : printingCompanies
+    this.printingCompanies$
+    ?.subscribe(companies => {
+      this.printingCompanies = companies;
+    });
+
+    // converting to plain array : cylinderCompanies
+    this.cylinderCompanies$
+    ?.subscribe(companies => {
+      this.cylinderCompanies = companies;
+    });
 
     // load brands
     this.searchBrands
@@ -412,6 +424,16 @@ export class UpdateProductComponent implements AfterViewInit {
       .subscribe((data) => {
         this.suggestions_barcode = data;
       });
+  }
+
+  getCylinderCompanyName(id: number): string {
+    const company = this.cylinderCompanies.find(c => c.id === id);
+    return company ? company.name : id.toString();
+  }
+
+  getPrintingCompanyName(id: number): string {
+    const company = this.printingCompanies.find(c => c.id === id);
+    return company ? company.name : id.toString();
   }
 
   onSearchChangeBrand(value: string) {
@@ -719,10 +741,8 @@ export class UpdateProductComponent implements AfterViewInit {
     'description',
     'prNo',
     'poNo',
-    'productId',
     'cylinderCompanyId',
     'printingCompanyId',
-    'userId',
     'actions'
   ];
   dataSource_product_version = new MatTableDataSource<ProductVersion>();
