@@ -243,7 +243,7 @@ export class AddProductComponent implements OnInit, OnDestroy {
   printingcompanyid?: number;
 
   addToBarCodeList(): void {
-    if (this.ind_barcode.trim()) {
+    if (this.ind_barcode.trim().length == 13) {
       this.barcodes.push(this.ind_barcode.trim());
       this.ind_barcode = ''; // Clear input
     }

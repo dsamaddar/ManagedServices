@@ -41,6 +41,7 @@ namespace PTS.API.Repositories.Implementation
         public async Task<Product?> DeleteAsync(int id)
         {
             var existingProduct = await dbContext.Products
+                .Include(p => p.BarCodes)
                 .Include(p => p.ProductVersions)
                     .ThenInclude(pv => pv.CylinderCompany)
                 .Include(p => p.ProductVersions)
@@ -192,6 +193,7 @@ namespace PTS.API.Repositories.Implementation
         public async Task<Product?> GetByIdAsync(int id)
         {
             var product = await dbContext.Products
+                .Include(p => p.BarCodes)
                 .Include(p => p.ProductVersions)
                     .ThenInclude(pv => pv.CylinderCompany)
                 .Include(p => p.ProductVersions)
@@ -239,6 +241,7 @@ namespace PTS.API.Repositories.Implementation
         public async Task<Product?> GetByProductCodeAsync(string productcode)
         {
             var product = await dbContext.Products
+                .Include(p => p.BarCodes)
                 .Include(p => p.ProductVersions)
                     .ThenInclude(pv => pv.CylinderCompany)
                 .Include(p => p.ProductVersions)
@@ -262,6 +265,7 @@ namespace PTS.API.Repositories.Implementation
         public async Task<Product?> GetByVersionAsync(string version)
         {
             var product = await dbContext.Products
+                .Include(p => p.BarCodes)
                 .Include(p => p.ProductVersions)
                     .ThenInclude(pv => pv.CylinderCompany)
                 .Include(p => p.ProductVersions)

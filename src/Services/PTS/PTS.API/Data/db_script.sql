@@ -1,4 +1,8 @@
 
+use master;
+
+GO
+
 EXEC sp_configure 'show advanced options', 1;
 RECONFIGURE;
 EXEC sp_configure 'Ad Hoc Distributed Queries', 1;
@@ -86,12 +90,18 @@ BEGIN
 	+ ' ; PrintingCompanyId: ' + convert(nvarchar,isnull(@PrintingCompanyId,0));
     */
 
-	insert into Products(CategoryId,Brand,FlavourType,Origin,SKU,PackTypeId,ProductCode,[Version],ProjectDate,Barcode,CylinderCompanyId,PrintingCompanyId,UserId)
-	values(@CategoryId,@Brand,@Flavour,@ORIGIN,@SKU,@PackTypeId,@CODE,@ProdVersion,ISNULL(@ProjectDt,GETDATE()),@BARCODE,@CylinderCompanyId,@PrintingCompanyId,@UserId);
+	insert into Products(CategoryId,Brand,FlavourType,Origin,SKU,PackTypeId,ProductCode,[Version],ProjectDate,UserId)
+	values(@CategoryId,@Brand,@Flavour,@ORIGIN,@SKU,@PackTypeId,@CODE,@ProdVersion,ISNULL(@ProjectDt,GETDATE()),@UserId);
 
 	set @ProductId = SCOPE_IDENTITY();
 
 	print 'Product Id: ' + convert(nvarchar,@ProductId);
+
+	if @BARCODE is not null
+	begin
+		set @BARCODE = REPLACE(@BARCODE,' ','');
+		insert into BarCodes(BarCode,ProductId)values(@BARCODE, @ProductId);
+	end
 
 	if @ProdVersion is not null
 	begin
@@ -107,6 +117,7 @@ BEGIN
 	set @ProductId = null;
 	set @CategoryId = null;
 	set @PackTypeId = null;
+	set @BARCODE = null;
 	set @CylinderCompanyId = null;
 	set @PrintingCompanyId = null;
 

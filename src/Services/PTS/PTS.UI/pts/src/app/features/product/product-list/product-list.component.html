@@ -193,6 +193,7 @@
     </div>
     <div class="col-md-2">
       <ng-select
+        [hidden]="true"
         name="cylindercompanyid"
         [items]="cylinderCompanies$ | async"
         bindLabel="name"
@@ -218,6 +219,7 @@
     </div>
     <div class="col-md-2">
       <ng-select
+        [hidden]="true"
         name="printingcompanyid"
         [items]="printingCompanies$ | async"
         bindLabel="name"
@@ -310,7 +312,7 @@
             </td>
             <td>
                 <div class="" *ngFor="let barcode of product.barCodes">
-                  {{barcode}}
+                  {{barcode.barCode}}
                 </div>
             </td>
             <td style="display: none">
