@@ -25,7 +25,11 @@
             <div class="col-md-2 text-dark">Product Code</div>
             <div class="col-md-2">{{ product?.productCode }}</div>
             <div class="col-md-2 text-dark">Barcode</div>
-            <div class="col-md-2">{{ product?.barcode }}</div>
+            <div class="col-md-2">
+              <div class="" *ngFor="let barcode of product?.barCodes">
+                {{ barcode }}
+              </div>
+            </div>
           </div>
           <!-- <div class="row">
             <div class="col-md-2 text-dark">Project Date</div>
@@ -64,8 +68,8 @@
             <td>{{ prevProdVersion.description }}</td>
             <td>{{ prevProdVersion.cylinderCompany.name }}</td>
             <td>{{ prevProdVersion.printingCompany.name }}</td>
-            <td>{{ prevProdVersion.prNo || '' }}</td>
-            <td>{{ prevProdVersion.poNo || '' }}</td>
+            <td>{{ prevProdVersion.cylinderPrNo || "" }}</td>
+            <td>{{ prevProdVersion.cylinderPoNo || "" }}</td>
             <td>
               <div
                 class=""

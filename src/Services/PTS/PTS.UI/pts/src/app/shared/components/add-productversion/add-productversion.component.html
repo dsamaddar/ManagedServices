@@ -38,8 +38,8 @@
                 <td>{{ prevProdVersion.description }}</td>
                 <td>{{ prevProdVersion.cylinderCompany.name }}</td>
                 <td>{{ prevProdVersion.printingCompany.name }}</td>
-                <td>{{ prevProdVersion.prNo }}</td>
-                <td>{{ prevProdVersion.poNo }}</td>
+                <td>{{ prevProdVersion.cylinderPrNo }}</td>
+                <td>{{ prevProdVersion.cylinderPoNo }}</td>
                 <td>
                   <div
                     class=""
@@ -206,7 +206,7 @@
                   <mat-label>PR Number</mat-label>
                   <input
                     matInput
-                    [(ngModel)]="productVersion.prno"
+                    [(ngModel)]="productVersion.cylinderPrNo"
                     placeholder=""
                     name="prno"
                     class="form-control"
@@ -218,7 +218,7 @@
                   <mat-label>PO Number</mat-label>
                   <input
                     matInput
-                    [(ngModel)]="productVersion.pono"
+                    [(ngModel)]="productVersion.cylinderPoNo"
                     placeholder=""
                     name="prno"
                     class="form-control"

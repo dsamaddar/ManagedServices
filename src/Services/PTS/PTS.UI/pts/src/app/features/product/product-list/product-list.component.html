@@ -14,14 +14,14 @@
         (change)="onSearch(queryText.value)"
         [multiple]="true"
       >
-      <ng-template ng-option-tmp let-item="item">
-        <div
-          (mouseenter)="showCommonOverlay($event, 'Category', item.name)"
-          (mouseleave)="hideCommonOverlay()"
-        >
-          {{ item.name }}
-        </div>
-      </ng-template>
+        <ng-template ng-option-tmp let-item="item">
+          <div
+            (mouseenter)="showCommonOverlay($event, 'Category', item.name)"
+            (mouseleave)="hideCommonOverlay()"
+          >
+            {{ item.name }}
+          </div>
+        </ng-template>
       </ng-select>
     </div>
     <div class="col-md-2">
@@ -38,14 +38,14 @@
         (search)="onFilterBrand($event.term)"
         [multiple]="true"
       >
-      <ng-template ng-option-tmp let-item="item">
-        <div
-          (mouseenter)="showCommonOverlay($event, 'Brand', item)"
-          (mouseleave)="hideCommonOverlay()"
-        >
-          {{ item }}
-        </div>
-      </ng-template>
+        <ng-template ng-option-tmp let-item="item">
+          <div
+            (mouseenter)="showCommonOverlay($event, 'Brand', item)"
+            (mouseleave)="hideCommonOverlay()"
+          >
+            {{ item }}
+          </div>
+        </ng-template>
       </ng-select>
     </div>
     <div class="col-md-2">
@@ -85,14 +85,14 @@
         (change)="onSearch(queryText.value)"
         [multiple]="true"
       >
-      <ng-template ng-option-tmp let-item="item">
-        <div
-          (mouseenter)="showCommonOverlay($event, 'Origin', item)"
-          (mouseleave)="hideCommonOverlay()"
-        >
-          {{ item }}
-        </div>
-      </ng-template>
+        <ng-template ng-option-tmp let-item="item">
+          <div
+            (mouseenter)="showCommonOverlay($event, 'Origin', item)"
+            (mouseleave)="hideCommonOverlay()"
+          >
+            {{ item }}
+          </div>
+        </ng-template>
       </ng-select>
     </div>
     <div class="col-md-2">
@@ -158,14 +158,14 @@
         (change)="onSearch(queryText.value)"
         [multiple]="true"
       >
-      <ng-template ng-option-tmp let-item="item">
-        <div
-          (mouseenter)="showCommonOverlay($event, 'SKU', item)"
-          (mouseleave)="hideCommonOverlay()"
-        >
-          {{ item }}
-        </div>
-      </ng-template>
+        <ng-template ng-option-tmp let-item="item">
+          <div
+            (mouseenter)="showCommonOverlay($event, 'SKU', item)"
+            (mouseleave)="hideCommonOverlay()"
+          >
+            {{ item }}
+          </div>
+        </ng-template>
       </ng-select>
     </div>
     <div class="col-md-2">
@@ -181,14 +181,14 @@
         (change)="onSearch(queryText.value)"
         [multiple]="true"
       >
-      <ng-template ng-option-tmp let-item="item">
-        <div
-          (mouseenter)="showCommonOverlay($event, 'Pack Type', item.name)"
-          (mouseleave)="hideCommonOverlay()"
-        >
-          {{ item.name }}
-        </div>
-      </ng-template>
+        <ng-template ng-option-tmp let-item="item">
+          <div
+            (mouseenter)="showCommonOverlay($event, 'Pack Type', item.name)"
+            (mouseleave)="hideCommonOverlay()"
+          >
+            {{ item.name }}
+          </div>
+        </ng-template>
       </ng-select>
     </div>
     <div class="col-md-2">
@@ -204,14 +204,16 @@
         (change)="onSearch(queryText.value)"
         [multiple]="true"
       >
-      <ng-template ng-option-tmp let-item="item">
-        <div
-          (mouseenter)="showCommonOverlay($event, 'Cylinder Company', item.name)"
-          (mouseleave)="hideCommonOverlay()"
-        >
-          {{ item.name }}
-        </div>
-      </ng-template>
+        <ng-template ng-option-tmp let-item="item">
+          <div
+            (mouseenter)="
+              showCommonOverlay($event, 'Cylinder Company', item.name)
+            "
+            (mouseleave)="hideCommonOverlay()"
+          >
+            {{ item.name }}
+          </div>
+        </ng-template>
       </ng-select>
     </div>
     <div class="col-md-2">
@@ -227,14 +229,16 @@
         (change)="onSearch(queryText.value)"
         [multiple]="true"
       >
-      <ng-template ng-option-tmp let-item="item">
-        <div
-          (mouseenter)="showCommonOverlay($event, 'Printing Company', item.name)"
-          (mouseleave)="hideCommonOverlay()"
-        >
-          {{ item.name }}
-        </div>
-      </ng-template>
+        <ng-template ng-option-tmp let-item="item">
+          <div
+            (mouseenter)="
+              showCommonOverlay($event, 'Printing Company', item.name)
+            "
+            (mouseleave)="hideCommonOverlay()"
+          >
+            {{ item.name }}
+          </div>
+        </ng-template>
       </ng-select>
     </div>
     <div class="col-md-2">
@@ -280,8 +284,6 @@
             <th>Pack Type</th>
             <th>Barcode</th>
             <th style="display: none">Date</th>
-            <th style="display: none">Cylinder</th>
-            <th style="display: none">Printing</th>
             <th style="min-width: 200px">Versions</th>
             <th style="min-width: 150px">Action</th>
           </tr>
@@ -307,16 +309,12 @@
               {{ product.packType.name }}
             </td>
             <td>
-              {{ product.barcode }}
+                <div class="" *ngFor="let barcode of product.barCodes">
+                  {{barcode}}
+                </div>
             </td>
             <td style="display: none">
               {{ product.projectDate | date : "mediumDate" }}
-            </td>
-            <td style="display: none">
-              {{ product.cylinderCompany.name }}
-            </td>
-            <td style="display: none">
-              {{ product.printingCompany.name }}
             </td>
             <td>
               <div

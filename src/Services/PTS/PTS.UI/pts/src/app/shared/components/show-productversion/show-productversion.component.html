@@ -27,7 +27,11 @@
                 <div class="col-md-3 text-dark">SKU</div>
                 <div class="col-md-3">{{ product?.sku }}</div>
                 <div class="col-md-3 text-dark">Bar Code</div>
-                <div class="col-md-3">{{ product?.barcode }}</div>
+                <div class="col-md-3">
+                  <div class="" *ngFor="let barcode of product?.barCodes">
+                    {{ barcode }}
+                  </div>
+                </div>
               </div>
               <!-- <div class="row">
                 <div class="col-md-3 text-dark">Project Date</div>
@@ -75,13 +79,13 @@
               <div class="row">
                 <div class="col-md-3 text-dark">Cylinder Company</div>
                 <div class="col-md-3">
-                  <div *ngIf="product?.cylinderCompany">
+                  <div *ngIf="product?.productVersions">
                     {{ product?.productVersions?.[0]?.cylinderCompany?.name }}
                   </div>
                 </div>
                 <div class="col-md-3 text-dark">Printing Company</div>
                 <div class="col-md-3">
-                  <div *ngIf="product?.printingCompany">
+                  <div *ngIf="product?.productVersions">
                     {{ product?.productVersions?.[0]?.printingCompany?.name }}
                   </div>
                 </div>
@@ -90,13 +94,13 @@
                 <div class="col-md-3 text-dark">PR No</div>
                 <div class="col-md-3">
                   <div *ngIf="product?.productVersions">
-                    {{ product?.productVersions?.[0]?.prNo }}
+                    {{ product?.productVersions?.[0]?.cylinderPrNo }}
                   </div>
                 </div>
                 <div class="col-md-3 text-dark">PO No</div>
                 <div class="col-md-3">
                   <div *ngIf="product?.productVersions">
-                    {{ product?.productVersions?.[0]?.poNo }}
+                    {{ product?.productVersions?.[0]?.cylinderPoNo }}
                   </div>
                 </div>
               </div>
@@ -157,7 +161,11 @@
               </div>
               <div class="row">
                 <div class="col-md-12">
-                  <button type="button" class="btn btn-success w-100" (click)="updateInfo()">
+                  <button
+                    type="button"
+                    class="btn btn-success w-100"
+                    (click)="updateInfo()"
+                  >
                     Save
                   </button>
                 </div>

@@ -20,7 +20,7 @@ export interface AllProduct{
     projectDate: Date,
     category: Category,
     packType: PackType,
-    productVersions: ProductVersion[],
     barCodes: BarCodes[],
+    productVersions: ProductVersion[],
     userId: string,
 }

@@ -67,8 +67,8 @@ export class ShowProductversionComponent implements OnInit, OnDestroy {
             //console.log(response);
             this.product = response;
             this.attachment_list = this.product.productVersions[0].attachments;
-            this.prNo = this.product.productVersions[0].prNo;
-            this.poNo = this.product.productVersions[0].poNo;
+            this.prNo = this.product.productVersions[0].cylinderPrNo;
+            this.poNo = this.product.productVersions[0].cylinderPoNo;
             console.log(this.product);
           },
         });
@@ -97,8 +97,8 @@ export class ShowProductversionComponent implements OnInit, OnDestroy {
       )
       .subscribe((updated) => {
         if (this.product) {
-          this.product.productVersions[0].prNo = updated.prNo;
-          this.product.productVersions[0].poNo = updated.poNo;
+          this.product.productVersions[0].cylinderPrNo = updated.cylinderPrNo;
+          this.product.productVersions[0].cylinderPoNo = updated.cylinderPoNo;
         }
         this.close();
         ToastrUtils.showToast('Product Version Updated');

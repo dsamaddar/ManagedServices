@@ -192,15 +192,15 @@ export class ProductListComponent implements OnInit {
                 SKU: p.sku,
                 ProductCode: p.productCode,
                 PackType: p.packType?.name,
-                BarCode: p.barcode,
+                BarCode: '',//p.barcode,
                 // ProductVersion info
                 Version: v.version,
                 VersionDate: v.versionDate
                   ? new Date(v.versionDate).toISOString().slice(0, 10)
                   : '',
                 Description: v.description,
-                PR_No: v.prNo,
-                PO_No: v.poNo,
+                PR_No: v.cylinderPrNo,
+                PO_No: v.cylinderPoNo,
                 CylinderCompany: v.cylinderCompany?.name,
                 PrintingCompany: v.printingCompany?.name,
               });
@@ -215,7 +215,7 @@ export class ProductListComponent implements OnInit {
               SKU: p.sku,
               ProductCode: p.productCode,
               PackType: p.packType?.name,
-              BarCode: p.barcode,
+              BarCode: '',//p.barcode,
               Version: '',
               VersionDate: '',
               Description: '',
@@ -255,12 +255,12 @@ export class ProductListComponent implements OnInit {
           SKU: p.sku,
           ProductCode: p.productCode,
           PackType: p.packType.name,
-          BarCode: p.barcode,
+          // BarCode: p.barcode,
           ProjectDate: p.projectDate
             ? new Date(p.projectDate).toISOString().slice(0, 10)
             : '',
-          CylinderCompany: p.cylinderCompany.name,
-          PrintingCompany: p.printingCompany.name,
+          // CylinderCompany: p.cylinderCompany.name,
+          // PrintingCompany: p.printingCompany.name,
           ProductVersions:
             p.productVersions
               ?.map((v) => v.version + ' [' + v.versionDate + ']')

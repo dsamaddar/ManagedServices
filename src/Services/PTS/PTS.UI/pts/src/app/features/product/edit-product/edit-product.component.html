@@ -321,20 +321,10 @@
                 Version Already Exists
               </mat-error>
             </mat-form-field>
-
-            <!-- <label for="version" class="form-label">Version</label>
-            <input
-              *ngIf="product"
-              type="text"
-              id="version"
-              name="version"
-              class="form-control"
-              [(ngModel)]="product.version"
-              (keydown.space)="$event.preventDefault()"
-            /> -->
           </div>
         </div>
         <div class="col-md-4">
+          <!--
           <div class="mt-1 form-group">
             <mat-form-field appearance="outline" class="full-width">
               <mat-label>Barcode</mat-label>
@@ -361,7 +351,6 @@
                   {{ barcode }}
                 </mat-option>
               </mat-autocomplete>
-              <!-- Validation error message -->
               <mat-error
                 *ngIf="form.submitted && form.controls['barcode']?.invalid"
               >
@@ -385,18 +374,8 @@
                 Barcode must not exceed 13 characters
               </mat-error>
             </mat-form-field>
-
-            <!-- <label for="barcode" class="form-label">Barcode</label>
-            <input
-              *ngIf="product"
-              type="text"
-              id="barcode"
-              name="barcode"
-              class="form-control"
-              [(ngModel)]="product.barcode"
-              (keydown.space)="$event.preventDefault()"
-            /> -->
           </div>
+          -->
         </div>
       </div>
 
@@ -441,7 +420,7 @@
           </div>
         </div>
 
-        <div class="col-md-4">
+        <!-- <div class="col-md-4">
           <div class="mt-1 form-group ng-wrapper">
             <label for="cylindercompanyid" class="form-label material-label"
               >Cylinder Company</label
@@ -468,8 +447,8 @@
               Cylinder Company is required
             </div>
           </div>
-        </div>
-        <div class="col-md-4">
+        </div> -->
+        <!-- <div class="col-md-4">
           <div class="mt-1 form-group ng-wrapper">
             <label for="printingcompanyid" class="form-label material-label"
               >Printing Company</label
@@ -496,7 +475,7 @@
               Printing Company is required
             </div>
           </div>
-        </div>
+        </div> -->
       </div>
 
       <div class="row mt-3"></div>

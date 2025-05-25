@@ -474,32 +474,32 @@ export class EditProductComponent implements OnInit, OnDestroy {
     }
   }
 
-  onSearchChangeBarcode(value: string) {
-    const upper = value.toUpperCase();
+  // onSearchChangeBarcode(value: string) {
+  //   const upper = value.toUpperCase();
 
-    if (this.product) {
-      this.product.barcode = upper; // updates ngModel immediately
+  //   if (this.product) {
+  //     this.product.barcode = upper; // updates ngModel immediately
 
-      console.log('barcode->' + upper);
-      if (value && value.length >= 1) {
-        this.searchBarcodes.next(upper);
+  //     console.log('barcode->' + upper);
+  //     if (value && value.length >= 1) {
+  //       this.searchBarcodes.next(upper);
 
-        this.suggestionService.getIsBarCodeUnique(upper).subscribe({
-          next: (response) => {
-            this.isBarCodeUnique = response;
-            if (this.isBarCodeUnique === false) {
-              console.log(this.isBarCodeUnique);
-              ToastrUtils.showErrorToast(
-                'Barcode Already Exists (' + upper + ')'
-              );
-            }
-          },
-        });
-      } else {
-        this.suggestions_barcode = [];
-      }
-    }
-  }
+  //       this.suggestionService.getIsBarCodeUnique(upper).subscribe({
+  //         next: (response) => {
+  //           this.isBarCodeUnique = response;
+  //           if (this.isBarCodeUnique === false) {
+  //             console.log(this.isBarCodeUnique);
+  //             ToastrUtils.showErrorToast(
+  //               'Barcode Already Exists (' + upper + ')'
+  //             );
+  //           }
+  //         },
+  //       });
+  //     } else {
+  //       this.suggestions_barcode = [];
+  //     }
+  //   }
+  // }
 
   isFileSelectorVisible: boolean = false;
 
@@ -526,9 +526,9 @@ export class EditProductComponent implements OnInit, OnDestroy {
 
     if (
       this.product?.categoryId == 0 ||
-      this.product?.packTypeId == 0 ||
-      this.product?.cylinderCompanyId == 0 ||
-      this.product?.printingCompanyId == 0
+      this.product?.packTypeId == 0 //||
+      //this.product?.cylinderCompanyId == 0 ||
+      //this.product?.printingCompanyId == 0
     ) {
       //alert('Missing: Category/Project/Cylinder Company/Printing Company');
       ToastrUtils.showErrorToast(
@@ -547,9 +547,9 @@ export class EditProductComponent implements OnInit, OnDestroy {
       productcode: this.product?.productCode,
       version: this.product?.version,
       projectdate: this.product?.projectDate,
-      barcode: this.product?.barcode,
-      cylindercompanyid: this.product?.cylinderCompanyId,
-      printingcompanyid: this.product?.printingCompanyId,
+      // barcode: this.product?.barcode,
+      // cylindercompanyid: this.product?.cylinderCompanyId,
+      // printingcompanyid: this.product?.printingCompanyId,
       userId: String(localStorage.getItem('user-id')),
     };
 
