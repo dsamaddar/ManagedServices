@@ -37,6 +37,7 @@ builder.Services.AddScoped<IPackTypeRepository, PackTypeRepository>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<ITokenRepository, TokenRepository>();
 builder.Services.AddScoped<IProductVersionRepository, ProductVersionRepository>();
+builder.Services.AddScoped<IBarCodeRepository, BarCodeRepository>();
 builder.Services.AddScoped<IEmailService, EmailService>();
 
 builder.Services.Configure<FormOptions>(options =>
