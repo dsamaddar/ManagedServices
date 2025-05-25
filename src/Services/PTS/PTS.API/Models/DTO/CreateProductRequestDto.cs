@@ -18,10 +18,6 @@ namespace PTS.API.Models.DTO
         public string? PackType { get; set; }
         public string? Version { get; set; }
         public DateTime ProjectDate { get; set; }
-        public string? Barcode { get; set; }
-        public int? CylinderCompanyId { get; set; }
-
-        public int? PrintingCompanyId { get; set; }
 
         public int? PackTypeId { get; set; }
 
