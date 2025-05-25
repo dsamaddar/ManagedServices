@@ -47,8 +47,6 @@ namespace PTS.API.Repositories.Implementation
                     .ThenInclude(pv => pv.PrintingCompany)
                 .Include(p => p.ProductVersions)
                     .ThenInclude(pv => pv.Attachments)
-                .Include(x => x.CylinderCompany)
-                .Include(x => x.PrintingCompany)
                 .Include(x => x.PackType)
                 .Include(x => x.Category)
                 .FirstOrDefaultAsync(x => x.Id == id);
@@ -92,8 +90,6 @@ namespace PTS.API.Repositories.Implementation
                     .ThenInclude(pv => pv.PrintingCompany)
                 .Include(p => p.ProductVersions)
                     .ThenInclude(pv => pv.Attachments)
-                .Include(x => x.CylinderCompany)
-                .Include(x => x.PrintingCompany)
                 .Include(x => x.PackType)
                 .Include(x => x.Category)
                 .AsQueryable();
@@ -113,8 +109,6 @@ namespace PTS.API.Repositories.Implementation
                                     (x.ProductCode != null && x.ProductCode.Contains(query)) ||
                                     (x.Version != null && x.Version.Contains(query)) ||
                                     (x.Category != null && x.Category.Name != null && x.Category.Name.Contains(query)) ||
-                                    (x.PrintingCompany != null && x.PrintingCompany.Name != null && x.PrintingCompany.Name.Contains(query)) ||
-                                    (x.CylinderCompany != null && x.CylinderCompany.Name != null && x.CylinderCompany.Name.Contains(query)) ||
                                     (x.PackType != null && x.PackType.Name != null && x.PackType.Name.Contains(query))
                                 )
                             )
@@ -170,9 +164,7 @@ namespace PTS.API.Repositories.Implementation
                             .ThenBy(x => x.Origin)
                             .ThenBy(x => x.SKU)
                             .ThenBy(x => x.ProductCode)
-                            .ThenBy(x => x.PackType.Name)
-                            .ThenBy(x => x.CylinderCompany.Name)
-                            .ThenBy(x => x.PrintingCompany.Name);
+                            .ThenBy(x => x.PackType.Name);
 
             // Sort ProductVersions in place for each product
             foreach (var product in products)
@@ -206,8 +198,6 @@ namespace PTS.API.Repositories.Implementation
                     .ThenInclude(pv => pv.PrintingCompany)
                 .Include(p => p.ProductVersions)
                     .ThenInclude(pv => pv.Attachments)
-                .Include(x => x.CylinderCompany)
-                .Include(x => x.PrintingCompany)
                 .Include(x => x.PackType)
                 .Include(x => x.Category)
                 .FirstOrDefaultAsync(x => x.Id == id);
@@ -232,8 +222,6 @@ namespace PTS.API.Repositories.Implementation
                     .ThenInclude(pv => pv.PrintingCompany)
                 .Include(p => p.ProductVersions)
                     .ThenInclude(pv => pv.Attachments)
-                .Include(x => x.CylinderCompany)
-                .Include(x => x.PrintingCompany)
                 .Include(x => x.PackType)
                 .Include(x => x.Category)
                 .FirstOrDefaultAsync(x => x.BarCodes.Any(b => b.BarCode == barcode));
@@ -257,8 +245,6 @@ namespace PTS.API.Repositories.Implementation
                     .ThenInclude(pv => pv.PrintingCompany)
                 .Include(p => p.ProductVersions)
                     .ThenInclude(pv => pv.Attachments)
-                .Include(x => x.CylinderCompany)
-                .Include(x => x.PrintingCompany)
                 .Include(x => x.PackType)
                 .Include(x => x.Category)
                 .FirstOrDefaultAsync(x => x.ProductCode == productcode);
@@ -282,8 +268,6 @@ namespace PTS.API.Repositories.Implementation
                     .ThenInclude(pv => pv.PrintingCompany)
                 .Include(p => p.ProductVersions)
                     .ThenInclude(pv => pv.Attachments)
-                .Include(x => x.CylinderCompany)
-                .Include(x => x.PrintingCompany)
                 .Include(x => x.PackType)
                 .Include(x => x.Category)
                 .Where(p => p.ProductVersions
@@ -305,8 +289,6 @@ namespace PTS.API.Repositories.Implementation
         {
             // Query the database not actually retrieving anything
             var products = dbContext.Products
-                .Include(x => x.CylinderCompany)
-                .Include(x => x.PrintingCompany)
                 .Include(x => x.PackType)
                 .Include(x => x.Category)
                 .Include(x => x.ProductVersions)

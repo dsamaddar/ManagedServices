@@ -8,8 +8,5 @@ export interface UpdateProductRequest{
     productcode?: string,
     version?: string,
     projectdate?: Date,
-    barcode?: string,
-    cylindercompanyid?: number,
-    printingcompanyid?: number,
     userId?: string,
 }

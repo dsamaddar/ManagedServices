@@ -87,9 +87,6 @@ namespace PTS.API.Migrations.ApplicationDb
                     ProductCode = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     Version = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     ProjectDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Barcode = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    CylinderCompanyId = table.Column<int>(type: "int", nullable: true),
-                    PrintingCompanyId = table.Column<int>(type: "int", nullable: true),
                     PackTypeId = table.Column<int>(type: "int", nullable: true),
                     UserId = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
@@ -102,20 +99,30 @@ namespace PTS.API.Migrations.ApplicationDb
                         principalTable: "Categories",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Products_CylinderCompanies_CylinderCompanyId",
-                        column: x => x.CylinderCompanyId,
-                        principalTable: "CylinderCompanies",
-                        principalColumn: "Id");
-                    table.ForeignKey(
                         name: "FK_Products_PackTypes_PackTypeId",
                         column: x => x.PackTypeId,
                         principalTable: "PackTypes",
                         principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "BarCodes",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    BarCode = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    ProductId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BarCodes", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Products_PrintingCompanies_PrintingCompanyId",
-                        column: x => x.PrintingCompanyId,
-                        principalTable: "PrintingCompanies",
-                        principalColumn: "Id");
+                        name: "FK_BarCodes_Products_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "Products",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -127,8 +134,10 @@ namespace PTS.API.Migrations.ApplicationDb
                     Version = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     VersionDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PrNo = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PoNo = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CylinderPrNo = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CylinderPoNo = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PrintingPrNo = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PrintingPoNo = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ProductId = table.Column<int>(type: "int", nullable: false),
                     CylinderCompanyId = table.Column<int>(type: "int", nullable: true),
                     PrintingCompanyId = table.Column<int>(type: "int", nullable: true),
@@ -264,6 +273,18 @@ namespace PTS.API.Migrations.ApplicationDb
                 column: "ProductVersionId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_BarCodes_BarCode",
+                table: "BarCodes",
+                column: "BarCode",
+                unique: true,
+                filter: "[BarCode] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BarCodes_ProductId",
+                table: "BarCodes",
+                column: "ProductId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Categories_Name",
                 table: "Categories",
                 column: "Name",
@@ -295,19 +316,9 @@ namespace PTS.API.Migrations.ApplicationDb
                 column: "CategoryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Products_CylinderCompanyId",
-                table: "Products",
-                column: "CylinderCompanyId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Products_PackTypeId",
                 table: "Products",
                 column: "PackTypeId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Products_PrintingCompanyId",
-                table: "Products",
-                column: "PrintingCompanyId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ProductVersions_CylinderCompanyId",
@@ -339,7 +350,16 @@ namespace PTS.API.Migrations.ApplicationDb
                 name: "Attachments");
 
             migrationBuilder.DropTable(
+                name: "BarCodes");
+
+            migrationBuilder.DropTable(
                 name: "ProductVersions");
+
+            migrationBuilder.DropTable(
+                name: "CylinderCompanies");
+
+            migrationBuilder.DropTable(
+                name: "PrintingCompanies");
 
             migrationBuilder.DropTable(
                 name: "Products");
@@ -348,13 +368,7 @@ namespace PTS.API.Migrations.ApplicationDb
                 name: "Categories");
 
             migrationBuilder.DropTable(
-                name: "CylinderCompanies");
-
-            migrationBuilder.DropTable(
                 name: "PackTypes");
-
-            migrationBuilder.DropTable(
-                name: "PrintingCompanies");
         }
     }
 }

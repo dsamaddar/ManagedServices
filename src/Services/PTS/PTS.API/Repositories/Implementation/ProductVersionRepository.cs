@@ -90,8 +90,6 @@ namespace PTS.API.Repositories.Implementation
                     .ThenInclude(pv => pv.PrintingCompany)
                 .Include(p => p.ProductVersions)
                     .ThenInclude(pv => pv.Attachments)
-                .Include(x => x.CylinderCompany)
-                .Include(x => x.PrintingCompany)
                 .Include(x => x.PackType)
                 .Include(x => x.Category)
                 .Where(x => x.ProductVersions.Any(pv => pv.Id == id))

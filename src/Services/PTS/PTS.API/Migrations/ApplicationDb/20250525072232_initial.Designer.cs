@@ -12,7 +12,7 @@ using PTS.API.Data;
 namespace PTS.API.Migrations.ApplicationDb
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250515121425_initial")]
+    [Migration("20250525072232_initial")]
     partial class initial
     {
         /// <inheritdoc />
@@ -70,6 +70,34 @@ namespace PTS.API.Migrations.ApplicationDb
                     b.HasIndex("ProductVersionId");
 
                     b.ToTable("Attachments");
+                });
+
+            modelBuilder.Entity("PTS.API.Models.Domain.BarCodes", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnOrder(0);
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("BarCode")
+                        .HasColumnType("nvarchar(450)")
+                        .HasColumnOrder(1);
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int")
+                        .HasColumnOrder(2);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BarCode")
+                        .IsUnique()
+                        .HasFilter("[BarCode] IS NOT NULL");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("BarCodes");
                 });
 
             modelBuilder.Entity("PTS.API.Models.Domain.Category", b =>
@@ -571,11 +599,6 @@ namespace PTS.API.Migrations.ApplicationDb
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Barcode")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)")
-                        .HasColumnOrder(9);
-
                     b.Property<string>("Brand")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)")
@@ -584,10 +607,6 @@ namespace PTS.API.Migrations.ApplicationDb
                     b.Property<int?>("CategoryId")
                         .HasColumnType("int")
                         .HasColumnOrder(1);
-
-                    b.Property<int?>("CylinderCompanyId")
-                        .HasColumnType("int")
-                        .HasColumnOrder(10);
 
                     b.Property<string>("FlavourType")
                         .HasMaxLength(100)
@@ -601,11 +620,7 @@ namespace PTS.API.Migrations.ApplicationDb
 
                     b.Property<int?>("PackTypeId")
                         .HasColumnType("int")
-                        .HasColumnOrder(12);
-
-                    b.Property<int?>("PrintingCompanyId")
-                        .HasColumnType("int")
-                        .HasColumnOrder(11);
+                        .HasColumnOrder(9);
 
                     b.Property<string>("ProductCode")
                         .HasMaxLength(100)
@@ -622,7 +637,8 @@ namespace PTS.API.Migrations.ApplicationDb
                         .HasColumnOrder(5);
 
                     b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnOrder(10);
 
                     b.Property<string>("Version")
                         .HasMaxLength(100)
@@ -633,11 +649,7 @@ namespace PTS.API.Migrations.ApplicationDb
 
                     b.HasIndex("CategoryId");
 
-                    b.HasIndex("CylinderCompanyId");
-
                     b.HasIndex("PackTypeId");
-
-                    b.HasIndex("PrintingCompanyId");
 
                     b.ToTable("Products");
                 });
@@ -653,31 +665,39 @@ namespace PTS.API.Migrations.ApplicationDb
 
                     b.Property<int?>("CylinderCompanyId")
                         .HasColumnType("int")
-                        .HasColumnOrder(7);
+                        .HasColumnOrder(9);
+
+                    b.Property<string>("CylinderPoNo")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnOrder(5);
+
+                    b.Property<string>("CylinderPrNo")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnOrder(4);
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)")
                         .HasColumnOrder(3);
 
-                    b.Property<string>("PoNo")
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnOrder(5);
-
-                    b.Property<string>("PrNo")
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnOrder(4);
-
                     b.Property<int?>("PrintingCompanyId")
                         .HasColumnType("int")
-                        .HasColumnOrder(8);
+                        .HasColumnOrder(10);
+
+                    b.Property<string>("PrintingPoNo")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnOrder(7);
+
+                    b.Property<string>("PrintingPrNo")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnOrder(6);
 
                     b.Property<int>("ProductId")
                         .HasColumnType("int")
-                        .HasColumnOrder(6);
+                        .HasColumnOrder(8);
 
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(max)")
-                        .HasColumnOrder(9);
+                        .HasColumnOrder(11);
 
                     b.Property<string>("Version")
                         .HasColumnType("nvarchar(450)")
@@ -711,41 +731,40 @@ namespace PTS.API.Migrations.ApplicationDb
                     b.Navigation("ProductVersion");
                 });
 
+            modelBuilder.Entity("PTS.API.Models.Domain.BarCodes", b =>
+                {
+                    b.HasOne("PTS.API.Models.Domain.Product", "Product")
+                        .WithMany("BarCodes")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+                });
+
             modelBuilder.Entity("PTS.API.Models.Domain.Product", b =>
                 {
                     b.HasOne("PTS.API.Models.Domain.Category", "Category")
                         .WithMany("Products")
                         .HasForeignKey("CategoryId");
 
-                    b.HasOne("PTS.API.Models.Domain.CylinderCompany", "CylinderCompany")
-                        .WithMany("Products")
-                        .HasForeignKey("CylinderCompanyId");
-
                     b.HasOne("PTS.API.Models.Domain.PackType", "PackType")
                         .WithMany("Products")
                         .HasForeignKey("PackTypeId");
 
-                    b.HasOne("PTS.API.Models.Domain.PrintingCompany", "PrintingCompany")
-                        .WithMany("Products")
-                        .HasForeignKey("PrintingCompanyId");
-
                     b.Navigation("Category");
 
-                    b.Navigation("CylinderCompany");
-
                     b.Navigation("PackType");
-
-                    b.Navigation("PrintingCompany");
                 });
 
             modelBuilder.Entity("PTS.API.Models.Domain.ProductVersion", b =>
                 {
                     b.HasOne("PTS.API.Models.Domain.CylinderCompany", "CylinderCompany")
-                        .WithMany()
+                        .WithMany("Products")
                         .HasForeignKey("CylinderCompanyId");
 
                     b.HasOne("PTS.API.Models.Domain.PrintingCompany", "PrintingCompany")
-                        .WithMany()
+                        .WithMany("Products")
                         .HasForeignKey("PrintingCompanyId");
 
                     b.HasOne("PTS.API.Models.Domain.Product", "Product")
@@ -783,6 +802,8 @@ namespace PTS.API.Migrations.ApplicationDb
 
             modelBuilder.Entity("PTS.API.Models.Domain.Product", b =>
                 {
+                    b.Navigation("BarCodes");
+
                     b.Navigation("ProductVersions");
                 });
 

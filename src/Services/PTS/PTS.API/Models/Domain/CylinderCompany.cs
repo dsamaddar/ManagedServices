@@ -21,6 +21,6 @@ namespace PTS.API.Models.Domain
         [Column(Order = 3)]
         public string? UserId { get; set; }
 
-        public ICollection<Product> Products { get; set; } = new List<Product>();
+        public ICollection<ProductVersion> Products { get; set; } = new List<ProductVersion>();
     }
 }

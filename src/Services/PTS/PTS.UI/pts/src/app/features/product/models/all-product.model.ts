@@ -1,3 +1,4 @@
+import { BarCodes } from "../../barcode/models/barcode.model";
 import { Category } from "../../category/models/category.model";
 import { CylinderCompany } from "../../cylinderCompany/models/CylinderCompany.model";
 import { PackType } from "../../packtype/models/packtype.model";
@@ -17,13 +18,9 @@ export interface AllProduct{
     productCode: string,
     version: string,
     projectDate: Date,
-    barcode: string,
-    cylinderCompanyId: number,
-    printingCompanyId: number,
-    cylinderCompany: CylinderCompany,
-    printingCompany: PrintingCompany,
     category: Category,
     packType: PackType,
     productVersions: ProductVersion[],
+    barCodes: BarCodes[],
     userId: string,
 }

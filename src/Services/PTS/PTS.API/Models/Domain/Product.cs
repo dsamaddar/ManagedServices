@@ -49,8 +49,6 @@ namespace PTS.API.Models.Domain
         public string? UserId { get; set; }
 
         // Navigation property (many-to-one)
-        public CylinderCompany? CylinderCompany { get; set; }  // Navigation property
-        public PrintingCompany? PrintingCompany { get; set; } // Navigation property
         public Category? Category { get; set; } // Navigation property
         
         public PackType? PackType { get; set; } // Navigation property
