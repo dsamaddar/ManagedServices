@@ -91,16 +91,30 @@
                 </div>
               </div>
               <div class="row">
-                <div class="col-md-3 text-dark">PR No</div>
+                <div class="col-md-3 text-dark">Cylinder PR No</div>
                 <div class="col-md-3">
                   <div *ngIf="product?.productVersions">
                     {{ product?.productVersions?.[0]?.cylinderPrNo }}
                   </div>
                 </div>
-                <div class="col-md-3 text-dark">PO No</div>
+                <div class="col-md-3 text-dark">Print PR No</div>
+                <div class="col-md-3">
+                  <div *ngIf="product?.productVersions">
+                    {{ product?.productVersions?.[0]?.printingPrNo }}
+                  </div>
+                </div>
+              </div>
+               <div class="row">
+                <div class="col-md-3 text-dark">Cylinder PO No</div>
                 <div class="col-md-3">
                   <div *ngIf="product?.productVersions">
                     {{ product?.productVersions?.[0]?.cylinderPoNo }}
+                  </div>
+                </div>
+                <div class="col-md-3 text-dark">Print PO No</div>
+                <div class="col-md-3">
+                  <div *ngIf="product?.productVersions">
+                    {{ product?.productVersions?.[0]?.printingPoNo }}
                   </div>
                 </div>
               </div>
@@ -136,11 +150,11 @@
               <div class="row">
                 <div class="col-md-12">
                   <mat-form-field appearance="outline">
-                    <mat-label>PR No</mat-label>
+                    <mat-label>Cylinder PR No</mat-label>
                     <input
                       matInput
-                      [(ngModel)]="prNo"
-                      name="prNo"
+                      [(ngModel)]="cylinderPrNo"
+                      name="cylinderPrNo"
                       class="form-control"
                     />
                   </mat-form-field>
@@ -149,11 +163,37 @@
               <div class="row">
                 <div class="col-md-12">
                   <mat-form-field appearance="outline">
-                    <mat-label>PO No</mat-label>
+                    <mat-label>Cylinder PO No</mat-label>
                     <input
                       matInput
-                      [(ngModel)]="poNo"
-                      name="poNo"
+                      [(ngModel)]="cylinderPoNo"
+                      name="cylinderPoNo"
+                      class="form-control"
+                    />
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Printing PR No</mat-label>
+                    <input
+                      matInput
+                      [(ngModel)]="printingPrNo"
+                      name="printingPrNo"
+                      class="form-control"
+                    />
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Printing PO No</mat-label>
+                    <input
+                      matInput
+                      [(ngModel)]="printingPoNo"
+                      name="printingPoNo"
                       class="form-control"
                     />
                   </mat-form-field>

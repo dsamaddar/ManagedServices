@@ -151,8 +151,8 @@ export class ProductService {
     );
   }
 
-  updateProductVersionInfo(id: number, prNo: string, poNo: string): Observable<ProductVersion> {
-    const body = { prNo, poNo };
+  updateProductVersionInfo(id: number, cylinderPrNo: string, cylinderPoNo: string, printingPrNo: string, printingPoNo: string): Observable<ProductVersion> {
+    const body = { cylinderPrNo, cylinderPoNo, printingPrNo, printingPoNo };
   
     return this.http.put<ProductVersion>(
       `${environment.apiBaseUrl}/api/productversion/updateproductversion/${id}`,

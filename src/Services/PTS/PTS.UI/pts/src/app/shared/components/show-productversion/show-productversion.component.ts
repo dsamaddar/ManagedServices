@@ -43,8 +43,10 @@ export class ShowProductversionComponent implements OnInit, OnDestroy {
   attachmentBaseUrl?: string;
   productVersionId?: number | 0;
 
-  prNo: string = '';
-  poNo: string = '';
+  cylinderPrNo: string = '';
+  cylinderPoNo: string = '';
+  printingPrNo: string = '';
+  printingPoNo: string = '';
 
   private showProductVersionSubscription?: Subscription;
   private deleteAttachmentSubscription?: Subscription;
@@ -67,8 +69,10 @@ export class ShowProductversionComponent implements OnInit, OnDestroy {
             //console.log(response);
             this.product = response;
             this.attachment_list = this.product.productVersions[0].attachments;
-            this.prNo = this.product.productVersions[0].cylinderPrNo;
-            this.poNo = this.product.productVersions[0].cylinderPoNo;
+            this.cylinderPrNo = this.product.productVersions[0].cylinderPrNo;
+            this.cylinderPrNo = this.product.productVersions[0].cylinderPoNo;
+            this.printingPrNo = this.product.productVersions[0].printingPrNo;
+            this.printingPoNo = this.product.productVersions[0].printingPoNo;
             console.log(this.product);
           },
         });
@@ -92,8 +96,11 @@ export class ShowProductversionComponent implements OnInit, OnDestroy {
     this.productService
       .updateProductVersionInfo(
         this.product?.productVersions[0].id ?? 0,
-        this.prNo,
-        this.poNo
+        this.cylinderPrNo,
+        this.cylinderPoNo,
+        this.printingPrNo,
+        this.printingPoNo
+
       )
       .subscribe((updated) => {
         if (this.product) {
