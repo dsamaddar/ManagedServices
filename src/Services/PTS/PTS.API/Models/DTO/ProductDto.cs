@@ -31,9 +31,10 @@ namespace PTS.API.Models.DTO
         public CategoryDto? Category { get; set; }
         public PrintingCompanyDto? PrintingCompany { get; set; }
         public CylinderCompanyDto? CylinderCompany { get; set; }
-        public PackTypeDto? PackType { get; set; }  
+        public PackTypeDto? PackType { get; set; }
 
         // Navigation property (many-to-one)
+        public ICollection<BarCodesDto>? BarCodes { get; set; } = new List<BarCodesDto>();
         public ICollection<ProductVersionDto>? ProductVersions { get; set; } = new List<ProductVersionDto>();
 
     }

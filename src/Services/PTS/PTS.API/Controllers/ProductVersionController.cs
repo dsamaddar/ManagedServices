@@ -36,8 +36,10 @@ namespace PTS.API.Controllers
                 Version = request.Version,
                 VersionDate = request.VersionDate,
                 Description = request.Description,
-                PrNo = request.PrNo,
-                PoNo = request.PoNo,
+                CylinderPrNo = request.CylinderPrNo,
+                CylinderPoNo = request.CylinderPoNo,
+                PrintingPrNo = request.PrintingPrNo,
+                PrintingPoNo = request.PrintingPoNo,
                 ProductId = request.ProductId,
                 CylinderCompanyId = request.CylinderCompanyId,
                 PrintingCompanyId = request.PrintingCompanyId,
@@ -53,8 +55,10 @@ namespace PTS.API.Controllers
                 Version = productVersion.Version,
                 VersionDate = productVersion.VersionDate,
                 Description= productVersion.Description,
-                PrNo= productVersion.PrNo,
-                PoNo= productVersion.PoNo,
+                CylinderPrNo = productVersion.CylinderPrNo,
+                CylinderPoNo = productVersion.CylinderPoNo,
+                PrintingPrNo = productVersion.PrintingPrNo,
+                PrintingPoNo = productVersion.PrintingPoNo,
                 ProductId = productVersion.ProductId,
                 CylinderCompanyId= productVersion.CylinderCompanyId,
                 PrintingCompanyId= productVersion.PrintingCompanyId,
@@ -117,8 +121,10 @@ namespace PTS.API.Controllers
                     Version = productVersion.Version,
                     VersionDate = productVersion.VersionDate,
                     Description = productVersion.Description,
-                    PrNo = productVersion.PrNo,
-                    PoNo = productVersion.PoNo,
+                    CylinderPrNo = productVersion.CylinderPrNo,
+                    CylinderPoNo = productVersion.CylinderPoNo,
+                    PrintingPrNo = productVersion.PrintingPrNo,
+                    PrintingPoNo = productVersion.PrintingPoNo,
                     ProductId = productVersion.ProductId,
                     CylinderCompanyId = productVersion.CylinderCompanyId,
                     PrintingCompanyId = productVersion.PrintingCompanyId,
@@ -167,14 +173,17 @@ namespace PTS.API.Controllers
                 CategoryId = product.CategoryId,
                 ProductCode = product.ProductCode,
                 Brand = product.Brand,
-                Barcode = product.Barcode,
-                CylinderCompanyId = product.CylinderCompanyId,
                 FlavourType = product.FlavourType,
                 Origin = product.Origin,
-                PrintingCompanyId = product.PrintingCompanyId,
                 ProjectDate = product.ProjectDate,
                 SKU = product.SKU,
                 Version = product.Version,
+                BarCodes = product.BarCodes?.Select(x => new BarCodesDto
+                {
+                    Id = x.Id,
+                    BarCode = x.BarCode,
+
+                }).ToList(),
                 ProductVersions = product.ProductVersions?.Select(x => new ProductVersionDto
                 {
                     Id = x.Id,
@@ -184,8 +193,10 @@ namespace PTS.API.Controllers
                     ProductId = x.ProductId,
                     CylinderCompanyId= x.CylinderCompanyId,
                     PrintingCompanyId= x.PrintingCompanyId,
-                    PrNo = x.PrNo,
-                    PoNo = x.PoNo,
+                    CylinderPrNo = x.CylinderPrNo,
+                    CylinderPoNo = x.CylinderPoNo,
+                    PrintingPrNo = x.PrintingPrNo,
+                    PrintingPoNo = x.PrintingPoNo,
                     UserId = x.UserId,
                     CylinderCompany = new CylinderCompanyDto
                     {
@@ -213,21 +224,7 @@ namespace PTS.API.Controllers
                     Name = product.Category?.Name,
                     Description = product.Category?.Description,
                     UserId = product.Category?.UserId,
-                },
-                CylinderCompany = new CylinderCompanyDto
-                {
-                    Id = product.CylinderCompany?.Id ?? 0,
-                    Name = product.CylinderCompany?.Name,
-                    Description = product.CylinderCompany?.Description,
-                    UserId = product.CylinderCompany?.UserId,
-                },
-                PrintingCompany = new PrintingCompanyDto
-                {
-                    Id = product.PrintingCompany?.Id ?? 0,
-                    Name = product.PrintingCompany?.Name,
-                    Description = product.PrintingCompany?.Description,
-                    UserId = product.PrintingCompany?.UserId,
-                },
+                },                
                 PackType = new PackTypeDto
                 {
                     Id = product.PackType?.Id ?? 0,
@@ -252,8 +249,10 @@ namespace PTS.API.Controllers
             productVersion.Version = dto.Version;
             productVersion.VersionDate = dto.VersionDate;
             productVersion.Description = dto.Description;
-            productVersion.PrNo = dto.PrNo;
-            productVersion.PoNo = dto.PoNo;
+            productVersion.CylinderPrNo = dto.CylinderPrNo;
+            productVersion.CylinderPoNo = dto.CylinderPoNo;
+            productVersion.PrintingPrNo = dto.PrintingPrNo;
+            productVersion.PrintingPoNo = dto.PrintingPoNo;
             productVersion.CylinderCompanyId = dto.CylinderCompanyId;
             productVersion.PrintingCompanyId = dto.PrintingCompanyId;
             dbContext.SaveChanges();
@@ -269,8 +268,11 @@ namespace PTS.API.Controllers
 
             if (productVersion == null) return NotFound();
 
-            productVersion.PrNo = dto.prNo;
-            productVersion.PoNo = dto.poNo;
+            productVersion.CylinderPrNo = dto.CylinderPrNo;
+            productVersion.CylinderPoNo = dto.CylinderPoNo;
+            productVersion.PrintingPrNo = dto.PrintingPrNo;
+            productVersion.PrintingPoNo = dto.PrintingPoNo;
+
             dbContext.SaveChanges();
 
             return Ok(productVersion);

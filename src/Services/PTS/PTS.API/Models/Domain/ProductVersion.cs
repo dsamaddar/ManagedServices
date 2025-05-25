@@ -19,25 +19,31 @@ namespace PTS.API.Models.Domain
         public string? Description { get; set; }
 
         [Column(Order = 4)]
-        public string? PrNo { get; set; }
+        public string? CylinderPrNo { get; set; }
         
         [Column(Order = 5)]
-        public string? PoNo { get; set; }
+        public string? CylinderPoNo { get; set; }
+
+        [Column(Order = 6)]
+        public string? PrintingPrNo { get; set; }
+
+        [Column(Order = 7)]
+        public string? PrintingPoNo { get; set; }
 
 
         [ForeignKey("Product")]
-        [Column(Order = 6)]
+        [Column(Order = 8)]
         public int ProductId { get; set; }
 
         [ForeignKey("CylinderCompany")]
-        [Column(Order = 7)]
+        [Column(Order = 9)]
         public int? CylinderCompanyId { get; set; }
 
-        [Column(Order = 8)]
+        [Column(Order = 10)]
         [ForeignKey("PrintingCompany")]
         public int? PrintingCompanyId { get; set; }
 
-        [Column(Order = 9)]
+        [Column(Order = 11)]
         public string? UserId { get; set; }
 
         // Navigation property (many-to-one)

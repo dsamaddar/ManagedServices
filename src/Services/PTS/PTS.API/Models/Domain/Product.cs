@@ -42,21 +42,10 @@ namespace PTS.API.Models.Domain
         public DateTime ProjectDate { get; set; }
 
         [Column(Order = 9)]
-        [MaxLength(50)]
-        public string? Barcode { get; set; }
-
-        [ForeignKey("CylinderCompany")]
-        [Column(Order = 10)]
-        public int? CylinderCompanyId { get; set; }
-
-        [Column(Order = 11)]
-        [ForeignKey("PrintingCompany")]
-        public int? PrintingCompanyId { get; set; }
-
-        [Column(Order = 12)]
         [ForeignKey("PackType")]
         public int? PackTypeId { get; set; }
 
+        [Column(Order = 10)]
         public string? UserId { get; set; }
 
         // Navigation property (many-to-one)
@@ -67,6 +56,7 @@ namespace PTS.API.Models.Domain
         public PackType? PackType { get; set; } // Navigation property
 
         // Navigation property (one-to-many)
+        public List<BarCodes>? BarCodes { get; set; } = new List<BarCodes>();
         public List<ProductVersion> ProductVersions { get; set; } = new List<ProductVersion>();
 
     }

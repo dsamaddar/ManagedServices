@@ -28,6 +28,9 @@ namespace PTS.API.Data
 
         public DbSet<PackType> PackTypes { get; set; }
 
+        public DbSet<BarCodes> BarCodes { get; set; }
+
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Ignore<ProductCode>();
@@ -51,6 +54,10 @@ namespace PTS.API.Data
             builder.Entity<ProductVersion>()
                 .HasIndex(u => u.Version)
                 .IsUnique(true);
+
+            builder.Entity<BarCodes>()
+               .HasIndex(u => u.BarCode)
+               .IsUnique(true);
 
             builder.Entity<Category>().HasData(
                 new Category { Id = 1, Name = "BAKERY", Description = ".", UserId= "e07b4029-5a27-491d-9fc5-7043e22ae5eb" },

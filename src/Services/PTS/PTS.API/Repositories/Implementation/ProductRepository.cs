@@ -85,6 +85,7 @@ namespace PTS.API.Repositories.Implementation
 
             // Query the database not actually retrieving anything
             var products = dbContext.Products
+                .Include(p => p.BarCodes)
                 .Include(p => p.ProductVersions)
                     .ThenInclude(pv => pv.CylinderCompany)
                 .Include(p => p.ProductVersions)
@@ -104,8 +105,7 @@ namespace PTS.API.Repositories.Implementation
                             .Where(x =>
                             // OR-based query search
                             (string.IsNullOrWhiteSpace(query) ||
-                                (
-                                    (x.Barcode != null && x.Barcode.Contains(query)) ||
+                                (  
                                     (x.Brand != null && x.Brand.Contains(query)) ||
                                     (x.FlavourType != null && x.FlavourType.Contains(query)) ||
                                     (x.Origin != null && x.Origin.Contains(query)) ||
@@ -133,15 +133,15 @@ namespace PTS.API.Repositories.Implementation
                 products = products.Where(x => x.PackTypeId.HasValue && packtypeid.Contains(x.PackTypeId.Value));
             }
 
-            if (cylindercompanyid != null && cylindercompanyid.Length > 0)
-            {
-                products = products.Where(x => x.CylinderCompanyId.HasValue && cylindercompanyid.Contains(x.CylinderCompanyId.Value));
-            }
+            //if (cylindercompanyid != null && cylindercompanyid.Length > 0)
+            //{
+            //    products = products.Where(x => x.CylinderCompanyId.HasValue && cylindercompanyid.Contains(x.CylinderCompanyId.Value));
+            //}
 
-            if (printingcompanyid != null && printingcompanyid.Length > 0)
-            {
-                products = products.Where(x => x.PrintingCompanyId.HasValue && printingcompanyid.Contains(x.PrintingCompanyId.Value));
-            }
+            //if (printingcompanyid != null && printingcompanyid.Length > 0)
+            //{
+            //    products = products.Where(x => x.PrintingCompanyId.HasValue && printingcompanyid.Contains(x.PrintingCompanyId.Value));
+            //}
 
             if (brand != null && brand.Length > 0)
             {
@@ -171,7 +171,6 @@ namespace PTS.API.Repositories.Implementation
                             .ThenBy(x => x.SKU)
                             .ThenBy(x => x.ProductCode)
                             .ThenBy(x => x.PackType.Name)
-                            .ThenBy(x => x.Barcode)
                             .ThenBy(x => x.CylinderCompany.Name)
                             .ThenBy(x => x.PrintingCompany.Name);
 
@@ -226,6 +225,7 @@ namespace PTS.API.Repositories.Implementation
         public async Task<Product?> GetByBarCodeAsync(string barcode)
         {
             var product = await dbContext.Products
+                .Include(p => p.BarCodes)
                 .Include(p => p.ProductVersions)
                     .ThenInclude(pv => pv.CylinderCompany)
                 .Include(p => p.ProductVersions)
@@ -236,7 +236,7 @@ namespace PTS.API.Repositories.Implementation
                 .Include(x => x.PrintingCompany)
                 .Include(x => x.PackType)
                 .Include(x => x.Category)
-                .FirstOrDefaultAsync(x => x.Barcode == barcode);
+                .FirstOrDefaultAsync(x => x.BarCodes.Any(b => b.BarCode == barcode));
 
             if (product != null)
             {
@@ -320,7 +320,7 @@ namespace PTS.API.Repositories.Implementation
                             .Where(x =>
                             // OR-based query search
                             (string.IsNullOrWhiteSpace(query) || (
-                            (x.Barcode != null && x.Barcode.Contains(query)) ||
+                            //(x.Barcode != null && x.Barcode.Contains(query)) ||
                             (x.Brand != null && x.Brand.Contains(query)) ||
                             (x.FlavourType != null && x.FlavourType.Contains(query)) ||
                             (x.Origin != null && x.Origin.Contains(query)) ||
@@ -344,15 +344,15 @@ namespace PTS.API.Repositories.Implementation
                 products = products.Where(x => x.PackTypeId.HasValue && packtypeid.Contains(x.PackTypeId.Value));
             }
 
-            if (cylindercompanyid != null && cylindercompanyid.Length > 0)
-            {
-                products = products.Where(x => x.CylinderCompanyId.HasValue && cylindercompanyid.Contains(x.CylinderCompanyId.Value));
-            }
+            //if (cylindercompanyid != null && cylindercompanyid.Length > 0)
+            //{
+            //    products = products.Where(x => x.CylinderCompanyId.HasValue && cylindercompanyid.Contains(x.CylinderCompanyId.Value));
+            //}
 
-            if (printingcompanyid != null && printingcompanyid.Length > 0)
-            {
-                products = products.Where(x => x.PrintingCompanyId.HasValue && printingcompanyid.Contains(x.PrintingCompanyId.Value));
-            }
+            //if (printingcompanyid != null && printingcompanyid.Length > 0)
+            //{
+            //    products = products.Where(x => x.PrintingCompanyId.HasValue && printingcompanyid.Contains(x.PrintingCompanyId.Value));
+            //}
 
             if (brand != null && brand.Length > 0)
             {
@@ -511,9 +511,9 @@ namespace PTS.API.Repositories.Implementation
                 return new List<string>();
 
             var results = await dbContext.Products
-                .Where(f =>
-                    (f.Barcode != null && EF.Functions.Like(f.Barcode, $"%{query}%")))
-                .Select(f => f.Barcode!) //null-forgiving operator (!)
+                .SelectMany(p => p.BarCodes)
+                .Where(b => EF.Functions.Like(b.BarCode, $"%{query}%"))
+                .Select(f => f.BarCode!) //null-forgiving operator (!)
                 .Distinct()
                 .OrderBy(b => b)
                 .ToListAsync();
@@ -554,15 +554,11 @@ namespace PTS.API.Repositories.Implementation
             if (string.IsNullOrWhiteSpace(query))
                 return true;
 
-            var results = await dbContext.Products
-                .Where(f =>
-                    (f.Barcode != null && f.Barcode == query))
-                .Select(f => f.Barcode!) //null-forgiving operator (!)
-                .ToListAsync();
+            var isBarCodeExists = await dbContext.Products
+                .SelectMany(x => x.BarCodes)
+                .AnyAsync(b => b.BarCode == query);
 
-            if (results.Any()) return false;
-
-            return true;
+            return !isBarCodeExists;
         }
 
         

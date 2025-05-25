@@ -270,4 +270,20 @@ resolution wise heigt (if possible)
 multiple barcode option
 Edit master on full scale 
 
- 
+### UAT-07
+filter by -> pack type 
+remove filter -> (cylinder company, printing company)
+resolution check
+refresh time -> after 10 minutes logout
+multi barcode | (13 digits for multiple) : change model
+
+view product -> reader -> hide (update pr/po);
+messages are overlaying back of the component
+modify product - > check for existing version.
+		-> product code/barcode/version (detail popup)
+
+versiondate is lagging behind for 1 day. 
+
+cylinder (pr + po)
+printing (pr + po)
+also integrate in reports
