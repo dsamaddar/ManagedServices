@@ -96,6 +96,9 @@ export class AddProductComponent implements OnInit, OnDestroy {
   selectedFiles: File[] = [];
   productVersionId: number = 0;
 
+  ind_barcode: string = '';
+  barcodes: string[] = ['Apple','Banana'];
+
   isProductCodeUnique: boolean | null = null;
   isVersionUnique: boolean | null = null;
   isBarCodeUnique: boolean | null = null;
@@ -238,6 +241,17 @@ export class AddProductComponent implements OnInit, OnDestroy {
   packtypeid?: number;
   cylindercompanyid?: number;
   printingcompanyid?: number;
+
+  addToBarCodeList(): void {
+    if (this.ind_barcode.trim()) {
+      this.barcodes.push(this.ind_barcode.trim());
+      this.ind_barcode = ''; // Clear input
+    }
+  }
+
+  removeBarcodeFromList(index: number) {
+    this.barcodes.splice(index, 1);
+  }
 
   close() {
     this.dialogRef.close(true);

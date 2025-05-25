@@ -80,7 +80,6 @@
                   <mat-option
                     *ngFor="let flavourtype of suggestions_flavourtype"
                     [value]="flavourtype"
-                    
                   >
                     {{ flavourtype }}
                   </mat-option>
@@ -259,12 +258,12 @@
             </div>
           </div>
           <div class="col-md-4">
-            <!-- <div class="mt-1 form-group">
-              <mat-form-field appearance="outline" class="full-width">
+            <div class="mt-1 form-group">
+              <mat-form-field appearance="outline" class="" style="width: 80%">
                 <mat-label>Barcode</mat-label>
                 <input
                   matInput
-                  [(ngModel)]="product.Barcode"
+                  [(ngModel)]="ind_barcode"
                   [matAutocomplete]="autoBarcode"
                   placeholder=""
                   name="barcode"
@@ -276,6 +275,7 @@
                   (keypress)="allowOnlyDigits($event)"
                   required
                 />
+
                 <mat-autocomplete #autoBarcode="matAutocomplete">
                   <mat-option
                     *ngFor="let barcode of suggestions_barcode"
@@ -309,7 +309,18 @@
                   Barcode must not exceed 13 characters
                 </mat-error>
               </mat-form-field>
-            </div> -->
+              <button type="button" class="ms-2" (click)="addToBarCodeList()">
+                <i class="bi bi-plus-circle-fill"></i>
+              </button>
+              <ul>
+                <li *ngFor="let br_code of barcodes; let i = index">
+                  {{ br_code }}
+                  <button type="button" (click)="removeBarcodeFromList(i)" class="btn btn-sm btn-danger ms-2">
+                    <i class="bi bi-trash-fill"></i>
+                  </button>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
 
