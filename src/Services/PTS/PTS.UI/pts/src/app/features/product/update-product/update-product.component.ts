@@ -60,6 +60,8 @@ import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { ProductVersion } from '../../productversion/models/productversion.model';
 import { ProductversionService } from '../../productversion/services/productversion.service';
+import { BarcodeService } from '../services/barcode.service';
+import { BarCodes } from '../../barcode/models/barcode.model';
 
 @Component({
   selector: 'app-update-product',
@@ -85,7 +87,6 @@ import { ProductversionService } from '../../productversion/services/productvers
   styleUrl: './update-product.component.css',
 })
 export class UpdateProductComponent implements AfterViewInit {
-
   productId: number = 0;
   paramsSubscription?: Subscription;
   editProductSubscription?: Subscription;
@@ -96,6 +97,13 @@ export class UpdateProductComponent implements AfterViewInit {
   attachment_list: Attachment[] = [];
 
   existing_version: string = '';
+
+  ind_barcode: string = '';
+  barcodes: BarCodes[] = [];
+
+  msg_error: string = '';
+  msg_warning: string = '';
+  msg_info: string = '';
 
   progress = 0;
   //product: AddProductRequest;
@@ -181,6 +189,7 @@ export class UpdateProductComponent implements AfterViewInit {
     private suggestionService: SuggestionService,
     private dialogRef: MatDialogRef<UpdateProductComponent>,
     private productVersionService: ProductversionService,
+    private barcodeService: BarcodeService,
     @Inject(MAT_DIALOG_DATA) public data: { productid: number }
   ) {
     this.productId = data.productid;
@@ -196,14 +205,30 @@ export class UpdateProductComponent implements AfterViewInit {
           //console.log(this.product);
           this.existing_version = this.product.version;
 
-          this.product.productVersions.forEach(version => {
+          this.product.productVersions.forEach((version) => {
             if (version.versionDate) {
-              version.versionDate = new Date(version.versionDate).toISOString().split('T')[0];
+              version.versionDate = new Date(version.versionDate)
+                .toISOString()
+                .split('T')[0];
             }
           });
 
           this.dataSource_product_version.data = this.product.productVersions;
           console.log(this.dataSource_product_version.data);
+        },
+      });
+
+      // get barcodes from productid
+      console.log(this.productId);
+      this.barcodeService.getBarCodesByProdId(this.productId).subscribe({
+        next: (response) => {
+          console.log(response);
+          this.barcodes = response;
+          console.log('Fetch BarCodes: ');
+          console.log(this.barcodes);
+        },
+        error: (error) => {
+          console.log(error);
         },
       });
     }
@@ -215,12 +240,6 @@ export class UpdateProductComponent implements AfterViewInit {
       origin: ['', Validators.required],
       sku: ['', Validators.required],
       productcode: ['', Validators.required],
-      barcode: [
-        '',
-        Validators.required,
-        Validators.minLength(13),
-        Validators.maxLength(13),
-      ],
       packtypeid: ['', Validators.required],
     });
   }
@@ -328,18 +347,18 @@ export class UpdateProductComponent implements AfterViewInit {
 
     this.categories$ = this.categoryService.getAllCategories();
     this.packtypes$ = this.packTypeService.getAllPackTypes();
-    this.cylinderCompanies$ = this.cylinderCompanyService.getAllCylinderCompanies();
-    this.printingCompanies$ = this.printingCompanyService.getAllPrintingCompanies();
+    this.cylinderCompanies$ =
+      this.cylinderCompanyService.getAllCylinderCompanies();
+    this.printingCompanies$ =
+      this.printingCompanyService.getAllPrintingCompanies();
 
     // converting to plain array : printingCompanies
-    this.printingCompanies$
-    ?.subscribe(companies => {
+    this.printingCompanies$?.subscribe((companies) => {
       this.printingCompanies = companies;
     });
 
     // converting to plain array : cylinderCompanies
-    this.cylinderCompanies$
-    ?.subscribe(companies => {
+    this.cylinderCompanies$?.subscribe((companies) => {
       this.cylinderCompanies = companies;
     });
 
@@ -437,25 +456,21 @@ export class UpdateProductComponent implements AfterViewInit {
   }
 
   getCylinderCompanyName(id: number): string {
-    if(id){
-      const company = this.cylinderCompanies.find(c => c.id === id);
+    if (id) {
+      const company = this.cylinderCompanies.find((c) => c.id === id);
       return company ? company.name : id.toString();
-    }
-    else{
+    } else {
       return '';
     }
-    
   }
 
   getPrintingCompanyName(id: number): string {
-    if(id){
-      const company = this.printingCompanies.find(c => c.id === id);
+    if (id) {
+      const company = this.printingCompanies.find((c) => c.id === id);
       return company ? company.name : id.toString();
-    }
-    else{
+    } else {
       return '';
     }
-    
   }
 
   onSearchChangeBrand(value: string) {
@@ -565,32 +580,67 @@ export class UpdateProductComponent implements AfterViewInit {
     }
   }
 
-  // onSearchChangeBarcode(value: string) {
-  //   const upper = value.toUpperCase();
+  addToBarCodeList(): void {
+    const trimmed = this.ind_barcode.trim();
+    if (trimmed.length === 13) {
+      const newBarcode: BarCodes = {
+        productId: Date.now(), // Temporary unique ID
+        barCode: trimmed,
+      };
+      this.barcodes.push(newBarcode);
+      this.ind_barcode = ''; // Clear input
+      this.msg_warning = '';
+    } else {
+      this.msg_warning = 'Barcode must have a length of 13 digits.';
+    }
+  }
 
-  //   if (this.product) {
-  //     this.product.barcode = upper; // updates ngModel immediately
+  removeBarcodeFromList(index: number) {
+    const marked_barcode = this.barcodes[index].barCode;
 
-  //     console.log('barcode->' + upper);
-  //     if (value && value.length >= 1) {
-  //       this.searchBarcodes.next(upper);
+    this.barcodeService.deleteBarcodeByName({
+      productId: this.product?.id ?? 0,
+      barCode: marked_barcode
+    }).subscribe({
+      next: () => {
+        // Only remove from list if API call succeeds
+        this.barcodes.splice(index, 1);
+        console.log('Barcode deleted successfully');
+      },
+      error: (err) => {
+        console.error('Failed to delete barcode:', err);
+        this.barcodes.splice(index, 1);
+      }
+    });
+  }
 
-  //       this.suggestionService.getIsBarCodeUnique(upper).subscribe({
-  //         next: (response) => {
-  //           this.isBarCodeUnique = response;
-  //           if (this.isBarCodeUnique === false) {
-  //             console.log(this.isBarCodeUnique);
-  //             ToastrUtils.showErrorToast(
-  //               'Barcode Already Exists (' + upper + ')'
-  //             );
-  //           }
-  //         },
-  //       });
-  //     } else {
-  //       this.suggestions_barcode = [];
-  //     }
-  //   }
-  // }
+  onSearchChangeBarcode(value: string) {
+    const upper = value.toUpperCase();
+
+    if (this.product) {
+      //this.product.barcode = upper; // updates ngModel immediately
+
+      console.log('barcode->' + upper);
+      if (value && value.length >= 1) {
+        this.searchBarcodes.next(upper);
+
+        this.suggestionService.getIsBarCodeUnique(upper).subscribe({
+          next: (response) => {
+            this.isBarCodeUnique = response;
+            if (this.isBarCodeUnique === false) {
+              console.log(this.isBarCodeUnique);
+              // ToastrUtils.showErrorToast(
+              //   'Barcode Already Exists (' + upper + ')'
+              // );
+              this.msg_warning = 'Barcode Already Exists (' + upper + ')';
+            }
+          },
+        });
+      } else {
+        this.suggestions_barcode = [];
+      }
+    }
+  }
 
   isFileSelectorVisible: boolean = false;
 
@@ -617,15 +667,16 @@ export class UpdateProductComponent implements AfterViewInit {
 
     if (
       this.product?.categoryId == 0 ||
-      this.product?.packTypeId == 0 
-      // ||
-      // this.product?.cylinderCompanyId == 0 ||
-      // this.product?.printingCompanyId == 0
+      this.product?.packTypeId == 0 ||
+      this.cylindercompanyid == 0 ||
+      this.printingcompanyid == 0
     ) {
       //alert('Missing: Category/Project/Cylinder Company/Printing Company');
-      ToastrUtils.showErrorToast(
-        'Missing: Category/Pack Type/Cylinder Company/Printing Company'
-      );
+      // ToastrUtils.showErrorToast(
+      //   'Missing: Category/Pack Type/Cylinder Company/Printing Company'
+      // );
+      this.msg_error =
+        'Missing: Category/Pack Type/Cylinder Company/Printing Company';
       return;
     }
 
@@ -765,7 +816,7 @@ export class UpdateProductComponent implements AfterViewInit {
     'poNo',
     'cylinderCompanyId',
     'printingCompanyId',
-    'actions'
+    'actions',
   ];
   dataSource_product_version = new MatTableDataSource<ProductVersion>();
   editingRow: number | null = null;
@@ -797,8 +848,7 @@ export class UpdateProductComponent implements AfterViewInit {
       },
       error: (error) => {
         console.log(error);
-      }
-
+      },
     });
     this.editingRow = null;
   }
@@ -806,5 +856,4 @@ export class UpdateProductComponent implements AfterViewInit {
   cancelEdit() {
     this.editingRow = null;
   }
-
 }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PTS.API.Data;
 using PTS.API.Models.Domain;
+using PTS.API.Models.DTO;
 using PTS.API.Repositories.Exceptions;
 using PTS.API.Repositories.Interface;
 
@@ -47,9 +48,29 @@ namespace PTS.API.Repositories.Implementation
             return barCodes;
         }
 
+        public async Task<BarCodes?> DeleteBarCodeByNameAsync(DeleteBarCodeRequestDto request)
+        {
+            var barCodes = await dbContext.BarCodes.Where(x => x.ProductId == request.productId && x.BarCode == request.barCode).FirstOrDefaultAsync();
+
+            if (barCodes != null)
+            {
+                dbContext.BarCodes.Remove(barCodes);
+                await dbContext.SaveChangesAsync();
+            }
+
+            return barCodes;
+        }
+
         public async Task<IEnumerable<BarCodes>> GetAllAsync()
         {
             return await dbContext.BarCodes.ToListAsync();
+        }
+
+        public async Task<IEnumerable<BarCodes>> GetAllByProductIdAsync(int productId)
+        {
+            return await dbContext.BarCodes
+                .Where(x => x.ProductId == productId)
+                .ToListAsync();
         }
 
         public async Task<BarCodes?> UpdateAsync(BarCodes barCodes)

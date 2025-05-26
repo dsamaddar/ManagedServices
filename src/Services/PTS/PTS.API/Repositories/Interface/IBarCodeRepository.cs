@@ -1,4 +1,5 @@
 ﻿using PTS.API.Models.Domain;
+using PTS.API.Models.DTO;
 
 namespace PTS.API.Repositories.Interface
 {
@@ -6,7 +7,9 @@ namespace PTS.API.Repositories.Interface
     {
         Task<BarCodes> CreateAsync(BarCodes barCodes);
         Task<IEnumerable<BarCodes>> GetAllAsync();
+        Task<IEnumerable<BarCodes>> GetAllByProductIdAsync(int productId);
         Task<BarCodes?> UpdateAsync(BarCodes barCodes);
         Task<BarCodes?> DeleteAsync(int id);
+        Task<BarCodes?> DeleteBarCodeByNameAsync(DeleteBarCodeRequestDto request);
     }
 }

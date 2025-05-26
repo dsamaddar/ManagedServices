@@ -1,3 +1,4 @@
 export interface BarCodes{
-   barCode: string
+   barCode: string,
+   productId: number,
 }

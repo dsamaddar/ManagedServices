@@ -1,4 +1,17 @@
-<h2 mat-dialog-title>Modify Product</h2>
+<h2 mat-dialog-title>
+  Modify Product
+  <h5>
+    <ng-container *ngIf="msg_error">
+      <div class="text-danger">{{ msg_error }}</div>
+    </ng-container>
+    <ng-container *ngIf="msg_warning">
+      <div class="text-warning">{{ msg_warning }}</div>
+    </ng-container>
+    <ng-container *ngIf="msg_info">
+      <div class="text-info">{{ msg_info }}</div>
+    </ng-container>
+  </h5>
+</h2>
 <mat-dialog-content>
   <div class="container-fluid">
     <form
@@ -224,14 +237,14 @@
               </mat-form-field>
             </div>
           </div>
-          <!-- <div class="col-md-4">
+          <div class="col-md-4">
             <div class="form-group">
-              <mat-form-field appearance="outline" class="full-width">
+              <mat-form-field appearance="outline" style="width: 80%">
                 <mat-label>Barcode</mat-label>
                 <input
                   matInput
                   *ngIf="product"
-                  [(ngModel)]="product.barcode"
+                  [(ngModel)]="ind_barcode"
                   [matAutocomplete]="autoBarcode"
                   placeholder=""
                   name="barcode"
@@ -251,8 +264,8 @@
                     {{ barcode }}
                   </mat-option>
                 </mat-autocomplete>
-               Validation error message
-                <mat-error
+                <!-- Validation error message -->
+                <!-- <mat-error
                   *ngIf="form.submitted && form.controls['barcode']?.invalid"
                 >
                   Barcode is required
@@ -273,10 +286,35 @@
                   "
                 >
                   Barcode must not exceed 13 characters
-                </mat-error>
+                </mat-error> -->
               </mat-form-field>
+              <button
+                type="button"
+                class="btn p-0 border-0 bg-transparent ms-2"
+                (click)="addToBarCodeList()"
+              >
+                <i class="bi bi-plus-circle-fill text-success fs-3"></i>
+              </button>
             </div>
-          </div> -->
+          </div>
+          <div class="col-md-4">
+            <ul class="list-unstyled">
+              <li *ngFor="let br_code of barcodes; let i = index">
+                <button
+                  type="button"
+                  (click)="removeBarcodeFromList(i)"
+                  class="btn p-0 border-0 bg-transparent"
+                >
+                  <i class="bi bi-trash-fill text-danger fs-5"></i>
+                </button>
+                {{ br_code.barCode }}
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4"></div>
+          <div class="col-md-4"></div>
           <div class="col-md-4">
             <button type="submit" class="btn btn-primary">Save Product</button>
             <button

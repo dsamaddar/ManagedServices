@@ -68,7 +68,51 @@ namespace PTS.API.Controllers
             return Ok(response);
         }
 
+        // GET: api/barcodes
+        [HttpGet("getbarcode-by-product/{productId:int}")]
+        [Authorize(Roles = "READER,MANAGER,ADMIN")]
+        public async Task<IActionResult> GetAllBarCodesByProductId([FromRoute] int productId)
+        {
+            var barcodes = await barCodeRepository.GetAllByProductIdAsync(productId);
+
+            // Map Domain model to DTO
+            var response = new List<BarCodesDto>();
+
+            foreach (var barcode in barcodes)
+            {
+                response.Add(new BarCodesDto
+                {
+                    Id = barcode.Id,
+                    BarCode = barcode.BarCode,
+                });
+            }
+
+            return Ok(response);
+        }
+
         // DELETE: /api/productversion/{id}
+
+        [HttpDelete("delbarcode-by-name")]
+        [Authorize(Roles = "MANAGER,ADMIN")]
+        public async Task<IActionResult> DeleteBarCodeByName([FromBody] DeleteBarCodeRequestDto requeset)
+        {
+            var barcode = await barCodeRepository.DeleteBarCodeByNameAsync(requeset);
+
+            if (barcode is null)
+            {
+                return NotFound();
+            }
+
+            // Convert Domain Model to DTO
+
+            var response = new BarCodesDto
+            {
+                Id = barcode.Id,
+                BarCode = barcode.BarCode,
+            };
+
+            return Ok(response);
+        }
 
         [HttpDelete]
         [Route("{id:int}")]
