@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PTS.API.Models.Domain;
 using PTS.API.Models.DTO;
+using PTS.API.Repositories.Implementation;
 using PTS.API.Repositories.Interface;
 
 namespace PTS.API.Controllers
@@ -68,6 +69,19 @@ namespace PTS.API.Controllers
             }
 
             return Ok(response);
+        }
+
+        [HttpGet]
+        [Route("suggestions-packtype")]
+        [Authorize(Roles = "READER,MANAGER,ADMIN")]
+        public async Task<ActionResult> GetSuggestionsPackType([FromQuery] string? query, [FromQuery] int[]? categoryId, [FromQuery] string[]? brand, [FromQuery] string[]? flavour, [FromQuery] string[]? origin, string[]? sku)
+        {
+            if (string.IsNullOrWhiteSpace(query))
+                return Ok(null);
+
+            var results = await packTypeRepository.GetAllSuggestionAsync(query, categoryId, brand, flavour, origin, sku);
+
+            return Ok(results);
         }
 
         //  GET: /api/packtype/{id}

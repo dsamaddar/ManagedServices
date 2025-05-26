@@ -419,6 +419,30 @@ export class ProductListComponent implements OnInit {
       });
     }
 
+    // load pack types
+    console.log('Selected sku: ' + this.filtered_sku);
+    if (
+      this.categoryid ||
+      this.filtered_brand ||
+      this.filtered_flavourtype ||
+      this.filtered_origin ||
+      this.filtered_sku
+    ) {
+      this.packtypes$ = this.suggestionService.getSuggestionsPackTypes(
+        '%',
+        this.categoryid,
+        this.filtered_brand,
+        this.filtered_flavourtype,
+        this.filtered_origin,
+        this.filtered_sku
+      );
+
+      this.packtypes$.subscribe((packtypes) => {
+        console.log('Filtered: packtypes ->', packtypes);
+      });
+    }
+
+
     this.global_query = query;
 
     this.productService

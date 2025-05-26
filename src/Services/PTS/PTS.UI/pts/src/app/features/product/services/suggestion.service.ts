@@ -2,6 +2,8 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
+import { PackType } from '../../packtype/models/packtype.model';
+import { PacktypeListComponent } from '../../packtype/packtype-list/packtype-list.component';
 
 @Injectable({
   providedIn: 'root',
@@ -132,6 +134,55 @@ export class SuggestionService {
 
     return this.http.get<string[]>(
       `${environment.apiBaseUrl}/api/product/suggestions-sku`,
+      { params }
+    );
+  }
+
+  getSuggestionsPackTypes(
+    query: string,
+    categoryId?: number[],
+    brand?: string[],
+    flavour?: string[],
+    origin?: string[],
+    sku?: string[],
+  ): Observable<PackType[]> {
+    let params = new HttpParams();
+    if (query) {
+      params = params.set('query', query);
+    }
+
+    if (categoryId && categoryId.length > 0) {
+      categoryId.forEach((id) => {
+        params = params.append('categoryId', id);
+      });
+    }
+
+    if (brand && brand.length > 0) {
+      brand.forEach((brand) => {
+        params = params.append('brand', brand);
+      });
+    }
+
+    if (flavour && flavour.length > 0) {
+      flavour.forEach((flavour) => {
+        params = params.append('flavour', flavour);
+      });
+    }
+
+    if (origin && origin.length > 0) {
+      origin.forEach((origin) => {
+        params = params.append('origin', origin);
+      });
+    }
+
+    if (sku && sku.length > 0) {
+      sku.forEach((sku) => {
+        params = params.append('sku', sku);
+      });
+    }
+
+    return this.http.get<PackType[]>(
+      `${environment.apiBaseUrl}/api/packtype/suggestions-packtype`,
       { params }
     );
   }

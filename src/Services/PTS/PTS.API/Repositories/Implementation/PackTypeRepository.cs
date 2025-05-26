@@ -57,6 +57,32 @@ namespace PTS.API.Repositories.Implementation
             return await dbContext.PackTypes.OrderBy(x => x.Name).ToListAsync();
         }
 
+        public async Task<IEnumerable<PackType>> GetAllSuggestionAsync(string query, int[]? categoryId, string[]? brand, string[]? flavour, string[]? origin, string[]? sku)
+        {
+            if (string.IsNullOrWhiteSpace(query))
+                return Enumerable.Empty<PackType>();
+
+            var filtered_products = await dbContext.Products
+                .Where(f =>
+                    (f.SKU != null && EF.Functions.Like(f.SKU, $"%{query}%")) &&
+                    (categoryId == null || categoryId.Length == 0 || (f.CategoryId.HasValue && categoryId.Contains(f.CategoryId.Value))) &&
+                    (brand == null || brand.Length == 0 || (f.Brand != null && brand.Contains(f.Brand))) &&
+                    (flavour == null || flavour.Length == 0 || (f.FlavourType != null && flavour.Contains(f.FlavourType))) &&
+                    (origin == null || origin.Length == 0 || (f.Origin != null && origin.Contains(f.Origin))) &&
+                    (sku == null || sku.Length == 0 || (f.SKU != null && sku.Contains(f.SKU)))
+                 )
+                .Select(f => f.PackTypeId)
+                .Distinct()
+                .ToListAsync();
+
+            var packTypes = await dbContext.PackTypes
+                                  .Where(p => filtered_products.Contains(p.Id))
+                                  .OrderBy(p => p.Id)
+                                  .ToListAsync();
+
+            return packTypes;
+        }
+
         public async Task<PackType?> GetByIdAsync(int id)
         {
             return await dbContext.PackTypes.FirstOrDefaultAsync(x => x.Id == id);
