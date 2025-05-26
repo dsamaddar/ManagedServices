@@ -24,9 +24,11 @@
                 <th>Version Dt</th>
                 <th>Description</th>
                 <th>Cylinder Company</th>
+                <th>Cylinder PR</th>
+                <th>Cylinder PO</th>
                 <th>Printing Company</th>
-                <th>PR No</th>
-                <th>PO No</th>
+                <th>Print PR</th>
+                <th>Print PO</th>
                 <th>Attachments</th>
               </thead>
               <tr *ngFor="let prevProdVersion of prevProdVersions">
@@ -36,10 +38,12 @@
                 <td>{{ prevProdVersion.version }}</td>
                 <td>{{ prevProdVersion.versionDate | date : "mediumDate" }}</td>
                 <td>{{ prevProdVersion.description }}</td>
-                <td>{{ prevProdVersion.cylinderCompany.name }}</td>
-                <td>{{ prevProdVersion.printingCompany.name }}</td>
+                <td>{{ prevProdVersion.cylinderCompany.name }}</td>                
                 <td>{{ prevProdVersion.cylinderPrNo }}</td>
                 <td>{{ prevProdVersion.cylinderPoNo }}</td>
+                <td>{{ prevProdVersion.printingCompany.name }}</td>
+                <td>{{ prevProdVersion.printingPrNo }}</td>
+                <td>{{ prevProdVersion.printingPoNo }}</td>
                 <td>
                   <div
                     class=""
@@ -102,7 +106,9 @@
                   >
                     Version is required
                   </mat-error>
-                  <mat-error *ngIf="isVersionUnique == false">Version Already Exists </mat-error>                  
+                  <mat-error *ngIf="isVersionUnique == false"
+                    >Version Already Exists
+                  </mat-error>
                 </mat-form-field>
               </div>
               <div class="col-md-6">
@@ -203,7 +209,7 @@
             <div class="row">
               <div class="col-md-6">
                 <mat-form-field appearance="outline" class="full-width">
-                  <mat-label>PR Number</mat-label>
+                  <mat-label>Cylinder PR</mat-label>
                   <input
                     matInput
                     [(ngModel)]="productVersion.cylinderPrNo"
@@ -215,12 +221,38 @@
               </div>
               <div class="col-md-6">
                 <mat-form-field appearance="outline" class="full-width">
-                  <mat-label>PO Number</mat-label>
+                  <mat-label>Cylinder PO</mat-label>
                   <input
                     matInput
                     [(ngModel)]="productVersion.cylinderPoNo"
                     placeholder=""
                     name="prno"
+                    class="form-control"
+                  />
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>Print PR</mat-label>
+                  <input
+                    matInput
+                    [(ngModel)]="productVersion.printingPrNo"
+                    placeholder=""
+                    name="printingPrNo"
+                    class="form-control"
+                  />
+                </mat-form-field>
+              </div>
+              <div class="col-md-6">
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>Print PO</mat-label>
+                  <input
+                    matInput
+                    [(ngModel)]="productVersion.printingPoNo"
+                    placeholder=""
+                    name="printingPoNo"
                     class="form-control"
                   />
                 </mat-form-field>
