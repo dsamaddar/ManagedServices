@@ -84,6 +84,7 @@ namespace PTS.API.Repositories.Implementation
         public async Task<Product?> GetShowProductVersionDetailById(int id)
         {
             return await dbContext.Products
+                .Include(p => p.BarCodes)
                 .Include(p => p.ProductVersions)
                     .ThenInclude(pv => pv.CylinderCompany)
                 .Include(p => p.ProductVersions)

@@ -20,6 +20,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
+import { User } from '../../../features/auth/models/user.model';
+import { AuthService } from '../../../features/auth/services/auth.service';
 
 @Component({
   selector: 'app-show-productversion',
@@ -37,6 +39,8 @@ import { FormsModule } from '@angular/forms';
 export class ShowProductversionComponent implements OnInit, OnDestroy {
   @Input() data_path!: number;
 
+  user?: User;
+
   selectedFiles: File[] = [];
   product?: AllProduct;
   attachment_list: Attachment[] = [];
@@ -53,10 +57,12 @@ export class ShowProductversionComponent implements OnInit, OnDestroy {
 
   constructor(
     private productService: ProductService,
+    private authService: AuthService,
     private dialogRef: MatDialogRef<ShowProductversionComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { productversionid: number }
   ) {
     this.productVersionId = this.data.productversionid;
+    this.user = this.authService.getUser();
   }
   ngOnInit(): void {
     this.attachmentBaseUrl = `${environment.attachmentBaseUrl}`;
@@ -70,7 +76,7 @@ export class ShowProductversionComponent implements OnInit, OnDestroy {
             this.product = response;
             this.attachment_list = this.product.productVersions[0].attachments;
             this.cylinderPrNo = this.product.productVersions[0].cylinderPrNo;
-            this.cylinderPrNo = this.product.productVersions[0].cylinderPoNo;
+            this.cylinderPoNo = this.product.productVersions[0].cylinderPoNo;
             this.printingPrNo = this.product.productVersions[0].printingPrNo;
             this.printingPoNo = this.product.productVersions[0].printingPoNo;
             console.log(this.product);

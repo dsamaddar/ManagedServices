@@ -21,12 +21,12 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<ApplicationDbContext>(options => 
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("PTSConnectionString_MOAR"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("PTSConnectionString_OFFICE"));
 });
 
 builder.Services.AddDbContext<AuthDbContext>(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("PTSConnectionString_MOAR"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("PTSConnectionString_OFFICE"));
 });
 
 builder.Services.AddScoped<IAttachmentRepository, AttachmentRepository>();
