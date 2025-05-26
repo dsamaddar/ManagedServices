@@ -21,7 +21,7 @@ import { Router, RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { CategoryService } from '../../category/services/category.service';
 import { Category } from '../../category/models/category.model';
-import { Observable, Subject, Subscription } from 'rxjs';
+import { forkJoin, Observable, Subject, Subscription } from 'rxjs';
 import { AddCategoryRequest } from '../../category/models/add-category-request.model';
 import { CylinderCompany } from '../../cylinderCompany/models/CylinderCompany.model';
 import { PrintingCompany } from '../../printingCompany/models/printingcompany.model';
@@ -64,6 +64,7 @@ import { ComponentPortal, PortalModule } from '@angular/cdk/portal';
 import { PreviewCommonComponent } from '../preview-common/preview-common.component';
 import { PreviewProductcodeComponent } from '../preview-productcode/preview-productcode.component';
 import { PreviewVersionComponent } from '../preview-version/preview-version.component';
+import { BarcodeService } from '../services/barcode.service';
 
 @Component({
   selector: 'app-add-product',
@@ -97,13 +98,16 @@ export class AddProductComponent implements OnInit, OnDestroy {
   productVersionId: number = 0;
 
   ind_barcode: string = '';
-  barcodes: string[] = ['Apple','Banana'];
+  barcodes: string[] = [];
 
   isProductCodeUnique: boolean | null = null;
   isVersionUnique: boolean | null = null;
   isBarCodeUnique: boolean | null = null;
 
   ngForm: FormGroup;
+  msg_error: string = '';
+  msg_warning: string = '';
+  msg_info: string = '';
 
   suggestions_brand: string[] = [];
   suggestions_flavourtype: string[] = [];
@@ -173,6 +177,7 @@ export class AddProductComponent implements OnInit, OnDestroy {
     private productService: ProductService,
     private productVersionService: ProductversionService,
     private suggestionService: SuggestionService,
+    private barcodeService: BarcodeService,
     private router: Router,
     private datepipe: DatePipe,
     private http: HttpClient,
@@ -190,16 +195,8 @@ export class AddProductComponent implements OnInit, OnDestroy {
       sku: ['', Validators.required],
       productcode: ['', Validators.required],
       version: ['', Validators.required],
-      barcode: [
-        '',
-        Validators.required,
-        Validators.maxLength(13),
-        Validators.minLength(13),
-      ],
       projectdate: ['', Validators.required],
       packtypeid: ['', Validators.required],
-      cylindercompanyid: ['', Validators.required],
-      printingcompanyid: ['', Validators.required],
     });
 
     const myDate = new Date();
@@ -216,9 +213,6 @@ export class AddProductComponent implements OnInit, OnDestroy {
       productcode: '',
       version: '',
       projectdate: myDate || '',
-      barcode: '',
-      cylindercompanyid: 0,
-      printingcompanyid: 0,
       userId: '',
     };
 
@@ -239,6 +233,7 @@ export class AddProductComponent implements OnInit, OnDestroy {
 
   categoryid?: number;
   packtypeid?: number;
+  frm_barcode: string = '';
   cylindercompanyid?: number;
   printingcompanyid?: number;
 
@@ -246,6 +241,8 @@ export class AddProductComponent implements OnInit, OnDestroy {
     if (this.ind_barcode.trim().length == 13) {
       this.barcodes.push(this.ind_barcode.trim());
       this.ind_barcode = ''; // Clear input
+    }else{
+      this.msg_warning = 'Barcode must have a length of 13 digits.';
     }
   }
 
@@ -425,9 +422,14 @@ export class AddProductComponent implements OnInit, OnDestroy {
           if (this.isProductCodeUnique === false) {
             console.log('Is Product Code Unique?: ' + this.isProductCodeUnique);
 
-            ToastrUtils.showErrorToast(
-              'Product Code Already Exists : ' + this.product.productcode
-            );
+            // ToastrUtils.showErrorToast(
+            //   'Product Code Already Exists : ' + this.product.productcode
+            // );
+            this.hideProductCodeOverlay();
+            this.msg_warning =
+              'Product Code Already Exists : ' + this.product.productcode;
+          } else {
+            this.msg_warning = '';
           }
         },
       });
@@ -449,11 +451,16 @@ export class AddProductComponent implements OnInit, OnDestroy {
         next: (response) => {
           this.isVersionUnique = response;
           if (this.isVersionUnique === false) {
-            console.log(this.isVersionUnique);
+            console.log('Version Already In Use');
 
-            ToastrUtils.showErrorToast(
-              'Version Already Exists : ' + this.product.version
-            );
+            // ToastrUtils.showErrorToast(
+            //   'Version Already Exists : ' + this.product.version
+            // );
+            this.hideVersionOverlay();
+            this.msg_error = 'Version Already Exists : ' + this.product.version;
+          } else {
+            console.log('Version Available');
+            this.msg_error = '';
           }
         },
       });
@@ -465,7 +472,7 @@ export class AddProductComponent implements OnInit, OnDestroy {
   onSearchChangeBarcode(value: string) {
     this.hideBarCodeOverlay();
     const upper = value.toUpperCase();
-    this.product.barcode = upper; // updates ngModel immediately
+    //this.frm_barcode = upper; // updates ngModel immediately
 
     console.log('barcode->' + upper);
     if (value && value.length >= 1) {
@@ -475,10 +482,13 @@ export class AddProductComponent implements OnInit, OnDestroy {
         next: (response) => {
           this.isBarCodeUnique = response;
           if (this.isBarCodeUnique === false) {
-            console.log(this.isBarCodeUnique);
-            ToastrUtils.showErrorToast(
-              'Barcode Already Exists (' + upper + ')'
-            );
+            //console.log(this.isBarCodeUnique);
+            // ToastrUtils.showErrorToast(
+            //   'Barcode Already Exists (' + upper + ')'
+            // );
+            this.msg_warning = 'Barcode Already Exists (' + upper + ')';
+          } else {
+            this.msg_warning = '';
           }
         },
       });
@@ -533,27 +543,36 @@ export class AddProductComponent implements OnInit, OnDestroy {
 
   onFormSubmit(form: NgForm) {
     if (form.invalid || this.isVersionUnique === false) {
+      console.log(form.invalid);
+      console.log(this.isVersionUnique);
       this.ngForm.markAllAsTouched();
       console.log('invalid form');
       return;
     }
 
+    if (this.barcodes.length == 0) {
+      this.msg_error = 'Barcode list is empty.';
+      return;
+    } else {
+      this.msg_error = '';
+    }
+
     this.product.userId = String(localStorage.getItem('user-id'));
     this.product.categoryid = this.categoryid || 0;
     this.product.packtypeid = this.packtypeid || 0;
-    this.product.cylindercompanyid = this.cylindercompanyid || 0;
-    this.product.printingcompanyid = this.printingcompanyid || 0;
 
     if (
       this.product.categoryid == 0 ||
       this.product.packtypeid == 0 ||
-      this.product.cylindercompanyid == 0 ||
-      this.product.printingcompanyid == 0
+      this.cylindercompanyid == 0 ||
+      this.printingcompanyid == 0
     ) {
       //alert('Missing: Category/Project/Cylinder Company/Printing Company');
-      ToastrUtils.showErrorToast(
-        'Missing: Category/Project/Cylinder Company/Printing Company'
-      );
+      // ToastrUtils.showErrorToast(
+      //   'Missing: Category/Project/Cylinder Company/Printing Company'
+      // );
+      this.msg_error =
+        'Missing: Category/Project/Cylinder Company/Printing Company';
       return;
     }
 
@@ -568,9 +587,21 @@ export class AddProductComponent implements OnInit, OnDestroy {
           );
 
           if (this.selectedFiles.length === 0) {
-            ToastrUtils.showErrorToast('No File Selected');
+            //ToastrUtils.showErrorToast('No File Selected');
             //return;
+            this.msg_info = 'No File Selected';
           }
+
+          // add to barcode model
+          const requests = this.barcodes.map(barcode => {
+            const model = { productId: this.product.id, barcode };
+            return this.barcodeService.AddBarCode(model);
+          });
+        
+          forkJoin(requests).subscribe({
+            next: responses => console.log('All done', responses),
+            error: err => console.error('Something failed', err)
+          });
 
           // add product version
           this.productVersion = {
@@ -623,6 +654,8 @@ export class AddProductComponent implements OnInit, OnDestroy {
           // attachments associated with product version
           if (this.productVersionId > 0) {
           }
+
+          this.close();
         },
         error: (error) => {
           ToastrUtils.showErrorToast(error);

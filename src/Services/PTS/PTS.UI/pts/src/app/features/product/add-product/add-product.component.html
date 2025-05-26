@@ -1,4 +1,18 @@
-<h2 mat-dialog-title>Add Product Version</h2>
+<h2 mat-dialog-title>
+  Add Product Version
+  <h5>
+    <ng-container *ngIf="msg_error">
+      <div class="text-danger">{{ msg_error }}</div>
+    </ng-container>
+    <ng-container *ngIf="msg_warning">
+      <div class="text-warning">{{ msg_warning }}</div>
+    </ng-container>
+    <ng-container *ngIf="msg_info">
+      <div class="text-info">{{ msg_info }}</div>
+    </ng-container>
+  </h5>
+</h2>
+
 <mat-dialog-content>
   <div class="container-fluid">
     <form
@@ -272,8 +286,7 @@
                   minlength="13"
                   (ngModelChange)="onSearchChangeBarcode($event)"
                   (keydown.space)="$event.preventDefault()"
-                  (keypress)="allowOnlyDigits($event)"
-                  required
+                  (keypress)="allowOnlyDigits($event)"                  
                 />
 
                 <mat-autocomplete #autoBarcode="matAutocomplete">
@@ -286,7 +299,7 @@
                     {{ barcode }}
                   </mat-option>
                 </mat-autocomplete>
-                <mat-error
+                <!-- <mat-error
                   *ngIf="form.submitted && form.controls['barcode']?.invalid"
                 >
                   Barcode is required
@@ -307,7 +320,7 @@
                   "
                 >
                   Barcode must not exceed 13 characters
-                </mat-error>
+                </mat-error> -->
               </mat-form-field>
               <button
                 type="button"
