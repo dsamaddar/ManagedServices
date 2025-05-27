@@ -12,7 +12,7 @@ using PTS.API.Data;
 namespace PTS.API.Migrations.ApplicationDb
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250525072232_initial")]
+    [Migration("20250527071749_initial")]
     partial class initial
     {
         /// <inheritdoc />
@@ -720,6 +720,33 @@ namespace PTS.API.Migrations.ApplicationDb
                         .HasFilter("[Version] IS NOT NULL");
 
                     b.ToTable("ProductVersions");
+                });
+
+            modelBuilder.Entity("PTS.API.Models.Domain.RefreshToken", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("Expires")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsRevoked")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Token")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("RefreshTokens");
                 });
 
             modelBuilder.Entity("PTS.API.Models.Domain.Attachment", b =>

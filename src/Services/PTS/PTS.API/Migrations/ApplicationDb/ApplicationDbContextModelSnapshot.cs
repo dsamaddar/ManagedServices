@@ -719,6 +719,33 @@ namespace PTS.API.Migrations.ApplicationDb
                     b.ToTable("ProductVersions");
                 });
 
+            modelBuilder.Entity("PTS.API.Models.Domain.RefreshToken", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("Expires")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsRevoked")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Token")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("RefreshTokens");
+                });
+
             modelBuilder.Entity("PTS.API.Models.Domain.Attachment", b =>
                 {
                     b.HasOne("PTS.API.Models.Domain.ProductVersion", "ProductVersion")

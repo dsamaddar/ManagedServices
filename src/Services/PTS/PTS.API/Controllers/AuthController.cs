@@ -3,6 +3,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.EntityFrameworkCore;
+using PTS.API.Data;
+using PTS.API.Models.Domain;
 using PTS.API.Models.DTO;
 using PTS.API.Repositories.Interface;
 using System.Text;
@@ -18,17 +21,19 @@ namespace PTS.API.Controllers
         private readonly RoleManager<IdentityRole> roleManager;
         private readonly ITokenRepository tokenRepository;
         private readonly IEmailService emailService;
+        private readonly ApplicationDbContext dbContext;
 
         // register action method
 
         public AuthController(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager,
             ITokenRepository tokenRepository,
-            IEmailService emailService)
+            IEmailService emailService, ApplicationDbContext dbContext)
         {
             this.userManager = userManager;
             this.roleManager = roleManager;
             this.tokenRepository = tokenRepository;
             this.emailService = emailService;
+            this.dbContext = dbContext;
         }
 
         // POSTL {apibaseurl}/api/auth/login
@@ -57,7 +62,7 @@ namespace PTS.API.Controllers
                         UserId = identityUser.Id,
                         Email = request.Email,
                         Roles = roles.ToList(),
-                        Token = jwtToken
+                        Token = jwtToken.AccessToken,
                     };
                     return Ok(response);
                 }
@@ -67,6 +72,48 @@ namespace PTS.API.Controllers
             ModelState.AddModelError("", "Email/Password Incorrect");
 
             return ValidationProblem(ModelState);
+        }
+
+        [HttpPost("refresh-token")]
+        public async Task<IActionResult> RefreshToken([FromBody] RefreshTokenRequest request)
+        {
+            var refreshToken = await dbContext.RefreshTokens
+                .FirstOrDefaultAsync(t => t.Token == request.RefreshToken && !t.IsRevoked);
+
+            if (refreshToken == null)
+            {
+                return Unauthorized("Invalid or expired refresh token.");
+            }
+
+            var user = await userManager.FindByIdAsync(refreshToken.UserId);
+            if (user == null)
+            {
+                return Unauthorized("User not found.");
+            }
+
+            // Revoke old token
+            refreshToken.IsRevoked = true;
+
+            // Issue new tokens
+            var roles = await userManager.GetRolesAsync(user);
+            var token = tokenRepository.CreateJwtToken(user, roles.ToList());
+           
+            // Save new refresh token
+            dbContext.RefreshTokens.Add(new RefreshToken
+            {
+                UserId = user.Id,
+                Token = token.AccessToken,
+                Expires = DateTime.UtcNow.AddMinutes(15),
+                IsRevoked = false
+            });
+
+            await dbContext.SaveChangesAsync();
+
+            return Ok(new TokenResponse
+            {
+                AccessToken = token.AccessToken,
+                RefreshToken = token.RefreshToken
+            });
         }
 
         // POST: {apibaseurl}/api/auth/register

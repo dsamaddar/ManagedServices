@@ -30,6 +30,8 @@ namespace PTS.API.Data
 
         public DbSet<BarCodes> BarCodes { get; set; }
 
+        public DbSet<RefreshToken> RefreshTokens { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

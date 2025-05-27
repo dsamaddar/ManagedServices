@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { LoginRequest } from '../models/login-request.model';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { LoginResponse } from '../models/login-response.model';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
@@ -17,11 +17,22 @@ export class AuthService {
 
   constructor(private http: HttpClient, private cookieService: CookieService) { }
 
-  login(request: LoginRequest): Observable<LoginResponse>{
-    return this.http.post<LoginResponse>(`${environment.apiBaseUrl}/api/auth/login`,{
-      email : request.email,
+  // login(request: LoginRequest): Observable<LoginResponse>{
+  //   return this.http.post<LoginResponse>(`${environment.apiBaseUrl}/api/auth/login`,{
+  //     email : request.email,
+  //     password: request.password
+  //   })
+  // }
+
+  login(request: LoginRequest): Observable<LoginResponse> {
+    return this.http.post<LoginResponse>(`${environment.apiBaseUrl}/api/auth/login`, {
+      email: request.email,
       password: request.password
-    })
+    }).pipe(
+      tap(response => {
+        this.setTokens(response.accessToken, response.refreshToken);
+      })
+    );
   }
 
   setUser(user: User): void{
@@ -75,6 +86,32 @@ export class AuthService {
       email,
       token,
       newPassword
+    });
+  }
+
+  getAccessToken(): string | null {
+    return this.cookieService.get('Authorization') || null;
+  }
+  
+  getRefreshToken(): string | null {
+    return this.cookieService.get('refresh_token') || null;
+  }
+  
+  setTokens(accessToken: string, refreshToken: string): void {
+    this.cookieService.set('Authorization', accessToken, { path: '/' });
+    this.cookieService.set('refresh_token', refreshToken, { path: '/' });
+  }
+
+  refreshToken(): Observable<LoginResponse> {
+    const refreshToken = this.getRefreshToken();
+    if (!refreshToken) {
+      return new Observable(observer => {
+        observer.error('No refresh token');
+      });
+    }
+  
+    return this.http.post<LoginResponse>(`${environment.apiBaseUrl}/api/auth/refresh-token`, {
+      refreshToken
     });
   }
 
