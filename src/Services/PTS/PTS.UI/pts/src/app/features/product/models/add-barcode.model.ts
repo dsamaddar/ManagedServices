@@ -1,4 +1,4 @@
 export interface AddBarCodeRequest{
-    barcode: string,
+    barCode: string,
     productId: number,
 }

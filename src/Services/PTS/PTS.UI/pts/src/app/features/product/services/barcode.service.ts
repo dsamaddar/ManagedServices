@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { AddBarCodeRequest } from '../models/barcode.model';
+import { AddBarCodeRequest } from '../models/add-barcode.model';
 import { Observable } from 'rxjs';
 import { BarCodes } from '../../barcode/models/barcode.model';
 import { environment } from '../../../../environments/environment';

@@ -18,7 +18,7 @@ import {
 } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { ProductService } from '../services/product.service';
-import { Observable, Subject, Subscription } from 'rxjs';
+import { forkJoin, Observable, Subject, Subscription } from 'rxjs';
 import { Product } from '../models/product.model';
 import { AllProduct } from '../models/all-product.model';
 import { Category } from '../../category/models/category.model';
@@ -62,6 +62,7 @@ import { ProductVersion } from '../../productversion/models/productversion.model
 import { ProductversionService } from '../../productversion/services/productversion.service';
 import { BarcodeService } from '../services/barcode.service';
 import { BarCodes } from '../../barcode/models/barcode.model';
+import { AddBarCodeRequest } from '../models/add-barcode.model';
 
 @Component({
   selector: 'app-update-product',
@@ -99,7 +100,7 @@ export class UpdateProductComponent implements AfterViewInit {
   existing_version: string = '';
 
   ind_barcode: string = '';
-  barcodes: BarCodes[] = [];
+  barcodes: AddBarCodeRequest[] = [];
 
   msg_error: string = '';
   msg_warning: string = '';
@@ -680,6 +681,16 @@ export class UpdateProductComponent implements AfterViewInit {
       return;
     }
 
+    if (!this.product?.id) {
+      this.msg_error = 'Product ID is missing';
+      return;
+    }
+    
+    if (!Array.isArray(this.barcodes) || this.barcodes.length === 0) {
+      this.msg_error = 'Barcodes array is empty or invalid';
+      return;
+    }
+
     const updateProductRequest: UpdateProductRequest = {
       categoryid: this.product?.categoryId,
       packtypeid: this.product?.packTypeId,
@@ -703,10 +714,31 @@ export class UpdateProductComponent implements AfterViewInit {
         .updateProduct(this.product?.id, updateProductRequest)
         .subscribe({
           next: (response) => {
+
+            // add to barcode model
+            if (!this.product || this.product.id == null) {
+              console.error('Product ID is missing');
+              return;
+            }
+            
+            const requests_barcode = this.barcodes.map(barcode => {
+              const barcode_model: AddBarCodeRequest = {
+                productId: this.product?.id ?? 0,
+                barCode: barcode.barCode
+              };
+              return this.barcodeService.AddBarCode(barcode_model);
+            });
+            
+            forkJoin(requests_barcode).subscribe({
+              next: responses => console.log('All barcodes added successfully:', responses),
+              error: err => console.error('Failed to add barcodes:', err)
+            });
+            
+
             if (this.selectedFiles.length === 0) {
               //ToastrUtils.showErrorToast('No File Selected');
               ToastrUtils.showToast('Product Updated Without Attachment.');
-              this.router.navigateByUrl('/admin/products');
+              //this.router.navigateByUrl('/admin/products');
               //return;
             } else {
               this.uploadAttachmentSubscription = this.productService

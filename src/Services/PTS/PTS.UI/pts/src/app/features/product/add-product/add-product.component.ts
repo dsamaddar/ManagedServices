@@ -594,7 +594,7 @@ export class AddProductComponent implements OnInit, OnDestroy {
 
           // add to barcode model
           const requests = this.barcodes.map(barcode => {
-            const model = { productId: this.product.id, barcode };
+            const model = { productId: this.product.id, barCode: barcode };
             return this.barcodeService.AddBarCode(model);
           });
         

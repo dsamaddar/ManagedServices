@@ -19,6 +19,15 @@ namespace PTS.API.Repositories.Implementation
         {
             try
             {
+                // delete all barcodes for that product first
+                var barCodeList = await dbContext.BarCodes.Where(x => x.ProductId == barCodes.ProductId).ToListAsync();
+
+                if (barCodeList.Any())
+                {
+                    dbContext.BarCodes.RemoveRange(barCodeList);
+                    await dbContext.SaveChangesAsync();
+                }
+
                 await dbContext.BarCodes.AddAsync(barCodes);
                 await dbContext.SaveChangesAsync();
 
