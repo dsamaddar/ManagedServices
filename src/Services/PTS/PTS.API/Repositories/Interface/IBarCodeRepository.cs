@@ -10,6 +10,7 @@ namespace PTS.API.Repositories.Interface
         Task<IEnumerable<BarCodes>> GetAllByProductIdAsync(int productId);
         Task<BarCodes?> UpdateAsync(BarCodes barCodes);
         Task<BarCodes?> DeleteAsync(int id);
+        Task<List<BarCodes>?> DeleteByProdIdAsync(int productId);
         Task<BarCodes?> DeleteBarCodeByNameAsync(DeleteBarCodeRequestDto request);
     }
 }

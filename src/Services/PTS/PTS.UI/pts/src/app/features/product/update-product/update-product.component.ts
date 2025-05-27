@@ -599,20 +599,22 @@ export class UpdateProductComponent implements AfterViewInit {
   removeBarcodeFromList(index: number) {
     const marked_barcode = this.barcodes[index].barCode;
 
-    this.barcodeService.deleteBarcodeByName({
-      productId: this.product?.id ?? 0,
-      barCode: marked_barcode
-    }).subscribe({
-      next: () => {
-        // Only remove from list if API call succeeds
-        this.barcodes.splice(index, 1);
-        console.log('Barcode deleted successfully');
-      },
-      error: (err) => {
-        console.error('Failed to delete barcode:', err);
-        this.barcodes.splice(index, 1);
-      }
-    });
+    this.barcodeService
+      .deleteBarcodeByName({
+        productId: this.product?.id ?? 0,
+        barCode: marked_barcode,
+      })
+      .subscribe({
+        next: () => {
+          // Only remove from list if API call succeeds
+          this.barcodes.splice(index, 1);
+          console.log('Barcode deleted successfully');
+        },
+        error: (err) => {
+          console.error('Failed to delete barcode:', err);
+          this.barcodes.splice(index, 1);
+        },
+      });
   }
 
   onSearchChangeBarcode(value: string) {
@@ -685,7 +687,7 @@ export class UpdateProductComponent implements AfterViewInit {
       this.msg_error = 'Product ID is missing';
       return;
     }
-    
+
     if (!Array.isArray(this.barcodes) || this.barcodes.length === 0) {
       this.msg_error = 'Barcodes array is empty or invalid';
       return;
@@ -714,26 +716,39 @@ export class UpdateProductComponent implements AfterViewInit {
         .updateProduct(this.product?.id, updateProductRequest)
         .subscribe({
           next: (response) => {
-
             // add to barcode model
             if (!this.product || this.product.id == null) {
               console.error('Product ID is missing');
               return;
             }
-            
-            const requests_barcode = this.barcodes.map(barcode => {
+
+            // delete previous barcodes
+            this.barcodeService
+              .deleteBarcodeByProdId(this.product.id)
+              .subscribe({
+                next: (response) => {
+                  console.log('previous barcodes deleted');
+                },
+                error: (error) => {
+                  console.log(error);
+                },
+              });
+
+            // add new barcodes
+            const requests_barcode = this.barcodes.map((barcode) => {
               const barcode_model: AddBarCodeRequest = {
                 productId: this.product?.id ?? 0,
-                barCode: barcode.barCode
+                barCode: barcode.barCode,
               };
+              console.log(barcode_model);
               return this.barcodeService.AddBarCode(barcode_model);
             });
-            
+
             forkJoin(requests_barcode).subscribe({
-              next: responses => console.log('All barcodes added successfully:', responses),
-              error: err => console.error('Failed to add barcodes:', err)
+              next: (responses) =>
+                console.log('All barcodes added successfully:', responses),
+              error: (err) => console.error('Failed to add barcodes:', err),
             });
-            
 
             if (this.selectedFiles.length === 0) {
               //ToastrUtils.showErrorToast('No File Selected');

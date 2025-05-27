@@ -33,4 +33,10 @@ export class BarcodeService {
       }
     );
   }
+
+  deleteBarcodeByProdId(productId: number): Observable<any> {
+    return this.http.delete(
+      `${environment.apiBaseUrl}/api/barcode/delbarcode-by-prodid/${productId}`
+    );
+  }
 }

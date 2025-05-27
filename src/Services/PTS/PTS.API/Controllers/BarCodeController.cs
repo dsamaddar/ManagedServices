@@ -90,7 +90,7 @@ namespace PTS.API.Controllers
             return Ok(response);
         }
 
-        // DELETE: /api/productversion/{id}
+        // DELETE: /api/barcode/delbarcode-by-name
 
         [HttpDelete("delbarcode-by-name")]
         [Authorize(Roles = "MANAGER,ADMIN")]
@@ -110,6 +110,34 @@ namespace PTS.API.Controllers
                 Id = barcode.Id,
                 BarCode = barcode.BarCode,
             };
+
+            return Ok(response);
+        }
+
+        // DELETE: /api/barcode/delbarcode-by-name
+
+        [HttpDelete("delbarcode-by-prodid")]
+        [Authorize(Roles = "MANAGER,ADMIN")]
+        public async Task<IActionResult> DeleteBarCodeByProdId([FromRoute] int productId)
+        {
+            var barcodes = await barCodeRepository.DeleteByProdIdAsync(productId);
+
+            if (barcodes is null)
+            {
+                return NotFound();
+            }
+
+            // Map Domain model to DTO
+            var response = new List<BarCodesDto>();
+
+            foreach (var barcode in barcodes)
+            {
+                response.Add(new BarCodesDto
+                {
+                    Id = barcode.Id,
+                    BarCode = barcode.BarCode,
+                });
+            }
 
             return Ok(response);
         }

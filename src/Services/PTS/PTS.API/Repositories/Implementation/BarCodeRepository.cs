@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Azure.Core;
+using Microsoft.EntityFrameworkCore;
 using PTS.API.Data;
 using PTS.API.Models.Domain;
 using PTS.API.Models.DTO;
@@ -19,15 +20,6 @@ namespace PTS.API.Repositories.Implementation
         {
             try
             {
-                // delete all barcodes for that product first
-                var barCodeList = await dbContext.BarCodes.Where(x => x.ProductId == barCodes.ProductId).ToListAsync();
-
-                if (barCodeList.Any())
-                {
-                    dbContext.BarCodes.RemoveRange(barCodeList);
-                    await dbContext.SaveChangesAsync();
-                }
-
                 await dbContext.BarCodes.AddAsync(barCodes);
                 await dbContext.SaveChangesAsync();
 
@@ -68,6 +60,20 @@ namespace PTS.API.Repositories.Implementation
             }
 
             return barCodes;
+        }
+
+        public async Task<List<BarCodes>?> DeleteByProdIdAsync(int productId)
+        {
+            // delete all barcodes for that product first
+            var barCodeList = await dbContext.BarCodes.Where(x => x.ProductId == productId).ToListAsync();
+
+            if (barCodeList.Any())
+            {
+                dbContext.BarCodes.RemoveRange(barCodeList);
+                await dbContext.SaveChangesAsync();
+            }
+
+            return barCodeList;
         }
 
         public async Task<IEnumerable<BarCodes>> GetAllAsync()
