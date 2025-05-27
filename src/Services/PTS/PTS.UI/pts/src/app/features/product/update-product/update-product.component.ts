@@ -246,7 +246,7 @@ export class UpdateProductComponent implements AfterViewInit {
   }
 
   close() {
-    this.dialogRef.close();
+    this.dialogRef.close(true);
   }
 
   get projectDateString(): string {
@@ -778,6 +778,8 @@ export class UpdateProductComponent implements AfterViewInit {
                   }
                 });
             }
+
+            this.close();
           },
         });
     }
