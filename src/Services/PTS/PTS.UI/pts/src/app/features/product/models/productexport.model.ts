@@ -10,8 +10,10 @@ export interface ProductExport {
   Version: string;
   VersionDate: string;
   Description: string;
-  PR_No: string;
-  PO_No: string;
+  CYL_PR_NO: string;
+  CYL_PO_NO: string;
+  PRN_PR_NO: string;
+  PRN_PO_NO: string;
   CylinderCompany: string;
   PrintingCompany: string;
 }

@@ -198,8 +198,10 @@ export class ProductListComponent implements OnInit {
                   ? new Date(v.versionDate).toISOString().slice(0, 10)
                   : '',
                 Description: v.description,
-                PR_No: v.cylinderPrNo,
-                PO_No: v.cylinderPoNo,
+                CYL_PR_NO: v.cylinderPrNo,
+                CYL_PO_NO: v.cylinderPoNo,
+                PRN_PR_NO: v.printingPrNo,
+                PRN_PO_NO: v.printingPoNo,
                 CylinderCompany: v.cylinderCompany?.name,
                 PrintingCompany: v.printingCompany?.name,
               });
@@ -218,8 +220,10 @@ export class ProductListComponent implements OnInit {
               Version: '',
               VersionDate: '',
               Description: '',
-              PR_No: '',
-              PO_No: '',
+              CYL_PR_NO: '',
+              CYL_PO_NO: '',
+              PRN_PR_NO: '',
+              PRN_PO_NO: '',
               CylinderCompany: '',
               PrintingCompany: '',
             });
@@ -440,7 +444,6 @@ export class ProductListComponent implements OnInit {
         console.log('Filtered: packtypes ->', packtypes);
       });
     }
-
 
     this.global_query = query;
 
