@@ -109,7 +109,8 @@ export class AuthService {
         observer.error('No refresh token');
       });
     }
-  
+    
+    console.log('Refresh Token Generated');
     return this.http.post<LoginResponse>(`${environment.apiBaseUrl}/api/auth/refresh-token`, {
       refreshToken
     });

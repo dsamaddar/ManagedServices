@@ -192,8 +192,7 @@ export class ProductListComponent implements OnInit {
                 SKU: p.sku,
                 ProductCode: p.productCode,
                 PackType: p.packType?.name,
-                BarCode: '',//p.barcode,
-                // ProductVersion info
+                BarCode: p.barCodes?.map((b) => b.barCode).join(', ') || '',
                 Version: v.version,
                 VersionDate: v.versionDate
                   ? new Date(v.versionDate).toISOString().slice(0, 10)
@@ -215,7 +214,7 @@ export class ProductListComponent implements OnInit {
               SKU: p.sku,
               ProductCode: p.productCode,
               PackType: p.packType?.name,
-              BarCode: '',//p.barcode,
+              BarCode: p.barCodes?.map((b) => b.barCode).join(', ') || '',
               Version: '',
               VersionDate: '',
               Description: '',
