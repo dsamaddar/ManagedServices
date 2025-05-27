@@ -208,9 +208,11 @@ export class UpdateProductComponent implements AfterViewInit {
 
           this.product.productVersions.forEach((version) => {
             if (version.versionDate) {
-              version.versionDate = new Date(version.versionDate)
-                .toISOString()
-                .split('T')[0];
+              //version.versionDate = new Date(version.versionDate).toISOString().split('T')[0];
+              version.versionDate = format(
+                new Date(version.versionDate),
+                'yyyy-MM-dd'
+              );
             }
           });
 
@@ -570,8 +572,11 @@ export class UpdateProductComponent implements AfterViewInit {
           next: (response) => {
             this.isVersionUnique = response;
             if (this.isVersionUnique === false) {
-              console.log(this.isVersionUnique);
-              ToastrUtils.showErrorToast('Version Already Exists');
+              // console.log(this.isVersionUnique);
+              // ToastrUtils.showErrorToast('Version Already Exists');
+              this.msg_error = 'Version Already Exists : ' + upper;
+            } else {
+              this.msg_error = '';
             }
           },
         });
@@ -861,10 +866,12 @@ export class UpdateProductComponent implements AfterViewInit {
     'version',
     'versionDate',
     'description',
-    'prNo',
-    'poNo',
     'cylinderCompanyId',
     'printingCompanyId',
+    'cylinderPrNo',
+    'cylinderPoNo',
+    'printingPrNo',
+    'printingPoNo',
     'actions',
   ];
   dataSource_product_version = new MatTableDataSource<ProductVersion>();
@@ -886,6 +893,7 @@ export class UpdateProductComponent implements AfterViewInit {
   }
 
   editRow(row: ProductVersion) {
+    this.existing_version = row.version;
     this.editingRow = row.id;
   }
 

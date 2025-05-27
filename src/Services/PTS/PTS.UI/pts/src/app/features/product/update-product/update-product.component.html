@@ -359,9 +359,21 @@
                   <ng-template #editVersion>
                     <input
                       [(ngModel)]="row.version"
+                      [matAutocomplete]="autoVersion"
                       name="version_{{ row.id }}"
-                      class="editable-input size-100"
+                      class="editable-input size-200"
+                      (ngModelChange)="onSearchChangeVersion($event)"
+                      (keydown.space)="$event.preventDefault()"
+                      required
                     />
+                    <mat-autocomplete #autoVersion="matAutocomplete">
+                      <mat-option
+                        *ngFor="let version of suggestions_version"
+                        [value]="version"
+                      >
+                        {{ version }}
+                      </mat-option>
+                    </mat-autocomplete>
                   </ng-template>
                 </td>
               </ng-container>
@@ -399,40 +411,6 @@
                       [(ngModel)]="row.description"
                       name="description_{{ row.id }}"
                       class="editable-input size-150"
-                    />
-                  </ng-template>
-                </td>
-              </ng-container>
-
-              <!-- PR No -->
-              <ng-container matColumnDef="prNo">
-                <th mat-header-cell *matHeaderCellDef>PR No</th>
-                <td mat-cell *matCellDef="let row">
-                  <div *ngIf="editingRow !== row.id; else editPrNo">
-                    {{ row.prNo }}
-                  </div>
-                  <ng-template #editPrNo>
-                    <input
-                      [(ngModel)]="row.prNo"
-                      name="prNo_{{ row.id }}"
-                      class="editable-input size-100"
-                    />
-                  </ng-template>
-                </td>
-              </ng-container>
-
-              <!-- PO No -->
-              <ng-container matColumnDef="poNo">
-                <th mat-header-cell *matHeaderCellDef>PO No</th>
-                <td mat-cell *matCellDef="let row">
-                  <div *ngIf="editingRow !== row.id; else editPoNo">
-                    {{ row.poNo }}
-                  </div>
-                  <ng-template #editPoNo>
-                    <input
-                      [(ngModel)]="row.poNo"
-                      name="poNo_{{ row.id }}"
-                      class="editable-input size-100"
                     />
                   </ng-template>
                 </td>
@@ -502,6 +480,74 @@
                         </mat-option>
                       </mat-select>
                     </mat-form-field>
+                  </ng-template>
+                </td>
+              </ng-container>
+
+              <!-- Cylinder PR No -->
+              <ng-container matColumnDef="cylinderPrNo">
+                <th mat-header-cell *matHeaderCellDef>Cylinder PR</th>
+                <td mat-cell *matCellDef="let row">
+                  <div *ngIf="editingRow !== row.id; else editCylinderPrNo">
+                    {{ row.cylinderPrNo }}
+                  </div>
+                  <ng-template #editCylinderPrNo>
+                    <input
+                      [(ngModel)]="row.cylinderPrNo"
+                      name="cylinderPrNo_{{ row.id }}"
+                      class="editable-input size-100"
+                    />
+                  </ng-template>
+                </td>
+              </ng-container>
+
+              <!-- Cylinder PO No -->
+              <ng-container matColumnDef="cylinderPoNo">
+                <th mat-header-cell *matHeaderCellDef>Cylinder PO</th>
+                <td mat-cell *matCellDef="let row">
+                  <div *ngIf="editingRow !== row.id; else editCylinderPoNo">
+                    {{ row.cylinderPoNo }}
+                  </div>
+                  <ng-template #editCylinderPoNo>
+                    <input
+                      [(ngModel)]="row.cylinderPoNo"
+                      name="cylinderPoNo_{{ row.id }}"
+                      class="editable-input size-100"
+                    />
+                  </ng-template>
+                </td>
+              </ng-container>
+
+              <!-- Printing PR No -->
+              <ng-container matColumnDef="printingPrNo">
+                <th mat-header-cell *matHeaderCellDef>Printing PR</th>
+                <td mat-cell *matCellDef="let row">
+                  <div *ngIf="editingRow !== row.id; else editPrintingPrNo">
+                    {{ row.printingPrNo }}
+                  </div>
+                  <ng-template #editPrintingPrNo>
+                    <input
+                      [(ngModel)]="row.printingPrNo"
+                      name="printingPrNo_{{ row.id }}"
+                      class="editable-input size-100"
+                    />
+                  </ng-template>
+                </td>
+              </ng-container>
+
+              <!-- Printing PO No -->
+              <ng-container matColumnDef="printingPoNo">
+                <th mat-header-cell *matHeaderCellDef>Printing PO</th>
+                <td mat-cell *matCellDef="let row">
+                  <div *ngIf="editingRow !== row.id; else editPrintingPoNo">
+                    {{ row.printingPoNo }}
+                  </div>
+                  <ng-template #editPrintingPoNo>
+                    <input
+                      [(ngModel)]="row.printingPoNo"
+                      name="printingPoNo_{{ row.id }}"
+                      class="editable-input size-100"
+                    />
                   </ng-template>
                 </td>
               </ng-container>

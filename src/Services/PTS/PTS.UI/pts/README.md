@@ -273,14 +273,14 @@ Edit master on full scale
 ### UAT-07
 filter by -> pack type  [done]
 remove filter -> (cylinder company, printing company) [done]
-resolution check
+resolution check [no]
 refresh time -> after 10 minutes logout
 multi barcode | (13 digits for multiple) : change model
 view product -> reader -> hide (update pr/po); [done]
-messages are overlaying back of the component
-modify product - > check for existing version.
-		-> product code/barcode/version (detail popup)
-versiondate is lagging behind for 1 day. 
+messages are overlaying back of the component [done]
+modify product - > check for existing version. [done]
+		-> product code/barcode/version (detail popup) [no]
+versiondate is lagging behind for 1 day. [done]
 cylinder (pr + po) [done]
 printing (pr + po) [done]
 also integrate in reports

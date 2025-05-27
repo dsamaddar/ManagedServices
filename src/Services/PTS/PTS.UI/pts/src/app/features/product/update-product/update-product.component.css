@@ -10,6 +10,10 @@
   width: 150px;
 }
 
+.size-200 {
+  width: 200px;
+}
+
 .editable-input {
   font-size: 13px;
   line-height: 1.2;
