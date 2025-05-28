@@ -110,7 +110,8 @@ namespace PTS.API.Repositories.Implementation
                                     (x.ProductCode != null && x.ProductCode.Contains(query)) ||
                                     (x.Version != null && x.Version.Contains(query)) ||
                                     (x.Category != null && x.Category.Name != null && x.Category.Name.Contains(query)) ||
-                                    (x.PackType != null && x.PackType.Name != null && x.PackType.Name.Contains(query))
+                                    (x.PackType != null && x.PackType.Name != null && x.PackType.Name.Contains(query)) ||
+                                    (x.BarCodes != null && x.BarCodes.Any(b => b.BarCode.Contains(query)))
                                 )
                             )
                             );

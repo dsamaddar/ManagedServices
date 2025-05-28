@@ -283,4 +283,15 @@ modify product - > check for existing version. [done]
 versiondate is lagging behind for 1 day. [done]
 cylinder (pr + po) [done]
 printing (pr + po) [done]
-also integrate in reports
+also integrate in reports [done]
+
+## UAT-08
+barcode search option not working [done]
+flavour search option not working [done]
+add product >> remove (cylinder company, printing company, file upload)
+Modify Product Barcode lost after addition
+Modify PRoduct
+product code -> popup details
+BarCode -> popup details
+Edit product -> Attachment Upload Option
+Add Product Version -> shop popup on Version edit option
