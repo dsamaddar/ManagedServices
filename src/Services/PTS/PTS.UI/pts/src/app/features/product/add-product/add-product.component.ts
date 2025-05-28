@@ -607,14 +607,14 @@ export class AddProductComponent implements OnInit, OnDestroy {
           this.productVersion = {
             version: this.product.version,
             versionDate: this.product.projectdate,
-            description: '',
-            cylinderPrNo: '',
-            cylinderPoNo: '',
-            printingPrNo: '',
-            printingPoNo: '',
+            description: null,
+            cylinderPrNo: null,
+            cylinderPoNo: null,
+            printingPrNo: null,
+            printingPoNo: null,
             productId: this.product.id,
-            cylinderCompanyId: this.cylindercompanyid ?? 0,
-            printingCompanyId: this.printingcompanyid ?? 0,
+            cylinderCompanyId: this.cylindercompanyid ?? null,
+            printingCompanyId: this.printingcompanyid ?? null,
             userId: String(localStorage.getItem('user-id')),
           };
 
@@ -655,6 +655,7 @@ export class AddProductComponent implements OnInit, OnDestroy {
           if (this.productVersionId > 0) {
           }
 
+          ToastrUtils.showToast('Product Added Successfully.')
           this.close();
         },
         error: (error) => {

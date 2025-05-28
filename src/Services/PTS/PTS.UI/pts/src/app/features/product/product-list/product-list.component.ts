@@ -566,7 +566,7 @@ export class ProductListComponent implements OnInit {
     this.dialog.open(AddProductComponent, {
       width: '70vw', // or '1000px' or '95%' — your choice
       maxWidth: '80vw', // prevents Angular Material default max width (80vw)
-      height: '80vh',
+      height: '75vh',
       data: {},
     });
   }

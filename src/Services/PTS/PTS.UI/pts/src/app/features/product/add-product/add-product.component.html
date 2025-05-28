@@ -286,7 +286,7 @@
                   minlength="13"
                   (ngModelChange)="onSearchChangeBarcode($event)"
                   (keydown.space)="$event.preventDefault()"
-                  (keypress)="allowOnlyDigits($event)"                  
+                  (keypress)="allowOnlyDigits($event)"
                 />
 
                 <mat-autocomplete #autoBarcode="matAutocomplete">
@@ -333,25 +333,6 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-md-4"></div>
-          <div class="col-md-4"></div>
-          <div class="col-md-4">
-            <ul class="list-unstyled">
-              <li *ngFor="let br_code of barcodes; let i = index">
-                <button
-                  type="button"
-                  (click)="removeBarcodeFromList(i)"
-                  class="btn p-0 border-0 bg-transparent"
-                >
-                  <i class="bi bi-trash-fill text-danger fs-5"></i>
-                </button>
-                {{ br_code }}
-              </li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="row">
           <div class="col-md-4">
             <div class="mt-1 form-group">
               <mat-form-field appearance="outline" class="full-width">
@@ -381,80 +362,32 @@
               </mat-form-field>
             </div>
           </div>
-
+          <div class="col-md-4"></div>
           <div class="col-md-4">
-            <div class="mt-1 form-group ng-wrapper">
-              <label for="cylindercompanyid" class="form-label"
-                >Cylinder Company</label
-              >
-              <ng-select
-                name="cylindercompanyid"
-                [items]="cylinderCompanies$ | async"
-                bindLabel="name"
-                bindValue="id"
-                placeholder="Select Cylinder Company"
-                [(ngModel)]="cylindercompanyid"
-                [searchable]="true"
-                class="material-ng-select"
-                required
-              >
-              </ng-select>
-              <div
-                *ngIf="
-                  form.submitted && form.controls['cylindercompanyid']?.invalid
-                "
-                class="text-danger"
-              >
-                Cylinder Company is required
-              </div>
-            </div>
-          </div>
-          <div class="col-md-4">
-            <div class="mt-1 form-group ng-wrapper">
-              <label for="printingcompanyid" class="form-label"
-                >Printing Company</label
-              >
-              <ng-select
-                name="printingcompanyid"
-                [items]="printingCompanies$ | async"
-                bindLabel="name"
-                bindValue="id"
-                placeholder="Select Printing Company"
-                [(ngModel)]="printingcompanyid"
-                [searchable]="true"
-                class="material-ng-select"
-                required
-              >
-              </ng-select>
-              <div
-                *ngIf="
-                  form.submitted && form.controls['printingcompanyid']?.invalid
-                "
-                class="text-danger"
-              >
-                Printing Company is required
-              </div>
-            </div>
+            <ul class="list-unstyled">
+              <li *ngFor="let br_code of barcodes; let i = index">
+                <button
+                  type="button"
+                  (click)="removeBarcodeFromList(i)"
+                  class="btn p-0 border-0 bg-transparent"
+                >
+                  <i class="bi bi-trash-fill text-danger fs-5"></i>
+                </button>
+                {{ br_code }}
+              </li>
+            </ul>
           </div>
         </div>
 
         <div class="row">
-          <div class="col-md-12">
-            <div class="mt-2">
-              <label for="cylindercompanyid" class="form-label"
-                >File Upload</label
-              >
-              <input
-                type="file"
-                class="form-control"
-                (change)="onFilesSelected($event)"
-                multiple
-              />
-            </div>
+          <div class="col-md-4"></div>
+          <div class="col-md-4"></div>
+          <div class="col-md-4">
+            <button type="submit" class="btn btn-primary w-100">Save Product</button>
           </div>
         </div>
 
-        <div class="row mt-3">
+        <!-- <div class="row mt-3">
           <div class="col-md-6">
             <div class="card border-info mb-3" style="max-width: 100%">
               <div class="card-header">Selected Files</div>
@@ -477,9 +410,9 @@
             </div>
           </div>
           <div class="col-md-3">
-            <button type="submit" class="btn btn-primary">Save Product</button>
+            
           </div>
-        </div>
+        </div> -->
       </div>
 
       <!-- 🔍 Debug output here    
@@ -505,6 +438,77 @@
     </button>
     <app-file-selector></app-file-selector>
   </div>
+
+  <!-- HIDDEN CONTENT -->
+  <!-- <div class="row">
+    <div class="col-md-12">
+      <div class="mt-2">
+        <label for="cylindercompanyid" class="form-label"
+          >File Upload</label
+        >
+        <input
+          type="file"
+          class="form-control"
+          (change)="onFilesSelected($event)"
+          multiple
+        />
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-4">
+      <div class="mt-1 form-group ng-wrapper">
+        <label for="cylindercompanyid" class="form-label"
+          >Cylinder Company</label
+        >
+        <ng-select
+          name="cylindercompanyid"
+          [items]="cylinderCompanies$ | async"
+          bindLabel="name"
+          bindValue="id"
+          placeholder="Select Cylinder Company"
+          [(ngModel)]="cylindercompanyid"
+          [searchable]="true"
+          class="material-ng-select"
+          required
+        >
+        </ng-select>
+        <div
+          *ngIf="form.submitted && form.controls['cylindercompanyid']?.invalid"
+          class="text-danger"
+        >
+          Cylinder Company is required
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="mt-1 form-group ng-wrapper">
+        <label for="printingcompanyid" class="form-label"
+          >Printing Company</label
+        >
+        <ng-select
+          name="printingcompanyid"
+          [items]="printingCompanies$ | async"
+          bindLabel="name"
+          bindValue="id"
+          placeholder="Select Printing Company"
+          [(ngModel)]="printingcompanyid"
+          [searchable]="true"
+          class="material-ng-select"
+          required
+        >
+        </ng-select>
+        <div
+          *ngIf="form.submitted && form.controls['printingcompanyid']?.invalid"
+          class="text-danger"
+        >
+          Printing Company is required
+        </div>
+      </div>
+    </div>
+  </div> -->
+
+  <!-- HIDDEN CONTENT -->
 </mat-dialog-content>
 <mat-dialog-actions align="end">
   <button mat-button (click)="close()">Close</button>
