@@ -548,6 +548,7 @@ export class UpdateProductComponent implements AfterViewInit, OnDestroy {
 
   onSearchChangeProductCode(value: string) {
     const upper = value.toUpperCase();
+    this.hideProductCodeOverlay();
 
     if (this.product) {
       this.product.productCode = upper; // updates ngModel immediately
@@ -633,6 +634,7 @@ export class UpdateProductComponent implements AfterViewInit, OnDestroy {
 
   onSearchChangeBarcode(value: string) {
     const upper = value.toUpperCase();
+    this.hideBarCodeOverlay();
 
     if (this.product) {
       //this.product.barcode = upper; // updates ngModel immediately
