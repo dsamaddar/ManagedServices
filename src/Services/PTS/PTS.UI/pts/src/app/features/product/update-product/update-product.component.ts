@@ -3,9 +3,11 @@ import {
   AfterViewInit,
   Component,
   Inject,
+  Injector,
   OnDestroy,
   OnInit,
   ViewChild,
+  ViewContainerRef,
 } from '@angular/core';
 import { parseISO, format } from 'date-fns';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
@@ -63,6 +65,10 @@ import { ProductversionService } from '../../productversion/services/productvers
 import { BarcodeService } from '../services/barcode.service';
 import { BarCodes } from '../../barcode/models/barcode.model';
 import { AddBarCodeRequest } from '../models/add-barcode.model';
+import { Overlay, OverlayRef } from '@angular/cdk/overlay';
+import { PreviewBarcodeComponent } from '../preview-barcode/preview-barcode.component';
+import { PreviewProductcodeComponent } from '../preview-productcode/preview-productcode.component';
+import { ComponentPortal } from '@angular/cdk/portal';
 
 @Component({
   selector: 'app-update-product',
@@ -87,7 +93,7 @@ import { AddBarCodeRequest } from '../models/add-barcode.model';
   templateUrl: './update-product.component.html',
   styleUrl: './update-product.component.css',
 })
-export class UpdateProductComponent implements AfterViewInit {
+export class UpdateProductComponent implements AfterViewInit, OnDestroy {
   productId: number = 0;
   paramsSubscription?: Subscription;
   editProductSubscription?: Subscription;
@@ -191,6 +197,9 @@ export class UpdateProductComponent implements AfterViewInit {
     private dialogRef: MatDialogRef<UpdateProductComponent>,
     private productVersionService: ProductversionService,
     private barcodeService: BarcodeService,
+    private overlay: Overlay,
+    private injector: Injector,
+    private viewContainerRef: ViewContainerRef,
     @Inject(MAT_DIALOG_DATA) public data: { productid: number }
   ) {
     this.productId = data.productid;
@@ -664,6 +673,8 @@ export class UpdateProductComponent implements AfterViewInit {
     this.addProductSubscription?.unsubscribe();
     this.uploadAttachmentSubscription?.unsubscribe();
     this.deleteAttachmentSubscription?.unsubscribe();
+    this.hideBarCodeOverlay();
+    this.hideProductCodeOverlay();
   }
 
   onFormSubmit(form: NgForm) {
@@ -912,5 +923,93 @@ export class UpdateProductComponent implements AfterViewInit {
 
   cancelEdit() {
     this.editingRow = null;
+  }
+
+  private overlayBarCodeRef: OverlayRef | null = null;
+
+  showBarCodeOverlay(event: MouseEvent, option: any): void {
+    this.hideBarCodeOverlay(); // Close existing
+
+    const positionStrategy = this.overlay
+      .position()
+      .flexibleConnectedTo({ x: event.clientX, y: event.clientY })
+      .withPositions([
+        {
+          originX: 'start',
+          originY: 'top',
+          overlayX: 'start',
+          overlayY: 'bottom',
+        },
+      ]);
+
+    this.overlayBarCodeRef = this.overlay.create({
+      positionStrategy,
+      hasBackdrop: false,
+      scrollStrategy: this.overlay.scrollStrategies.reposition(),
+    });
+
+    const injector = Injector.create({
+      providers: [{ provide: MAT_DIALOG_DATA, useValue: option }],
+      parent: this.injector,
+    });
+
+    const portal = new ComponentPortal(
+      PreviewBarcodeComponent,
+      this.viewContainerRef,
+      injector
+    );
+    this.overlayBarCodeRef.attach(portal);
+  }
+
+  hideBarCodeOverlay(): void {
+    if (this.overlayBarCodeRef) {
+      this.overlayBarCodeRef.detach();
+      this.overlayBarCodeRef.dispose();
+      this.overlayBarCodeRef = null;
+    }
+  }
+
+  private overlayProductCodeRef: OverlayRef | null = null;
+
+  showProductCodeOverlay(event: MouseEvent, option: any): void {
+    this.hideProductCodeOverlay(); // Close existing
+    console.log(option);
+    const positionStrategy = this.overlay
+      .position()
+      .flexibleConnectedTo({ x: event.clientX, y: event.clientY })
+      .withPositions([
+        {
+          originX: 'start',
+          originY: 'top',
+          overlayX: 'start',
+          overlayY: 'bottom',
+        },
+      ]);
+
+    this.overlayProductCodeRef = this.overlay.create({
+      positionStrategy,
+      hasBackdrop: false,
+      scrollStrategy: this.overlay.scrollStrategies.reposition(),
+    });
+
+    const injector = Injector.create({
+      providers: [{ provide: MAT_DIALOG_DATA, useValue: option }],
+      parent: this.injector,
+    });
+
+    const portal = new ComponentPortal(
+      PreviewProductcodeComponent,
+      this.viewContainerRef,
+      injector
+    );
+    this.overlayProductCodeRef.attach(portal);
+  }
+
+  hideProductCodeOverlay(): void {
+    if (this.overlayProductCodeRef) {
+      this.overlayProductCodeRef.detach();
+      this.overlayProductCodeRef.dispose();
+      this.overlayProductCodeRef = null;
+    }
   }
 }

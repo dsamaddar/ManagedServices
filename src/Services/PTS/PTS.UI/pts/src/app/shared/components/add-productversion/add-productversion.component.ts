@@ -5,10 +5,12 @@ import {
   Component,
   EventEmitter,
   Inject,
+  Injector,
   Input,
   OnDestroy,
   OnInit,
   Output,
+  ViewContainerRef,
 } from '@angular/core';
 import {
   FormBuilder,
@@ -46,6 +48,9 @@ import { PrintingcompanyService } from '../../../features/printingCompany/servic
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
+import { Overlay, OverlayRef } from '@angular/cdk/overlay';
+import { ComponentPortal } from '@angular/cdk/portal';
+import { PreviewCommonComponent } from '../../../features/product/preview-common/preview-common.component';
 
 @Component({
   selector: 'app-add-productversion',
@@ -102,6 +107,9 @@ export class AddProductversionComponent implements OnInit, OnDestroy {
     private cylinderCompanyService: CylindercompanyService,
     private printingCompanyService: PrintingcompanyService,
     private dialogRef: MatDialogRef<AddProductversionComponent>,
+    private overlay: Overlay,
+    private injector: Injector,
+    private viewContainerRef: ViewContainerRef,
     @Inject(MAT_DIALOG_DATA) public data: { productid: number }
   ) {
     console.log(this.data.productid);
@@ -365,4 +373,69 @@ export class AddProductversionComponent implements OnInit, OnDestroy {
     // refresh parent component
     this.refreshParent.emit();
   }
+
+  private overlayCommonRef: OverlayRef | null = null;
+
+  showCommonOverlay(event: MouseEvent, header: string, option: any): void {
+    this.hideCommonOverlay(); // Close existing
+    console.log('common-overlay');
+    const dataToPass = {
+      header: header,
+      content: option,
+      meta: { id: 0 },
+    };
+
+    const positionStrategy = this.overlay
+      .position()
+      .flexibleConnectedTo({ x: event.clientX, y: event.clientY })
+      .withPositions([
+        {
+          originX: 'start',
+          originY: 'top',
+          overlayX: 'start',
+          overlayY: 'bottom',
+        },
+      ]);
+
+    // this.overlayCommonRef = this.overlay.create({
+    //   positionStrategy,
+    //   hasBackdrop: false,
+    //   scrollStrategy: this.overlay.scrollStrategies.reposition(),
+    // });
+
+    this.overlayCommonRef = this.overlay.create({
+      positionStrategy,
+      hasBackdrop: false,
+      scrollStrategy: this.overlay.scrollStrategies.reposition(),
+      panelClass: 'custom-overlay-panel',
+    });
+
+    const injector = Injector.create({
+      providers: [{ provide: MAT_DIALOG_DATA, useValue: dataToPass }],
+      parent: this.injector,
+    });
+
+    // 🟢 Delay attachment to come after ng-select DOM updates
+    setTimeout(() => {
+      const portal = new ComponentPortal(
+        PreviewCommonComponent,
+        this.viewContainerRef,
+        injector
+      );
+      this.overlayCommonRef!.attach(portal);
+    }, 0);
+  }
+
+  hideCommonOverlay(): void {
+    if (this.overlayCommonRef) {
+      this.overlayCommonRef.detach();
+      this.overlayCommonRef.dispose();
+      this.overlayCommonRef = null;
+    }
+  }
+
+  onSearch(){
+    this.hideCommonOverlay();
+  }
+
 }

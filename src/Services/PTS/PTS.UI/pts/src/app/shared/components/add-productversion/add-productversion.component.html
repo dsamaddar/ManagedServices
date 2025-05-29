@@ -38,7 +38,7 @@
                 <td>{{ prevProdVersion.version }}</td>
                 <td>{{ prevProdVersion.versionDate | date : "mediumDate" }}</td>
                 <td>{{ prevProdVersion.description }}</td>
-                <td>{{ prevProdVersion.cylinderCompany.name }}</td>                
+                <td>{{ prevProdVersion.cylinderCompany.name }}</td>
                 <td>{{ prevProdVersion.cylinderPrNo }}</td>
                 <td>{{ prevProdVersion.cylinderPoNo }}</td>
                 <td>{{ prevProdVersion.printingCompany.name }}</td>
@@ -166,8 +166,23 @@
                     [(ngModel)]="cylindercompanyid"
                     [searchable]="true"
                     class="material-ng-select"
+                    (change)="onSearch()"
                     required
                   >
+                  <ng-template ng-option-tmp let-item="item">
+                    <div
+                      (mouseenter)="
+                        showCommonOverlay(
+                          $event,
+                          'Cylinder Company',
+                          item.name
+                        )
+                      "
+                      (mouseleave)="hideCommonOverlay()"
+                    >
+                      {{ item.name }}
+                    </div>
+                  </ng-template>
                   </ng-select>
                   <div
                     *ngIf="
@@ -191,8 +206,23 @@
                     [(ngModel)]="printingcompanyid"
                     [searchable]="true"
                     class="material-ng-select"
+                    (change)="onSearch()"
                     required
                   >
+                    <ng-template ng-option-tmp let-item="item">
+                      <div
+                        (mouseenter)="
+                          showCommonOverlay(
+                            $event,
+                            'Printing Company',
+                            item.name
+                          )
+                        "
+                        (mouseleave)="hideCommonOverlay()"
+                      >
+                        {{ item.name }}
+                      </div>
+                    </ng-template>
                   </ng-select>
                   <div
                     *ngIf="

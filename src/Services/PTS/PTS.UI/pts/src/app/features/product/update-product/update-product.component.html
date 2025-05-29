@@ -222,6 +222,8 @@
                   <mat-option
                     *ngFor="let productcode of suggestions_productcode"
                     [value]="productcode"
+                    (mouseenter)="showProductCodeOverlay($event, productcode)"
+                    (mouseleave)="hideProductCodeOverlay()"
                   >
                     {{ productcode }}
                   </mat-option>
@@ -259,6 +261,8 @@
                   <mat-option
                     *ngFor="let barcode of suggestions_barcode"
                     [value]="barcode"
+                    (mouseenter)="showBarCodeOverlay($event, barcode)"
+                    (mouseleave)="hideBarCodeOverlay()"
                   >
                     {{ barcode }}
                   </mat-option>

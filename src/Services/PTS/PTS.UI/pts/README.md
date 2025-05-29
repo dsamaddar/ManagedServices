@@ -288,10 +288,9 @@ also integrate in reports [done]
 ## UAT-08
 barcode search option not working [done]
 flavour search option not working [done]
-add product >> remove (cylinder company, printing company, file upload)
+add product >> remove (cylinder company, printing company, file upload) [done]
 Modify Product Barcode lost after addition
-Modify PRoduct
-product code -> popup details
-BarCode -> popup details
-Edit product -> Attachment Upload Option
-Add Product Version -> shop popup on Version edit option
+Modify PRoduct  >> product code -> popup details [done]
+Modify PRoduct  >> BarCode -> popup details [done]
+Edit product -> Attachment Upload Option [not_required]
+Add Product Version -> shop popup on Version edit option [done]
