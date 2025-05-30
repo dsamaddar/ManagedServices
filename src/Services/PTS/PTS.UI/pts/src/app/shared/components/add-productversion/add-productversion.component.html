@@ -1,4 +1,16 @@
-<h2 mat-dialog-title>Add Product Version</h2>
+<h2 mat-dialog-title>Add Product Version
+  <h5>
+    <ng-container *ngIf="msg_error">
+      <div class="text-danger">{{ msg_error }}</div>
+    </ng-container>
+    <ng-container *ngIf="msg_warning">
+      <div class="text-warning">{{ msg_warning }}</div>
+    </ng-container>
+    <ng-container *ngIf="msg_info">
+      <div class="text-info">{{ msg_info }}</div>
+    </ng-container>
+  </h5>
+</h2>
 <mat-dialog-content>
   <div class="card-body">
     <div class="d-flex flex-md-row flex-sm-column">
@@ -167,7 +179,6 @@
                     [searchable]="true"
                     class="material-ng-select"
                     (change)="onSearch()"
-                    required
                   >
                   <ng-template ng-option-tmp let-item="item">
                     <div
@@ -184,7 +195,7 @@
                     </div>
                   </ng-template>
                   </ng-select>
-                  <div
+                  <!-- <div
                     *ngIf="
                       form.submitted &&
                       form.controls['cylindercompanyid']?.invalid
@@ -192,7 +203,7 @@
                     class="text-danger"
                   >
                     Cylinder Company is required
-                  </div>
+                  </div> -->
                 </div>
               </div>
               <div class="col-md-6">
@@ -207,7 +218,6 @@
                     [searchable]="true"
                     class="material-ng-select"
                     (change)="onSearch()"
-                    required
                   >
                     <ng-template ng-option-tmp let-item="item">
                       <div
@@ -224,7 +234,7 @@
                       </div>
                     </ng-template>
                   </ng-select>
-                  <div
+                  <!-- <div
                     *ngIf="
                       form.submitted &&
                       form.controls['printingcompanyid']?.invalid
@@ -232,7 +242,7 @@
                     class="text-danger"
                   >
                     Printing Company is required
-                  </div>
+                  </div> -->
                 </div>
               </div>
             </div>

@@ -75,6 +75,10 @@ export class AddProductversionComponent implements OnInit, OnDestroy {
   @Output() refreshParent = new EventEmitter<void>();
   progress = 0;
 
+  msg_error: string = '';
+  msg_warning: string = '';
+  msg_info: string = '';
+
   productVersion!: AddProductVersionRequest;
   prevProdVersions: ProductVersion[] = [];
   selectedFiles: File[] = [];
@@ -118,8 +122,8 @@ export class AddProductversionComponent implements OnInit, OnDestroy {
       version: ['', Validators.required],
       versionDate: [this.myDate, Validators.required],
       description: ['', Validators.required],
-      cylindercompanyid: ['', Validators.required],
-      printingcompanyid: ['', Validators.required],
+      // cylindercompanyid: ['', Validators.required],
+      // printingcompanyid: ['', Validators.required],
     });
   }
 
@@ -210,6 +214,7 @@ export class AddProductversionComponent implements OnInit, OnDestroy {
           this.isVersionUnique = response;
           if (this.isVersionUnique === false) {
             console.log(this.isVersionUnique);
+            this.msg_error =  'Version Already Exists : ' + this.productVersion.version;
             // ToastrUtils.showErrorToast(
             //   'Version Already Exists : ' + this.productVersion.version
             // );
@@ -320,20 +325,21 @@ export class AddProductversionComponent implements OnInit, OnDestroy {
     if (form.invalid || this.isVersionUnique === false) {
       this.ngForm.markAllAsTouched();
       console.log('invalid form');
+      this.msg_error = 'Invalid Form: Input All Required Fields'
       return;
     }
 
-    this.productVersion.cylinderCompanyId = this.cylindercompanyid || 0;
-    this.productVersion.printingCompanyId = this.printingcompanyid || 0;
+    this.productVersion.cylinderCompanyId = this.cylindercompanyid || null;
+    this.productVersion.printingCompanyId = this.printingcompanyid || null;
 
-    if (
-      this.productVersion.cylinderCompanyId == 0 ||
-      this.productVersion.printingCompanyId == 0
-    ) {
-      //alert('Missing: Category/Project/Cylinder Company/Printing Company');
-      ToastrUtils.showErrorToast('Missing: Cylinder Company/Printing Company');
-      return;
-    }
+    // if (
+    //   this.productVersion.cylinderCompanyId == 0 ||
+    //   this.productVersion.printingCompanyId == 0
+    // ) {
+    //   //alert('Missing: Category/Project/Cylinder Company/Printing Company');
+    //   ToastrUtils.showErrorToast('Missing: Cylinder Company/Printing Company');
+    //   return;
+    // }
 
     this.addProductVersionSubscription = this.productVersionService
       .addProductVersion(this.productVersion)
@@ -356,6 +362,7 @@ export class AddProductversionComponent implements OnInit, OnDestroy {
                 case HttpEventType.Response:
                   //ToastrUtils.showToast('Product Added Successfully.');
                   //this.router.navigateByUrl('/admin/products');
+                  
                   ToastrUtils.showToast(
                     'Product version added with attachments'
                   );
@@ -434,7 +441,7 @@ export class AddProductversionComponent implements OnInit, OnDestroy {
     }
   }
 
-  onSearch(){
+  onSearch() {
     this.hideCommonOverlay();
   }
 

@@ -479,7 +479,7 @@ namespace PTS.API.Repositories.Implementation
             if (string.IsNullOrWhiteSpace(query))
                 return new List<string>();
 
-            var results = await dbContext.Products
+            var results = await dbContext.ProductVersions
                 .Where(f =>
                     (f.Version != null && EF.Functions.Like(f.Version, $"%{query}%")))
                 .Select(f => f.Version!) //null-forgiving operator (!)

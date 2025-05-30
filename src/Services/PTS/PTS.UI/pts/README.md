@@ -294,3 +294,7 @@ Modify PRoduct  >> product code -> popup details [done]
 Modify PRoduct  >> BarCode -> popup details [done]
 Edit product -> Attachment Upload Option [not_required]
 Add Product Version -> shop popup on Version edit option [done]
+
+## UAT-09
+add product -> version {make cylinder/printing company options}
+add product -> version was not loading properly
