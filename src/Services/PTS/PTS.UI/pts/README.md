@@ -296,5 +296,5 @@ Edit product -> Attachment Upload Option [not_required]
 Add Product Version -> shop popup on Version edit option [done]
 
 ## UAT-09
-add product -> version {make cylinder/printing company options}
-add product -> version was not loading properly
+add product -> version {make cylinder/printing company options} [done]
+add product -> version was not loading properly [done]
