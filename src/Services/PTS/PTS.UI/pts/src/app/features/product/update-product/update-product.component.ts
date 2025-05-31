@@ -905,16 +905,50 @@ export class UpdateProductComponent implements AfterViewInit, OnDestroy {
     this.dataSource_product_version.filter = filterValue;
   }
 
+  originalRowBackup: ProductVersion | null = null;
+  editedRow: ProductVersion | null = null;
+
   editRow(row: ProductVersion) {
+    // Create a shallow copy to avoid mutating the original row
+    this.originalRowBackup = { ...row } as ProductVersion;
+    this.editedRow = { ...row } as ProductVersion;
     this.existing_version = row.version;
     this.editingRow = row.id;
   }
 
   saveRow(row: ProductVersion) {
-    console.log(row);
+    this.suggestionService.getIsVersionUnique(row.version).subscribe({
+      next: (response) => {
+        this.isVersionUnique = response;
+        if (this.isVersionUnique === false) {
+          
+
+          // Optionally restore backup if you're tracking it
+          if (this.originalRowBackup) {
+            const index = this.dataSource_product_version.data.findIndex(p => p.id === row.id);
+            if (index !== -1) {
+              this.dataSource_product_version.data[index] = { ...this.originalRowBackup };
+              this.dataSource_product_version._updateChangeSubscription();
+            }
+          }
+
+          this.msg_error = 'Version Already Exists : ' + row.version + ' [updated failed]';
+          this.editedRow = null;
+          this.editingRow = null;
+          return;
+
+        } else {
+          this.msg_error = '';
+        }
+      },
+    });
+
     this.productVersionService.updateProductVersion(row.id, row).subscribe({
       next: (response) => {
         console.log('updated');
+        this.editingRow = null;
+        this.editedRow = null;
+        this.originalRowBackup = null;
       },
       error: (error) => {
         console.log(error);
@@ -924,7 +958,23 @@ export class UpdateProductComponent implements AfterViewInit, OnDestroy {
   }
 
   cancelEdit() {
+    if (this.originalRowBackup) {
+      const index = this.dataSource_product_version.data.findIndex(
+        p => p.id === this.originalRowBackup?.id
+      );
+
+      if (index !== -1) {
+        this.dataSource_product_version.data[index] = { ...this.originalRowBackup };
+        this.dataSource_product_version._updateChangeSubscription();
+      }
+    }
+
+    this.editedRow = null;
+    this.originalRowBackup = null;
     this.editingRow = null;
+    this.msg_error = '';
+    this.msg_info = '';
+    this.msg_warning = '';
   }
 
   private overlayBarCodeRef: OverlayRef | null = null;
