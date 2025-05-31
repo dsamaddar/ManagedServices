@@ -242,22 +242,45 @@ namespace PTS.API.Controllers
         [Authorize(Roles = "MANAGER,ADMIN")]
         public IActionResult UpdateProductVersion(int id, [FromBody] UpdateProductVersionMiniDto dto)
         {
-            var productVersion = dbContext.ProductVersions.Find(id);
+            if (dto == null)
+            {
+                return BadRequest("Request body is null.");
+            }
 
-            if (productVersion == null) return NotFound();
+            try
+            {
+                var productVersion = dbContext.ProductVersions.Find(id);
 
-            productVersion.Version = dto.Version;
-            productVersion.VersionDate = dto.VersionDate;
-            productVersion.Description = dto.Description;
-            productVersion.CylinderPrNo = dto.CylinderPrNo;
-            productVersion.CylinderPoNo = dto.CylinderPoNo;
-            productVersion.PrintingPrNo = dto.PrintingPrNo;
-            productVersion.PrintingPoNo = dto.PrintingPoNo;
-            productVersion.CylinderCompanyId = dto.CylinderCompanyId;
-            productVersion.PrintingCompanyId = dto.PrintingCompanyId;
-            dbContext.SaveChanges();
+                if (productVersion == null)
+                {
+                    return NotFound($"ProductVersion with ID {id} not found.");
+                }
 
-            return Ok(productVersion);
+                // Update fields
+                productVersion.Version = dto.Version;
+                productVersion.VersionDate = dto.VersionDate;
+                productVersion.Description = dto.Description;
+                productVersion.CylinderPrNo = dto.CylinderPrNo;
+                productVersion.CylinderPoNo = dto.CylinderPoNo;
+                productVersion.PrintingPrNo = dto.PrintingPrNo;
+                productVersion.PrintingPoNo = dto.PrintingPoNo;
+                productVersion.CylinderCompanyId = dto.CylinderCompanyId;
+                productVersion.PrintingCompanyId = dto.PrintingCompanyId;
+
+                dbContext.SaveChanges();
+
+                return Ok(productVersion);
+            }
+            catch (DbUpdateException dbEx)
+            {
+                // Log the exception (use a logger in real code)
+                return StatusCode(500, $"Database update error: {dbEx.Message}");
+            }
+            catch (Exception ex)
+            {
+                // Log the exception (use a logger in real code)
+                return StatusCode(500, $"An unexpected error occurred: {ex.Message}");
+            }
         }
 
         [HttpPut("updateproductversion/{id}")]
