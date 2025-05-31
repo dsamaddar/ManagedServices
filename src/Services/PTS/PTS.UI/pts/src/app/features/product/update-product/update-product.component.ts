@@ -69,6 +69,8 @@ import { Overlay, OverlayRef } from '@angular/cdk/overlay';
 import { PreviewBarcodeComponent } from '../preview-barcode/preview-barcode.component';
 import { PreviewProductcodeComponent } from '../preview-productcode/preview-productcode.component';
 import { ComponentPortal } from '@angular/cdk/portal';
+import { User } from '../../auth/models/user.model';
+import { AuthService } from '../../auth/services/auth.service';
 
 @Component({
   selector: 'app-update-product',
@@ -102,6 +104,7 @@ export class UpdateProductComponent implements AfterViewInit, OnDestroy {
   product?: AllProduct;
   attachmentBaseUrl?: string;
   attachment_list: Attachment[] = [];
+  user?: User;
 
   existing_version: string = '';
 
@@ -200,8 +203,11 @@ export class UpdateProductComponent implements AfterViewInit, OnDestroy {
     private overlay: Overlay,
     private injector: Injector,
     private viewContainerRef: ViewContainerRef,
+    private authService: AuthService,
     @Inject(MAT_DIALOG_DATA) public data: { productid: number }
   ) {
+
+    this.user = this.authService.getUser();
     this.productId = data.productid;
     //console.log(this.productId);
 

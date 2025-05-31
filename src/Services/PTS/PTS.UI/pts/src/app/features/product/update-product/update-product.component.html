@@ -14,33 +14,17 @@
 </h2>
 <mat-dialog-content>
   <div class="container-fluid">
-    <form
-      #form="ngForm"
-      (ngSubmit)="onFormSubmit(form)"
-      enctype="multipart/form-data"
-    >
+    <form #form="ngForm" (ngSubmit)="onFormSubmit(form)" enctype="multipart/form-data">
       <div class="container">
         <div class="row">
           <div class="col-md-4 col-sm-12">
             <div class="mt-1 ng-wrapper">
               <label for="categoryid" class="material-label">Category</label>
-              <ng-select
-                *ngIf="product"
-                name="categoryid"
-                [items]="categories$ | async"
-                bindLabel="name"
-                bindValue="id"
-                placeholder="Select Category"
-                [(ngModel)]="product.categoryId"
-                [searchable]="true"
-                class="material-ng-select"
-                required
-              >
+              <ng-select *ngIf="product" name="categoryid" [items]="categories$ | async" bindLabel="name" bindValue="id"
+                placeholder="Select Category" [(ngModel)]="product.categoryId" [searchable]="true"
+                class="material-ng-select" required>
               </ng-select>
-              <div
-                *ngIf="form.submitted && form.controls['categoryid']?.invalid"
-                class="text-danger"
-              >
+              <div *ngIf="form.submitted && form.controls['categoryid']?.invalid" class="text-danger">
                 Category is required
               </div>
             </div>
@@ -49,29 +33,15 @@
             <div class="mt-1 form-group">
               <mat-form-field appearance="outline" class="full-width">
                 <mat-label>Brand</mat-label>
-                <input
-                  *ngIf="product"
-                  matInput
-                  [(ngModel)]="product.brand"
-                  [matAutocomplete]="autoBrand"
-                  placeholder=""
-                  name="brand"
-                  class="form-control"
-                  (ngModelChange)="onSearchChangeBrand($event)"
-                  required
-                />
+                <input *ngIf="product" matInput [(ngModel)]="product.brand" [matAutocomplete]="autoBrand" placeholder=""
+                  name="brand" class="form-control" (ngModelChange)="onSearchChangeBrand($event)" required />
                 <mat-autocomplete #autoBrand="matAutocomplete">
-                  <mat-option
-                    *ngFor="let brand of suggestions_brand"
-                    [value]="brand"
-                  >
+                  <mat-option *ngFor="let brand of suggestions_brand" [value]="brand">
                     {{ brand }}
                   </mat-option>
                 </mat-autocomplete>
                 <!-- Validation error message -->
-                <mat-error
-                  *ngIf="form.submitted && form.controls['brand']?.invalid"
-                >
+                <mat-error *ngIf="form.submitted && form.controls['brand']?.invalid">
                   Brand is required
                 </mat-error>
               </mat-form-field>
@@ -81,29 +51,16 @@
             <div class="mt-1 form-group">
               <mat-form-field appearance="outline" class="full-width">
                 <mat-label>Flavour</mat-label>
-                <input
-                  *ngIf="product"
-                  matInput
-                  [(ngModel)]="product.flavourType"
-                  [matAutocomplete]="autoFlavourType"
-                  placeholder=""
-                  name="flavourType"
-                  class="form-control"
-                  (ngModelChange)="onSearchChangeFlavourType($event)"
-                  required
-                />
+                <input *ngIf="product" matInput [(ngModel)]="product.flavourType" [matAutocomplete]="autoFlavourType"
+                  placeholder="" name="flavourType" class="form-control"
+                  (ngModelChange)="onSearchChangeFlavourType($event)" required />
                 <mat-autocomplete #autoFlavourType="matAutocomplete">
-                  <mat-option
-                    *ngFor="let flavourtype of suggestions_flavourtype"
-                    [value]="flavourtype"
-                  >
+                  <mat-option *ngFor="let flavourtype of suggestions_flavourtype" [value]="flavourtype">
                     {{ flavourtype }}
                   </mat-option>
                 </mat-autocomplete>
                 <!-- Validation error message -->
-                <mat-error
-                  *ngIf="form.submitted && form.controls['brand']?.invalid"
-                >
+                <mat-error *ngIf="form.submitted && form.controls['brand']?.invalid">
                   Flavour is required
                 </mat-error>
               </mat-form-field>
@@ -115,29 +72,16 @@
             <div class="mt-1 form-group">
               <mat-form-field appearance="outline" class="full-width">
                 <mat-label>Origin</mat-label>
-                <input
-                  matInput
-                  *ngIf="product"
-                  [(ngModel)]="product.origin"
-                  [matAutocomplete]="autoOrigin"
-                  placeholder=""
-                  name="origin"
-                  class="form-control"
-                  (ngModelChange)="onSearchChangeOrigin($event)"
-                  required
-                />
+                <input matInput *ngIf="product" [(ngModel)]="product.origin" [matAutocomplete]="autoOrigin"
+                  placeholder="" name="origin" class="form-control" (ngModelChange)="onSearchChangeOrigin($event)"
+                  required />
                 <mat-autocomplete #autoOrigin="matAutocomplete">
-                  <mat-option
-                    *ngFor="let origin of suggestions_origin"
-                    [value]="origin"
-                  >
+                  <mat-option *ngFor="let origin of suggestions_origin" [value]="origin">
                     {{ origin }}
                   </mat-option>
                 </mat-autocomplete>
                 <!-- Validation error message -->
-                <mat-error
-                  *ngIf="form.submitted && form.controls['origin']?.invalid"
-                >
+                <mat-error *ngIf="form.submitted && form.controls['origin']?.invalid">
                   Origin is required
                 </mat-error>
               </mat-form-field>
@@ -147,27 +91,16 @@
             <div class="mt-1 form-group">
               <mat-form-field appearance="outline" class="full-width">
                 <mat-label>SKU</mat-label>
-                <input
-                  matInput
-                  *ngIf="product"
-                  [(ngModel)]="product.sku"
-                  [matAutocomplete]="autoSKU"
-                  placeholder=""
-                  name="sku"
-                  class="form-control"
-                  (ngModelChange)="onSearchChangeSKU($event)"
-                  (keydown.space)="$event.preventDefault()"
-                  required
-                />
+                <input matInput *ngIf="product" [(ngModel)]="product.sku" [matAutocomplete]="autoSKU" placeholder=""
+                  name="sku" class="form-control" (ngModelChange)="onSearchChangeSKU($event)"
+                  (keydown.space)="$event.preventDefault()" required />
                 <mat-autocomplete #autoSKU="matAutocomplete">
                   <mat-option *ngFor="let sku of suggestions_sku" [value]="sku">
                     {{ sku }}
                   </mat-option>
                 </mat-autocomplete>
                 <!-- Validation error message -->
-                <mat-error
-                  *ngIf="form.submitted && form.controls['sku']?.invalid"
-                >
+                <mat-error *ngIf="form.submitted && form.controls['sku']?.invalid">
                   SKU is required
                 </mat-error>
               </mat-form-field>
@@ -175,27 +108,13 @@
           </div>
           <div class="col-md-4">
             <div class="mt-1 form-group ng-wrapper">
-              <label for="packTypeId" class="form-label material-label"
-                >Pack Type</label
-              >
+              <label for="packTypeId" class="form-label material-label">Pack Type</label>
 
-              <ng-select
-                *ngIf="product"
-                name="packTypeId"
-                [items]="packtypes$ | async"
-                bindLabel="name"
-                bindValue="id"
-                placeholder="Select Pack Type"
-                [(ngModel)]="product.packTypeId"
-                [searchable]="true"
-                class="material-ng-select"
-                required
-              >
+              <ng-select *ngIf="product" name="packTypeId" [items]="packtypes$ | async" bindLabel="name" bindValue="id"
+                placeholder="Select Pack Type" [(ngModel)]="product.packTypeId" [searchable]="true"
+                class="material-ng-select" required>
               </ng-select>
-              <div
-                *ngIf="form.submitted && form.controls['packtypeid']?.invalid"
-                class="text-danger"
-              >
+              <div *ngIf="form.submitted && form.controls['packtypeid']?.invalid" class="text-danger">
                 Pack Type is required
               </div>
             </div>
@@ -206,34 +125,20 @@
             <div class="mt-1 form-group">
               <mat-form-field appearance="outline" class="full-width">
                 <mat-label>Product Code</mat-label>
-                <input
-                  matInput
-                  *ngIf="product"
-                  [(ngModel)]="product.productCode"
-                  [matAutocomplete]="autoProductCode"
-                  placeholder=""
-                  name="productCode"
-                  class="form-control"
-                  (ngModelChange)="onSearchChangeProductCode($event)"
-                  (keydown.space)="$event.preventDefault()"
-                  required
-                />
+                <input matInput *ngIf="product" [(ngModel)]="product.productCode" [matAutocomplete]="autoProductCode"
+                  placeholder="" name="productCode" class="form-control"
+                  (ngModelChange)="onSearchChangeProductCode($event)" (keydown.space)="$event.preventDefault()"
+                  required />
                 <mat-autocomplete #autoProductCode="matAutocomplete">
-                  <mat-option
-                    *ngFor="let productcode of suggestions_productcode"
-                    [value]="productcode"
-                    (mouseenter)="showProductCodeOverlay($event, productcode)"
-                    (mouseleave)="hideProductCodeOverlay()"
-                  >
+                  <mat-option *ngFor="let productcode of suggestions_productcode" [value]="productcode"
+                    (mouseenter)="showProductCodeOverlay($event, productcode)" (mouseleave)="hideProductCodeOverlay()">
                     {{ productcode }}
                   </mat-option>
                 </mat-autocomplete>
                 <!-- Validation error message -->
-                <mat-error
-                  *ngIf="
+                <mat-error *ngIf="
                     form.submitted && form.controls['productcode']?.invalid
-                  "
-                >
+                  ">
                   Product Code is required
                 </mat-error>
               </mat-form-field>
@@ -243,27 +148,13 @@
             <div class="form-group">
               <mat-form-field appearance="outline" style="width: 80%">
                 <mat-label>Barcode</mat-label>
-                <input
-                  matInput
-                  *ngIf="product"
-                  [(ngModel)]="ind_barcode"
-                  [matAutocomplete]="autoBarcode"
-                  placeholder=""
-                  name="barcode"
-                  class="form-control"
-                  maxlength="13"
-                  minlength="13"
-                  (ngModelChange)="onSearchChangeBarcode($event)"
-                  (keydown.space)="$event.preventDefault()"
-                  (keypress)="allowOnlyDigits($event)"
-                />
+                <input matInput *ngIf="product" [(ngModel)]="ind_barcode" [matAutocomplete]="autoBarcode" placeholder=""
+                  name="barcode" class="form-control" maxlength="13" minlength="13"
+                  (ngModelChange)="onSearchChangeBarcode($event)" (keydown.space)="$event.preventDefault()"
+                  (keypress)="allowOnlyDigits($event)" />
                 <mat-autocomplete #autoBarcode="matAutocomplete">
-                  <mat-option
-                    *ngFor="let barcode of suggestions_barcode"
-                    [value]="barcode"
-                    (mouseenter)="showBarCodeOverlay($event, barcode)"
-                    (mouseleave)="hideBarCodeOverlay()"
-                  >
+                  <mat-option *ngFor="let barcode of suggestions_barcode" [value]="barcode"
+                    (mouseenter)="showBarCodeOverlay($event, barcode)" (mouseleave)="hideBarCodeOverlay()">
                     {{ barcode }}
                   </mat-option>
                 </mat-autocomplete>
@@ -291,11 +182,7 @@
                   Barcode must not exceed 13 characters
                 </mat-error> -->
               </mat-form-field>
-              <button
-                type="button"
-                class="btn p-0 border-0 bg-transparent ms-2"
-                (click)="addToBarCodeList()"
-              >
+              <button type="button" class="btn p-0 border-0 bg-transparent ms-2" (click)="addToBarCodeList()">
                 <i class="bi bi-plus-circle-fill text-success fs-3"></i>
               </button>
             </div>
@@ -303,11 +190,7 @@
           <div class="col-md-4">
             <ul class="list-unstyled">
               <li *ngFor="let br_code of barcodes; let i = index">
-                <button
-                  type="button"
-                  (click)="removeBarcodeFromList(i)"
-                  class="btn p-0 border-0 bg-transparent"
-                >
+                <button type="button" (click)="removeBarcodeFromList(i)" class="btn p-0 border-0 bg-transparent">
                   <i class="bi bi-trash-fill text-danger fs-5"></i>
                 </button>
                 {{ br_code.barCode }}
@@ -320,13 +203,12 @@
           <div class="col-md-4"></div>
           <div class="col-md-4">
             <button type="submit" class="btn btn-primary">Save Product</button>
-            <button
-              type="button"
-              class="btn btn-danger ms-3"
-              (click)="onDeleteProduct()"
-            >
-              Delete
-            </button>
+            <ng-container *ngIf="user !== undefined && user?.roles?.includes('ADMIN')">
+              <button type="button" class="btn btn-danger ms-3" (click)="onDeleteProduct()">
+                Delete
+              </button>
+            </ng-container>
+
           </div>
         </div>
       </div>
@@ -334,19 +216,10 @@
         <div class="row">
           <div class="col-md-12">
             <mat-form-field>
-              <input
-                matInput
-                (keyup)="applyFilter($event)"
-                placeholder="Filter"
-              />
+              <input matInput (keyup)="applyFilter($event)" placeholder="Filter" />
             </mat-form-field>
 
-            <table
-              mat-table
-              [dataSource]="dataSource_product_version"
-              class="mat-elevation-z8"
-              matSort
-            >
+            <table mat-table [dataSource]="dataSource_product_version" class="mat-elevation-z8" matSort>
               <!-- ID -->
               <ng-container matColumnDef="id">
                 <th mat-header-cell *matHeaderCellDef>ID</th>
@@ -361,20 +234,11 @@
                     {{ row.version }}
                   </div>
                   <ng-template #editVersion>
-                    <input
-                      [(ngModel)]="row.version"
-                      [matAutocomplete]="autoVersion"
-                      name="version_{{ row.id }}"
-                      class="editable-input size-200"
-                      (ngModelChange)="onSearchChangeVersion($event)"
-                      (keydown.space)="$event.preventDefault()"
-                      required
-                    />
+                    <input [(ngModel)]="row.version" [matAutocomplete]="autoVersion" name="version_{{ row.id }}"
+                      class="editable-input size-200" (ngModelChange)="onSearchChangeVersion($event)"
+                      (keydown.space)="$event.preventDefault()" required />
                     <mat-autocomplete #autoVersion="matAutocomplete">
-                      <mat-option
-                        *ngFor="let version of suggestions_version"
-                        [value]="version"
-                      >
+                      <mat-option *ngFor="let version of suggestions_version" [value]="version">
                         {{ version }}
                       </mat-option>
                     </mat-autocomplete>
@@ -393,12 +257,8 @@
 
                   <!-- Edit mode -->
                   <ng-template #editVersionDate>
-                    <input
-                      type="date"
-                      [(ngModel)]="row.versionDate"
-                      name="versionDate_{{ row.id }}"
-                      class="editable-input size-120"
-                    />
+                    <input type="date" [(ngModel)]="row.versionDate" name="versionDate_{{ row.id }}"
+                      class="editable-input size-120" />
                   </ng-template>
                 </td>
               </ng-container>
@@ -411,11 +271,8 @@
                     {{ row.description }}
                   </div>
                   <ng-template #editDescription>
-                    <input
-                      [(ngModel)]="row.description"
-                      name="description_{{ row.id }}"
-                      class="editable-input size-150"
-                    />
+                    <input [(ngModel)]="row.description" name="description_{{ row.id }}"
+                      class="editable-input size-150" />
                   </ng-template>
                 </td>
               </ng-container>
@@ -431,20 +288,11 @@
 
                   <!-- Edit mode -->
                   <ng-template #editCylinderCompany>
-                    <mat-form-field
-                      appearance="outline"
-                      class="editable-select size-150"
-                    >
-                      <mat-select
-                        [(ngModel)]="row.cylinderCompanyId"
-                        name="cylinderCompany_{{ row.id }}"
-                      >
-                        <mat-option
-                          *ngFor="
+                    <mat-form-field appearance="outline" class="editable-select size-150">
+                      <mat-select [(ngModel)]="row.cylinderCompanyId" name="cylinderCompany_{{ row.id }}">
+                        <mat-option *ngFor="
                             let company of (cylinderCompanies$ | async) || []
-                          "
-                          [value]="company.id"
-                        >
+                          " [value]="company.id">
                           {{ company.name }}
                         </mat-option>
                       </mat-select>
@@ -458,28 +306,17 @@
                 <th mat-header-cell *matHeaderCellDef>Printing Company</th>
                 <td mat-cell *matCellDef="let row">
                   <!-- View mode -->
-                  <ng-container
-                    *ngIf="editingRow !== row.id; else editPrintingCompany"
-                  >
+                  <ng-container *ngIf="editingRow !== row.id; else editPrintingCompany">
                     {{ getPrintingCompanyName(row.printingCompanyId) }}
                   </ng-container>
 
                   <!-- Edit mode -->
                   <ng-template #editPrintingCompany>
-                    <mat-form-field
-                      appearance="outline"
-                      class="editable-select size-150"
-                    >
-                      <mat-select
-                        [(ngModel)]="row.printingCompanyId"
-                        name="printingCompany_{{ row.id }}"
-                      >
-                        <mat-option
-                          *ngFor="
+                    <mat-form-field appearance="outline" class="editable-select size-150">
+                      <mat-select [(ngModel)]="row.printingCompanyId" name="printingCompany_{{ row.id }}">
+                        <mat-option *ngFor="
                             let company of (printingCompanies$ | async) || []
-                          "
-                          [value]="company.id"
-                        >
+                          " [value]="company.id">
                           {{ company.name }}
                         </mat-option>
                       </mat-select>
@@ -496,11 +333,8 @@
                     {{ row.cylinderPrNo }}
                   </div>
                   <ng-template #editCylinderPrNo>
-                    <input
-                      [(ngModel)]="row.cylinderPrNo"
-                      name="cylinderPrNo_{{ row.id }}"
-                      class="editable-input size-100"
-                    />
+                    <input [(ngModel)]="row.cylinderPrNo" name="cylinderPrNo_{{ row.id }}"
+                      class="editable-input size-100" />
                   </ng-template>
                 </td>
               </ng-container>
@@ -513,11 +347,8 @@
                     {{ row.cylinderPoNo }}
                   </div>
                   <ng-template #editCylinderPoNo>
-                    <input
-                      [(ngModel)]="row.cylinderPoNo"
-                      name="cylinderPoNo_{{ row.id }}"
-                      class="editable-input size-100"
-                    />
+                    <input [(ngModel)]="row.cylinderPoNo" name="cylinderPoNo_{{ row.id }}"
+                      class="editable-input size-100" />
                   </ng-template>
                 </td>
               </ng-container>
@@ -530,11 +361,8 @@
                     {{ row.printingPrNo }}
                   </div>
                   <ng-template #editPrintingPrNo>
-                    <input
-                      [(ngModel)]="row.printingPrNo"
-                      name="printingPrNo_{{ row.id }}"
-                      class="editable-input size-100"
-                    />
+                    <input [(ngModel)]="row.printingPrNo" name="printingPrNo_{{ row.id }}"
+                      class="editable-input size-100" />
                   </ng-template>
                 </td>
               </ng-container>
@@ -547,11 +375,8 @@
                     {{ row.printingPoNo }}
                   </div>
                   <ng-template #editPrintingPoNo>
-                    <input
-                      [(ngModel)]="row.printingPoNo"
-                      name="printingPoNo_{{ row.id }}"
-                      class="editable-input size-100"
-                    />
+                    <input [(ngModel)]="row.printingPoNo" name="printingPoNo_{{ row.id }}"
+                      class="editable-input size-100" />
                   </ng-template>
                 </td>
               </ng-container>
@@ -561,12 +386,7 @@
                 <th mat-header-cell *matHeaderCellDef>Actions</th>
                 <td mat-cell *matCellDef="let row">
                   <ng-container *ngIf="editingRow === row.id; else editBtn">
-                    <button
-                      type="button"
-                      mat-button
-                      color="primary"
-                      (click)="saveRow(row)"
-                    >
+                    <button type="button" mat-button color="primary" (click)="saveRow(row)">
                       Save
                     </button>
                     <button type="button" mat-button (click)="cancelEdit()">
@@ -598,19 +418,12 @@
       -->
     </form>
   </div>
-  <div
-    class="images-container-modal"
-    [ngClass]="{
+  <div class="images-container-modal" [ngClass]="{
       'd-block': isFileSelectorVisible,
       'd-none': !isFileSelectorVisible
-    }"
-  >
-    <button
-      type="button"
-      class="btn btn-dark"
-      style="position: fixed; top: 60px; right: 10px"
-      (click)="closeFileSelector()"
-    >
+    }">
+    <button type="button" class="btn btn-dark" style="position: fixed; top: 60px; right: 10px"
+      (click)="closeFileSelector()">
       X
     </button>
     <app-file-selector></app-file-selector>
