@@ -121,9 +121,6 @@ export class AddProductversionComponent implements OnInit, OnDestroy {
     this.ngForm = this.fb.group({
       version: ['', Validators.required],
       versionDate: [this.myDate, Validators.required],
-      description: ['', Validators.required],
-      // cylindercompanyid: ['', Validators.required],
-      // printingcompanyid: ['', Validators.required],
     });
   }
 
@@ -137,7 +134,6 @@ export class AddProductversionComponent implements OnInit, OnDestroy {
 
     const formatted = this.datepipe.transform(this.myDate, 'yyyy-MM-dd');
 
-    //console.log(this.data);
     this.productVersion = {
       version: '',
       versionDate: this.myDate || '',
@@ -147,8 +143,8 @@ export class AddProductversionComponent implements OnInit, OnDestroy {
       printingPrNo: '',
       printingPoNo: '',
       productId: this.data.productid,
-      cylinderCompanyId: 0,
-      printingCompanyId: 0,
+      cylinderCompanyId: null,
+      printingCompanyId: null,
       userId: String(localStorage.getItem('user-id')),
     };
 
@@ -201,6 +197,9 @@ export class AddProductversionComponent implements OnInit, OnDestroy {
   }
 
   onSearchChangeVersion(value: string) {
+    this.msg_error = '';
+    this.msg_info = '';
+    this.msg_warning = '';
     const upper = value.toUpperCase();
     this.productVersion.version = upper; // updates ngModel immediately
 
@@ -214,7 +213,8 @@ export class AddProductversionComponent implements OnInit, OnDestroy {
           this.isVersionUnique = response;
           if (this.isVersionUnique === false) {
             console.log(this.isVersionUnique);
-            this.msg_error =  'Version Already Exists : ' + this.productVersion.version;
+            this.msg_error =
+              'Version Already Exists : ' + this.productVersion.version;
             // ToastrUtils.showErrorToast(
             //   'Version Already Exists : ' + this.productVersion.version
             // );
@@ -322,24 +322,19 @@ export class AddProductversionComponent implements OnInit, OnDestroy {
   }
 
   onFormSubmit(form: NgForm) {
-    if (form.invalid || this.isVersionUnique === false) {
+    if (form.invalid) {
       this.ngForm.markAllAsTouched();
-      console.log('invalid form');
-      this.msg_error = 'Invalid Form: Input All Required Fields'
+      this.msg_error = 'Invalid Form: Input All Required Fields';
+      return;
+    }
+
+    if(form.valid && this.isVersionUnique === false){
+      this.msg_error = 'Version Already Exists.';
       return;
     }
 
     this.productVersion.cylinderCompanyId = this.cylindercompanyid || null;
     this.productVersion.printingCompanyId = this.printingcompanyid || null;
-
-    // if (
-    //   this.productVersion.cylinderCompanyId == 0 ||
-    //   this.productVersion.printingCompanyId == 0
-    // ) {
-    //   //alert('Missing: Category/Project/Cylinder Company/Printing Company');
-    //   ToastrUtils.showErrorToast('Missing: Cylinder Company/Printing Company');
-    //   return;
-    // }
 
     this.addProductVersionSubscription = this.productVersionService
       .addProductVersion(this.productVersion)
@@ -362,7 +357,7 @@ export class AddProductversionComponent implements OnInit, OnDestroy {
                 case HttpEventType.Response:
                   //ToastrUtils.showToast('Product Added Successfully.');
                   //this.router.navigateByUrl('/admin/products');
-                  
+
                   ToastrUtils.showToast(
                     'Product version added with attachments'
                   );
@@ -444,5 +439,4 @@ export class AddProductversionComponent implements OnInit, OnDestroy {
   onSearch() {
     this.hideCommonOverlay();
   }
-
 }

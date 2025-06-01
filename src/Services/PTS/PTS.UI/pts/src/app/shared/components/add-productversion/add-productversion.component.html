@@ -114,7 +114,7 @@
                   </mat-autocomplete>
                   <!-- Validation error message -->
                   <mat-error
-                    *ngIf="form.submitted && form.controls['version']?.invalid"
+                    *ngIf="form.submitted && form.controls['version']?.hasError('required')"
                   >
                     Version is required
                   </mat-error>
