@@ -394,12 +394,32 @@ export class AddProductversionComponent implements OnInit, OnDestroy {
     const positionStrategy = this.overlay
       .position()
       .flexibleConnectedTo({ x: event.clientX, y: event.clientY })
+      .withFlexibleDimensions(false)
+      .withPush(true) // Ensures it stays within the viewport
       .withPositions([
         {
           originX: 'start',
           originY: 'top',
           overlayX: 'start',
           overlayY: 'bottom',
+        },
+        {
+          originX: 'start',
+          originY: 'bottom',
+          overlayX: 'start',
+          overlayY: 'top',
+        },
+        {
+          originX: 'end',
+          originY: 'top',
+          overlayX: 'end',
+          overlayY: 'bottom',
+        },
+        {
+          originX: 'end',
+          originY: 'bottom',
+          overlayX: 'end',
+          overlayY: 'top',
         },
       ]);
 
@@ -452,12 +472,32 @@ export class AddProductversionComponent implements OnInit, OnDestroy {
     const positionStrategy = this.overlay
       .position()
       .flexibleConnectedTo({ x: event.clientX, y: event.clientY })
+      .withFlexibleDimensions(false)
+      .withPush(true) // Ensures it stays within the viewport
       .withPositions([
         {
           originX: 'start',
           originY: 'top',
           overlayX: 'start',
           overlayY: 'bottom',
+        },
+        {
+          originX: 'start',
+          originY: 'bottom',
+          overlayX: 'start',
+          overlayY: 'top',
+        },
+        {
+          originX: 'end',
+          originY: 'top',
+          overlayX: 'end',
+          overlayY: 'bottom',
+        },
+        {
+          originX: 'end',
+          originY: 'bottom',
+          overlayX: 'end',
+          overlayY: 'top',
         },
       ]);
 

@@ -72,6 +72,7 @@ import { ComponentPortal } from '@angular/cdk/portal';
 import { User } from '../../auth/models/user.model';
 import { AuthService } from '../../auth/services/auth.service';
 import { PreviewVersionComponent } from '../preview-version/preview-version.component';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-update-product',
@@ -205,6 +206,7 @@ export class UpdateProductComponent implements AfterViewInit, OnDestroy {
     private injector: Injector,
     private viewContainerRef: ViewContainerRef,
     private authService: AuthService,
+    private toastr: ToastrService,
     @Inject(MAT_DIALOG_DATA) public data: { productid: number }
   ) {
     this.user = this.authService.getUser();
