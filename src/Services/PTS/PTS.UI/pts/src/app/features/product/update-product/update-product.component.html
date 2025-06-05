@@ -345,8 +345,8 @@
               />
             </mat-form-field>
 
-            <table
-              mat-table
+            <mat-table
+              #table
               [dataSource]="dataSource_product_version"
               class="mat-elevation-z8"
               matSort
@@ -669,7 +669,7 @@
               <!-- Header & Row Declarations -->
               <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
               <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-            </table>
+            </mat-table>
 
             <mat-paginator [pageSize]="5"></mat-paginator>
           </div>
