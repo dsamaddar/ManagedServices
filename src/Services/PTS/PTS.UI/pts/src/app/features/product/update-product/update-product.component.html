@@ -562,6 +562,85 @@
                 </td>
               </ng-container>
 
+              <!-- attachments column -->
+              <ng-container matColumnDef="attachments">
+                <th mat-header-cell *matHeaderCellDef>Attachments</th>
+                <td mat-cell *matCellDef="let row">
+                  <!-- VIEW MODE -->
+                  <div *ngIf="editingRow !== row.id; else editAttachments">
+                    <ul class="list-unstyled mb-0">
+                      <li *ngFor="let file of row.attachments">
+                        <a
+                          [href]="attachmentBaseUrl + file.name"
+                          target="_blank"
+                        >
+                          {{ shortenFileName(file.name) }}
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+
+                  <!-- EDIT MODE -->
+                  <ng-template #editAttachments>
+                    <ul class="list-unstyled mb-2">
+                      <li *ngFor="let file of row.attachments">
+                        <div class="d-flex align-items-center mt-1 gap-2">
+                          <button
+                            type="button"
+                            class="btn btn-sm btn-danger"
+                            (click)="onDeleteAttachment(file.id)"
+                            title="Delete"
+                          >
+                            <i class="bi bi-trash"></i>
+                          </button>
+                          <a
+                            href="{{ attachmentBaseUrl }}{{ file.name }}"
+                            target="_blank"
+                            >{{ shortenFileName(file.name) }}</a
+                          >
+                        </div>
+                      </li>
+                    </ul>
+
+                    <div *ngFor="let file of selectedFiles">
+                      <i
+                        class="{{ getFileExtension(file.name) }}"
+                        style="color: #5cb85c"
+                        aria-hidden="true"
+                      ></i>
+                      {{ file.name }} [{{ (file.size / 1048576).toFixed(2) }}
+                      MB]
+                    </div>
+
+                    <!-- File Upload Input -->
+                    <input
+                      type="file"
+                      (change)="onFilesSelected($event, row)"
+                      [multiple]="true"
+                      class="form-control form-control-sm mb-2"
+                    />
+
+                    <!-- Save/Cancel Buttons -->
+                    <div class="d-flex gap-2">
+                      <button
+                        type="button"
+                        class="btn btn-sm btn-success"
+                        (click)="saveAttachments(row)"
+                      >
+                        <i class="bi bi-check-lg"></i> Save
+                      </button>
+                      <button
+                        type="button"
+                        class="btn btn-sm btn-secondary"
+                        (click)="cancelAttachmentEdit()"
+                      >
+                        <i class="bi bi-x-lg"></i> Cancel
+                      </button>
+                    </div>
+                  </ng-template>
+                </td>
+              </ng-container>
+
               <!-- Actions -->
               <ng-container matColumnDef="actions">
                 <th mat-header-cell *matHeaderCellDef>Actions</th>

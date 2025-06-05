@@ -57,7 +57,11 @@ import {
   MatDialogRef,
 } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
-import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import {
+  MatTable,
+  MatTableDataSource,
+  MatTableModule,
+} from '@angular/material/table';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { ProductVersion } from '../../productversion/models/productversion.model';
@@ -98,6 +102,8 @@ import { ToastrService } from 'ngx-toastr';
   styleUrl: './update-product.component.css',
 })
 export class UpdateProductComponent implements AfterViewInit, OnDestroy {
+  @ViewChild(MatTable) table!: MatTable<any>;
+
   productId: number = 0;
   paramsSubscription?: Subscription;
   editProductSubscription?: Subscription;
@@ -313,7 +319,7 @@ export class UpdateProductComponent implements AfterViewInit, OnDestroy {
     // }
   }
 
-  onFilesSelected(event: Event) {
+  onFilesSelected(event: Event, row: any) {
     const fileInput = event.target as HTMLInputElement;
     if (fileInput.files) {
       this.selectedFiles = Array.from(fileInput.files);
@@ -852,6 +858,16 @@ export class UpdateProductComponent implements AfterViewInit, OnDestroy {
     });
   }
 
+  shortenFileName(fileName: string): string {
+    const parts = fileName.split('.');
+    if (parts.length > 2) {
+      // Remove the first part (timestamp) and rejoin the rest
+      parts.shift();
+      return parts.join('.');
+    }
+    return fileName;
+  }
+
   onDeleteAttachment(id: number) {
     Swal.fire({
       title: 'Are you sure?',
@@ -870,7 +886,20 @@ export class UpdateProductComponent implements AfterViewInit, OnDestroy {
             .deleteAttachment(id)
             .subscribe({
               next: (response) => {
-                this.loadAttachments();
+                //this.loadAttachments();
+                // delete attachment from product >> version >> attachment order
+                const data = this.dataSource_product_version.data;
+                const row = data.find((r) => r.id === id);
+
+                if (row && row.attachments) {
+                  row.attachments = row.attachments.filter((f) => f.id !== id);
+                }
+
+                // Reassign the data to trigger change detection
+                this.dataSource_product_version.data = [...data];
+                this.table.renderRows(); // force re-render
+                // delete attachment from product >> version >> attachment order
+
                 Swal.fire('Deleted!', 'Your item has been deleted.', 'success');
               },
               error: (error) => {
@@ -894,6 +923,7 @@ export class UpdateProductComponent implements AfterViewInit, OnDestroy {
     'cylinderPoNo',
     'printingPrNo',
     'printingPoNo',
+    'attachments',
     'actions',
   ];
   dataSource_product_version = new MatTableDataSource<ProductVersion>();
@@ -1120,5 +1150,32 @@ export class UpdateProductComponent implements AfterViewInit, OnDestroy {
       this.overlayVersionRef.dispose();
       this.overlayVersionRef = null;
     }
+  }
+
+  cancelAttachmentEdit() {
+    this.editingRow = null;
+    //delete this.pendingFiles[this.editingRow];
+  }
+
+  onAttachmentSelected(event: Event, row: any) {
+    const input = event.target as HTMLInputElement;
+    if (input.files) {
+      //this.pendingFiles[row.id] = Array.from(input.files);
+      //console.log('Selected files:', this.pendingFiles[row.id]);
+    }
+  }
+
+  saveAttachments(row: any) {
+    //const newFiles = this.pendingFiles[row.id] || [];
+    // Upload logic here — example:
+    const formData = new FormData();
+    //newFiles.forEach((file) => formData.append('files', file));
+
+    // Simulate API upload:
+    //console.log('Uploading files for row', row.id, newFiles);
+
+    // After successful upload, reset
+    this.editingRow = null;
+    //delete this.pendingFiles[row.id];
   }
 }

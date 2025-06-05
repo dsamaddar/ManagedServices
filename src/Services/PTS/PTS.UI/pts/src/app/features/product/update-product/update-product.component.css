@@ -44,3 +44,9 @@
     border-width: 1px;
   }
 }
+
+.attachment-list {
+  padding-left: 16px;
+  margin: 0;
+  list-style: disc;
+}
