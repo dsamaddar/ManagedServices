@@ -65,6 +65,9 @@ import { PreviewCommonComponent } from '../preview-common/preview-common.compone
 import { PreviewProductcodeComponent } from '../preview-productcode/preview-productcode.component';
 import { PreviewVersionComponent } from '../preview-version/preview-version.component';
 import { BarcodeService } from '../services/barcode.service';
+import { Toast } from 'ngx-toastr';
+import { AddBarCodeRequest } from '../models/add-barcode.model';
+import { BarCodes } from '../../barcode/models/barcode.model';
 
 @Component({
   selector: 'app-add-product',
@@ -98,7 +101,7 @@ export class AddProductComponent implements OnInit, OnDestroy {
   productVersionId: number = 0;
 
   ind_barcode: string = '';
-  barcodes: string[] = [];
+  barcodes: AddBarCodeRequest[] = [];
 
   isProductCodeUnique: boolean | null = null;
   isVersionUnique: boolean | null = null;
@@ -238,9 +241,15 @@ export class AddProductComponent implements OnInit, OnDestroy {
   printingcompanyid?: number;
 
   addToBarCodeList(): void {
-    if (this.ind_barcode.trim().length == 13) {
-      this.barcodes.push(this.ind_barcode.trim());
+    const trimmed = this.ind_barcode.trim();
+    if (trimmed.length === 13) {
+      const newBarcode: BarCodes = {
+        productId: Date.now(), // Temporary unique ID
+        barCode: trimmed,
+      };
+      this.barcodes.push(newBarcode);
       this.ind_barcode = ''; // Clear input
+      this.msg_warning = '';
     } else {
       this.msg_warning = 'Barcode must have a length of 13 digits.';
     }
@@ -439,6 +448,7 @@ export class AddProductComponent implements OnInit, OnDestroy {
   }
 
   onSearchChangeVersion(value: string) {
+    this.hideVersionOverlay();
     const upper = value.toUpperCase();
     this.product.version = upper; // updates ngModel immediately
 
@@ -551,6 +561,7 @@ export class AddProductComponent implements OnInit, OnDestroy {
     }
 
     if (this.barcodes.length == 0) {
+      ToastrUtils.showErrorToast('Barcode list is empty.');
       this.msg_error = 'Barcode list is empty.';
       return;
     } else {
@@ -592,16 +603,34 @@ export class AddProductComponent implements OnInit, OnDestroy {
             this.msg_info = 'No File Selected';
           }
 
-          // add to barcode model
-          const requests = this.barcodes.map((barcode) => {
-            const model = { productId: this.product.id, barCode: barcode };
-            return this.barcodeService.AddBarCode(model);
+          // add new barcodes
+          const requests_barcode = this.barcodes.map((barcode) => {
+            const barcode_model: AddBarCodeRequest = {
+              productId: this.product?.id ?? 0,
+              barCode: barcode.barCode,
+            };
+            console.log(barcode_model);
+            return this.barcodeService.AddBarCode(barcode_model);
           });
 
-          forkJoin(requests).subscribe({
-            next: (responses) => console.log('All done', responses),
-            error: (err) => console.error('Something failed', err),
+          forkJoin(requests_barcode).subscribe({
+            next: (responses) =>
+              console.log('All barcodes added successfully:', responses),
+            error: (err) => console.error('Failed to add barcodes:', err),
           });
+          // add to barcode model
+          // const barcode_requests = this.barcodes.map((barcode) => {
+          //   const barcode_model = {
+          //     productId: this.product.id,
+          //     barCode: barcode,
+          //   };
+          //   return this.barcodeService.AddBarCode(barcode_model);
+          // });
+
+          // forkJoin(barcode_requests).subscribe({
+          //   next: (responses) => console.log('All done', responses),
+          //   error: (err) => console.error('Something failed', err),
+          // });
 
           // add product version
           this.productVersion = {

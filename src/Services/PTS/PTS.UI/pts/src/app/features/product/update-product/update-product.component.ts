@@ -592,8 +592,8 @@ export class UpdateProductComponent implements AfterViewInit, OnDestroy {
             this.isVersionUnique = response;
             if (this.isVersionUnique === false) {
               // console.log(this.isVersionUnique);
-              // ToastrUtils.showErrorToast('Version Already Exists');
-              this.msg_error = 'Version Already Exists : ' + upper;
+              ToastrUtils.showErrorToast('Version Already Exists : ' + upper);
+              //this.msg_error = 'Version Already Exists : ' + upper;
             } else {
               this.msg_error = '';
             }
@@ -657,10 +657,10 @@ export class UpdateProductComponent implements AfterViewInit, OnDestroy {
             this.isBarCodeUnique = response;
             if (this.isBarCodeUnique === false) {
               console.log(this.isBarCodeUnique);
-              // ToastrUtils.showErrorToast(
-              //   'Barcode Already Exists (' + upper + ')'
-              // );
-              this.msg_warning = 'Barcode Already Exists (' + upper + ')';
+              ToastrUtils.showErrorToast(
+                'Barcode Already Exists (' + upper + ')'
+              );
+              //this.msg_warning = 'Barcode Already Exists (' + upper + ')';
             }
           },
         });
@@ -702,12 +702,12 @@ export class UpdateProductComponent implements AfterViewInit, OnDestroy {
       this.printingcompanyid == 0
     ) {
       //alert('Missing: Category/Project/Cylinder Company/Printing Company');
-      // ToastrUtils.showErrorToast(
-      //   'Missing: Category/Pack Type/Cylinder Company/Printing Company'
-      // );
-      this.msg_error =
-        'Missing: Category/Pack Type/Cylinder Company/Printing Company';
-      return;
+      ToastrUtils.showErrorToast(
+        'Missing: Category/Pack Type/Cylinder Company/Printing Company'
+      );
+      // this.msg_error =
+      //   'Missing: Category/Pack Type/Cylinder Company/Printing Company';
+      // return;
     }
 
     if (!this.product?.id) {
