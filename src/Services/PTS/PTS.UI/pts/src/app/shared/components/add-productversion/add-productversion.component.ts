@@ -51,6 +51,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { Overlay, OverlayRef } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
 import { PreviewCommonComponent } from '../../../features/product/preview-common/preview-common.component';
+import { PreviewVersionComponent } from '../../../features/product/preview-version/preview-version.component';
 
 @Component({
   selector: 'app-add-productversion',
@@ -197,6 +198,9 @@ export class AddProductversionComponent implements OnInit, OnDestroy {
   }
 
   onSearchChangeVersion(value: string) {
+    this.hideVersionOverlay();
+    this.hideCommonOverlay();
+
     this.msg_error = '';
     this.msg_info = '';
     this.msg_warning = '';
@@ -328,7 +332,7 @@ export class AddProductversionComponent implements OnInit, OnDestroy {
       return;
     }
 
-    if(form.valid && this.isVersionUnique === false){
+    if (form.valid && this.isVersionUnique === false) {
       this.msg_error = 'Version Already Exists.';
       return;
     }
@@ -438,5 +442,49 @@ export class AddProductversionComponent implements OnInit, OnDestroy {
 
   onSearch() {
     this.hideCommonOverlay();
+  }
+
+  private overlayVersionRef: OverlayRef | null = null;
+
+  showVersionOverlay(event: MouseEvent, option: any): void {
+    this.hideVersionOverlay(); // Close existing
+    console.log(option);
+    const positionStrategy = this.overlay
+      .position()
+      .flexibleConnectedTo({ x: event.clientX, y: event.clientY })
+      .withPositions([
+        {
+          originX: 'start',
+          originY: 'top',
+          overlayX: 'start',
+          overlayY: 'bottom',
+        },
+      ]);
+
+    this.overlayVersionRef = this.overlay.create({
+      positionStrategy,
+      hasBackdrop: false,
+      scrollStrategy: this.overlay.scrollStrategies.reposition(),
+    });
+
+    const injector = Injector.create({
+      providers: [{ provide: MAT_DIALOG_DATA, useValue: option }],
+      parent: this.injector,
+    });
+
+    const portal = new ComponentPortal(
+      PreviewVersionComponent,
+      this.viewContainerRef,
+      injector
+    );
+    this.overlayVersionRef.attach(portal);
+  }
+
+  hideVersionOverlay(): void {
+    if (this.overlayVersionRef) {
+      this.overlayVersionRef.detach();
+      this.overlayVersionRef.dispose();
+      this.overlayVersionRef = null;
+    }
   }
 }

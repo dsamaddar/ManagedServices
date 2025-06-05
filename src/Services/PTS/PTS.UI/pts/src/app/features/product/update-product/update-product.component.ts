@@ -71,6 +71,7 @@ import { PreviewProductcodeComponent } from '../preview-productcode/preview-prod
 import { ComponentPortal } from '@angular/cdk/portal';
 import { User } from '../../auth/models/user.model';
 import { AuthService } from '../../auth/services/auth.service';
+import { PreviewVersionComponent } from '../preview-version/preview-version.component';
 
 @Component({
   selector: 'app-update-product',
@@ -206,7 +207,6 @@ export class UpdateProductComponent implements AfterViewInit, OnDestroy {
     private authService: AuthService,
     @Inject(MAT_DIALOG_DATA) public data: { productid: number }
   ) {
-
     this.user = this.authService.getUser();
     this.productId = data.productid;
     //console.log(this.productId);
@@ -569,6 +569,7 @@ export class UpdateProductComponent implements AfterViewInit, OnDestroy {
   }
 
   onSearchChangeVersion(value: string) {
+    this.hideVersionOverlay();
     const upper = value.toUpperCase();
 
     if (this.product) {
@@ -927,22 +928,24 @@ export class UpdateProductComponent implements AfterViewInit, OnDestroy {
       next: (response) => {
         this.isVersionUnique = response;
         if (this.isVersionUnique === false) {
-          
-
           // Optionally restore backup if you're tracking it
           if (this.originalRowBackup) {
-            const index = this.dataSource_product_version.data.findIndex(p => p.id === row.id);
+            const index = this.dataSource_product_version.data.findIndex(
+              (p) => p.id === row.id
+            );
             if (index !== -1) {
-              this.dataSource_product_version.data[index] = { ...this.originalRowBackup };
+              this.dataSource_product_version.data[index] = {
+                ...this.originalRowBackup,
+              };
               this.dataSource_product_version._updateChangeSubscription();
             }
           }
 
-          this.msg_error = 'Version Already Exists : ' + row.version + ' [updated failed]';
+          this.msg_error =
+            'Version Already Exists : ' + row.version + ' [updated failed]';
           this.editedRow = null;
           this.editingRow = null;
           return;
-
         } else {
           this.msg_error = '';
         }
@@ -966,11 +969,13 @@ export class UpdateProductComponent implements AfterViewInit, OnDestroy {
   cancelEdit() {
     if (this.originalRowBackup) {
       const index = this.dataSource_product_version.data.findIndex(
-        p => p.id === this.originalRowBackup?.id
+        (p) => p.id === this.originalRowBackup?.id
       );
 
       if (index !== -1) {
-        this.dataSource_product_version.data[index] = { ...this.originalRowBackup };
+        this.dataSource_product_version.data[index] = {
+          ...this.originalRowBackup,
+        };
         this.dataSource_product_version._updateChangeSubscription();
       }
     }
@@ -1068,6 +1073,50 @@ export class UpdateProductComponent implements AfterViewInit, OnDestroy {
       this.overlayProductCodeRef.detach();
       this.overlayProductCodeRef.dispose();
       this.overlayProductCodeRef = null;
+    }
+  }
+
+  private overlayVersionRef: OverlayRef | null = null;
+
+  showVersionOverlay(event: MouseEvent, option: any): void {
+    this.hideVersionOverlay(); // Close existing
+    console.log(option);
+    const positionStrategy = this.overlay
+      .position()
+      .flexibleConnectedTo({ x: event.clientX, y: event.clientY })
+      .withPositions([
+        {
+          originX: 'start',
+          originY: 'top',
+          overlayX: 'start',
+          overlayY: 'bottom',
+        },
+      ]);
+
+    this.overlayVersionRef = this.overlay.create({
+      positionStrategy,
+      hasBackdrop: false,
+      scrollStrategy: this.overlay.scrollStrategies.reposition(),
+    });
+
+    const injector = Injector.create({
+      providers: [{ provide: MAT_DIALOG_DATA, useValue: option }],
+      parent: this.injector,
+    });
+
+    const portal = new ComponentPortal(
+      PreviewVersionComponent,
+      this.viewContainerRef,
+      injector
+    );
+    this.overlayVersionRef.attach(portal);
+  }
+
+  hideVersionOverlay(): void {
+    if (this.overlayVersionRef) {
+      this.overlayVersionRef.detach();
+      this.overlayVersionRef.dispose();
+      this.overlayVersionRef = null;
     }
   }
 }

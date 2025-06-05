@@ -241,7 +241,7 @@ export class AddProductComponent implements OnInit, OnDestroy {
     if (this.ind_barcode.trim().length == 13) {
       this.barcodes.push(this.ind_barcode.trim());
       this.ind_barcode = ''; // Clear input
-    }else{
+    } else {
       this.msg_warning = 'Barcode must have a length of 13 digits.';
     }
   }
@@ -593,14 +593,14 @@ export class AddProductComponent implements OnInit, OnDestroy {
           }
 
           // add to barcode model
-          const requests = this.barcodes.map(barcode => {
+          const requests = this.barcodes.map((barcode) => {
             const model = { productId: this.product.id, barCode: barcode };
             return this.barcodeService.AddBarCode(model);
           });
-        
+
           forkJoin(requests).subscribe({
-            next: responses => console.log('All done', responses),
-            error: err => console.error('Something failed', err)
+            next: (responses) => console.log('All done', responses),
+            error: (err) => console.error('Something failed', err),
           });
 
           // add product version
@@ -655,7 +655,7 @@ export class AddProductComponent implements OnInit, OnDestroy {
           if (this.productVersionId > 0) {
           }
 
-          ToastrUtils.showToast('Product Added Successfully.')
+          ToastrUtils.showToast('Product Added Successfully.');
           this.close();
         },
         error: (error) => {
@@ -679,6 +679,7 @@ export class AddProductComponent implements OnInit, OnDestroy {
     this.uploadAttachmentSubscription?.unsubscribe();
     this.addProductVersionSubscription?.unsubscribe();
     this.hideBarCodeOverlay();
+    this.hideVersionOverlay();
     this.hideProductCodeOverlay();
   }
 
