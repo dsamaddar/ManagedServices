@@ -463,10 +463,9 @@ export class AddProductComponent implements OnInit, OnDestroy {
           if (this.isVersionUnique === false) {
             console.log('Version Already In Use');
 
-            // ToastrUtils.showErrorToast(
-            //   'Version Already Exists : ' + this.product.version
-            // );
-            this.hideVersionOverlay();
+            ToastrUtils.showErrorToast(
+              'Version Already Exists : ' + this.product.version
+            );
             this.msg_error = 'Version Already Exists : ' + this.product.version;
           } else {
             console.log('Version Available');
@@ -493,9 +492,9 @@ export class AddProductComponent implements OnInit, OnDestroy {
           this.isBarCodeUnique = response;
           if (this.isBarCodeUnique === false) {
             //console.log(this.isBarCodeUnique);
-            // ToastrUtils.showErrorToast(
-            //   'Barcode Already Exists (' + upper + ')'
-            // );
+            ToastrUtils.showErrorToast(
+              'Barcode Already Exists (' + upper + ')'
+            );
             this.msg_warning = 'Barcode Already Exists (' + upper + ')';
           } else {
             this.msg_warning = '';
