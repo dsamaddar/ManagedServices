@@ -112,5 +112,23 @@ namespace PTS.API.Controllers
         }
 
 
+        [HttpGet("get-att-by-productversion/{productVersionId:int}")]
+        [Authorize(Roles = "READER,MANAGER,ADMIN")]
+        public async Task<IActionResult> GetAttachmentsByProductVersionId([FromRoute] int productVersionId)
+        {
+            var attachments = await attachmentRepository.GetAllByProductVersionIdAsync(productVersionId);
+
+            var response = attachments.Select(attachment => new AttachmentDto
+            {
+                Id = attachment.Id,
+                Name = attachment.Name,
+                Description = attachment.Description,
+                Tag = attachment.Tag
+            }).ToList();
+
+            return Ok(response);
+        }
+
+
     }
 }

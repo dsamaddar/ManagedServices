@@ -77,6 +77,7 @@ import { User } from '../../auth/models/user.model';
 import { AuthService } from '../../auth/services/auth.service';
 import { PreviewVersionComponent } from '../preview-version/preview-version.component';
 import { ToastrService } from 'ngx-toastr';
+import { waitForAsync } from '@angular/core/testing';
 
 @Component({
   selector: 'app-update-product',
@@ -1161,6 +1162,7 @@ export class UpdateProductComponent implements AfterViewInit, OnDestroy {
   }
 
   cancelAttachmentEdit() {
+    this.selectedFiles = [];
     this.editingRow = null;
     //delete this.pendingFiles[this.editingRow];
   }
@@ -1173,17 +1175,66 @@ export class UpdateProductComponent implements AfterViewInit, OnDestroy {
     }
   }
 
-  saveAttachments(row: any) {
-    //const newFiles = this.pendingFiles[row.id] || [];
-    // Upload logic here — example:
-    const formData = new FormData();
-    //newFiles.forEach((file) => formData.append('files', file));
+  saveAttachments(row: any): void {
+    //console.log(this.selectedFiles);
+    //const files = this.selectedFiles[row.id];
 
-    // Simulate API upload:
-    //console.log('Uploading files for row', row.id, newFiles);
+    if (!this.selectedFiles || this.selectedFiles.length === 0) {
+      Swal.fire('No files selected', '', 'info');
+      return;
+    }
 
-    // After successful upload, reset
+    this.uploadAttachmentSubscription = this.productService
+      .uploadAttachment(this.selectedFiles, row.id.toString())
+      .subscribe((event: HttpEvent<any>) => {
+        switch (event.type) {
+          case HttpEventType.UploadProgress:
+            if (event.total) {
+              this.progress = Math.round((100 * event.loaded) / event.total);
+            }
+            break;
+          case HttpEventType.Response:
+            ToastrUtils.showToast('Product version added with attachments');
+            this.progress = 0;
+            this.AfterFileUploadEffect(row.id);
+            break;
+        }
+      });
+  }
+
+  // Helper delay function
+  delay(ms: number): Promise<void> {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+  }
+
+  async AfterFileUploadEffect(productVersionId: number) {
+    await this.delay(1000);
+    console.log('Product Version Id: ' + productVersionId.toString());
+
+    const data = this.dataSource_product_version.data;
+    // Find the row by id
+    const rowToUpdate = data.find((srow) => srow.id === productVersionId);
+
+    if (rowToUpdate) {
+      // get api call
+      this.uploadAttachmentSubscription = this.productService
+        .getAttachmentsByProductVersionId(productVersionId)
+        .subscribe({
+          next: (res) => {
+            rowToUpdate.attachments = [...res];
+
+            // Trigger table refresh
+            this.dataSource_product_version.data = [...data];
+            this.table.renderRows();
+          },
+          error: (error) => {
+            console.log(error);
+          },
+        });
+    }
+
+    // cleaning sources
+    this.selectedFiles = [];
     this.editingRow = null;
-    //delete this.pendingFiles[row.id];
   }
 }

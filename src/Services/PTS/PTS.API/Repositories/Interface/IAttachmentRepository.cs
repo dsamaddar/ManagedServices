@@ -9,6 +9,8 @@ namespace PTS.API.Repositories.Interface
 
         Task<IEnumerable<Attachment>> GetAllByProductIdAsync(int productId);
 
+        Task<IEnumerable<Attachment>> GetAllByProductVersionIdAsync(int productId);
+
         Task<Attachment?> GetById(int id);
         Task<Attachment?> UpdateAsync(Attachment attachment);
         Task<Attachment?> DeleteAsync(int id);

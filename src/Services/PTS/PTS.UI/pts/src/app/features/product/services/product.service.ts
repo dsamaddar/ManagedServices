@@ -71,7 +71,7 @@ export class ProductService {
       });
     }
 
-        if (brand) {
+    if (brand) {
       brand.forEach((brand) => {
         params = params.append('brand', brand);
       });
@@ -151,9 +151,15 @@ export class ProductService {
     );
   }
 
-  updateProductVersionInfo(id: number, cylinderPrNo: string, cylinderPoNo: string, printingPrNo: string, printingPoNo: string): Observable<ProductVersion> {
+  updateProductVersionInfo(
+    id: number,
+    cylinderPrNo: string,
+    cylinderPoNo: string,
+    printingPrNo: string,
+    printingPoNo: string
+  ): Observable<ProductVersion> {
     const body = { cylinderPrNo, cylinderPoNo, printingPrNo, printingPoNo };
-  
+
     return this.http.put<ProductVersion>(
       `${environment.apiBaseUrl}/api/productversion/updateproductversion/${id}`,
       body
@@ -239,6 +245,14 @@ export class ProductService {
     );
   }
 
+  getAttachmentsByProductVersionId(
+    productVersionId: number
+  ): Observable<Attachment[]> {
+    return this.http.get<Attachment[]>(
+      `${environment.apiBaseUrl}/api/attachment/get-att-by-productversion/${productVersionId}`
+    );
+  }
+
   uploadAttachment(
     files: File[],
     productVersionId: string
@@ -269,6 +283,4 @@ export class ProductService {
       `${environment.apiBaseUrl}/api/product/${id}`
     );
   }
-
-
 }

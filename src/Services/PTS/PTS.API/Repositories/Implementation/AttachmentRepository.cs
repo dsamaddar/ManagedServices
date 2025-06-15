@@ -83,6 +83,12 @@ namespace PTS.API.Repositories.Implementation
                            .ToListAsync(); // Returns a list of attachments
         }
 
+        public async Task<IEnumerable<Attachment>> GetAllByProductVersionIdAsync(int productVersionId)
+        {
+            return await dbContext.Attachments.Where(x => x.ProductVersionId == productVersionId)
+                           .ToListAsync(); // Returns a list of attachments
+        }
+
         public async Task<Attachment?> GetById(int id)
         {
             return await dbContext.Attachments.FirstOrDefaultAsync(x => x.Id == id);
