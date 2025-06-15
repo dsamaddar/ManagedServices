@@ -889,16 +889,21 @@ export class UpdateProductComponent implements AfterViewInit, OnDestroy {
                 //this.loadAttachments();
                 // delete attachment from product >> version >> attachment order
                 const data = this.dataSource_product_version.data;
-                const row = data.find((r) => r.id === id);
 
-                if (row && row.attachments) {
-                  row.attachments = row.attachments.filter((f) => f.id !== id);
+                // ✅ Correctly find and remove the attachment
+                for (const row of data) {
+                  if (row.attachments) {
+                    const index = row.attachments.findIndex((f) => f.id === id);
+                    if (index > -1) {
+                      row.attachments.splice(index, 1);
+                      break;
+                    }
+                  }
                 }
 
-                // Reassign the data to trigger change detection
+                // Trigger table refresh
                 this.dataSource_product_version.data = [...data];
-                this.table.renderRows(); // force re-render
-                // delete attachment from product >> version >> attachment order
+                this.table.renderRows();
 
                 Swal.fire('Deleted!', 'Your item has been deleted.', 'success');
               },
@@ -989,6 +994,7 @@ export class UpdateProductComponent implements AfterViewInit, OnDestroy {
     this.productVersionService.updateProductVersion(row.id, row).subscribe({
       next: (response) => {
         console.log('updated');
+        this.msg_info = 'Product Version Updated';
         this.editingRow = null;
         this.editedRow = null;
         this.originalRowBackup = null;
