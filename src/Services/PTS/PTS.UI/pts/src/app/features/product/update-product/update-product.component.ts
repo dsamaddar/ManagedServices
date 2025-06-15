@@ -1194,7 +1194,7 @@ export class UpdateProductComponent implements AfterViewInit, OnDestroy {
             }
             break;
           case HttpEventType.Response:
-            ToastrUtils.showToast('Product version added with attachments');
+            ToastrUtils.showToast('Attachment Added Successfully.');
             this.progress = 0;
             this.AfterFileUploadEffect(row.id);
             break;
@@ -1235,6 +1235,5 @@ export class UpdateProductComponent implements AfterViewInit, OnDestroy {
 
     // cleaning sources
     this.selectedFiles = [];
-    this.editingRow = null;
   }
 }
