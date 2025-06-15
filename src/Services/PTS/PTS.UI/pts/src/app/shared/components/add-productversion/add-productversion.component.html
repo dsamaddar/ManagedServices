@@ -289,70 +289,76 @@
     </div>
   </div>
 
-  <div class="card-body">
-    <div class="d-flex flex-md-row flex-sm-column">
-      <div class="col-12">
-        <div class="card border-info" style="max-width: 100%">
-          <div class="card-header">Selected Files</div>
-          <div class="card-body"></div>
-          <div class="card-header">Previous Versions</div>
-          <div class="card-body">
-            <table class="table table-bordered table-responsive table-sm w-100">
-              <thead>
-                <th style="display: none">Id</th>
-                <th>Version</th>
-                <th>Version Dt</th>
-                <th>Description</th>
-                <th>Cylinder Company</th>
-                <th>Cylinder PR</th>
-                <th>Cylinder PO</th>
-                <th>Printing Company</th>
-                <th>Print PR</th>
-                <th>Print PO</th>
-                <th>Attachments</th>
-              </thead>
-              <tr *ngFor="let prevProdVersion of prevProdVersions">
-                <td style="display: none">
-                  {{ prevProdVersion.id }}
-                </td>
-                <td>{{ prevProdVersion.version }}</td>
-                <td>{{ prevProdVersion.versionDate | date : "mediumDate" }}</td>
-                <td>{{ prevProdVersion.description }}</td>
-                <td>{{ prevProdVersion.cylinderCompany.name }}</td>
-                <td>{{ prevProdVersion.cylinderPrNo }}</td>
-                <td>{{ prevProdVersion.cylinderPoNo }}</td>
-                <td>{{ prevProdVersion.printingCompany.name }}</td>
-                <td>{{ prevProdVersion.printingPrNo }}</td>
-                <td>{{ prevProdVersion.printingPoNo }}</td>
-                <td>
-                  <div
-                    class=""
-                    *ngFor="let attachment of prevProdVersion.attachments"
-                  >
-                    <a
-                      href="{{ attachmentBaseUrl }}{{ attachment.name }}"
-                      target="_blank"
+  <div *ngIf="prevProdVersions.length > 0">
+    <div class="card-body">
+      <div class="d-flex flex-md-row flex-sm-column">
+        <div class="col-12">
+          <div class="card border-info" style="max-width: 100%">
+            <div class="card-header">Selected Files</div>
+            <div class="card-body"></div>
+            <div class="card-header">Previous Versions</div>
+            <div class="card-body">
+              <table
+                class="table table-bordered table-responsive table-sm w-100"
+              >
+                <thead>
+                  <th style="display: none">Id</th>
+                  <th>Version</th>
+                  <th>Version Dt</th>
+                  <th>Description</th>
+                  <th>Cylinder Company</th>
+                  <th>Cylinder PR</th>
+                  <th>Cylinder PO</th>
+                  <th>Printing Company</th>
+                  <th>Print PR</th>
+                  <th>Print PO</th>
+                  <th>Attachments</th>
+                </thead>
+                <tr *ngFor="let prevProdVersion of prevProdVersions">
+                  <td style="display: none">
+                    {{ prevProdVersion.id }}
+                  </td>
+                  <td>{{ prevProdVersion.version }}</td>
+                  <td>
+                    {{ prevProdVersion.versionDate | date : "mediumDate" }}
+                  </td>
+                  <td>{{ prevProdVersion.description }}</td>
+                  <td>{{ prevProdVersion.cylinderCompany.name }}</td>
+                  <td>{{ prevProdVersion.cylinderPrNo }}</td>
+                  <td>{{ prevProdVersion.cylinderPoNo }}</td>
+                  <td>{{ prevProdVersion.printingCompany.name }}</td>
+                  <td>{{ prevProdVersion.printingPrNo }}</td>
+                  <td>{{ prevProdVersion.printingPoNo }}</td>
+                  <td>
+                    <div
+                      class=""
+                      *ngFor="let attachment of prevProdVersion.attachments"
                     >
-                      <i
-                        class="{{ getFileExtension(attachment.name) }}"
-                        style="color: #5cb85c"
-                        aria-hidden="true"
-                      ></i>
-                      {{ attachment.name }}
-                    </a>
-                  </div>
-                </td>
-              </tr>
-            </table>
-            <div></div>
+                      <a
+                        href="{{ attachmentBaseUrl }}{{ attachment.name }}"
+                        target="_blank"
+                      >
+                        <i
+                          class="{{ getFileExtension(attachment.name) }}"
+                          style="color: #5cb85c"
+                          aria-hidden="true"
+                        ></i>
+                        {{ attachment.name }}
+                      </a>
+                    </div>
+                  </td>
+                </tr>
+              </table>
+              <div></div>
+            </div>
           </div>
         </div>
+        <div class="col-4 bg-light"></div>
       </div>
-      <div class="col-4 bg-light"></div>
-    </div>
-    <div class="d-flex flex-md-row flex-sm-column">
-      <div class="col-8 p-4"></div>
-      <div class="col-4 p-4"></div>
+      <div class="d-flex flex-md-row flex-sm-column">
+        <div class="col-8 p-4"></div>
+        <div class="col-4 p-4"></div>
+      </div>
     </div>
   </div>
 </mat-dialog-content>

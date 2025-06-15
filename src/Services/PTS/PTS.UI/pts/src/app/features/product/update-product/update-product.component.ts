@@ -770,8 +770,8 @@ export class UpdateProductComponent implements AfterViewInit, OnDestroy {
             // add new barcodes
             const requests_barcode = this.barcodes.map((barcode) => {
               const barcode_model: AddBarCodeRequest = {
-                productId: this.product?.id ?? 0,
                 barCode: barcode.barCode,
+                productId: this.product?.id ?? 0,
               };
               console.log(barcode_model);
               return this.barcodeService.AddBarCode(barcode_model);
@@ -956,33 +956,35 @@ export class UpdateProductComponent implements AfterViewInit, OnDestroy {
   }
 
   saveRow(row: ProductVersion) {
-    this.suggestionService.getIsVersionUnique(row.version).subscribe({
-      next: (response) => {
-        this.isVersionUnique = response;
-        if (this.isVersionUnique === false) {
-          // Optionally restore backup if you're tracking it
-          if (this.originalRowBackup) {
-            const index = this.dataSource_product_version.data.findIndex(
-              (p) => p.id === row.id
-            );
-            if (index !== -1) {
-              this.dataSource_product_version.data[index] = {
-                ...this.originalRowBackup,
-              };
-              this.dataSource_product_version._updateChangeSubscription();
+    if (row.version !== this.existing_version) {
+      this.suggestionService.getIsVersionUnique(row.version).subscribe({
+        next: (response) => {
+          this.isVersionUnique = response;
+          if (this.isVersionUnique === false) {
+            // Optionally restore backup if you're tracking it
+            if (this.originalRowBackup) {
+              const index = this.dataSource_product_version.data.findIndex(
+                (p) => p.id === row.id
+              );
+              if (index !== -1) {
+                this.dataSource_product_version.data[index] = {
+                  ...this.originalRowBackup,
+                };
+                this.dataSource_product_version._updateChangeSubscription();
+              }
             }
-          }
 
-          this.msg_error =
-            'Version Already Exists : ' + row.version + ' [updated failed]';
-          this.editedRow = null;
-          this.editingRow = null;
-          return;
-        } else {
-          this.msg_error = '';
-        }
-      },
-    });
+            this.msg_error =
+              'Version Already Exists : ' + row.version + ' [updated failed]';
+            this.editedRow = null;
+            this.editingRow = null;
+            return;
+          } else {
+            this.msg_error = '';
+          }
+        },
+      });
+    }
 
     this.productVersionService.updateProductVersion(row.id, row).subscribe({
       next: (response) => {

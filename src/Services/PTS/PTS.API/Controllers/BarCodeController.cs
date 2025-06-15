@@ -116,7 +116,7 @@ namespace PTS.API.Controllers
 
         // DELETE: /api/barcode/delbarcode-by-name
 
-        [HttpDelete("delbarcode-by-prodid")]
+        [HttpDelete("delbarcode-by-prodid/{productId:int}")]
         [Authorize(Roles = "MANAGER,ADMIN")]
         public async Task<IActionResult> DeleteBarCodeByProdId([FromRoute] int productId)
         {
