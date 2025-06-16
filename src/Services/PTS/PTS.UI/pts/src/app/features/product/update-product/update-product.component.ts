@@ -980,10 +980,15 @@ export class UpdateProductComponent implements AfterViewInit, OnDestroy {
               }
             }
 
+            Swal.fire(
+              'Version Already Exists : ' + row.version + ' [updated failed]',
+              '',
+              'error'
+            );
             this.msg_error =
               'Version Already Exists : ' + row.version + ' [updated failed]';
-            this.editedRow = null;
-            this.editingRow = null;
+            //this.editedRow = null;
+            //this.editingRow = null;
             return;
           } else {
             this.msg_error = '';
@@ -1004,7 +1009,7 @@ export class UpdateProductComponent implements AfterViewInit, OnDestroy {
         console.log(error);
       },
     });
-    this.editingRow = null;
+    //this.editingRow = null;
   }
 
   cancelEdit() {
